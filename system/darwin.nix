@@ -25,7 +25,7 @@ in
         };
         system = {
           defaults = {
-            ".GlobalPreferences"."com.apple.mouse.scaling" = 50.0;
+            ".GlobalPreferences"."com.apple.mouse.scaling" = 25.0;
             finder = {
               AppleShowAllExtensions = true;
               AppleShowAllFiles = true;
@@ -61,6 +61,7 @@ in
             "rectangle"
             "macpass"
             "unnaturalscrollwheels"
+            "obsidian"
           ];
         };
       }

@@ -43,7 +43,7 @@
       enable = true;
       extraConfig = {
         init.defaultBranch = "main";
-        user.email = "benbouillet@protonmail.com";
+        user.email = "15980664+benbouillet@users.noreply.github.com";
         user.name = "Ben Bouillet";
       };
       aliases = {
