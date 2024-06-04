@@ -25,6 +25,7 @@ in
         };
         system = {
           defaults = {
+            ".GlobalPreferences"."com.apple.mouse.scaling" = 50.0;
             finder = {
               AppleShowAllExtensions = true;
               AppleShowAllFiles = true;
@@ -59,6 +60,7 @@ in
             "brave-browser"
             "rectangle"
             "macpass"
+            "unnaturalscrollwheels"
           ];
         };
       }
