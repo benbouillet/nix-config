@@ -26,12 +26,7 @@
   programs = {
     alacritty = {
       enable = true;
-      settings = ''
-env = {
-  XTERM = "xterm-256color";
-  TERM = "alacritty";
-}
-      '';
+      settings = builtins.fromTOML ( builtins.readFile ../config/alacritty.toml );
     };
 
     zsh = {
