@@ -15,7 +15,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-24.05";
+    };
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs @ {
@@ -26,6 +29,7 @@
     homebrew-cask,
     nix-homebrew,
     nixpkgs,
+    mac-app-util,
     ...
   }: let
     darwin-system = import ./system/darwin.nix {inherit inputs username;};

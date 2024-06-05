@@ -11,6 +11,7 @@ in
     # modules: allows for reusable code
 
     modules = [
+      inputs.mac-app-util.darwinModules.default
       {
         services.nix-daemon.enable = true;
         users.users.${username}.home = "/Users/${username}";
@@ -61,7 +62,6 @@ in
             "rectangle"
             "macpass"
             "unnaturalscrollwheels"
-            "obsidian"
           ];
         };
       }
@@ -73,6 +73,9 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.users."${username}" = home-manager-config;
+        home-manager.sharedModules = [
+          inputs.mac-app-util.homeManagerModules.default
+        ];
       }
       # add more nix modules here
       inputs.nix-homebrew.darwinModules.nix-homebrew
