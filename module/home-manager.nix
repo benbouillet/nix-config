@@ -20,12 +20,57 @@
     zsh = {
       enable = true;
       enableCompletion = true;
-      antidote.enable = true;
-      antidote.plugins = [
-          "jeffreytse/zsh-vi-mode"
-          "davidde/git"
+      sessionVariables = {
+        LC_ALL="en_US.UTF-8";
+        LANG="en_US.UTF-8";
+        TERM="alacritty";
+        EDITOR="nvim";
+        COMPLETION_WAITING_DOTS="true";
+      };
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "vi-mode"
+          "git"
+          "docker"
+          "docker-compose"
+          "dotenv"
+          "aws"
+          "gcloud"
+          "colored-man-pages"
+          "fzf"
+          "gitfast"
+          "gitignore"
+          "isodate"
+          "kubectx"
+          "kubectl"
+          "terraform"
+          "tmux"
+        ];
+      };
+      plugins = [
+        {
+          name = "zsh-autosuggestions";
+          file = "zsh-autosuggestions.plugin.zsh";
+          src = builtins.fetchGit {
+            url = "https://github.com/zsh-users/zsh-autosuggestions";
+            rev = "a411ef3e0992d4839f0732ebeb9823024afaaaa8";
+          };
+        }
+        {
+          name = "zsh-system-clipboard";
+          file = "zsh-system-clipboard.plugin.zsh";
+          src = builtins.fetchGit {
+            url = "https://github.com/kutsan/zsh-system-clipboard";
+            rev = "cc5089a2c97ee50d06ecf0439a9760ccda4c9413";
+          };
+        }
       ];
     };
+
+    fzf.enable = true;
+
+    tmux.enable = true;
 
     git = {
       enable = true;
