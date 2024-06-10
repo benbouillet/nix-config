@@ -15,4 +15,5 @@
   };
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
+  environment.etc.hushlogin.enable = true;
 }

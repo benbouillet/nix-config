@@ -11,6 +11,10 @@
   ];
   home.stateVersion = "23.11";
 
+  home.file.".hushlogin" = {
+    text = "";
+  };
+
   programs = {
     alacritty = {
       enable = true;
@@ -68,9 +72,32 @@
       ];
     };
 
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     fzf.enable = true;
 
-    tmux.enable = true;
+    tmux = {
+      enable = true;
+      shell = "${pkgs.zsh}/bin/zsh";
+      terminal = "alacritty";
+      mouse = true;
+      keyMode = "vi";
+      plugins = with pkgs; [
+        tmuxPlugins.yank
+        tmuxPlugins.vim-tmux-navigator
+        tmuxPlugins.urlview
+        tmuxPlugins.tmux-thumbs
+        tmuxPlugins.tmux-fzf
+        tmuxPlugins.sessionist
+        tmuxPlugins.pain-control
+        tmuxPlugins.nord
+        tmuxPlugins.resurrect
+        tmuxPlugins.continuum
+      ];
+    };
 
     git = {
       enable = true;
@@ -78,9 +105,6 @@
         init.defaultBranch = "main";
         user.email = "15980664+benbouillet@users.noreply.github.com";
         user.name = "Ben Bouillet";
-      };
-      aliases = {
-        gst = "status";
       };
     };
   };

@@ -26,7 +26,7 @@ in
         };
         system = {
           defaults = {
-            ".GlobalPreferences"."com.apple.mouse.scaling" = 25.0;
+            ".GlobalPreferences"."com.apple.mouse.scaling" = 15.0;
             finder = {
               AppleShowAllExtensions = true;
               AppleShowAllFiles = true;
