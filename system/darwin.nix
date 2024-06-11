@@ -8,7 +8,6 @@
 in
   inputs.darwin.lib.darwinSystem {
     inherit system;
-    # modules: allows for reusable code
 
     modules = [
       inputs.mac-app-util.darwinModules.default
@@ -62,6 +61,9 @@ in
             "rectangle"
             "macpass"
             "unnaturalscrollwheels"
+	    "google-chrome"
+	    "gather"
+	    "slack"
           ];
         };
       }
