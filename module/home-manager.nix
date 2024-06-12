@@ -85,6 +85,7 @@
       terminal = "alacritty";
       mouse = true;
       keyMode = "vi";
+      baseIndex = 1;
       plugins = with pkgs; [
         tmuxPlugins.yank
         tmuxPlugins.vim-tmux-navigator
