@@ -1,10 +1,10 @@
 {
   inputs,
   username,
-}: system: let
+}: system : let
   system-config = import ../module/configuration.nix;
   home-manager-config = import ../module/home-manager.nix;
-  pkgs = import inputs.nixpkgs { system = "aarch64-darwin"; };
+  pkgs = import inputs.nixpkgs { system = system; };
 in
   inputs.darwin.lib.darwinSystem {
     inherit system;
@@ -77,6 +77,7 @@ in
         home-manager.users."${username}" = home-manager-config;
         home-manager.sharedModules = [
           inputs.mac-app-util.homeManagerModules.default
+	  inputs.nixvim.homeManagerModules.nixvim
         ];
       }
       # add more nix modules here

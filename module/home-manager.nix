@@ -2,7 +2,6 @@
   # add home-manager user settings here
   home.packages = with pkgs; [
     git
-    neovim
     tree
     zsh-vi-mode
     nerdfonts
@@ -27,7 +26,6 @@
       sessionVariables = {
         LC_ALL="en_US.UTF-8";
         LANG="en_US.UTF-8";
-        TERM="alacritty";
         EDITOR="nvim";
         COMPLETION_WAITING_DOTS="true";
       };
@@ -82,7 +80,7 @@
     tmux = {
       enable = true;
       shell = "${pkgs.zsh}/bin/zsh";
-      terminal = "alacritty";
+      terminal = "screen-256color";
       mouse = true;
       keyMode = "vi";
       baseIndex = 1;
@@ -98,6 +96,9 @@
         tmuxPlugins.resurrect
         tmuxPlugins.continuum
       ];
+      extraConfig = ''
+      set-option -ga terminal-overrides ",xterm-256color:RGB"
+      '';
     };
 
     git = {
@@ -106,6 +107,48 @@
         init.defaultBranch = "main";
         user.email = "15980664+benbouillet@users.noreply.github.com";
         user.name = "Ben Bouillet";
+      };
+    };
+
+    nixvim = {
+      enable = true;
+      defaultEditor = true;
+      enableMan = true;
+      colorschemes.nord = {
+        enable = true;
+    
+        settings = {
+          enable_sidebar_background = true;
+	  borders = true;
+	  contrast = true;
+        };
+        
+      };
+      opts = {
+        number = true;
+        shiftwidth = 2;
+        relativenumber = true;
+      };
+      plugins = {
+        lualine.enable = true;
+        treesitter.enable = true;
+        telescope.enable = true;
+        nvim-tree.enable = true;
+        bufferline.enable = true;
+        barbecue.enable = true;
+        which-key.enable = true;
+        cmp.enable = true;
+        cmp-buffer.enable = true;
+        cmp-nvim-lsp.enable = true;
+        cmp-path.enable = true;
+        lsp = {
+          enable = true;
+          servers = {
+            tsserver.enable = true;
+            lua-ls.enable = true;
+            pyright.enable = true;
+          };
+        };
       };
     };
   };
