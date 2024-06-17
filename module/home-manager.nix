@@ -114,6 +114,10 @@
       enable = true;
       defaultEditor = true;
       enableMan = true;
+      globals = {
+        mapleader = " ";
+        maplocalleader = " ";
+      };
       colorschemes.nord = {
         enable = true;
     
@@ -128,6 +132,7 @@
         number = true;
         shiftwidth = 2;
         relativenumber = true;
+	termguicolors = true;
       };
       plugins = {
         lualine.enable = true;
@@ -150,6 +155,23 @@
           };
         };
       };
+      keymaps = [
+        {
+          action = "<NOP>";
+          key = "<Space>";
+          mode = "n";
+        }
+        {
+          action = "y$";
+          key = "Y";
+          mode = "n";
+        }
+        {
+          action = ":w<CR>";
+          key = "<leader>S";
+          mode = "n";
+        }
+      ];
     };
   };
 }
