@@ -33,11 +33,6 @@
       settings = builtins.fromTOML ( builtins.readFile ../config/alacritty.toml );
     };
 
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
     fzf.enable = true;
 
     tmux = {
