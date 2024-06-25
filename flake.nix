@@ -1,58 +1,86 @@
 {
-  description = "Example kickstart Nix on macOS environment.";
+  description = "Nix for macOS configuration";
 
+  ##################################################################################################################
+  #
+  # Want to know Nix in details? Looking for a beginner-friendly tutorial?
+  # Check out https://github.com/ryan4yin/nixos-and-flakes-book !
+  #
+  ##################################################################################################################
+
+  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
+  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
   inputs = {
-    darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.05";
-    };
-
-    mac-app-util.url = "github:hraban/mac-app-util";
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # home-manager, used for managing user configuration
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      # The `follows` keyword in inputs is used for inheritance.
+      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
+      # to avoid problems caused by different versions of nixpkgs dependencies.
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
   };
 
+  # The `outputs` function will return all the build results of the flake.
+  # A flake can have many use cases and different types of outputs,
+  # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
+  # However, `self` is an exception, this special parameter points to the `outputs` itself (self-reference)
+  # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
   outputs = inputs @ {
     self,
+    nixpkgs,
     darwin,
     home-manager,
-    homebrew-core,
-    homebrew-cask,
-    nix-homebrew,
-    nixpkgs,
-    mac-app-util,
     ...
   }: let
-    darwin-system = import ./system/darwin.nix {inherit inputs username;};
+    # TODO replace with your own username, email, system, and hostname
     username = "ben";
+    useremail = "15980664+benbouillet@users.noreply.github.com";
+    system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
+    hostname = "kenobi";
+
+    specialArgs =
+      inputs
+      // {
+        inherit username useremail hostname;
+      };
   in {
-    darwinConfigurations = {
-      aarch64 = darwin-system "aarch64-darwin";
-      x86_64 = darwin-system "x86_64-darwin";
+    darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
+      inherit system specialArgs;
+      modules = [
+        ./modules/nix-core.nix
+        ./modules/system.nix
+        ./modules/apps.nix
+        ./modules/host-users.nix
+
+        # home manager
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = specialArgs;
+          home-manager.users.${username} = import ./home;
+          home-manager.sharedModules = [
+	    inputs.nixvim.homeManagerModules.nixvim
+          ];
+        }
+      ];
     };
+
+    # nix code formatter
+    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
   };
 }
