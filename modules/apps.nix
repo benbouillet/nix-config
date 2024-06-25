@@ -37,6 +37,7 @@
 
     taps = [
       "homebrew/services"
+      "homebrew/cask"
     ];
 
     # `brew install`
