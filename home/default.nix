@@ -1,4 +1,4 @@
-{ username, ... }:
+{ username, hostname, lib,... }:
 
 {
   # import sub modules
@@ -9,7 +9,7 @@
     ./starship.nix
     ./tmux.nix
     ./nvim.nix
-  ];
+  ] ++ lib.optional (builtins.pathExists ./${hostname}.nix) [ "./${hostname}.nix" ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

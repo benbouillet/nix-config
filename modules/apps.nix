@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, hostname,... }: {
 
   ##########################################################################
   # 
@@ -49,15 +49,17 @@
 
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
-    casks = [
-      "tresorit"
-      "brave-browser"
-      "rectangle"
-      "macpass"
-      "unnaturalscrollwheels"
-      "google-chrome"
-      "gather"
-      "slack"
-    ];
+    # let
+    #   additional_casks = lib.optional (builtins.pathExists ./apps-${hostname}.nix) (import ./apps-${hostname}.nix).casks;
+    # in {
+    casks = let
+      additional_casks = (import ../hosts/${hostname}.nix).casks;
+      in [
+        "tresorit"
+        "brave-browser"
+        "rectangle"
+        "macpass"
+        "unnaturalscrollwheels"
+    ] ++ additional_casks;
   };
 }
