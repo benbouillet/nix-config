@@ -50,37 +50,39 @@
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-    hostname = "kenobi";
+  in
+    let
+      hostname = "kenobi";
+      inherit username useremail system;
+      specialArgs =
+        inputs
+        // {
+          inherit username useremail hostname;
+        };
+    in {
+      darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
+        inherit system specialArgs;
+        modules = [
+          ./modules/nix-core.nix
+          ./modules/system.nix
+          ./modules/apps.nix
+          ./modules/host-users.nix
 
-    specialArgs =
-      inputs
-      // {
-        inherit username useremail hostname;
+          # home manager
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.users.${username} = import ./home;
+            home-manager.sharedModules = [
+              inputs.nixvim.homeManagerModules.nixvim
+            ];
+          }
+        ];
       };
-  in {
-    darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
-      inherit system specialArgs;
-      modules = [
-        ./modules/nix-core.nix
-        ./modules/system.nix
-        ./modules/apps.nix
-        ./modules/host-users.nix
 
-        # home manager
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users.${username} = import ./home;
-          home-manager.sharedModules = [
-	    inputs.nixvim.homeManagerModules.nixvim
-          ];
-        }
-      ];
+      # nix code formatter
+      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
     };
-
-    # nix code formatter
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-  };
 }
