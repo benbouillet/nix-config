@@ -1,10 +1,7 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, hostConfig,... }:
 
 {
   home.packages = with pkgs; [
-    # fonts
-    # nerdfonts
-
     # archives
     zip
     xz
@@ -25,7 +22,7 @@
     # productivity
     glow # markdown previewer in terminal
     obsidian
-  ];
+  ] ++ (map (pkg: pkgs.${pkg}) hostConfig.pkgs);
 
   programs = {
     alacritty = {

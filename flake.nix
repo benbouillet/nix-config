@@ -1,15 +1,6 @@
 {
   description = "Nix for macOS configuration";
 
-  ##################################################################################################################
-  #
-  # Want to know Nix in details? Looking for a beginner-friendly tutorial?
-  # Check out https://github.com/ryan4yin/nixos-and-flakes-book !
-  #
-  ##################################################################################################################
-
-  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
-  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
   inputs = {
     # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
@@ -34,11 +25,9 @@
     };
   };
 
-  # The `outputs` function will return all the build results of the flake.
-  # A flake can have many use cases and different types of outputs,
-  # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
-  # However, `self` is an exception, this special parameter points to the `outputs` itself (self-reference)
-  # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
+###################################################
+################### OUTPUTS #######################
+###################################################
   outputs = inputs @ {
     self,
     nixpkgs,
@@ -46,18 +35,20 @@
     home-manager,
     ...
   }: let
-    # TODO replace with your own username, email, system, and hostname
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
   in
     let
       hostname = "kenobi";
+      hostConfig = if builtins.pathExists ./hosts/${hostname}.nix
+                   then import ./hosts/${hostname}.nix
+                   else { pkgs = []; casks = []; };
       inherit username useremail system;
       specialArgs =
         inputs
         // {
-          inherit username useremail hostname;
+          inherit username useremail hostname hostConfig;
         };
     in {
       darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
