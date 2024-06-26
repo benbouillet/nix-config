@@ -1,58 +1,79 @@
 {
-  description = "Example kickstart Nix on macOS environment.";
+  description = "Nix for macOS configuration";
 
   inputs = {
-    darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.05";
-    };
-
-    mac-app-util.url = "github:hraban/mac-app-util";
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
 
-  outputs = inputs @ {
-    self,
-    darwin,
-    home-manager,
-    homebrew-core,
-    homebrew-cask,
-    nix-homebrew,
-    nixpkgs,
-    mac-app-util,
-    ...
-  }: let
-    darwin-system = import ./system/darwin.nix {inherit inputs username;};
-    username = "ben";
-  in {
-    darwinConfigurations = {
-      aarch64 = darwin-system "aarch64-darwin";
-      x86_64 = darwin-system "x86_64-darwin";
+    # home-manager, used for managing user configuration
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.05";
+      # The `follows` keyword in inputs is used for inheritance.
+      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
+      # to avoid problems caused by different versions of nixpkgs dependencies.
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
   };
+
+###################################################
+################### OUTPUTS #######################
+###################################################
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    darwin,
+    home-manager,
+    ...
+  }: let
+    username = "ben";
+    useremail = "15980664+benbouillet@users.noreply.github.com";
+    system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
+  in
+    let
+      hostname = "kenobi";
+      hostConfig = if builtins.pathExists ./hosts/${hostname}.nix
+                   then import ./hosts/${hostname}.nix
+                   else { pkgs = []; casks = []; };
+      inherit username useremail system;
+      specialArgs =
+        inputs
+        // {
+          inherit username useremail hostname hostConfig;
+        };
+    in {
+      darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
+        inherit system specialArgs;
+        modules = [
+          ./modules/nix-core.nix
+          ./modules/system.nix
+          ./modules/apps.nix
+          ./modules/host-users.nix
+
+          # home manager
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.users.${username} = import ./home;
+            home-manager.sharedModules = [
+              inputs.nixvim.homeManagerModules.nixvim
+            ];
+          }
+        ];
+      };
+
+      # nix code formatter
+      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+    };
 }
