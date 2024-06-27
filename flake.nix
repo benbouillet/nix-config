@@ -26,6 +26,8 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
+    mac-app-util.url = "github:hraban/mac-app-util";
+
     # Optional: Declarative tap management
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
@@ -48,7 +50,7 @@
 ###################################################
 ################### OUTPUTS #######################
 ###################################################
-    outputs = inputs @ { self, nixpkgs, darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, homebrew-bundle, homebrew-services,... }: let
+    outputs = inputs @ { self, nixpkgs, darwin, home-manager, mac-app-util, nixvim, nix-homebrew, homebrew-core, homebrew-cask, homebrew-bundle, homebrew-services,... }: let
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
@@ -76,6 +78,8 @@
           ./modules/apps.nix
           ./modules/host-users.nix
 
+          mac-app-util.darwinModules.default
+
           # home manager
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
@@ -86,7 +90,8 @@
             };
             home-manager.users.${username} = import ./home;
             home-manager.sharedModules = [
-              inputs.nixvim.homeManagerModules.nixvim
+              mac-app-util.homeManagerModules.default
+              nixvim.homeManagerModules.nixvim
             ];
           }
 
@@ -113,6 +118,7 @@
               #
               # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
               mutableTaps = false;
+              autoMigrate = true;
             };
           }
         ];
