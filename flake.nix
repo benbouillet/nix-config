@@ -28,31 +28,28 @@
 ###################################################
 ################### OUTPUTS #######################
 ###################################################
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    darwin,
-    home-manager,
-    ...
-  }: let
+    outputs = inputs @ { self, nixpkgs, darwin, home-manager, ... }: let
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-  in
-    let
-      hostname = "kenobi";
-      hostConfig = if builtins.pathExists ./hosts/${hostname}.nix
-                   then import ./hosts/${hostname}.nix
-                   else { pkgs = []; casks = []; };
-      inherit username useremail system;
-      specialArgs =
-        inputs
-        // {
-          inherit username useremail hostname hostConfig;
+
+    getHostConfig = hostname: let
+      hostConfigPath = ./hosts/${hostname}.nix;
+    in
+      if builtins.pathExists hostConfigPath
+      then import hostConfigPath
+      else { pkgs = []; casks = []; };
+
+    hostnames = [ "kenobi" "windu" ];
+  in {
+    darwinConfigurations = builtins.listToAttrs (map (hostname: {
+      name = hostname;
+      value = darwin.lib.darwinSystem {
+        inherit system;
+        specialArgs = inputs // {
+          inherit username useremail hostname;
+          hostConfig = getHostConfig hostname;
         };
-    in {
-      darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
-        inherit system specialArgs;
         modules = [
           ./modules/nix-core.nix
           ./modules/system.nix
@@ -60,11 +57,13 @@
           ./modules/host-users.nix
 
           # home manager
-          home-manager.darwinModules.home-manager
-          {
+          home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.extraSpecialArgs = {
+              inherit username useremail hostname;
+              hostConfig = getHostConfig hostname;
+            };
             home-manager.users.${username} = import ./home;
             home-manager.sharedModules = [
               inputs.nixvim.homeManagerModules.nixvim
@@ -72,8 +71,9 @@
           }
         ];
       };
+    }) hostnames);
 
-      # nix code formatter
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-    };
+    # nix code formatter
+    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+  };
 }
