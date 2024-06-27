@@ -28,7 +28,6 @@
     # `brew install --cask`
     casks = [
         "tresorit"
-        "brave-browser"
         "rectangle"
         "macpass"
         "unnaturalscrollwheels"
