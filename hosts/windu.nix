@@ -15,5 +15,6 @@
     "obsidian"
     "slack"
     "spotify"
+    "whatsapp"
   ];
 }
