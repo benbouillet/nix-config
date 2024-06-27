@@ -23,36 +23,53 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    # Optional: Declarative tap management
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+    homebrew-services = {
+      url = "github:homebrew/homebrew-services";
+      flake = false;
+    };
   };
 
 ###################################################
 ################### OUTPUTS #######################
 ###################################################
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    darwin,
-    home-manager,
-    ...
-  }: let
+    outputs = inputs @ { self, nixpkgs, darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, homebrew-bundle, homebrew-services,... }: let
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-  in
-    let
-      hostname = "kenobi";
-      hostConfig = if builtins.pathExists ./hosts/${hostname}.nix
-                   then import ./hosts/${hostname}.nix
-                   else { pkgs = []; casks = []; };
-      inherit username useremail system;
-      specialArgs =
-        inputs
-        // {
-          inherit username useremail hostname hostConfig;
+
+    getHostConfig = hostname: let
+      hostConfigPath = ./hosts/${hostname}.nix;
+    in
+      if builtins.pathExists hostConfigPath
+      then import hostConfigPath
+      else { pkgs = []; casks = []; };
+
+    hostnames = [ "kenobi" "windu" ];
+  in {
+    darwinConfigurations = builtins.listToAttrs (map (hostname: {
+      name = hostname;
+      value = darwin.lib.darwinSystem {
+        inherit system;
+        specialArgs = inputs // {
+          inherit username useremail hostname;
+          hostConfig = getHostConfig hostname;
         };
-    in {
-      darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
-        inherit system specialArgs;
         modules = [
           ./modules/nix-core.nix
           ./modules/system.nix
@@ -60,20 +77,49 @@
           ./modules/host-users.nix
 
           # home manager
-          home-manager.darwinModules.home-manager
-          {
+          home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.extraSpecialArgs = {
+              inherit username useremail hostname;
+              hostConfig = getHostConfig hostname;
+            };
             home-manager.users.${username} = import ./home;
             home-manager.sharedModules = [
               inputs.nixvim.homeManagerModules.nixvim
             ];
           }
+
+          nix-homebrew.darwinModules.nix-homebrew {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+  
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = true;
+  
+              # User owning the Homebrew prefix
+              user = username;
+  
+              # Optional: Declarative tap management
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+                "homebrew/homebrew-bundle" = homebrew-bundle;
+                "homebrew/homebrew-services" = homebrew-services;
+              };
+  
+              # Optional: Enable fully-declarative tap management
+              #
+              # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+              mutableTaps = false;
+            };
+          }
         ];
       };
+    }) hostnames);
 
-      # nix code formatter
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-    };
+    # nix code formatter
+    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+  };
 }
