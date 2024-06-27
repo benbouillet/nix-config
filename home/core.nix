@@ -22,7 +22,7 @@
     # productivity
     glow # markdown previewer in terminal
     obsidian
-  ] ++ (map (pkg: pkgs.${pkg}) hostConfig.pkgs);
+  ] ++ hostConfig.pkgs;
 
   programs = {
     alacritty = {

@@ -59,7 +59,7 @@
       hostConfigPath = ./hosts/${hostname}.nix;
     in
       if builtins.pathExists hostConfigPath
-      then import hostConfigPath
+      then import hostConfigPath { pkgs = nixpkgs.legacyPackages.${system}; }
       else { pkgs = []; casks = []; };
 
     hostnames = [ "kenobi" "windu" ];
