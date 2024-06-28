@@ -7,6 +7,12 @@
     pkgs.kubectl
     pkgs.kubectx
     pkgs.sshuttle
+    pkgs.tenv
+    pkgs.k9s
+    pkgs.podman
+    # pkgs.podman-desktop
+    pkgs.podman-tui
+    pkgs.tenv
   ];
 
   casks = [
