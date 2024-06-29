@@ -7,6 +7,7 @@ programs.nixvim = {
     mapleader = " ";
     maplocalleader = " ";
   };
+  clipboard.register = "unnamedplus";
   colorschemes.nord = {
     enable = true;
   
@@ -24,6 +25,7 @@ programs.nixvim = {
     termguicolors = true;
   };
   plugins = {
+    nvim-autopairs.enable = true;
     lualine.enable = true;
     treesitter.enable = true;
     telescope.enable = true;
@@ -35,6 +37,7 @@ programs.nixvim = {
     cmp-buffer.enable = true;
     cmp-nvim-lsp.enable = true;
     cmp-path.enable = true;
+    smart-splits.enable = true;
     lsp = {
       enable = true;
       servers = {
@@ -58,6 +61,31 @@ programs.nixvim = {
     {
       action = ":w<CR>";
       key = "<leader>S";
+      mode = "n";
+    }
+    {
+      action = ":NvimTreeToggle<CR>";
+      key = "<leader>e";
+      mode = "n";
+    }
+    {
+      action = "<C-w><up>";
+      key = "<C-k>";
+      mode = "n";
+    }
+    {
+      action = "<C-w><down>";
+      key = "<C-j>";
+      mode = "n";
+    }
+    {
+      action = "<C-w><left>";
+      key = "<C-h>";
+      mode = "n";
+    }
+    {
+      action = "<C-w><right>";
+      key = "<C-l>";
       mode = "n";
     }
   ];
