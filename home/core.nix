@@ -18,6 +18,8 @@
     which
     tree
     gnupg
+    go-task
+    coreutils
 
     # productivity
     glow # markdown previewer in terminal
