@@ -3,6 +3,7 @@
     enable = true;
     shell = "${pkgs.zsh}/bin/zsh";
     terminal = "screen-256color";
+    escapeTime = 10;
     mouse = true;
     keyMode = "vi";
     baseIndex = 1;

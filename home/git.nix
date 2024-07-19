@@ -34,10 +34,11 @@
       pull.rebase = true;
     };
 
-    # signing = {
-    #   key = "xxx";
-    #   signByDefault = true;
-    # };
+    signing = {
+      key = "04E47523979D0F2E5585FAB88E6E8A96CC3538B6";
+      gpgPath = "gpg2";
+      signByDefault = true;
+    };
 
     delta = {
       enable = true;

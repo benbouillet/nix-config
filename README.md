@@ -51,3 +51,10 @@ darwin-rebuild switch --flake .
 - [ ] Implement `skhd`
 - [ ] Implement `logseq` ?
 - [x] Additional computer-specific installations
+
+## Resources
+
+---
+
+* [github Gako358/neovim - My personal neovim config for Nix](https://github.com/Gako358/neovim?tab=readme-ov-file)
+* [github Misterio77/nix-starter-configs - good inspiration for hierarchy best practices](https://github.com/Misterio77/nix-starter-configs)
