@@ -10,12 +10,14 @@
     pkgs.yabai
     # "brave" # not available on aarch64-apple-darwin
     # "steam" # not available on aarch64-apple-darwin
+    pkgs.go-task
   ];
 
   casks = [
     "whatsapp"
     "brave-browser"
     "steam"
+    "notion"
     "obsidian"
     "discord"
     "spotify"

@@ -32,5 +32,6 @@
     "postman"
     "docker"
     "orbstack"
+    "tailscale"
   ];
 }
