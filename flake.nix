@@ -14,6 +14,7 @@
   outputs = inputs@{ self, nixpkgs, ... }: 
   let
     user = "ben";
+    fullname = "Ben Bouillet";
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
@@ -27,7 +28,7 @@
   {
     nixosConfigurations = {
       solo = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs user system; };
+        specialArgs = { inherit inputs user fullname system; };
 
         modules = [
           inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480

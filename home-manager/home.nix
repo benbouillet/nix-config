@@ -3,6 +3,7 @@
   inputs,
   outputs,
   user,
+  fullname,
   lib,
   config,
   pkgs,
@@ -57,7 +58,10 @@
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = fullname;
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
