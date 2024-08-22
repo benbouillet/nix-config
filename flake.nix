@@ -2,22 +2,38 @@
   description = "My Thinkpad T480 configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
     nixos-hardware.url = "github:nixos/nixos-hardware?ref=master";
+    
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }: 
   let
-    system = "aarch64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    user = "ben";
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+
+      config = {
+        allowUnfree = true;
+      };
+    };
+
   in
   {
-    nixosConfigurations.nixos = {
-      modules = [
-        ./nixos/configuration.nix
-	./nixos/hardware-configuration.nix
-	inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480
-      ];
+    nixosConfigurations = {
+      solo = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs user system; };
+
+        modules = [
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480
+          ./nixos/configuration.nix
+        ];
+      };
     };
   };
 }

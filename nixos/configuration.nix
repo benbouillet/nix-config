@@ -2,11 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, user, config, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
+      inputs.home-manager.nixosModules.home-manager
       ./hardware-configuration.nix
     ];
 
@@ -128,4 +129,11 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs user; };
+    users = {
+      ${user} = import ../home-manager/home.nix;
+    };
+  };
 }
