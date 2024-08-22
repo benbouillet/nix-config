@@ -19,6 +19,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    inputs.nix-colors.homeManagerModules.default
   ];
 
   nixpkgs = {
@@ -56,6 +57,10 @@
   home.sessionVariables = {
     EDITOR = "nvim";
   };
+
+  colorScheme = inputs.nix-colors.colorSchemes.nord;
+
+  # home.file = {}; # to link files from the Nix store right into the home directory
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
