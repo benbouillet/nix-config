@@ -46,10 +46,15 @@
     };
   };
 
-  # TODO: Set your username
-  home = {
-    username = user;
-    homeDirectory = "/home/${user}";
+  home.username = user;
+  home.homeDirectory = "/home/${user}";
+
+  home.packages = [
+    pkgs.hello
+  ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
   };
 
   # Add stuff for your user as you see fit:
