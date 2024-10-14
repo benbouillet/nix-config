@@ -2,39 +2,44 @@
   description = "My Thinkpad T480 configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware?ref=master";
     
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }: 
+  outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: 
   let
-    user = "ben";
-    fullname = "Ben Bouillet";
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-
-      config = {
-        allowUnfree = true;
-      };
-    };
-
+    host = "solo";
+    username = "ben";
   in
   {
     nixosConfigurations = {
-      solo = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs user fullname system; };
-
+      "${host}" = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          inherit system; 
+          inherit host;
+          inherit username;
+        };
         modules = [
-          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480
-          ./nixos/configuration.nix
+          ./hosts/${host}/config.nix
+          nixos-hardware.nixosModules.lenovo-thinkpad-t480
+          home-manager.nixosModules.home-manager {
+            home-manager.extraSpecialArgs = {
+              inherit username;
+              inherit inputs;
+              inherit host;
+            };
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.${username} = import ./hosts/${host}/home.nix;
+          }
         ];
       };
     };

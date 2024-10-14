@@ -60,6 +60,26 @@
 
   colorScheme = inputs.nix-colors.colorSchemes.nord;
 
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    systemd.enable = true;
+    xwayland.enable = true;
+
+    plugins = [
+      inputs.hyprland-plugins.packages."${pkgs.system}".hyprtrails
+      inputs.hyprland-plugins.packages."${pkgs.system}".hyprexpo
+    ];
+
+    settings = {
+      general = {
+        gaps_in = 2; #5
+        gaps_out = 5; #20
+	rounding = 8; #10
+      };
+    };
+  };
+
   # home.file = {}; # to link files from the Nix store right into the home directory
 
   # Add stuff for your user as you see fit:
