@@ -15,5 +15,7 @@
 
   programs = {
     kitty.enable = true;
+    
+    firefox.enable = true;
   };
 }
