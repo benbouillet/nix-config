@@ -5,6 +5,13 @@
   config,
   ...
 }:
+let
+  inherit (import ../hosts/${host}/variables.nix)
+    browser
+    terminal
+    keyboardLayout
+    ;
+in
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -16,7 +23,8 @@
       in
       ''
         monitor=,preferred,auto,1
-        bind = ${modifier},Return,exec,kitty
+        bind = ${modifier},Return,exec,${terminal}
+        bind = ${modifier},W,exec,${browser}
       '';
   };
 }
