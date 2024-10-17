@@ -15,7 +15,10 @@
 
   programs = {
     kitty.enable = true;
-    
     firefox.enable = true;
+    rofi = {
+      enable = true;
+      package = pkgs.rofi-wayland;
+    };
   };
 }
