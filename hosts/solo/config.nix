@@ -11,6 +11,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./users.nix
   ];
 
   # Bootloader.
@@ -63,14 +64,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  users = {
-    mutableUsers = true;
-    users."${username}" = {
-      isNormalUser = true;
-      extraGroups = [ "networkmanager" "wheel" ];
-    };
-  };
 
   environment.systemPackages = with pkgs; [
     vim
