@@ -50,8 +50,6 @@
   };
 
   programs = {
-    firefox.enable = true;
-    starship.enable = true;
     dconf.enable = true;
     mtr.enable = true;
     thunar = {

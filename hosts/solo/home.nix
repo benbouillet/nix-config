@@ -21,5 +21,17 @@
       enable = true;
       package = pkgs.rofi-wayland;
     };
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      historyWidgetOptions = [
+        "--sort"
+        "--exact"
+      ];
+    };
   };
 }
