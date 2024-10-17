@@ -11,6 +11,7 @@
 
   imports = [
     ../../config/hyprland.nix
+    ../../config/zsh.nix
   ];
 
   programs = {
