@@ -82,6 +82,7 @@
     unrar
     ripgrep
     tree
+    bat
   ];
 
   fonts = {
