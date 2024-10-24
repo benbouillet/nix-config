@@ -13,6 +13,7 @@
     ../../config/hyprland.nix
     ../../config/zsh.nix
     ../../config/waybar.nix
+    ../../config/tmux.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
