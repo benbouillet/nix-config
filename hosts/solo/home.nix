@@ -12,6 +12,7 @@
   imports = [
     ../../config/hyprland.nix
     ../../config/zsh.nix
+    ../../config/waybar.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
@@ -30,6 +31,7 @@
       enable = true;
       enableZshIntegration = true;
     };
+    neovim.enable = true;
     fzf = {
       enable = true;
       enableZshIntegration = true;
