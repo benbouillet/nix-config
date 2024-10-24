@@ -7,7 +7,12 @@
   lib,
   ...
 }:
-
+let
+  inherit (import ./variables.nix)
+    theme
+    wallpaper_file
+    ;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -89,7 +94,8 @@
 
   stylix = {
     enable = true;
-    image = ../../config/wallpapers/nix-wallpaper-simple-red.png;
+    image = ../../config/wallpapers/${wallpaper_file};
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
   };
 
   services = {
