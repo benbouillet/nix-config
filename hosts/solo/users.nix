@@ -12,6 +12,8 @@
         "networkmanager"
         "wheel"
       ];
+      shell = pkgs.zsh;
+      ignoreShellProgramCheck = true;
     };
   };
 }
