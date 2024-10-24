@@ -4,14 +4,22 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware?ref=master";
-    
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix.url = "github:danth/stylix";
   };
 
-  outputs = { nixpkgs, home-manager, nixos-hardware, ... }@inputs: 
+  outputs = {
+    nixpkgs,
+    home-manager,
+    nixos-hardware,
+    stylix,
+    ...
+  }@inputs:
   let
     system = "x86_64-linux";
     host = "solo";
@@ -22,7 +30,7 @@
       "${host}" = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
-          inherit system; 
+          inherit system;
           inherit host;
           inherit username;
         };
@@ -40,6 +48,7 @@
             home-manager.backupFileExtension = "backup";
             home-manager.users.${username} = import ./hosts/${host}/home.nix;
           }
+	  stylix.nixosModules.stylix
         ];
       };
     };

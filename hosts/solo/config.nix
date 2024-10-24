@@ -74,7 +74,6 @@
     ripgrep
     tree
     bat
-    swww
     wl-clipboard
     tmux
     killall
@@ -86,6 +85,11 @@
       fira-code
       fira-code-symbols
     ];
+  };
+
+  stylix = {
+    enable = true;
+    image = ../../config/wallpapers/nix-wallpaper-simple-red.png;
   };
 
   services = {

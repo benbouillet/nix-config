@@ -30,7 +30,6 @@ with lib;
           exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           exec-once = killall -q swww;sleep .5 && swww init
 	  exec-once = killall -q waybar;sleep .5 && waybar
-          exec-once = sleep 1.5 && swww img /home/${username}/Pictures/Wallpapers/nix-wallpaper-binary-red_8k.png.jpg
           input {
             kb_layout = ${keyboardLayout}
             kb_options = grp:alt_shift_toggle
