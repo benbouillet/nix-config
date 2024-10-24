@@ -41,12 +41,12 @@ with lib;
               disable_while_typing = true
               scroll_factor = 0.8
             }
-            sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
-            accel_profile = flat
+            sensitivity = 0.5
+            accel_profile = adaptative
           }
           gestures {
             workspace_swipe = true
-            workspace_swipe_fingers = 3
+            workspace_swipe_fingers = 4
           }
           monitor=,preferred,auto,1
           bind = ${modifier},Return,exec,${terminal}
