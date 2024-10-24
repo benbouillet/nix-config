@@ -5,7 +5,7 @@
 - [ ] Check on tmux shortcuts
 - [x] Wallpaper implementation
 - [x] Stylix implementation
-- [ ] Stylix configuration
+- [ ] Stylix configuration (color scheme)
 - [x] Zsh implementation
 - [x] Zsh configuration
 - [x] Waybar implementation
