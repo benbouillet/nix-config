@@ -52,6 +52,8 @@ with lib;
           bind = ${modifier},Return,exec,${terminal}
           bind = ${modifier},W,exec,${browser}
           bind = ${modifier}SHIFT,Return,exec,rofi -show drun
+          bind = ,XF86MonBrightnessDown,exec,brightnessctl set 10%-
+          bind = ,XF86MonBrightnessUp,exec,brightnessctl set +10%
         ''
       ];
   };

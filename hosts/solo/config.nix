@@ -74,6 +74,11 @@
     ripgrep
     tree
     bat
+    swww
+    wl-clipboard
+    tmux
+    killall
+    brightnessctl
   ];
 
   fonts = {
