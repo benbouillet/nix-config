@@ -1,4 +1,14 @@
 # TO DO
-- [ ] Hyprland implementation
+- [x] Hyprland implementation
 - [ ] Hyprland configuration
-- [ ] Kitty configuration
+- [x] Kitty configuration
+- [ ] Check on tmux shortcuts
+- [x] Wallpaper implementation
+- [x] Stylix implementation
+- [ ] Stylix configuration
+- [x] Zsh implementation
+- [x] Zsh configuration
+- [x] Waybar implementation
+- [ ] Waybar configuration
+- [x] Screen brightness management
+- [x] `greetd` implementation
