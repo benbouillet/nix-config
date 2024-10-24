@@ -46,7 +46,7 @@ with lib;
           }
           gestures {
             workspace_swipe = true
-            workspace_swipe_fingers = 4
+            workspace_swipe_fingers = 3
           }
           monitor=,preferred,auto,1
           bind = ${modifier},Return,exec,${terminal}
