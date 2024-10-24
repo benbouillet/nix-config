@@ -14,6 +14,11 @@
     ../../config/zsh.nix
   ];
 
+  home.file."Pictures/Wallpapers" = {
+    source = ../../config/wallpapers;
+    recursive = true;
+  };
+
   programs = {
     kitty.enable = true;
     firefox.enable = true;
