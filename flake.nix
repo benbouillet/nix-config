@@ -41,16 +41,28 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
-    homebrew-services = {
-      url = "github:homebrew/homebrew-services";
-      flake = false;
-    };
+    # homebrew-services = {
+    #   url = "github:homebrew/homebrew-services";
+    #   flake = false;
+    # };
   };
 
 ###################################################
 ################### OUTPUTS #######################
 ###################################################
-    outputs = inputs @ { self, nixpkgs, darwin, home-manager, mac-app-util, nixvim, nix-homebrew, homebrew-core, homebrew-cask, homebrew-bundle, homebrew-services,... }: let
+  outputs = {self,
+             nixpkgs,
+             darwin,
+             home-manager,
+             mac-app-util,
+             nixvim,
+             nix-homebrew,
+             homebrew-core,
+             homebrew-cask,
+             homebrew-bundle,
+             # homebrew-services,
+             ... }@inputs: 
+  let
     username = "ben";
     useremail = "15980664+benbouillet@users.noreply.github.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
@@ -73,10 +85,10 @@
           hostConfig = getHostConfig hostname;
         };
         modules = [
-          ./modules/nix-core.nix
           ./modules/system.nix
           ./modules/apps.nix
           ./modules/host-users.nix
+          ./modules/nix-core.nix
 
           mac-app-util.darwinModules.default
 
@@ -111,7 +123,7 @@
                 "homebrew/homebrew-core" = homebrew-core;
                 "homebrew/homebrew-cask" = homebrew-cask;
                 "homebrew/homebrew-bundle" = homebrew-bundle;
-                "homebrew/homebrew-services" = homebrew-services;
+                # "homebrew/homebrew-services" = homebrew-services;
               };
   
               # Optional: Enable fully-declarative tap management

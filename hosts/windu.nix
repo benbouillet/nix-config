@@ -20,6 +20,14 @@
     pkgs.typescript
     pkgs.nodejs_20
     pkgs.corepack
+    pkgs.htop
+    pkgs.cmctl
+    pkgs.bat
+    pkgs.istioctl
+    pkgs.pre-commit
+    pkgs.terraform-docs
+    pkgs.tflint
+    pkgs.kubernetes-helm
   ];
 
   casks = [
@@ -30,8 +38,8 @@
     "spotify"
     "whatsapp"
     "postman"
-    "docker"
     "orbstack"
     "tailscale"
+    "dbeaver-community"
   ];
 }

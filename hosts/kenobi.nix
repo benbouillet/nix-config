@@ -11,6 +11,9 @@
     # "brave" # not available on aarch64-apple-darwin
     # "steam" # not available on aarch64-apple-darwin
     pkgs.go-task
+    pkgs.utm
+    pkgs.pre-commit
+    pkgs.terraform-docs
   ];
 
   casks = [
