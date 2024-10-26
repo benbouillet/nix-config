@@ -12,3 +12,5 @@
 - [ ] Waybar configuration
 - [x] Screen brightness management
 - [x] `greetd` implementation
+- [x] nixvim implementation
+- [ ] nixvim configuration tweaking
