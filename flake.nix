@@ -10,6 +10,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     stylix.url = "github:danth/stylix";
   };
 
@@ -18,6 +24,7 @@
     home-manager,
     nixos-hardware,
     stylix,
+    nixvim,
     ...
   }@inputs:
   let
@@ -47,6 +54,9 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.users.${username} = import ./hosts/${host}/home.nix;
+            home-manager.sharedModules = [
+              nixvim.homeManagerModules.nixvim
+            ];
           }
 	  stylix.nixosModules.stylix
         ];

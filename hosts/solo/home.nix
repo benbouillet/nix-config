@@ -14,6 +14,7 @@
     ../../config/zsh.nix
     ../../config/waybar.nix
     ../../config/tmux.nix
+    ../../config/nvim.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
@@ -32,7 +33,6 @@
       enable = true;
       enableZshIntegration = true;
     };
-    neovim.enable = true;
     fzf = {
       enable = true;
       enableZshIntegration = true;
