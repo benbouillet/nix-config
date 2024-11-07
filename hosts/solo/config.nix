@@ -28,13 +28,8 @@ in
 
 
   # Enable networking
-  networking.wireless.iwd = {
-    enable = true;
-    settings.General.EnableNetworkConfiguration = true;
-  };
   networking.hostName = host;
   networking.networkmanager.enable = true;
-  networking.timeServers = options.networking.timeServers.default ++ [ "pool.ntp.org" ];
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -83,6 +78,7 @@ in
     tmux
     killall
     brightnessctl
+    networkmanagerapplet
   ];
 
   fonts = {
