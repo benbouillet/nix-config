@@ -44,6 +44,18 @@ with lib;
             sensitivity = 0.5
             accel_profile = adaptative
           }
+          debug {
+            disable_logs = false
+          }
+          general {
+            gaps_in = 4
+            gaps_out = 8
+            border_size = 2
+            layout = master
+            resize_on_border = true
+            col.active_border = rgb(${config.lib.stylix.colors.base08}) rg(${config.lib.stylix.colors.base0C}) 45deg
+            col.inactive_border = rgb(${config.lib.stylix.colors.base01})
+          }
           gestures {
             workspace_swipe = true
             workspace_swipe_fingers = 3
