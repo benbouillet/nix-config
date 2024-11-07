@@ -60,6 +60,11 @@ with lib;
             workspace_swipe = true
             workspace_swipe_fingers = 3
           }
+          misc {
+            initial_workspace_tracking = 2
+            mouse_move_enables_dpms = false
+            key_press_enables_dpms = true
+          }
           monitor=,preferred,auto,1
           bind = ${modifier},Return,exec,${terminal}
           bind = ${modifier},W,exec,${browser}
