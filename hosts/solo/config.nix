@@ -95,13 +95,6 @@ in
   };
 
   services = {
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = "us";
-        variant = "altgr-intl";
-      };
-    };
     greetd = {
       enable = true;
       vt = 3;
