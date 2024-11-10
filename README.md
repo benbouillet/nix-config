@@ -1,11 +1,14 @@
 # TO DO
 - [x] Hyprland implementation
 - [ ] Hyprland configuration
+- [x] Hyprland basics bindings
+- [ ] Hyprland advanced bindings
 - [x] Kitty configuration
 - [ ] Check on tmux shortcuts
 - [x] Wallpaper implementation
 - [x] Stylix implementation
-- [ ] Stylix configuration (color scheme)
+- [x] Stylix configuration (color scheme)
+- [x] Stylix configuration (font)
 - [x] Zsh implementation
 - [x] Zsh configuration
 - [x] Waybar implementation
@@ -14,3 +17,16 @@
 - [x] `greetd` implementation
 - [x] nixvim implementation
 - [ ] nixvim configuration tweaking
+- [ ] emopicker
+- [ ] snapshooting
+- [ ] swaync
+- [ ] web-search
+- [x] thunar
+- [ ] spotify
+- [ ] T480 keyboard bindings
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
