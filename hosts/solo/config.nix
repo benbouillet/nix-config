@@ -114,6 +114,12 @@ in
     gvfs.enable = true;
     openssh.enable = true;
     gnome.gnome-keyring.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
   };
 
   hardware.bluetooth.enable = true;
