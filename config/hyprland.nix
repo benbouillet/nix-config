@@ -94,12 +94,20 @@ with lib;
           windowrulev2 = opacity 0.9 0.7, class:^(kitty)$
           gestures {
             workspace_swipe = true
-            workspace_swipe_fingers = 3
+            workspace_swipe_fingers = 4
+          }
+          plugins {
+            hyprtrails {
+            }
           }
           misc {
             initial_workspace_tracking = 2
             mouse_move_enables_dpms = false
             key_press_enables_dpms = true
+          }
+          dwindle {
+            pseudotile = true
+            preserve_split = true
           }
           monitor=,preferred,auto,1
           bind = ${modifier},Return,exec,${terminal}
