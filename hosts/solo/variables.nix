@@ -2,6 +2,7 @@
   browser = "firefox";
   terminal = "kitty";
   keyboardLayout = "us";
+  keyboardVariant = "altgr-intl";
 
   # Waybar Settings
   clock24h = true;
