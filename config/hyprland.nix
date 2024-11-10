@@ -44,6 +44,8 @@ with lib;
             }
             sensitivity = 0.5
             accel_profile = adaptative
+            repeat_rate = 20
+            repeat_delay = 400
           }
           debug {
             disable_logs = false
