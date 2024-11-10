@@ -86,6 +86,12 @@ with lib;
             animation = fade, 1, 10, default
             animation = workspaces, 1, 5, wind
           }
+          windowrulev2 = noborder, class:^(rofi)$
+          windowrulev2 = center, class:^(rofi)$
+          windowrulev2 = workspace emptym, class:^(firefox)$
+          windowrulev2 = float, class:^(nm-connection-editor|blueman-manager)$
+          windowrulev2 = stayfocused, class:^(steam)$
+          windowrulev2 = opacity 0.9 0.7, class:^(kitty)$
           gestures {
             workspace_swipe = true
             workspace_swipe_fingers = 3
