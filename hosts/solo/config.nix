@@ -85,6 +85,7 @@ in
     packages = with pkgs; [
       fira-code
       fira-code-symbols
+      nerdfonts
     ];
   };
 
@@ -97,7 +98,7 @@ in
     cursor.size = 24;
     fonts = {
       monospace = {
-        package = pkgs.fira-code;
+        package = pkgs.fira-code-symbols;
         name = "Fira Code";
       };
       sansSerif = {
