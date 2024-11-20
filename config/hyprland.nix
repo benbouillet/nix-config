@@ -86,8 +86,8 @@ with lib;
             animation = fade, 1, 10, default
             animation = workspaces, 1, 5, wind
           }
-          windowrulev2 = noborder, class:^(rofi)$
-          windowrulev2 = center, class:^(rofi)$
+          windowrulev2 = noborder, class:^(wofi)$
+          windowrulev2 = center, class:^(wofi)$
           windowrulev2 = workspace emptym, class:^(firefox)$
           windowrulev2 = float, class:^(nm-connection-editor|blueman-manager)$
           windowrulev2 = stayfocused, class:^(steam)$
@@ -114,7 +114,7 @@ with lib;
           bind = ${modifier},W,exec,${browser}
           bind = ${modifier},T,exec,thunar
           bind = ${modifier}SHIFT,F,exec,${browser}
-          bind = ${modifier},SPACE,exec,rofi -show drun
+          bind = ${modifier},SPACE,exec,wofi --show drun
           bind = ,XF86MonBrightnessDown,exec,brightnessctl set 10%-
           bind = ,XF86MonBrightnessUp,exec,brightnessctl set +10%
           bindm = ${modifier},mouse:272,movewindow

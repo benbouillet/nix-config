@@ -120,8 +120,8 @@ with lib;
         "custom/startmenu" = {
           tooltip = false;
           format = "";
-          # exec = "rofi -show drun";
-          on-click = "sleep 0.1 && rofi-launcher";
+          # exec = "wofi -show drun";
+          on-click = "sleep 0.1 && wofi-launcher";
         };
         "custom/hyprbindings" = {
           tooltip = false;

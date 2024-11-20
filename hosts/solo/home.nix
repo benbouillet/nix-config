@@ -25,9 +25,8 @@
   programs = {
     kitty.enable = true;
     firefox.enable = true;
-    rofi = {
+    wofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
     };
     starship = {
       enable = true;
