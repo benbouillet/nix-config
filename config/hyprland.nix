@@ -129,10 +129,10 @@ with lib;
           bind = ${modifier}SHIFT,right,movewindow,r
           bind = ${modifier}SHIFT,up,movewindow,u
           bind = ${modifier}SHIFT,down,movewindow,d
-          bind = ${modifier}ALT,H,resizeactive,-30 0
-          bind = ${modifier}ALT,L,resizeactive,30 0
-          bind = ${modifier}ALT,K,resizeactive,0 -30
-          bind = ${modifier}ALT,J,resizeactive,0 30
+          binde = ${modifier}ALT,H,resizeactive,-30 0
+          binde = ${modifier}ALT,L,resizeactive,30 0
+          binde = ${modifier}ALT,K,resizeactive,0 -30
+          binde = ${modifier}ALT,J,resizeactive,0 30
           bind = ${modifier}SHIFT,H,movewindow,l
           bind = ${modifier}SHIFT,L,movewindow,r
           bind = ${modifier}SHIFT,K,movewindow,u
