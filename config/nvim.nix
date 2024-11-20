@@ -13,15 +13,6 @@
       maplocalleader = " ";
     };
     clipboard.register = "unnamedplus";
-    # colorschemes.nord = {
-    #   enable = true;
-    # 
-    #   settings = {
-    #     enable_sidebar_background = true;
-    #     borders = true;
-    #     contrast = true;
-    #   };
-    # };
     opts = {
       number = true;
       shiftwidth = 2;
