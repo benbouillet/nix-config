@@ -7,6 +7,6 @@
   # Waybar Settings
   clock24h = true;
 
-  theme = "nord";
+  theme = "catppuccin-frappe";
   wallpaper_file = "nix-wallpaper-simple-red.png";
 }
