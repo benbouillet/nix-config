@@ -23,6 +23,7 @@
   };
 
   programs = {
+    home-manager.enable = true;
     kitty.enable = true;
     firefox.enable = true;
     wofi = {
