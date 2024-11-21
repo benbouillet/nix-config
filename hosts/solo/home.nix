@@ -41,5 +41,9 @@
         "--exact"
       ];
     };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 }
