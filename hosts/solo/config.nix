@@ -82,10 +82,20 @@ in
   ];
 
   fonts = {
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ "FiraCode" ];
+        sansSerif = [ "Roboto" ];
+        serif = [ "Roboto Serif" ];
+      };
+    };
+    enableDefaultPackages = true;
     packages = with pkgs; [
-      fira-code
-      fira-code-symbols
-      nerdfonts
+      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      roboto
+      roboto-serif
+      noto-fonts-monochrome-emoji
     ];
   };
 
@@ -98,16 +108,20 @@ in
     cursor.size = 24;
     fonts = {
       monospace = {
-        package = pkgs.fira-code-symbols;
+        package = pkgs.nerdfonts;
         name = "Fira Code";
       };
       sansSerif = {
-        package = pkgs.montserrat;
-        name = "Montserrat";
+        package = pkgs.roboto;
+        name = "Roboto";
       };
       serif = {
-        package = pkgs.montserrat;
-        name = "Montserrat";
+        package = pkgs.roboto-serif;
+        name = "Robot Serif";
+      };
+      emoji = {
+        name = "Noto Emoji";
+        package = pkgs.noto-fonts-monochrome-emoji;
       };
       sizes = {
         applications = 12;
