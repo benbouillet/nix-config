@@ -9,12 +9,18 @@
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "24.11";
 
+  home.packages = with pkgs; [
+    hyprshot
+    swaynotificationcenter
+  ];
+
   imports = [
     ../../config/hyprland.nix
     ../../config/zsh.nix
     ../../config/waybar.nix
     ../../config/tmux.nix
     ../../config/nvim.nix
+    ../../config/swaync.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
