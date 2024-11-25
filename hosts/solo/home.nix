@@ -15,6 +15,10 @@
     swaynotificationcenter
   ];
 
+  stylix.targets = {
+    swaync.enable = false;
+  };
+
   imports = [
     ../../config/hyprland.nix
     ../../config/zsh.nix
