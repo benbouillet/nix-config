@@ -2,7 +2,7 @@
 - [x] Hyprland implementation
 - [ ] Hyprland configuration
 - [x] Hyprland basics bindings
-- [ ] Hyprland advanced bindings
+- [x] Hyprland advanced bindings
 - [x] Kitty configuration
 - [ ] Check on tmux shortcuts
 - [x] Wallpaper implementation
@@ -24,9 +24,6 @@
 - [x] thunar
 - [ ] spotify
 - [ ] T480 keyboard bindings
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] hypridle
+- [ ] hyprlock
+- [ ] hyprpaper
