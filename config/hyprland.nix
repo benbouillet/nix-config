@@ -118,7 +118,7 @@ with lib;
           bindm = ${modifier},mouse:272,movewindow
           bindm = ${modifier},mouse:273,resizewindow
           bind = ${modifier},Q,killactive
-          bind = ${modifier},P,pseudo
+          bind = ${modifier},P,exec,hyprpicker -a
           bind = ${modifier}SHIFT,I,togglesplit
           bind = ${modifier},F,fullscreen
           bind = ${modifier}SHIFT,F,togglefloating
