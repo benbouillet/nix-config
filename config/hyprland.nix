@@ -61,9 +61,10 @@ with lib;
       };
       decoration  = {
         rounding = 10;
-        drop_shadow = true;
-        shadow_range = 4;
-        "col.shadow" = "rgba(1a1a1aee)";
+        shadow = {
+          enabled = true;
+          range = 4;
+        };
         blur = {
           enabled = true;
           size = 5;
