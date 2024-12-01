@@ -66,6 +66,7 @@ in
   environment.systemPackages = with pkgs; [
     vim
     wget
+    eza
     git
     htop
     brave
