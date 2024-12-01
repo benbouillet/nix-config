@@ -18,6 +18,7 @@
 
   stylix.targets = {
     swaync.enable = false;
+    waybar.enable = false;
   };
 
   imports = [
