@@ -27,3 +27,12 @@
 - [ ] hypridle
 - [ ] hyprlock
 - [ ] hyprpaper
+- [x] Waybar modules
+- [x] Waybar base ricing
+- [ ] Waybar executables on click
+- [ ] Waybar hover behavior (WIP)
+- [ ] Waybar MPD vs MPRIS (media player)
+- [ ] Waybar download/upload bandwith (see [this](https://www.reddit.com/r/unixporn/comments/1b1rmls/sway_catppuccin_mocha_ags_waybar/))
+- [ ] Waybar Mic Input volume
+- [ ] Waybar remove unused code
+- [ ] Waybar colors from Stylix
