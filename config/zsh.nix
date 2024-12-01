@@ -5,6 +5,26 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    autosuggestion = {
+      enable = true;
+      strategy = [ "history" ];
+    };
+
+    history = {
+      save = 100000;
+      append = true;
+      expireDuplicatesFirst = true;
+      extended = true;
+      share = true;
+    };
+
+    shellAliases = {
+      ls = "eza";
+      cd = "z";
+    };
+
+    syntaxHighlighting.enable = true;
+
     sessionVariables = {
       LC_ALL="en_US.UTF-8";
       LANG="en_US.UTF-8";
@@ -12,6 +32,7 @@
       COMPLETION_WAITING_DOTS="true";
       ZSH_SYSTEM_CLIPBOARD_USE_WL_CLIPBOARD="";
     };
+
     oh-my-zsh = {
       enable = true;
       plugins = [
