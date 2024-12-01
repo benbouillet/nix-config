@@ -100,6 +100,8 @@ in
     ];
   };
 
+  environment.pathsToLink = [ "/share/zsh" ];
+
   stylix = {
     enable = true;
     image = ../../config/wallpapers/${wallpaper_file};
