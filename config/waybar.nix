@@ -32,6 +32,8 @@ with lib;
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
+          "custom/logout"
+          "custom/lock"
           "idle_inhibitor"
           "backlight"
           "pulseaudio"
@@ -71,6 +73,14 @@ with lib;
           tooltip = true;
           tooltip-format = "Memory used: {used:0.1f}GiB/{total:0.1f}GiB\nSwap used: {swapUsed:0.1f}GiB/{swapTotal:0.1f}GiB";
         };
+        "custom/lock" = {
+          "format" = "";
+          "on-click" = "hyprlock";
+        };
+        "custom/logout" = {
+          "format" = "󰍃";
+          "on-click" = "hyprctl dispatch exit";
+        };
         "cpu" = {
           interval = 5;
           format = "  {usage:2}%";
@@ -105,7 +115,7 @@ with lib;
           format = "{icon}   {volume}% {format_source}";
           format-bluetooth = "{volume}% {icon} {format_source}";
           format-bluetooth-muted = "󰗿 {icon} {format_source}";
-          format-muted = " {format_source}";
+          format-muted = " {format_source}";
           format-source = " {volume}%";
           format-source-muted = " ";
           format-icons = {
@@ -265,6 +275,8 @@ with lib;
       #network:hover,
       #idle_inhibitor:hover,
       #backlight:hover,
+      #custom-lock:hover,
+      #custom-logout:hover,
       #pulseaudio:hover {
         background-color: @surface2;
       }
@@ -306,6 +318,8 @@ with lib;
       #bluetooth,
       #backlight,
       #idle_inhibitor,
+      #custom-lock,
+      #custom-logout,
       #pulseaudio {
         padding: 0 10px;
       }
@@ -377,10 +391,6 @@ with lib;
 
       label:focus {
         background-color: #000000;
-      }
-
-      #pulseaudio.muted {
-        color: @text;
       }
       ''
     ];
