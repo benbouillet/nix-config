@@ -33,6 +33,7 @@ with lib;
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
           "idle_inhibitor"
+          "backlight"
           "pulseaudio"
           "bluetooth"
           "network"
@@ -95,7 +96,7 @@ with lib;
             "󰤢"
             "󰤨"
           ];
-          format-ethernet = "󰈀 {bandwidthDownOctets}";
+          format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
           format-wifi = "{icon}  {signalStrength}%";
           format-disconnected = "󰤫";
           tooltip = false;
@@ -121,15 +122,29 @@ with lib;
           };
           on-click = "sleep 0.1 && pavucontrol";
         };
+        "backlight" = {
+            "format" = "{icon} {percent}%";
+            "format-icons" = [
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                "󰽢"
+            ];
+        };
     #     "custom/exit" = {
     #       tooltip = false;
     #       format = "";
     #       on-click = "sleep 0.1 && wlogout";
-    #     };
-    #     "custom/startmenu" = {
-    #       tooltip = false;
-    #       format = "";
-    #       on-click = "sleep 0.1 && wofi-launcher";
     #     };
     #     "custom/hyprbindings" = {
     #       tooltip = false;
@@ -248,6 +263,8 @@ with lib;
       #battery:hover,
       #bluetooth:hover,
       #network:hover,
+      #idle_inhibitor:hover,
+      #backlight:hover,
       #pulseaudio:hover {
         background-color: @surface2;
       }
@@ -287,6 +304,7 @@ with lib;
       #temperature,
       #network,
       #bluetooth,
+      #backlight,
       #idle_inhibitor,
       #pulseaudio {
         padding: 0 10px;
