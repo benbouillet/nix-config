@@ -43,6 +43,31 @@ with lib;
           "clock"
         ];
 
+        ##### LEFT #####
+        "hyprland/window" = {
+          max-length = 22;
+          separate-outputs = false;
+          rewrite = {
+            "" = "  No Window ";
+          };
+        };
+        "cpu" = {
+          interval = 5;
+          format = "  {usage:2}%";
+          tooltip = true;
+        };
+        "memory" = {
+          interval = 5;
+          format = "  {}%";
+          tooltip = true;
+          tooltip-format = "Memory used: {used:0.1f}GiB/{total:0.1f}GiB\nSwap used: {swapUsed:0.1f}GiB/{swapTotal:0.1f}GiB";
+        };
+        "disk" = {
+          format = "  {free}";
+          tooltip = true;
+        };
+
+        ##### CENTER #####
         "hyprland/workspaces" = {
           on-click = "activate";
           all-outputs = true;
@@ -55,61 +80,42 @@ with lib;
             urgent = " ";
           };
         };
-        "clock" = {
-          format = if clock24h == true then ''  {:L%H:%M}'' else ''  {:L%I:%M %p}'';
-          tooltip = true;
-          tooltip-format = "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>";
-        };
-        "hyprland/window" = {
-          max-length = 22;
-          separate-outputs = false;
-          rewrite = {
-            "" = "  No Window ";
-          };
-        };
-        "memory" = {
-          interval = 5;
-          format = "  {}%";
-          tooltip = true;
-          tooltip-format = "Memory used: {used:0.1f}GiB/{total:0.1f}GiB\nSwap used: {swapUsed:0.1f}GiB/{swapTotal:0.1f}GiB";
+
+        ##### RIGHT #####
+        "custom/logout" = {
+          "format" = "󰍃";
+          "on-click" = "hyprctl dispatch exit";
         };
         "custom/lock" = {
           "format" = "";
           "on-click" = "hyprlock";
         };
-        "custom/logout" = {
-          "format" = "󰍃";
-          "on-click" = "hyprctl dispatch exit";
+        "idle_inhibitor" = {
+          format = "{icon}";
+          format-icons = {
+            activated = "󰒳";
+            deactivated = "󰒲";
+          };
+          tooltip = "true";
         };
-        "cpu" = {
-          interval = 5;
-          format = "  {usage:2}%";
-          tooltip = true;
-        };
-        "disk" = {
-          format = "  {free}";
-          tooltip = true;
-        };
-        "bluetooth" = {
-          format = "󰂯 {status}";
-          format-disabled = "";
-          format-connected = "󰂯 {num_connections} connected";
-          tooltip-format = "{controller_alias}\t{controller_address}";
-          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
-          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-        };
-        "network" = {
-          format-icons = [
-            "󰤯"
-            "󰤟"
-            "󰤢"
-            "󰤢"
-            "󰤨"
-          ];
-          format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
-          format-wifi = "{icon}  {signalStrength}%";
-          format-disconnected = "󰤫";
-          tooltip = false;
+        "backlight" = {
+            "format" = "{icon} {percent}%";
+            "format-icons" = [
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                "󰽢"
+            ];
         };
         "pulseaudio" = {
           format = "{icon}   {volume}% {format_source}";
@@ -132,62 +138,27 @@ with lib;
           };
           on-click = "sleep 0.1 && pavucontrol";
         };
-        "backlight" = {
-            "format" = "{icon} {percent}%";
-            "format-icons" = [
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                "󰽢"
-            ];
+        "bluetooth" = {
+          format = "󰂯 {status}";
+          format-disabled = "";
+          format-connected = "󰂯 {num_connections} connected";
+          tooltip-format = "{controller_alias}\t{controller_address}";
+          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
         };
-    #     "custom/exit" = {
-    #       tooltip = false;
-    #       format = "";
-    #       on-click = "sleep 0.1 && wlogout";
-    #     };
-    #     "custom/hyprbindings" = {
-    #       tooltip = false;
-    #       format = "󱕴";
-    #       on-click = "sleep 0.1 && list-hypr-bindings";
-    #     };
-        "idle_inhibitor" = {
-          format = "{icon}";
-          format-icons = {
-            activated = "󰒳";
-            deactivated = "󰒲";
-          };
-          tooltip = "true";
+        "network" = {
+          format-icons = [
+            "󰤯"
+            "󰤟"
+            "󰤢"
+            "󰤢"
+            "󰤨"
+          ];
+          format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
+          format-wifi = "{icon}  {signalStrength}%";
+          format-disconnected = "󰤫";
+          tooltip = false;
         };
-    #     "custom/notification" = {
-    #       tooltip = false;
-    #       format = "{icon} {}";
-    #       format-icons = {
-    #         notification = "<span foreground='red'><sup></sup></span>";
-    #         none = "";
-    #         dnd-notification = "<span foreground='red'><sup></sup></span>";
-    #         dnd-none = "";
-    #         inhibited-notification = "<span foreground='red'><sup></sup></span>";
-    #         inhibited-none = "";
-    #         dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
-    #         dnd-inhibited-none = "";
-    #       };
-    #       return-type = "json";
-    #       exec-if = "which swaync-client";
-    #       exec = "swaync-client -swb";
-    #       on-click = "sleep 0.1 && task-waybar";
-    #       escape = true;
-    #     };
         "battery" = {
           states = {
             warning = 30;
@@ -212,6 +183,40 @@ with lib;
           tooltip = true;
           tooltip-format = "{power} - {timeTo}";
         };
+        "clock" = {
+          format = if clock24h == true then ''  {:L%H:%M}'' else ''  {:L%I:%M %p}'';
+          tooltip = true;
+          tooltip-format = "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>";
+        };
+    #     "custom/exit" = {
+    #       tooltip = false;
+    #       format = "";
+    #       on-click = "sleep 0.1 && wlogout";
+    #     };
+    #     "custom/hyprbindings" = {
+    #       tooltip = false;
+    #       format = "󱕴";
+    #       on-click = "sleep 0.1 && list-hypr-bindings";
+    #     };
+    #     "custom/notification" = {
+    #       tooltip = false;
+    #       format = "{icon} {}";
+    #       format-icons = {
+    #         notification = "<span foreground='red'><sup></sup></span>";
+    #         none = "";
+    #         dnd-notification = "<span foreground='red'><sup></sup></span>";
+    #         dnd-none = "";
+    #         inhibited-notification = "<span foreground='red'><sup></sup></span>";
+    #         inhibited-none = "";
+    #         dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
+    #         dnd-inhibited-none = "";
+    #       };
+    #       return-type = "json";
+    #       exec-if = "which swaync-client";
+    #       exec = "swaync-client -swb";
+    #       on-click = "sleep 0.1 && task-waybar";
+    #       escape = true;
+    #     };
       }
     ];
     style = concatStrings [
