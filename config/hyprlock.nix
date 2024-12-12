@@ -50,8 +50,8 @@
 
       input-field = {
         monitor = "";
-        size = "300, 60";
-        outline_thickness = 4;
+        size = "200, 40";
+        outline_thickness = 3;
         dots_size = 0.2;
         dots_spacing = 0.2;
         dots_center = true;
