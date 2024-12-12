@@ -139,12 +139,13 @@ with lib;
           on-click = "sleep 0.1 && pavucontrol";
         };
         "bluetooth" = {
-          format = "󰂯 {status}";
-          format-disabled = "";
-          format-connected = "󰂯 {num_connections} connected";
+          format = "󰂯";
+          format-disabled = "󰂲";
+          format-connected = "󰂱";
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+          on-click = "sleep 0.1 && blueman-manager";
         };
         "network" = {
           format-icons = [
