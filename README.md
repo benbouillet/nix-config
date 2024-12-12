@@ -28,9 +28,12 @@
 - [x] hyprlock
 - [ ] hyprpaper
 - [ ] hyprshot
+- [ ] hyprsunset
+- [ ] xdg-desktop-portal-hyprland
 - [ ] hyprland shortcuts cheatsheet
 - [x] Waybar modules
 - [x] Waybar base ricing
+- [ ] Waybar modules colors
 - [ ] Waybar executables on click
   - [x] logout
   - [x] hyprlock
