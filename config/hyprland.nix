@@ -95,7 +95,9 @@ with lib;
         "noborder, class:^(wofi)$"
         "center, class:^(wofi)$"
         "workspace emptym, class:^(firefox)$"
-        "float, class:^(nm-connection-editor|blueman-manager)$"
+        "float, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
+        "stayfocused, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
+        "pin, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(steam)$"
         "opacity 0.9 0.7, class:^(kitty)$"
       ];
