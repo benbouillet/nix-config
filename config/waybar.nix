@@ -32,8 +32,6 @@ with lib;
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
-          "custom/logout"
-          "custom/lock"
           "idle_inhibitor"
           "backlight"
           "pulseaudio"
@@ -41,6 +39,7 @@ with lib;
           "network"
           "battery"
           "clock"
+          "custom/wlogout"
         ];
 
         ##### LEFT #####
@@ -82,14 +81,6 @@ with lib;
         };
 
         ##### RIGHT #####
-        "custom/logout" = {
-          "format" = "󰍃";
-          "on-click" = "hyprctl dispatch exit";
-        };
-        "custom/lock" = {
-          "format" = "";
-          "on-click" = "hyprlock";
-        };
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
@@ -188,6 +179,10 @@ with lib;
           format = if clock24h == true then ''  {:L%H:%M}'' else ''  {:L%I:%M %p}'';
           tooltip = true;
           tooltip-format = "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>";
+        };
+        "custom/wlogout" = {
+          "format" = " ";
+          "on-click" = "wlogout";
         };
     #     "custom/exit" = {
     #       tooltip = false;
@@ -324,8 +319,7 @@ with lib;
       #bluetooth,
       #backlight,
       #idle_inhibitor,
-      #custom-lock,
-      #custom-logout,
+      #custom-wlogout,
       #pulseaudio {
         padding: 0 10px;
       }

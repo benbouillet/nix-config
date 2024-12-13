@@ -126,7 +126,7 @@ with lib;
         "${modifier},P,exec,hyprpicker -a"
         "${modifier}SHIFT,I,togglesplit"
         "${modifier},F,fullscreen"
-        "${modifier},U,exec,hyprlock"
+        "${modifier},U,exec,wlogout"
         "${modifier}SHIFT,F,togglefloating"
         "${modifier}SHIFT,C,exit"
         "${modifier}SHIFT,left,movewindow,l"

@@ -29,6 +29,7 @@
     ../../config/tmux.nix
     ../../config/nvim.nix
     ../../config/swaync.nix
+    ../../config/wlogout.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
