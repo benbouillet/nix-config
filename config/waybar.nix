@@ -84,8 +84,8 @@ with lib;
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
-            activated = "󰒳";
-            deactivated = "󰒲";
+            activated = "󰒳 ";
+            deactivated = "󰒲 ";
           };
           tooltip = "true";
         };
