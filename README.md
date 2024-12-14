@@ -12,7 +12,7 @@
 - [x] Zsh implementation
 - [x] Zsh configuration
 - [x] Waybar implementation
-- [ ] Waybar configuration
+- [x] Waybar configuration
 - [x] Screen brightness management
 - [x] `greetd` implementation
 - [x] nixvim implementation
@@ -23,8 +23,8 @@
 - [ ] web-search
 - [x] thunar
 - [ ] spotify
-- [ ] T480 keyboard bindings
-- [ ] hypridle
+- [x] T480 keyboard bindings
+- [x] hypridle
 - [x] hyprlock
 - [ ] hyprpaper
 - [ ] hyprshot
