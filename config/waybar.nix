@@ -148,8 +148,9 @@ with lib;
           ];
           format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
           format-wifi = "{icon}  {signalStrength}%";
-          format-disconnected = "󰤫";
-          tooltip = false;
+          format-disconnected = "󰤫 ";
+          tooltip = "{ifname}\n{essid}\n{ipaddr}";
+          on-click = "sleep 0.1 && kitty nmtui";
         };
         "battery" = {
           states = {
@@ -271,13 +272,11 @@ with lib;
       }
 
       /* you can set a style on hover for any module like this */
-      #battery:hover,
       #bluetooth:hover,
       #network:hover,
       #idle_inhibitor:hover,
       #backlight:hover,
-      #custom-lock:hover,
-      #custom-logout:hover,
+      #custom-wlogout:hover,
       #pulseaudio:hover {
         background-color: @surface2;
       }
