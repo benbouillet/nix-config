@@ -24,6 +24,7 @@
   imports = [
     ../../config/hyprland.nix
     ../../config/hyprlock.nix
+    ../../config/hypridle.nix
     ../../config/zsh.nix
     ../../config/waybar.nix
     ../../config/tmux.nix
