@@ -1,6 +1,6 @@
 # TO DO
 - [x] Hyprland implementation
-- [ ] Hyprland configuration
+- [x] Hyprland configuration
 - [x] Hyprland basics bindings
 - [x] Hyprland advanced bindings
 - [x] Kitty configuration
@@ -14,11 +14,11 @@
 - [x] Waybar implementation
 - [x] Waybar configuration
 - [x] Screen brightness management
-- [x] `greetd` implementation
 - [x] nixvim implementation
+- [x] `greetd` implementation
+- [ ] notification center
 - [ ] nixvim configuration tweaking
 - [ ] emopicker
-- [ ] snapshooting
 - [ ] swaync
 - [ ] web-search
 - [x] thunar
@@ -34,16 +34,17 @@
 - [x] Waybar modules
 - [x] Waybar base ricing
 - [ ] Waybar modules colors
-- [ ] Waybar executables on click
+- [x] Waybar executables on click
   - [x] logout
   - [x] hyprlock
-  - [ ] pulseaudio
-  - [ ] bluetooth
-  - [ ] network manager
-  - [ ] calendar
-- [ ] Waybar hover behavior (WIP)
-- [ ] Waybar MPD vs MPRIS (media player)
-- [ ] Waybar download/upload bandwith (see [this](https://www.reddit.com/r/unixporn/comments/1b1rmls/sway_catppuccin_mocha_ags_waybar/))
-- [ ] Waybar Mic Input volume
-- [ ] Waybar remove unused code
-- [ ] Waybar colors from Stylix
+  - [x] pulseaudio
+  - [x] bluetooth
+  - [x] network manager
+  - [x] calendar
+- [x] Waybar hover behavior (WIP)
+- [x] Waybar MPRIS (media player)
+- [x] Waybar download/upload bandwith (see [this](https://www.reddit.com/r/unixporn/comments/1b1rmls/sway_catppuccin_mocha_ags_waybar/))
+- [x] Waybar Mic Input volume
+- [x] Waybar remove unused code
+- [x] Waybar colors from Stylix
+- [ ] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
