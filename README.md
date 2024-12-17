@@ -16,10 +16,9 @@
 - [x] Screen brightness management
 - [x] nixvim implementation
 - [x] `greetd` implementation
-- [ ] notification center
+- [x] notifications
 - [ ] nixvim configuration tweaking
 - [ ] emopicker
-- [ ] swaync
 - [ ] web-search
 - [x] thunar
 - [ ] spotify
@@ -48,3 +47,4 @@
 - [x] Waybar remove unused code
 - [x] Waybar colors from Stylix
 - [ ] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
+- [ ] Implement a custom waybar module to display down/up bandwidth (builtin network module is acting out !)

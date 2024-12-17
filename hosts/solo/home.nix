@@ -14,11 +14,10 @@
     hyprpicker
     pavucontrol
     playerctl
-    swaynotificationcenter
+    libnotify
   ];
 
   stylix.targets = {
-    swaync.enable = false;
     waybar.enable = false;
   };
 
@@ -30,7 +29,7 @@
     ../../config/waybar.nix
     ../../config/tmux.nix
     ../../config/nvim.nix
-    ../../config/swaync.nix
+    ../../config/dunst.nix
     ../../config/wlogout.nix
   ];
 
@@ -61,6 +60,13 @@
     zoxide = {
       enable = true;
       enableZshIntegration = true;
+    };
+  };
+
+  gtk = {
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
     };
   };
 }

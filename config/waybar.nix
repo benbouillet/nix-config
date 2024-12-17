@@ -204,34 +204,10 @@ with lib;
           "format" = " ";
           "on-click" = "wlogout";
         };
-    #     "custom/exit" = {
-    #       tooltip = false;
-    #       format = "";
-    #       on-click = "sleep 0.1 && wlogout";
-    #     };
     #     "custom/hyprbindings" = {
     #       tooltip = false;
     #       format = "󱕴";
     #       on-click = "sleep 0.1 && list-hypr-bindings";
-    #     };
-    #     "custom/notification" = {
-    #       tooltip = false;
-    #       format = "{icon} {}";
-    #       format-icons = {
-    #         notification = "<span foreground='red'><sup></sup></span>";
-    #         none = "";
-    #         dnd-notification = "<span foreground='red'><sup></sup></span>";
-    #         dnd-none = "";
-    #         inhibited-notification = "<span foreground='red'><sup></sup></span>";
-    #         inhibited-none = "";
-    #         dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
-    #         dnd-inhibited-none = "";
-    #       };
-    #       return-type = "json";
-    #       exec-if = "which swaync-client";
-    #       exec = "swaync-client -swb";
-    #       on-click = "sleep 0.1 && task-waybar";
-    #       escape = true;
     #     };
       }
     ];
