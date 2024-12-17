@@ -32,13 +32,14 @@ with lib;
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
-          "idle_inhibitor"
+          "mpris"
           "backlight"
           "pulseaudio"
           "bluetooth"
           "network"
           "battery"
           "clock"
+          "idle_inhibitor"
           "custom/wlogout"
         ];
 
@@ -81,13 +82,23 @@ with lib;
         };
 
         ##### RIGHT #####
-        "idle_inhibitor" = {
-          format = "{icon}";
-          format-icons = {
-            activated = "󰒳 ";
-            deactivated = "󰒲 ";
+        "mpris" = {
+          format = "{player_icon}{status_icon}";
+          format-stopped = "";
+          tooltip-format = "{dynamic}";
+          status-icons = {
+            playing = "󰐊";
+            paused = "󰏤";
+            stopped = "󰓛";
           };
-          tooltip = "true";
+          player-icons = {
+            spotify = " ";
+            mpv = "󰐹 ";
+            vlc = "󰕼 ";
+            firefox = "󰈹 ";
+            chromium = " ";
+          };
+          on-click = "playerctl play-pause";
         };
         "backlight" = {
             "format" = "{icon} {percent}%";
@@ -180,6 +191,14 @@ with lib;
           format = if clock24h == true then ''  {:L%H:%M}'' else ''  {:L%I:%M %p}'';
           tooltip = true;
           tooltip-format = "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>";
+        };
+        "idle_inhibitor" = {
+          format = "{icon}";
+          format-icons = {
+            activated = "󰒳 ";
+            deactivated = "󰒲 ";
+          };
+          tooltip = "true";
         };
         "custom/wlogout" = {
           "format" = " ";
@@ -277,6 +296,7 @@ with lib;
       #idle_inhibitor:hover,
       #backlight:hover,
       #custom-wlogout:hover,
+      #mpris:hover,
       #pulseaudio:hover {
         background-color: @surface2;
       }
@@ -319,6 +339,7 @@ with lib;
       #backlight,
       #idle_inhibitor,
       #custom-wlogout,
+      #mpris,
       #pulseaudio {
         padding: 0 10px;
       }
