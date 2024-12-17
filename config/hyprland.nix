@@ -185,6 +185,8 @@ with lib;
         "${modifier}ALT,L,resizeactive,30 0"
         "${modifier}ALT,K,resizeactive,0 -30"
         "${modifier}ALT,J,resizeactive,0 30"
+        ",XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1"
+        ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ];
       # plugin = {
       #   hyprtrails = {
