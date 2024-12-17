@@ -13,6 +13,7 @@
     hyprshot
     hyprpicker
     pavucontrol
+    playerctl
     swaynotificationcenter
   ];
 
