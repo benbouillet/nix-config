@@ -37,7 +37,8 @@ with lib;
         kb_layout = keyboardLayout;
         kb_variant = keyboardVariant;
         kb_options = "caps:escape";
-        follow_mouse = 1;
+        follow_mouse = 2;
+        mouse_refocus = false;
         touchpad = {
           natural_scroll = true;
           disable_while_typing = true;
