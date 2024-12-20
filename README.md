@@ -17,9 +17,9 @@
 - [x] nixvim implementation
 - [x] `greetd` implementation
 - [x] notifications
-- [ ] nixvim configuration tweaking
-- [ ] emopicker
-- [ ] web-search
+- [x] web-search
+- [ ] hyprland shortcuts cheatsheet
+- [x] emopicker
 - [x] thunar
 - [ ] spotify
 - [x] T480 keyboard bindings
@@ -29,7 +29,7 @@
 - [ ] hyprshot
 - [ ] hyprsunset
 - [ ] xdg-desktop-portal-hyprland
-- [ ] hyprland shortcuts cheatsheet
+- [ ] nixvim configuration tweaking
 - [x] Waybar modules
 - [x] Waybar base ricing
 - [ ] Waybar modules colors

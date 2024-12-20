@@ -15,6 +15,8 @@
     pavucontrol
     playerctl
     libnotify
+    wofi-emoji
+    (import ../../scripts/web-search.nix {inherit pkgs; })
   ];
 
   stylix.targets = {

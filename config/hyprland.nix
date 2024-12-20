@@ -125,6 +125,7 @@ with lib;
         "${modifier},C,exec,hyprpicker -a"
         "${modifier}SHIFT,I,togglesplit"
         "${modifier},F,fullscreen"
+        "${modifier},E,exec,wofi-emoji"
         "${modifier},U,exec,wlogout"
         "${modifier}SHIFT,F,togglefloating"
         "${modifier}SHIFT,C,exit"
