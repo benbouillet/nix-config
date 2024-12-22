@@ -17,6 +17,7 @@
     libnotify
     wofi-emoji
     (import ../../scripts/web-search.nix {inherit pkgs; })
+    (import ../../scripts/list-hyprland-bindings.nix {inherit pkgs; })
   ];
 
   stylix.targets = {
