@@ -25,15 +25,16 @@
   };
 
   imports = [
+    ../../config/dunst.nix
+    ../../config/hypridle.nix
     ../../config/hyprland.nix
     ../../config/hyprlock.nix
-    ../../config/hypridle.nix
-    ../../config/zsh.nix
-    ../../config/waybar.nix
-    ../../config/tmux.nix
     ../../config/nvim.nix
-    ../../config/dunst.nix
+    ../../config/tmux.nix
+    ../../config/waybar.nix
     ../../config/wlogout.nix
+    ../../config/wlsunset.nix
+    ../../config/zsh.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
