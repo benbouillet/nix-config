@@ -18,17 +18,16 @@
 - [x] `greetd` implementation
 - [x] notifications
 - [x] web-search
-- [ ] hyprland shortcuts cheatsheet
+- [x] hyprland shortcuts cheatsheet
 - [x] emopicker
 - [x] thunar
-- [ ] spotify
 - [x] T480 keyboard bindings
 - [x] hypridle
 - [x] hyprlock
-- [ ] hyprpaper
-- [ ] hyprshot
-- [ ] hyprsunset
-- [ ] xdg-desktop-portal-hyprland
+- [x] hyprpaper
+- [x] hyprshot
+- [x] hyprsunset
+- [x] xdg-desktop-portal-hyprland
 - [ ] nixvim configuration tweaking
 - [x] Waybar modules
 - [x] Waybar base ricing
@@ -48,3 +47,5 @@
 - [x] Waybar colors from Stylix
 - [ ] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
 - [ ] Implement a custom waybar module to display down/up bandwidth (builtin network module is acting out !)
+- [ ] spotify
+- [ ] tmux
