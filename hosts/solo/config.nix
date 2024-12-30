@@ -100,7 +100,11 @@ in
     ];
   };
 
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
 
   stylix = {
     enable = true;
