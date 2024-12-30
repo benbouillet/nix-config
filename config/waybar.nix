@@ -199,6 +199,8 @@ with lib;
             deactivated = "󰒲 ";
           };
           tooltip = "true";
+          tooltip-format-activated = "Idle Inhibitor Activated";
+          tooltip-format-deactivated = "Idle Inhibitor Deactivated";
         };
         "custom/wlogout" = {
           "format" = " ";
