@@ -69,6 +69,8 @@ in
     git
     htop
     brave
+    jq
+    dig
     unzip
     unrar
     ripgrep
