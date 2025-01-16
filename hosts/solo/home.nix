@@ -18,6 +18,8 @@
     wofi-emoji
     (import ../../scripts/web-search.nix {inherit pkgs; })
     (import ../../scripts/list-hyprland-bindings.nix {inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-updown.nix {inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-status.nix {inherit pkgs; })
   ];
 
   stylix.targets = {
