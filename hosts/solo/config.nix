@@ -26,7 +26,6 @@ in
     plymouth.enable = true;
   };
 
-
   # Enable networking
   networking.hostName = host;
   networking.networkmanager.enable = true;
@@ -78,6 +77,7 @@ in
     wl-clipboard
     tmux
     killall
+    tailscale
     brightnessctl
     networkmanagerapplet
   ];
@@ -150,6 +150,12 @@ in
           command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         };
       };
+    };
+    tailscale = {
+      enable = true;
+      extraSetFlags = [
+        "--operator=${username}"
+      ];
     };
     smartd = {
       enable = true;
