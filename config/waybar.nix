@@ -29,6 +29,7 @@ with lib;
           "cpu"
           "memory"
           "disk"
+          "temperature"
         ];
         modules-center = [ "hyprland/workspaces" ];
         modules-right = [
@@ -66,6 +67,11 @@ with lib;
         "disk" = {
           format = "  {free}";
           tooltip = true;
+        };
+        "temperature" = {
+          format = " {temperatureC}°C";
+          hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon6/temp1_input";
+          interval = 5;
         };
 
         ##### CENTER #####
