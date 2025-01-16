@@ -39,6 +39,7 @@ with lib;
           "network"
           "battery"
           "clock"
+          "custom/tailscale"
           "idle_inhibitor"
           "custom/wlogout"
         ];
@@ -202,6 +203,14 @@ with lib;
           tooltip-format-activated = "Idle Inhibitor Activated";
           tooltip-format-deactivated = "Idle Inhibitor Deactivated";
         };
+        "custom/tailscale" = {
+          format = "{}";
+          interval = 1;
+          return-type = "json";
+          exec = "waybar-tailscale-status";
+          tooltip = true;
+          on-click = "waybar-tailscale-updown";
+        };
         "custom/wlogout" = {
           "format" = " ";
           "on-click" = "wlogout";
@@ -274,6 +283,7 @@ with lib;
       #idle_inhibitor:hover,
       #backlight:hover,
       #custom-wlogout:hover,
+      #custom-tailscale:hover,
       #mpris:hover,
       #pulseaudio:hover {
         background-color: @surface2;
@@ -317,6 +327,7 @@ with lib;
       #backlight,
       #idle_inhibitor,
       #custom-wlogout,
+      #custom-tailscale,
       #mpris,
       #pulseaudio {
         padding: 0 10px;
