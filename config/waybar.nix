@@ -218,14 +218,9 @@ with lib;
           on-click = "waybar-tailscale-updown";
         };
         "custom/wlogout" = {
-          "format" = " ";
-          "on-click" = "wlogout";
+          format = " ";
+          on-click = "wlogout";
         };
-    #     "custom/hyprbindings" = {
-    #       tooltip = false;
-    #       format = "󱕴";
-    #       on-click = "sleep 0.1 && list-hypr-bindings";
-    #     };
       }
     ];
     style = concatStrings [
