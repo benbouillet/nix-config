@@ -69,11 +69,9 @@
   services = {
     libinput.enable = true;
     openssh.enable = true;
-    pipewire = {
+    smartd = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
+      autodetect = true;
     };
   };
 

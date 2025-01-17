@@ -1,11 +1,6 @@
 { 
-  inputs,
-  config,
   username,
-  host,
   pkgs,
-  options,
-  lib,
   ...
 }: {
   programs = {
@@ -28,10 +23,37 @@
     jq
     networkmanagerapplet
     ripgrep
-    tailscale
     tree
     unrar
     unzip
     wl-clipboard
   ];
+
+  services = {
+    greetd = {
+      enable = true;
+      vt = 3;
+      settings = {
+        default_session = {
+          user = username;
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        };
+      };
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+    smartd = {
+      enable = true;
+      autodetect = true;
+    };
+    fstrim.enable = true;
+  };
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 }

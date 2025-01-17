@@ -20,6 +20,8 @@ in {
     ./hardware-configuration.nix
     ../modules/common.nix
     ../modules/desktop.nix
+    ../modules/ssd.nix
+    ../modules/tailscale.nix
 
     ./users.nix
   ];
@@ -27,8 +29,6 @@ in {
 
   # Enable networking
   networking.hostName = host;
-
-
 
   environment.pathsToLink = [
     "/share/zsh"
@@ -70,36 +70,7 @@ in {
 
   };
 
-  services = {
-    greetd = {
-      enable = true;
-      vt = 3;
-      settings = {
-        default_session = {
-          user = username;
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        };
-      };
-    };
-    tailscale = {
-      enable = true;
-      extraSetFlags = [
-        "--operator=${username}"
-      ];
-    };
-    smartd = {
-      enable = true;
-      autodetect = true;
-    };
-    fstrim.enable = true;
-    gvfs.enable = true;
-    gnome.gnome-keyring.enable = true;
-  };
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
-  hardware.pulseaudio.enable = false;
   
   console.keyMap = "us";
 
