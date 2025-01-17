@@ -19,6 +19,7 @@ in {
 
     ./hardware-configuration.nix
     ../modules/common.nix
+    ../modules/desktop.nix
 
     ./users.nix
   ];
