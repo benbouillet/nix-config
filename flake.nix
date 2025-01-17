@@ -42,7 +42,7 @@
           inherit username;
         };
         modules = [
-          ./hosts/${host}/config.nix
+          ./hosts/${host}/configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
           home-manager.nixosModules.home-manager {
             home-manager.extraSpecialArgs = {
