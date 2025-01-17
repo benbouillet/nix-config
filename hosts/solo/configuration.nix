@@ -17,38 +17,16 @@ in
 {
   imports = [
     inputs.hardware.nixosModules.lenovo-thinkpad-t480
+
     ./hardware-configuration.nix
+    ../modules/common.nix
+
     ./users.nix
   ];
 
-  # Bootloader.
-  boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
-    plymouth.enable = true;
-  };
 
   # Enable networking
   networking.hostName = host;
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Paris";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_FR.UTF-8";
-    LC_IDENTIFICATION = "fr_FR.UTF-8";
-    LC_MEASUREMENT = "fr_FR.UTF-8";
-    LC_MONETARY = "fr_FR.UTF-8";
-    LC_NAME = "fr_FR.UTF-8";
-    LC_NUMERIC = "fr_FR.UTF-8";
-    LC_PAPER = "fr_FR.UTF-8";
-    LC_TELEPHONE = "fr_FR.UTF-8";
-    LC_TIME = "fr_FR.UTF-8";
-  };
 
   programs = {
     dconf.enable = true;
@@ -61,8 +39,6 @@ in
       ];
     };
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -86,23 +62,6 @@ in
     networkmanagerapplet
   ];
 
-  fonts = {
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        monospace = [ "FiraCode" ];
-        sansSerif = [ "Roboto" ];
-        serif = [ "Roboto Serif" ];
-      };
-    };
-    enableDefaultPackages = true;
-    packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
-      roboto
-      roboto-serif
-      noto-fonts-monochrome-emoji
-    ];
-  };
 
   environment.pathsToLink = [
     "/share/zsh"
@@ -165,17 +124,9 @@ in
       enable = true;
       autodetect = true;
     };
-    libinput.enable = true;
     fstrim.enable = true;
     gvfs.enable = true;
-    openssh.enable = true;
     gnome.gnome-keyring.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
   };
 
   hardware.bluetooth.enable = true;
@@ -183,23 +134,6 @@ in
   services.blueman.enable = true;
   hardware.pulseaudio.enable = false;
   
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      substituters =  [ "https://hyprland.cachix.org" ];
-      trusted-public-keys =  [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
-
   console.keyMap = "us";
 
   # This value determines the NixOS release from which the default
