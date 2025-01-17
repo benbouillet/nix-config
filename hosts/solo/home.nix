@@ -40,7 +40,7 @@
   ];
 
   home.file."Pictures/Wallpapers" = {
-    source = ../../config/wallpapers;
+    source = ../../files/wallpapers;
     recursive = true;
   };
 

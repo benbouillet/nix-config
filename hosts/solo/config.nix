@@ -110,7 +110,7 @@ in
 
   stylix = {
     enable = true;
-    image = ../../config/wallpapers/${wallpaper_file};
+    image = ../../files/wallpapers/${wallpaper_file};
     base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
     cursor.package = pkgs.bibata-cursors;
     cursor.name = "Bibata-Modern-Ice";
