@@ -13,8 +13,7 @@ let
     theme
     wallpaper_file
     ;
-in
-{
+in {
   imports = [
     inputs.hardware.nixosModules.lenovo-thinkpad-t480
 
@@ -28,39 +27,6 @@ in
   # Enable networking
   networking.hostName = host;
 
-  programs = {
-    dconf.enable = true;
-    mtr.enable = true;
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    eza
-    git
-    htop
-    brave
-    jq
-    dig
-    unzip
-    unrar
-    ripgrep
-    tree
-    bat
-    wl-clipboard
-    tmux
-    killall
-    tailscale
-    brightnessctl
-    networkmanagerapplet
-  ];
 
 
   environment.pathsToLink = [
