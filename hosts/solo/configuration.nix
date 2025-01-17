@@ -1,4 +1,5 @@
 { 
+  inputs,
   config,
   username,
   host,
@@ -15,6 +16,7 @@ let
 in
 {
   imports = [
+    inputs.hardware.nixosModules.lenovo-thinkpad-t480
     ./hardware-configuration.nix
     ./users.nix
   ];
