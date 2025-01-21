@@ -119,6 +119,7 @@
           pyright.enable = true;
         };
       };
+      tmux-navigator.enable = true;
     };
     keymaps = [
       {
