@@ -68,6 +68,12 @@
     ];
   };
 
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
+
   services = {
     libinput.enable = true;
     openssh.enable = true;
