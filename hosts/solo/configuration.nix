@@ -1,4 +1,4 @@
-{ 
+{
   inputs,
   config,
   username,
@@ -7,13 +7,13 @@
   options,
   lib,
   ...
-}:
-let
+}: let
   inherit (import ./variables.nix)
     theme
     wallpaper_file
     ;
-in {
+in
+{
   imports = [
     inputs.hardware.nixosModules.lenovo-thinkpad-t480
 

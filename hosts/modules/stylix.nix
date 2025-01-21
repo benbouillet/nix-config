@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}: 
+{
   stylix = {
     enable = true;
     image = ../../files/wallpapers/${wallpaper_file};
