@@ -27,6 +27,7 @@
   };
 
   imports = [
+    ../../config/brave.nix
     ../../config/dunst.nix
     ../../config/hypridle.nix
     ../../config/hyprland.nix
@@ -47,7 +48,6 @@
   programs = {
     home-manager.enable = true;
     kitty.enable = true;
-    firefox.enable = true;
     wofi = {
       enable = true;
     };

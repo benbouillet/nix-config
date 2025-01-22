@@ -1,5 +1,5 @@
 {
-  browser = "firefox";
+  browser = "brave";
   terminal = "kitty";
   keyboardLayout = "us";
   keyboardVariant = "altgr-intl";
