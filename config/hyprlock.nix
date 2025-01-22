@@ -14,53 +14,54 @@
       # BACKGROUND
       background = {
         monitor = "";
-        blur_passes = 1;
+        color = "rgba(25, 20, 20, 1.0)";
+
+        blur_passes = 0;
+        blur_size = 2;
+        noise = 0;
+        contrast = 0;
+        brightness = 0;
+        vibrancy = 0;
+        vibrancy_darkness = 0.0;
       };
 
       label = [
         {
           monitor = "";
-          text = "Layout: $LAYOUT";
-          font_size = 12;
-          position = "-30, 30";
-          halign = "right";
-          valign = "bottom";
+          text = "cmd[update:1000] echo \"$(date +\"%A, %B %d\")\"";
+          font_size = 20;
+          position = "0, 405";
+          halign = "center";
+          valign = "center";
         }
         {
           monitor = "";
-          text = "$TIME";
-          color = config.lib.stylix.colors.base05;
-          font_size = 90;
-          font_family = config.stylix.fonts.sansSerif.name;
-          position = "0, 0";
+          text = "cmd[update:1000] echo \"$(date +\"%k:%M\")\"";
+          font_size = 93;
+          position = "0, 310";
           halign = "center";
-          valign = "top";
-        }
-        {
-          monitor = "";
-          text = "cmd[update:43200000] date +\"%A, %d %B %Y\"";
-          color = config.lib.stylix.colors.base05;
-          font_size = 25;
-          # font_family = $font
-          position = "0, -150";
-          halign = "center";
-          valign = "top";
+          valign = "center";
         }
       ];
 
       input-field = {
-        monitor = "";
-        size = "300, 60";
-        outline_thickness = 3;
-        dots_size = 0.2;
-        dots_spacing = 0.2;
+        size = "275, 30";
+        outline_thickness = 0;
+        dots_size = 0.25;
+        dots_spacing = 0.55;
         dots_center = true;
+        dots_rounding = -1;
         fade_on_empty = false;
-        placeholder_text = "<span foreground=\"##${config.lib.stylix.colors.base0D}\"><i>󰌾 Logged in as </i><span foreground=\"##${config.lib.stylix.colors.base0E}\">$USER</span></span>";
+        placeholder_text = "";
         hide_input = false;
-        fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
-        capslock_color = "$yellow";
-        position = "0, -55";
+        fail_text = "$FAIL <b>($ATTEMPTS)</b>";
+        fail_transition = 300;
+        capslock_color = -1;
+        numlock_color = -1;
+        bothlock_color = -1;
+        invert_numlock = false;
+        swap_font_color = false;
+        position = "0, -468";
         halign = "center";
         valign = "center";
       };
