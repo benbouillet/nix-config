@@ -23,8 +23,6 @@ in
     ../modules/ssd.nix
     # ../modules/stylix.nix
     ../modules/tailscale.nix
-
-    ./users.nix
   ];
 
   # Enable networking
