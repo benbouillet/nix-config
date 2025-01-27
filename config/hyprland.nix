@@ -92,7 +92,7 @@ with lib;
       windowrulev2 = [
         "noborder, class:^(wofi)$"
         "center, class:^(wofi)$"
-        "workspace emptym, class:^(firefox)$"
+        "workspace emptym, class:^(${browser})$"
         "float, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "pin, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"

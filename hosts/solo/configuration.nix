@@ -70,4 +70,17 @@ in
       };
     };
   };
+
+  environment.etc."brave/policies/managed/default-search.json".text =
+    builtins.toJSON {
+      # Force Brave to enable a custom default search provider
+      DefaultSearchProviderEnabled = true;
+      DefaultSearchProviderName    = "DuckDuckGo";
+      DefaultSearchProviderSearchURL =
+        "https://duckduckgo.com/?q={searchTerms}";
+      DefaultSearchProviderSuggestURL =
+        "https://duckduckgo.com/ac/?q={searchTerms}";
+      DefaultSearchProviderIconURL =
+        "https://duckduckgo.com/favicon.ico";
+  };
 }
