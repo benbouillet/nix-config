@@ -1,5 +1,5 @@
 {
-  config,
+  pkgs,
   ...
 }:
 {
@@ -7,14 +7,6 @@
   home.packages = with pkgs; [
     swaynotificationcenter
   ];
-
-  # Source swaync config from the home-manager store
-  xdg.configFile = {
-    "swaync" = {
-      recursive = true;
-      source = "${swaync_config}";
-    };
-  };
 
   services.swaync.style = ''
 * {
@@ -472,5 +464,5 @@ slider {
 .image {
   padding-right: 0.5rem;
 }
-''
+'';
 }

@@ -29,6 +29,7 @@
   imports = [
     ../../config/brave.nix
     ../../config/dunst.nix
+    # ../../config/swaync.nix
     ../../config/hypridle.nix
     ../../config/hyprland.nix
     ../../config/hyprlock.nix
