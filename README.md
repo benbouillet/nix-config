@@ -50,4 +50,7 @@
 - [ ] spotify
 - [x] tmux
 - [ ] investigate Tesseract (see [example](https://github.com/AtaraxiaSjel/nixos-config/blob/61a428d955bb696d907935f65b764a8ab4acc8a2/profiles/workspace/wayland/hyprland.nix#L24C85-L24C94))
-- [ ] Waybar temperature module
+- [x] Waybar temperature module
+- [ ] Finish waybar integration from https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/waybar.nix
+- [ ] Finish swaync integration from same
+
