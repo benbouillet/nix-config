@@ -25,13 +25,16 @@ with lib;
         margin-right = 5;
         height = 30;
         modules-left = [
-          "hyprland/window"
+          "hyprland/workspaces" 
           "cpu"
           "memory"
           "disk"
           "temperature"
         ];
-        modules-center = [ "hyprland/workspaces" ];
+        modules-center = [
+          "clock"
+          "custom/notification"
+        ];
         modules-right = [
           "mpris"
           "backlight"
@@ -39,19 +42,20 @@ with lib;
           "bluetooth"
           "network"
           "battery"
-          "clock"
           "custom/tailscale"
           "idle_inhibitor"
           "custom/wlogout"
         ];
 
         ##### LEFT #####
-        "hyprland/window" = {
-          max-length = 22;
-          separate-outputs = false;
-          rewrite = {
-            "" = "  No Window ";
-          };
+        "hyprland/workspaces" = {
+          all-outputs = true;
+          disable-scroll = true;
+          active-only = false;
+          format = "{name}";
+          on-click = "activate";
+          show-special = false;
+          sort-by-number = true;
         };
         "cpu" = {
           interval = 5;
@@ -75,16 +79,22 @@ with lib;
         };
 
         ##### CENTER #####
-        "hyprland/workspaces" = {
-          on-click = "activate";
-          all-outputs = true;
-          disable-scroll = true;
-          active-only = false;
-          format = "{name}";
-          format-icons = {
-            default = " ";
-            active = " ";
-            urgent = " ";
+        clock = {
+          format = "{:%b %d  %H:%M}";
+          format-alt = " {:%H:%M   %Y, %d %B, %A}";
+          tooltip-format = "<tt><small>{calendar}</small></tt>";
+          calendar = {
+            mode = "year";
+            mode-mon-col = 3;
+            weeks-pos = "right";
+            on-scroll = 1;
+            format = {
+              months = "<span color='#ffead3'><b>{}</b></span>";
+              days = "<span color='#ecc6d9'><b>{}</b></span>";
+              weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+              weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+              today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+            };
           };
         };
         # "custom/notification" = {
@@ -214,11 +224,6 @@ with lib;
           tooltip = true;
           tooltip-format = "{power} - {timeTo}";
         };
-        "clock" = {
-          format = if clock24h == true then ''  {:L%H:%M}'' else ''  {:L%I:%M %p}'';
-          tooltip = true;
-          tooltip-format = "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>";
-        };
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
@@ -292,12 +297,6 @@ with lib;
         border-radius: 0;
       }
 
-      /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-      button:hover {
-        background: inherit;
-        box-shadow: inset 0 -3px #ffffff;
-      }
-
       /* you can set a style on hover for any module like this */
       #bluetooth:hover,
       #network:hover,
@@ -311,26 +310,28 @@ with lib;
       }
 
       #workspaces button {
-        padding: 0 5px;
-        background-color: transparent;
-        color: #ffffff;
-      }
-
-      #workspaces button:hover {
-        background: rgba(0, 0, 0, 0.2);
-      }
-
-      #workspaces button.focused {
-        background-color: @lavender;
-        box-shadow: inset 0 -3px #ffffff;
+        padding: 2px;
+        color: #6e6a86;
+        margin-right: 5px;
       }
 
       #workspaces button.active {
-        box-shadow: inset 0 -3px #ffffff;
+        color: #dfdfdf;
+        border-radius: 3px 3px 3px 3px;
+      }
+
+      #workspaces button.focused {
+        color: #d8dee9;
       }
 
       #workspaces button.urgent {
-        background-color: #eb4d4b;
+        color: #ed8796;
+        border-radius: 8px;
+      }
+
+      #workspaces button:hover {
+        color: #dfdfdf;
+        border-radius: 3px;
       }
 
       #mode {
