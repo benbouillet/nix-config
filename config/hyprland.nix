@@ -111,6 +111,7 @@ with lib;
       dwindle = {
         pseudotile = true;
         preserve_split = true;
+        force_split = 2;
       };
       monitor = ",preferred,auto,1";
       bindd = [
