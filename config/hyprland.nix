@@ -188,10 +188,10 @@ with lib;
         "${modifier},mouse:273,Resize Window,resizewindow"
       ];
       binded = [
-        "${modifier}ALT,H,Resize Active Window Left,resizeactive,-30 0"
-        "${modifier}ALT,L,Resize Active Window Right,resizeactive,30 0"
-        "${modifier}ALT,K,Resize Active Window Down,resizeactive,0 -30"
-        "${modifier}ALT,J,Resize Active Window Up,resizeactive,0 30"
+        "${modifier}ALT,H,Resize Active Window Left,resizeactive,-300 0"
+        "${modifier}ALT,L,Resize Active Window Right,resizeactive,300 0"
+        "${modifier}ALT,K,Resize Active Window Down,resizeactive,0 -200"
+        "${modifier}ALT,J,Resize Active Window Up,resizeactive,0 200"
         ",XF86AudioRaiseVolume,Increase Volume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1"
         ",XF86AudioLowerVolume,Decrease Volume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ];
