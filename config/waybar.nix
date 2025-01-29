@@ -37,14 +37,14 @@ with lib;
         ];
         modules-right = [
           "mpris"
-          "backlight"
+          # "backlight"
           "pulseaudio"
           "bluetooth"
           "network"
           "battery"
           "custom/tailscale"
           "idle_inhibitor"
-          "custom/wlogout"
+          # "custom/wlogout"
         ];
 
         ##### LEFT #####
@@ -284,7 +284,7 @@ with lib;
 
       window#waybar {
         background-color: rgba(0, 0, 0, 0);
-        border-radius: 11px;
+        border-radius: 8px;
         transition-property: background-color;
         transition-duration: .5s;
       }
@@ -383,7 +383,7 @@ with lib;
       .modules-left,
       .modules-center {
         background-color: @base;
-        border-radius: 15px;
+        border-radius: 8px;
       }
 
       .modules-right {
