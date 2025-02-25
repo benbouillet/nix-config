@@ -29,6 +29,7 @@
     unzip
     wl-clipboard
     dive
+    jless
   ];
 
   services = {
