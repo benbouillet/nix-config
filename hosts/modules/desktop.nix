@@ -28,6 +28,7 @@
     unrar
     unzip
     wl-clipboard
+    dive
   ];
 
   services = {
