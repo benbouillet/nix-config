@@ -30,6 +30,7 @@ with lib;
           "memory"
           "disk"
           "temperature"
+          "custom/ping"
         ];
         modules-center = [
           "clock"
@@ -76,6 +77,14 @@ with lib;
           format = " {temperatureC}°C";
           hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon6/temp1_input";
           interval = 5;
+        };
+        "custom/ping" = {
+          format = "{}";
+          interval = 5;
+          return-type = "json";
+          exec = "waybar-ping";
+          tooltip = true;
+          on-click = "waybar-ping";
         };
 
         ##### CENTER #####
