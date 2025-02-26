@@ -40,9 +40,6 @@ in
     enable = true;
     image = ../../files/wallpapers/${wallpaper_file};
     base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
-    cursor.package = pkgs.bibata-cursors;
-    cursor.name = "Bibata-Modern-Ice";
-    cursor.size = 24;
     fonts = {
       monospace = {
         package = pkgs.nerdfonts;
