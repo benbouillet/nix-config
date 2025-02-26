@@ -203,8 +203,8 @@ with lib;
             "󰤢"
             "󰤨"
           ];
-          format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
-          format-wifi = "{icon}  {signalStrength}%";
+          format-ethernet = " ";
+          format-wifi = "{icon}";
           format-disconnected = "󰤫 ";
           tooltip = "{ifname}\n{essid}\n{ipaddr}";
           on-click = "sleep 0.1 && kitty nmtui";
@@ -214,7 +214,7 @@ with lib;
             warning = 30;
             critical = 15;
           };
-          format = "{icon} {capacity}%";
+          format = "{icon}";
           format-charging = "󰂄 {capacity}%";
           format-plugged = "󰚥 {capacity}%";
           format-icons = [
