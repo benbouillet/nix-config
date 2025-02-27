@@ -62,7 +62,7 @@
     };
     enableDefaultPackages = true;
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      nerd-fonts.fira-code
       roboto
       roboto-serif
       noto-fonts-monochrome-emoji

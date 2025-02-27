@@ -14,7 +14,6 @@
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
 
     stylix.url = "github:danth/stylix";
@@ -34,6 +33,8 @@
     username = "ben";
   in
   {
+    formatter = nixpkgs.legacyPackages.${system}.alejandra;
+
     nixosConfigurations = {
       "${host}" = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -49,13 +50,13 @@
               inherit username;
               inherit inputs;
               inherit host;
+              inherit nixvim;
             };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
             home-manager.users.${username} = import ./hosts/${host}/home.nix;
             home-manager.sharedModules = [
-              nixvim.homeManagerModules.nixvim
             ];
           }
 	  stylix.nixosModules.stylix

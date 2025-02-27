@@ -2,6 +2,7 @@
   pkgs,
   username,
   host,
+  nixvim,
   ...
 }:
 {
@@ -28,6 +29,7 @@
   };
 
   imports = [
+    nixvim.homeManagerModules.nixvim
     ../../config/brave.nix
     ../../config/dunst.nix
     # ../../config/swaync.nix
@@ -46,6 +48,17 @@
     source = ../../files/wallpapers;
     recursive = true;
   };
+
+  # DEBUG
+  dconf.settings = {
+    "org/gnome/desktop/wm/keybindings" = {
+      close = ["<Super>q"];
+      toggle-maximized = ["<Super>m"];
+      toggle-message-tray = ["<Super>t"];
+      foo = ["<Super>f"];
+    };
+  };
+  # END OF DEBUG
 
   programs = {
     home-manager.enable = true;

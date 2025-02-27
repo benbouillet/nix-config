@@ -41,7 +41,7 @@ with lib;
           # "backlight"
           "pulseaudio"
           "bluetooth"
-          "network"
+          "tray"
           "battery"
           "custom/tailscale"
           "idle_inhibitor"
@@ -195,20 +195,20 @@ with lib;
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
           on-click = "sleep 0.1 && blueman-manager";
         };
-        "network" = {
-          format-icons = [
-            "󰤯"
-            "󰤟"
-            "󰤢"
-            "󰤢"
-            "󰤨"
-          ];
-          format-ethernet = " ";
-          format-wifi = "{icon}";
-          format-disconnected = "󰤫 ";
-          tooltip = "{ifname}\n{essid}\n{ipaddr}";
-          on-click = "sleep 0.1 && kitty nmtui";
-        };
+        # "network" = {
+        #   format-icons = [
+        #     "󰤯"
+        #     "󰤟"
+        #     "󰤢"
+        #     "󰤢"
+        #     "󰤨"
+        #   ];
+        #   format-ethernet = " ";
+        #   format-wifi = "{icon}";
+        #   format-disconnected = "󰤫 ";
+        #   tooltip = "{ifname}\n{essid}\n{ipaddr}";
+        #   on-click = "sleep 0.1 && kitty nmtui";
+        # };
         "battery" = {
           states = {
             warning = 30;
@@ -308,7 +308,7 @@ with lib;
 
       /* you can set a style on hover for any module like this */
       #bluetooth:hover,
-      #network:hover,
+      #tray:hover,
       #idle_inhibitor:hover,
       #backlight:hover,
       #custom-wlogout:hover,
@@ -353,7 +353,7 @@ with lib;
       #cpu,
       #memory,
       #temperature,
-      #network,
+      #tray,
       #bluetooth,
       #backlight,
       #idle_inhibitor,
@@ -366,10 +366,6 @@ with lib;
 
       #pulseaudio {
         color: @maroon;
-      }
-
-      #network {
-        color: @yellow;
       }
 
       #temperature {

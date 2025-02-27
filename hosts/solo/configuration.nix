@@ -21,9 +21,23 @@ in
     ../modules/common.nix
     ../modules/desktop.nix
     ../modules/ssd.nix
-    # ../modules/stylix.nix
+    (import ../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
     ../modules/tailscale.nix
   ];
+
+  # DEBUG
+  environment.systemPackages = with pkgs; [
+    gsettings-desktop-schemas
+  ];
+  programs.dconf.enable = true;
+  services.xserver = {
+    #enable = true;
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = true;
+    desktopManager.gnome.enable = true; 
+  };
+  systemd.services.logind.enable = false;
+  # END OF DEBUG
 
   # Enable networking
   networking.hostName = host;
@@ -35,36 +49,6 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
-  stylix = {
-    enable = true;
-    image = ../../files/wallpapers/${wallpaper_file};
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
-    fonts = {
-      monospace = {
-        package = pkgs.nerdfonts;
-        name = "Fira Code";
-      };
-      sansSerif = {
-        package = pkgs.roboto;
-        name = "Roboto";
-      };
-      serif = {
-        package = pkgs.roboto-serif;
-        name = "Robot Serif";
-      };
-      emoji = {
-        name = "Noto Emoji";
-        package = pkgs.noto-fonts-monochrome-emoji;
-      };
-      sizes = {
-        applications = 12;
-        terminal = 13;
-        desktop = 11;
-        popups = 12;
-      };
-    };
-  };
 
   environment.etc."brave/policies/managed/default-search.json".text =
     builtins.toJSON {
