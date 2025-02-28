@@ -18,11 +18,11 @@ in
     inputs.hardware.nixosModules.lenovo-thinkpad-t480
 
     ./hardware-configuration.nix
-    ../modules/common.nix
-    ../modules/desktop.nix
-    ../modules/ssd.nix
-    (import ../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
-    ../modules/tailscale.nix
+    ../../modules/common.nix
+    ../../modules/desktop.nix
+    ../../modules/ssd.nix
+    (import ../../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
+    ../../modules/tailscale.nix
   ];
 
   # DEBUG

@@ -17,11 +17,11 @@
     playerctl
     libnotify
     wofi-emoji
-    (import ../../files/scripts/web-search.nix {inherit pkgs; })
-    (import ../../files/scripts/list-hyprland-bindings.nix {inherit pkgs; })
-    (import ../../files/scripts/waybar-tailscale-updown.nix {inherit pkgs; })
-    (import ../../files/scripts/waybar-tailscale-status.nix {inherit pkgs; })
-    (import ../../files/scripts/waybar-ping.nix {inherit pkgs; })
+    (import ../../scripts/web-search.nix {inherit pkgs; })
+    (import ../../scripts/list-hyprland-bindings.nix {inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-updown.nix {inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-status.nix {inherit pkgs; })
+    (import ../../scripts/waybar-ping.nix {inherit pkgs; })
   ];
 
   stylix.targets = {
@@ -45,7 +45,7 @@
   ];
 
   home.file."Pictures/Wallpapers" = {
-    source = ../../files/wallpapers;
+    source = ../../assets;
     recursive = true;
   };
 
