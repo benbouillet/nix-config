@@ -21,8 +21,8 @@ in
     ../../modules/common.nix
     ../../modules/desktop.nix
     ../../modules/ssd.nix
-    (import ../../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
     ../../modules/tailscale.nix
+    (import ../../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
   ];
 
   # DEBUG
@@ -37,6 +37,7 @@ in
     desktopManager.gnome.enable = true; 
   };
   systemd.services.logind.enable = false;
+  services.gnome.core-utilities.enable = false;
   # END OF DEBUG
 
   # Enable networking
