@@ -4,6 +4,15 @@
   ...
 }:
 {
+  programs.dconf.enable = true;
+  services.xserver = {
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = true;
+    desktopManager.gnome.enable = true;
+  };
+  systemd.services.logind.enable = false;
+  services.gnome.core-utilities.enable = false;
+
   programs = {
     thunar = {
       enable = true;
@@ -16,19 +25,17 @@
 
   environment.systemPackages = with pkgs; [
     bat
-    brave
-    brightnessctl
     dig
     eza
     htop
     jq
-    networkmanagerapplet
     ripgrep
     tree
     unzip
-    wl-clipboard
     dive
     jless
+    wl-clipboard
+    gsettings-desktop-schemas
   ];
 
   services = {

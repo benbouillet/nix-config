@@ -25,21 +25,6 @@ in
     (import ../../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
   ];
 
-  # DEBUG
-  environment.systemPackages = with pkgs; [
-    gsettings-desktop-schemas
-  ];
-  programs.dconf.enable = true;
-  services.xserver = {
-    #enable = true;
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = true;
-    desktopManager.gnome.enable = true; 
-  };
-  systemd.services.logind.enable = false;
-  services.gnome.core-utilities.enable = false;
-  # END OF DEBUG
-
   # Enable networking
   networking.hostName = host;
 
