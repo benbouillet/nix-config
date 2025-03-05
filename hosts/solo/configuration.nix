@@ -35,17 +35,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
-  environment.etc."brave/policies/managed/default-search.json".text =
-    builtins.toJSON {
-      # Force Brave to enable a custom default search provider
-      DefaultSearchProviderEnabled = true;
-      DefaultSearchProviderName    = "DuckDuckGo";
-      DefaultSearchProviderSearchURL =
-        "https://duckduckgo.com/?q={searchTerms}";
-      DefaultSearchProviderSuggestURL =
-        "https://duckduckgo.com/ac/?q={searchTerms}";
-      DefaultSearchProviderIconURL =
-        "https://duckduckgo.com/favicon.ico";
-  };
 }
