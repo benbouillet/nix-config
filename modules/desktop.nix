@@ -25,7 +25,6 @@
     networkmanagerapplet
     ripgrep
     tree
-    unrar
     unzip
     wl-clipboard
     dive
