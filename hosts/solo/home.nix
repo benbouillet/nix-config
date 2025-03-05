@@ -11,12 +11,7 @@
   home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
-    hyprshot
-    hyprpicker
-    pavucontrol
-    playerctl
-    libnotify
-    wofi-emoji
+    nixos-icons
     (import ../../scripts/web-search.nix {inherit pkgs; })
     (import ../../scripts/list-hyprland-bindings.nix {inherit pkgs; })
     (import ../../scripts/waybar-tailscale-updown.nix {inherit pkgs; })
@@ -25,7 +20,7 @@
   ];
 
   stylix.targets = {
-    waybar.enable = false;
+    qt.enable = false;
   };
 
   imports = [
