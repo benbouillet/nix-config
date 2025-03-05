@@ -60,13 +60,14 @@
           };
 
           "Raclette Search" = {
-            urls = [{ template = "https://search.raclette.beer/seach?q={searchTerms}"; }];
+            urls = [{ template = "https://search.raclette.beer/search?q={searchTerms}"; }];
             iconUpdateURL = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@ra" ];
           };
         };
       };
+
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         sponsorblock
