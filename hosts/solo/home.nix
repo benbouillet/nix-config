@@ -30,18 +30,10 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
-    ../../config/brave.nix
-    ../../config/dunst.nix
-    # ../../config/swaync.nix
-    ../../config/hypridle.nix
-    ../../config/hyprland.nix
-    ../../config/hyprlock.nix
-    ../../config/nvim.nix
-    ../../config/tmux.nix
-    ../../config/waybar.nix
-    ../../config/wlogout.nix
-    ../../config/wlsunset.nix
-    ../../config/zsh.nix
+    ../../home/firefox.nix
+    ../../home/nvim.nix
+    ../../home/tmux.nix
+    ../../home/zsh.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
@@ -78,26 +70,12 @@
         "--exact"
       ];
     };
+    firefox = {
+      enable = true;
+    };
     zoxide = {
       enable = true;
       enableZshIntegration = true;
-    };
-  };
-
-  gtk = {
-    iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
-    };
-  };
-
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-      ];
-      config.common.default = "*";
     };
   };
 }

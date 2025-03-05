@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   username,
   ...
@@ -6,6 +7,9 @@
 {
   nixpkgs = {
     config.allowUnfree = true;
+    overlays = [
+      inputs.nur.overlays.default
+    ];
   };
 
   nix = {
