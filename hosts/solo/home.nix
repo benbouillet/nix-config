@@ -49,7 +49,11 @@
 
   programs = {
     home-manager.enable = true;
-    kitty.enable = true;
+    ghostty = {
+      enable = true;
+      enableZshIntegration = true;
+      installVimSyntax = true;
+    };
     wofi = {
       enable = true;
     };

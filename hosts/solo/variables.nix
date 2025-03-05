@@ -1,6 +1,6 @@
 {
   browser = "firefox";
-  terminal = "kitty";
+  terminal = "ghostty";
   keyboardLayout = "us";
   keyboardVariant = "altgr-intl";
 
