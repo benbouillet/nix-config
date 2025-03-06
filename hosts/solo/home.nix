@@ -27,6 +27,7 @@
     nixvim.homeManagerModules.nixvim
     ../../home/firefox.nix
     ../../home/nvim.nix
+    ../../home/gnome.nix
     ../../home/tmux.nix
     ../../home/zsh.nix
   ];
@@ -35,17 +36,6 @@
     source = ../../assets;
     recursive = true;
   };
-
-  # DEBUG
-  dconf.settings = {
-    "org/gnome/desktop/wm/keybindings" = {
-      close = ["<Super>q"];
-      toggle-maximized = ["<Super>m"];
-      toggle-message-tray = ["<Super>t"];
-      foo = ["<Super>f"];
-    };
-  };
-  # END OF DEBUG
 
   programs = {
     home-manager.enable = true;
