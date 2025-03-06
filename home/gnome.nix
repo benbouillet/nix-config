@@ -117,5 +117,12 @@
       toggle-overview = ["<Super>"];
       toggle-quick-settings = ["<Super>s"];
     };
+    "org/gnome/desktop/input-sources" = {
+      sources = [(lib.gvariant.mkTuple [ "xkb" "us" ])];
+      xkb-options = [
+        "compose:ralt"
+        "caps:escape"
+      ];
+    };
   };
 }
