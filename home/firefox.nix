@@ -65,6 +65,11 @@
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@ra" ];
           };
+
+          "GitHub" = {
+            urls = [{ template = "https://github.com/search?q={searchTerms}&type=code"; }];
+            definedAliases = [ "@ghc" ];
+          };
         };
       };
 
