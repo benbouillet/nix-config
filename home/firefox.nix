@@ -68,7 +68,7 @@
 
           "GitHub" = {
             urls = [{ template = "https://github.com/search?q={searchTerms}&type=code"; }];
-            definedAliases = [ "@ghc" ];
+            definedAliases = [ "@gh" ];
           };
         };
       };
