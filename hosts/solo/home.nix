@@ -25,9 +25,11 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
+    ../../home/common.nix
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/gnome.nix
+    ../../home/gnome-keybindings.nix
     ../../home/tmux.nix
     ../../home/zsh.nix
   ];

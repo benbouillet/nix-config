@@ -54,3 +54,7 @@
 - [ ] Finish waybar integration from https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/waybar.nix
 - [ ] Finish swaync integration from same
 
+# Gnome
+---
+- [ ] emoji-picker
+- [ ] fix firefox config file backup error to HM
