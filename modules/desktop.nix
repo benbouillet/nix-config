@@ -39,12 +39,15 @@
     gsettings-desktop-schemas
   ];
 
+  ### AUDIO ###
+  security.rtkit.enable = true;
   services = {
     pipewire = {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      wireplumber.enable = true;
     };
     smartd = {
       enable = true;
@@ -53,6 +56,7 @@
     fstrim.enable = true;
   };
 
+  ### BLUETOOTH ###
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
