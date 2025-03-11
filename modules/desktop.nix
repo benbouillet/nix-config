@@ -49,11 +49,6 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
-    smartd = {
-      enable = true;
-      autodetect = true;
-    };
-    fstrim.enable = true;
   };
 
   ### BLUETOOTH ###
