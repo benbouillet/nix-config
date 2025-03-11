@@ -11,19 +11,19 @@ with lib.hm.gvariant;
       focus-left = [ "<Super>h" ];
       focus-right = [ "<Super>l" ];
       focus-up = [ "<Super>k" ];
+      tile-resize-down = [ "<Shift><Super>j" ];
+      tile-resize-left = [ "<Shift><Super>h" ];
+      tile-resize-right = [ "<Shift><Super>l" ];
+      tile-resize-up = [ "<Shift><Super>k" ];
     };
     "org/gnome/desktop/wm/keybindings" = {
       close = ["<Super>q"];
-      toggle-message-tray = ["<Super>t"];
-      toggle-maximized = ["<Super>d"];
-      minimize = ["<Super>m"];
-      show-desktop = ["<Super>d"];
-      cycle-group = ["<Alt>F6"];
-      cycle-group-backward = ["<Shift><Alt>F6"];
-      cycle-panels = ["<Control><Alt>Escape"];
-      cycle-panels-backward = ["<Shift><Control><Alt>Escape"];
-      cycle-windows = ["<Alt>Escape"];
-      cycle-windows-backward = ["<Shift><Alt>Escape"];
+      # toggle-message-tray = ["<Super>t"];
+      # toggle-maximized = ["<Super>d"];
+      # minimize = ["<Super>m"];
+      # show-desktop = ["<Super>d"];
+      cycle-windows = ["<Alt>Tab"];
+      cycle-windows-backward = ["<Shift><Alt>Tab"];
       # move-to-center = [];
       # move-to-corner-ne = [];
       # move-to-corner-nw = [];
@@ -84,26 +84,29 @@ with lib.hm.gvariant;
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      name = "logout";
-      command = "gnome-session-quit";
+      name = "lock";
+      command = "xdg-screensaver lock";
       binding = "<Shift><Super>q";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-      name = "ghostty";
-      command = "${lib.getExe pkgs.ghostty}";
-      binding = "<Super>u";
+      name = "logout";
+      command = "gnome-sessin-quit";
+      binding = "<Shift><Super>x";
     };
-    "org/gnome/settings-daemon/plugins/media-keys" = {
-        email = "disabled";
-        help = [];
-        home = [ "<Super>f" ];
-        rotate-video-lock-static = [];
-        screensaver = [ "<Super>Escape" ];
-        terminal = [ "<Super>t" ];
-        www = [ "<Super>b" ];
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      name = "ghostty";
+      command = "ghostty}";
+      binding = "<Super>Return";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      name = "thunar";
+      command = "${lib.getExe pkgs.xfce.thunar}";
+      binding = "<Super>u";
     };
     "org/gnome/shell/keybindings" = {
       focus-active-notification = ["<Super>n"];

@@ -22,7 +22,7 @@ in
     ../../modules/desktop.nix
     ../../modules/ssd.nix
     ../../modules/tailscale.nix
-    (import ../../modules/stylix.nix {inherit pkgs theme wallpaper_file;})
+    (import ../../modules/stylix.nix {inherit pkgs theme username wallpaper_file;})
   ];
 
   # Enable networking

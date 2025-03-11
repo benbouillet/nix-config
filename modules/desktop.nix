@@ -35,6 +35,7 @@
     dive
     jless
     wl-clipboard
+    adwaita-icon-theme
     gsettings-desktop-schemas
   ];
 

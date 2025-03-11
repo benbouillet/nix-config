@@ -7,16 +7,14 @@ with lib.hm.gvariant;
 {
   home.packages = with pkgs.gnomeExtensions; [
     blur-my-shell
-    search-light
     tailscale-status
     caffeine
     vitals
     openweather-refined
     media-controls
     quick-settings-tweaker
-    sound-output-device-chooser
     pop-shell
-    sound-output-device-chooser
+    appindicator
   ];
   dconf.settings = {
     "org/gnome/shell/extensions/pop-shell" = {
@@ -76,7 +74,7 @@ with lib.hm.gvariant;
       ];
     };
     "org/gnome/desktop/default-applications/terminal" = {
-      exec = "${lib.getExe pkgs.ghostty}";
+      exec = "ghostty";
     };
   };
 }

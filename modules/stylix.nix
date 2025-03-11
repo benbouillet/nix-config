@@ -1,6 +1,7 @@
 {
   pkgs,
   theme,
+  username,
   wallpaper_file,
   ...
 }: 
