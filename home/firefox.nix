@@ -45,7 +45,7 @@
             urls = [{
               template = "https://home-manager-options.extranix.com/";
               params = [
-                { name = "channel"; value = "unstable"; }
+                { name = "release"; value = "master"; }
                 { name = "query"; value = "{searchTerms}"; }
               ];
             }];
