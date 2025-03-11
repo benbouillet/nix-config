@@ -52,16 +52,18 @@
         modules = [
           ./hosts/${host}/configuration.nix
           home-manager.nixosModules.home-manager {
-            home-manager.extraSpecialArgs = {
-              inherit username;
-              inherit inputs;
-              inherit host;
-              inherit nixvim;
+            home-manager = {
+              extraSpecialArgs = {
+                inherit username;
+                inherit inputs;
+                inherit host;
+                inherit nixvim;
+              };
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "hm.bak";
+              users.${username} = import ./hosts/${host}/home.nix;
             };
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.users.${username} = import ./hosts/${host}/home.nix;
           }
 	  stylix.nixosModules.stylix
         ];
