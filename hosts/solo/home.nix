@@ -28,10 +28,15 @@
     ../../home/common.nix
     ../../home/firefox.nix
     ../../home/nvim.nix
-    ../../home/gnome.nix
-    ../../home/gnome-keybindings.nix
     ../../home/tmux.nix
     ../../home/zsh.nix
+    # ../../home/gnome.nix
+    # ../../home/gnome-keybindings.nix
+    ../../home/hyprland.nix
+    ../../home/hyprland-keybindings.nix
+    ../../home/hyprlock.nix
+    ../../home/waybar.nix
+    ../../home/wlogout.nix
   ];
 
   home.file."Pictures/Wallpapers" = {

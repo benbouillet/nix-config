@@ -26,6 +26,8 @@
     dive
     jless
     wl-clipboard
+    brightnessctl
+    networkmanagerapplet
   ];
 
   ### AUDIO ###

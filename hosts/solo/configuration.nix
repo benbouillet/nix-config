@@ -20,6 +20,8 @@ in
     ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/desktop.nix
+    # ../../modules/gnome.nix
+    ../../modules/hyprland.nix
     ../../modules/ssd.nix
     ../../modules/tailscale.nix
     (import ../../modules/stylix.nix {inherit pkgs theme username wallpaper_file;})
