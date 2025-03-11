@@ -4,6 +4,7 @@
   ...
 }:
 {
+  stylix.targets.firefox.profileNames = [ username ];
   programs.firefox = {
     enable = true;
     profiles.${username} = {
@@ -76,8 +77,6 @@
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         sponsorblock
-        noscript
-        darkreader
         facebook-container
         return-youtube-dislikes
         multi-account-containers
