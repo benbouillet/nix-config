@@ -21,5 +21,9 @@
       tmuxPlugins.resurrect
       tmuxPlugins.continuum
     ];
+    extraConfig = ''
+      # Transparency
+      set -g default-terminal screen-256color
+    '';
   };
 }
