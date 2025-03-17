@@ -16,8 +16,8 @@
         name = "Fira Code";
       };
       sansSerif = {
-        package = pkgs.roboto;
-        name = "Roboto";
+        package = pkgs.fira-sans;
+        name = "Fira Sans";
       };
       serif = {
         package = pkgs.roboto-serif;
