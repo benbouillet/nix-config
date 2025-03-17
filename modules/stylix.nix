@@ -34,6 +34,12 @@
         popups = 12;
       };
     };
+    opacity = {
+      applications = 1.0;
+      terminal = 0.8;
+      desktop = 1;
+      popups = 0.9;
+    };
   };
 
 }
