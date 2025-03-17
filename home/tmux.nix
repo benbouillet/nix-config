@@ -20,6 +20,12 @@
       tmuxPlugins.pain-control
       tmuxPlugins.resurrect
       tmuxPlugins.continuum
+      {
+        plugin = tmuxPlugins.catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_flavor 'frappe'
+        '';
+      }
     ];
     extraConfig = ''
       # Transparency
