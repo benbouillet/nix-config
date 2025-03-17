@@ -25,6 +25,7 @@
     unzip
     dive
     jless
+    tldr
     wl-clipboard
     brightnessctl
     networkmanagerapplet
