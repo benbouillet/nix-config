@@ -121,8 +121,8 @@ with lib;
         ];
       };
       windowrulev2 = [
-        "noborder, class:^(wofi)$"
-        "center, class:^(wofi)$"
+        "noborder, class:^(tofi)$"
+        "center, class:^(tofi)$"
         "workspace emptym, class:^(firefox)$"
         "float, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"

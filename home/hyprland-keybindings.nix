@@ -40,7 +40,7 @@ with lib;
           "${modifier},Return,Open ${terminal},exec,${terminal}"
           "${modifier},W,Open ${browser}, exec,${browser}"
           "${modifier},T,Open file manager Thunar,exec,thunar"
-          "${modifier},SPACE,Launch Wofi,exec,wofi --show drun"
+          "${modifier},SPACE,Launch Tofi,exec,tofi-drun --drun-launch=true"
           "${modifier},Q,Kill Active Window,killactive"
           "${modifier},P,Play/Pause Player,exec,playerctl play-pause"
           "${modifier},C,Color Picker,exec,hyprpicker -a"

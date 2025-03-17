@@ -25,13 +25,11 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
-    ../../home/common.nix
+    ../../home/tofi.nix
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/tmux.nix
     ../../home/zsh.nix
-    # ../../home/gnome.nix
-    # ../../home/gnome-keybindings.nix
     ../../home/hyprland.nix
     ../../home/hyprland-keybindings.nix
     ../../home/hyprlock.nix
@@ -50,9 +48,6 @@
       enable = true;
       enableZshIntegration = true;
       installVimSyntax = true;
-    };
-    wofi = {
-      enable = true;
     };
     starship = {
       enable = true;
