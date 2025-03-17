@@ -103,7 +103,7 @@ with lib;
           format-wifi = "{icon} ";
           format-disconnected = "󰤫 ";
           tooltip = "{ifname}\n{essid}\n{ipaddr}";
-          on-click = "sleep 0.1 && ghostty nmtui";
+          on-click = "sleep 0.1 && nm-connection-editor";
         };
         "battery" = {
           states = {
