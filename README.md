@@ -4,7 +4,6 @@
 - [x] Hyprland basics bindings
 - [x] Hyprland advanced bindings
 - [x] Kitty configuration
-- [ ] Check on tmux shortcuts
 - [x] Wallpaper implementation
 - [x] Stylix implementation
 - [x] Stylix configuration (color scheme)
@@ -28,10 +27,10 @@
 - [x] hyprshot
 - [x] hyprsunset
 - [x] xdg-desktop-portal-hyprland
-- [ ] nixvim configuration tweaking
+- [x] nixvim configuration tweaking
 - [x] Waybar modules
 - [x] Waybar base ricing
-- [ ] Waybar modules colors
+- [x] Waybar modules colors
 - [x] Waybar executables on click
   - [x] logout
   - [x] hyprlock
@@ -45,16 +44,12 @@
 - [x] Waybar Mic Input volume
 - [x] Waybar remove unused code
 - [x] Waybar colors from Stylix
-- [ ] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
-- [ ] Implement a custom waybar module to display down/up bandwidth (builtin network module is acting out !)
+- [x] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
 - [ ] spotify
 - [x] tmux
 - [ ] investigate Tesseract (see [example](https://github.com/AtaraxiaSjel/nixos-config/blob/61a428d955bb696d907935f65b764a8ab4acc8a2/profiles/workspace/wayland/hyprland.nix#L24C85-L24C94))
 - [x] Waybar temperature module
-- [ ] Finish waybar integration from https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/waybar.nix
 - [ ] Finish swaync integration from same
-
-# Gnome
----
-- [ ] emoji-picker
+- [x] emoji-picker
 - [ ] fix firefox config file backup error to HM
+- [ ] Check on tmux shortcuts
