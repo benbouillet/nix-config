@@ -125,12 +125,10 @@ with lib;
       windowrulev2 = [
         "noborder, class:^(tofi)$"
         "center, class:^(tofi)$"
-        "workspace emptym, class:^(firefox)$"
         "float, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "pin, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(steam)$"
-        "opacity 0.9 0.7, class:^(kitty)$"
       ];
       gestures = {
         workspace_swipe = true;
