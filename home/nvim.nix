@@ -21,6 +21,7 @@
     };
     plugins = {
       nvim-autopairs.enable = true;
+      transparent.enable = true;
       lualine.enable = true;
       treesitter = {
         enable = true;
