@@ -37,6 +37,8 @@
     ../../home/waybar.nix
     ../../home/swaync.nix
     ../../home/wlogout.nix
+    ../../home/sre.nix
+    ../../home/personal.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
