@@ -85,8 +85,10 @@ with lib;
         gaps_in = 4;
         gaps_out = 8;
         border_size = 2;
-        layout = "dwindle";
         resize_on_border = true;
+      };
+      dwindle = {
+        force_split = 2;
       };
       decoration  = {
         rounding = 10;
