@@ -25,7 +25,6 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
-    ../../home/desktop.nix
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/tmux.nix
@@ -34,7 +33,9 @@
     ../../home/hyprland-keybindings.nix
     ../../home/hyprlock.nix
     ../../home/hypridle.nix
+    ../../home/tofi.nix
     ../../home/waybar.nix
+    ../../home/swaync.nix
     ../../home/wlogout.nix
   ];
 
