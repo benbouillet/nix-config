@@ -21,7 +21,25 @@
     };
     plugins = {
       nvim-autopairs.enable = true;
-      transparent.enable = true;
+      transparent = {
+        enable = true;
+        settings = {
+          extra_groups = [
+            "all"
+            "TroubleNormal"
+            "TroubleNormalNC"
+            "TroubleCount"
+            "TroubleFsCount"
+            "TelescopeBorder"
+            "DiagnosticSignError"
+            "DiagnosticSignWarn"
+            "DiagnosticSignWarn"
+            "DiagnosticSignInfo"
+            "DiagnosticSignHint"
+          ];
+          exclude_groups = [ "StatusLine" "CursorLine" ];
+        };
+      };
       lualine.enable = true;
       treesitter = {
         enable = true;
