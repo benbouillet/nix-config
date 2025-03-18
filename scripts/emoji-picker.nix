@@ -1855,7 +1855,7 @@ EOF
 )
 
   emoji_picker() {
-    EMOJI=$(${pkgs.coreutils-full}/bin/cat $emoji_list |\
+    EMOJI=$(${pkgs.coreutils-full}/bin/echo "$emoji_list" |\
             ${pkgs.tofi}/bin/tofi --fuzzy-match false |\
             ${pkgs.gawk}/bin/awk '{print $1}' |\
             ${pkgs.coreutils-full}/bin/tr -d '\n')
@@ -1865,5 +1865,3 @@ EOF
 
   emoji_picker
 ''
-
-
