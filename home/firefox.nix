@@ -50,7 +50,7 @@
               ];
             }];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@ho" ];
+            definedAliases = [ "@hm" ];
           };
     
           "NixOS Wiki" = {
@@ -70,6 +70,11 @@
           "GitHub" = {
             urls = [{ template = "https://github.com/search?q={searchTerms}&type=code"; }];
             definedAliases = [ "@gh" ];
+          };
+
+          "Wikipedia" = {
+            urls = [{ template = "https://en.wikipedia.org/w/index.php?search={searchTerms}"; }];
+            definedAliases = [ "@wk" ];
           };
         };
       };
