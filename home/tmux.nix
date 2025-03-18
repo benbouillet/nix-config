@@ -28,8 +28,9 @@
       }
     ];
     extraConfig = ''
-      # Transparency
-      set -g default-terminal screen-256color
+      # Opacity
+      set -g default-terminal "xterm-256color"
+      set-option -ga terminal-overrides ",xterm-256color:Tc"
     '';
   };
 }
