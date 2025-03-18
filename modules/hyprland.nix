@@ -5,6 +5,10 @@
   ...
 }:
 {
+  environment.systemPackages = with pkgs; [
+    hyprpicker
+  ];
+
   programs = {
     hyprland = {
       enable = true;
