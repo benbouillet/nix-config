@@ -10,7 +10,7 @@ pkgs.writeShellScriptBin "list-hyprland-bindings" ''
         }' |
       sort |
     uniq |
-    ${pkgs.tofi}/bin/tofi --dmenu --insensitive --prompt "Search for shortcut"
+    ${pkgs.tofi}/bin/tofi --width "70%" --fuzzy-match false --prompt-text "Shortcut:"
     }
 
     gen_bindings_list
