@@ -46,7 +46,7 @@ with lib;
           "${modifier},C,Color Picker,exec,hyprpicker -a"
           "${modifier}SHIFT,I,Toggle Window Split,togglesplit"
           "${modifier},F,Fullscreen,fullscreen"
-          "${modifier},E,Emoji Picker,exec,tofi-emoji"
+          "${modifier},E,Emoji Picker,exec,emoji-picker"
           "${modifier},U,Shutdown/Restart/Suspend/Hibernate/Lock,exec,wlogout"
           "${modifier}SHIFT,F,Toggle Floating Windows,togglefloating"
           "${modifier}SHIFT,Q,Lock,exec,hyprlock"
