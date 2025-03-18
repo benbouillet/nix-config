@@ -33,6 +33,7 @@
     ../../home/hyprland.nix
     ../../home/hyprland-keybindings.nix
     ../../home/hyprlock.nix
+    ../../home/hypridle.nix
     ../../home/waybar.nix
     ../../home/wlogout.nix
   ];
