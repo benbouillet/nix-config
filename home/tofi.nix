@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   ...
 }:
@@ -19,11 +18,6 @@
         result-spacing = 15;
         fuzzy-match = true;
       };
-    };
-  };
-  services = {
-    dunst = {
-      enable = true;
     };
   };
 }
