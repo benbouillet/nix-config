@@ -6,7 +6,6 @@
 }:
 let
   inherit (import ../hosts/${host}/variables.nix)
-    browser
     terminal
     ;
 in
@@ -59,10 +58,10 @@ with lib;
           "${modifier}SHIFT,L,Move Active Window Right,movewindow,r"
           "${modifier}SHIFT,K,Move Active Window Up,movewindow,u"
           "${modifier}SHIFT,J,Move Active Window Down,movewindow,d"
-          "${modifier}SHIFT,V,Screenshot Active Window,exec,hyprshot -m window -m active --clipboard-only"
-          "${modifier}SHIFT,B,Screenshot Active Window,exec,hyprshot -m region --clipboard-only"
-          "${modifier}SHIFT,N,Screenshot Active Window,exec,hyprshot -m window -m active --output-folder $HOME/Downloads"
-          "${modifier}SHIFT,M,Screenshot Active Window,exec,hyprshot -m region --output-folder $HOME/Downloads"
+          "${modifier}SHIFT,V,Screenshot Active Window (clipboard only),exec,hyprshot -m window -m active --clipboard-only"
+          "${modifier}SHIFT,B,Screenshot Region,exec,hyprshot -m region --clipboard-only"
+          "${modifier}SHIFT,N,Screenshot Active Window (folder),exec,hyprshot -m window -m active --output-folder $HOME/Downloads"
+          "${modifier}SHIFT,M,Screenshot Region (folder),exec,hyprshot -m region --output-folder $HOME/Downloads"
           "${modifier},left,Move Focus Left,movefocus,l"
           "${modifier},right,Move Focus Right,movefocus,r"
           "${modifier},up,Move Focus Up,movefocus,u"
