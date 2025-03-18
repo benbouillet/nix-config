@@ -50,16 +50,15 @@
 
       input-field = {
         monitor = "";
-        size = "260 45";
+        size = "260, 45";
         outline_thickness = 3;
         dots_size = 0.16;
         dots_spacing = 0.2;
         dots_center = true;
         fade_on_empty = false;
-        placeholder_text = "<span foreground=\"##${config.lib.stylix.colors.base0D}\"><i>󰌾 Logged in as </i><span foreground=\"##${config.lib.stylix.colors.base0E}\">$USER</span></span>";
+        placeholder_text = "󰌾 Logged in as $USER";
         hide_input = false;
         fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
-        capslock_color = "$yellow";
         position = "0, -55";
         halign = "center";
         valign = "center";
