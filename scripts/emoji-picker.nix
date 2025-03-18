@@ -1,7 +1,7 @@
 { pkgs }:
 
-pkgs.writeShellScriptBin "list-hyprland-bindings" ''
-    emoji_list=$(cat <<EOF
+pkgs.writeShellScriptBin "emoji-picker" ''
+  emoji_list=$(cat <<EOF
 😀 grinning face face smile happy joy :D grin
 😃 grinning face with big eyes face happy joy haha :D :) smile funny
 😄 grinning face with smiling eyes face happy joy funny haha laugh like :D :) smile
@@ -1854,16 +1854,16 @@ pkgs.writeShellScriptBin "list-hyprland-bindings" ''
 EOF
 )
 
-    emoji_picker() {
-      EMOJI=$(${pkgs.coreutils-full}/bin/cat ${emoji_list} |\
-              ${pkgs.tofi}/bin/tofi |\
-              ${pkgs.coreutils-full}/bin/cut -d ' ' -f 1 |\
-              ${pkgs.coreutils-full}/bin/tr -d '\n')
-      ${pkgs.wtype}/bin/wtype "$EMOJI"
-      ${pkgs.wl-clipboard}/bin/wl-copy "$EMOJI"
-    }
+  emoji_picker() {
+    EMOJI=$(${pkgs.coreutils-full}/bin/cat $emoji_list |\
+            ${pkgs.tofi}/bin/tofi --fuzzy-match false |\
+            ${pkgs.gawk}/bin/awk '{print $1}' |\
+            ${pkgs.coreutils-full}/bin/tr -d '\n')
+    ${pkgs.wtype}/bin/wtype "$EMOJI"
+    ${pkgs.wl-clipboard}/bin/wl-copy "$EMOJI"
+  }
 
-    emoji_picker
+  emoji_picker
 ''
 
 

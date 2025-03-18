@@ -26,6 +26,7 @@
     dive
     jless
     tldr
+    wtype
     wl-clipboard
     brightnessctl
     networkmanagerapplet
