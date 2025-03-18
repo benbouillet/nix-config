@@ -182,7 +182,7 @@ with lib;
       }
 
       window#waybar {
-        background: #1d1d1d;
+        background: #${config.lib.stylix.colors.base01};
       }
 
       button {
