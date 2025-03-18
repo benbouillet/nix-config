@@ -6,6 +6,9 @@
   ...
 }: 
 {
+  environment.systemPackages = with pkgs; [
+    bibata-cursors
+  ];
   stylix = {
     enable = true;
     image = ../assets/${wallpaper_file};
@@ -40,9 +43,10 @@
       desktop = 1.0;
       popups = 0.9;
     };
-    targets = {
-      nixvim.transparentBackground.main = true;
+    cursor = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 24;
     };
   };
-
 }
