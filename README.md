@@ -45,11 +45,14 @@
 - [x] Waybar remove unused code
 - [x] Waybar colors from Stylix
 - [x] Switching to Hyprland with [`uwsm`](https://wiki.hyprland.org/Getting-Started/Master-Tutorial/#launching-hyprland)
-- [ ] spotify
+- [x] spotify
 - [x] tmux
 - [ ] investigate Tesseract (see [example](https://github.com/AtaraxiaSjel/nixos-config/blob/61a428d955bb696d907935f65b764a8ab4acc8a2/profiles/workspace/wayland/hyprland.nix#L24C85-L24C94))
 - [x] Waybar temperature module
-- [ ] Finish swaync integration from same
+- [x] Finish swaync integration from same
 - [x] emoji-picker
 - [ ] fix firefox config file backup error to HM
 - [ ] Check on tmux shortcuts
+- [ ] secrets
+- [ ] check what can be switch to HM options in sre.nix & personal.nix
+- [ ] configure external monitors
