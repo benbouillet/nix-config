@@ -25,7 +25,7 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
-    ../../home/tofi.nix
+    ../../home/desktop.nix
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/tmux.nix

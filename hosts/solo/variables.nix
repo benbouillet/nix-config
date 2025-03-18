@@ -1,5 +1,4 @@
 {
-  browser = "firefox";
   terminal = "ghostty";
   keyboardLayout = "us";
   keyboardVariant = "altgr-intl";
