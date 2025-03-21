@@ -28,6 +28,7 @@
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/tmux.nix
+    ../../home/syncthing.nix
     ../../home/zsh.nix
     ../../home/hyprland.nix
     ../../home/hyprland-keybindings.nix
