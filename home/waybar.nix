@@ -52,14 +52,13 @@ with lib;
           tooltip = true;
         };
         "hyprland/workspaces" = {
-          all-outputs = true;
           disable-scroll = true;
-          tooltip = false;
-          active-only = false;
-          format = "{icon}";
-          format-icons = {
-            default = " ";
-            active = " ";
+          persistent-workspaces = {
+              "1" = [];
+              "2" = [];
+              "3" = [];
+              "4" = [];
+              "5" = [];
           };
         };
 
