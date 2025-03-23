@@ -4,5 +4,5 @@
   keyboardVariant = "altgr-intl";
 
   theme = "catppuccin-frappe";
-  wallpaper_file = "nix-wallpaper-simple-red.png";
+  wallpaper_file = "dnd_map.jpg";
 }
