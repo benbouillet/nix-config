@@ -11,6 +11,7 @@
     steam-unwrapped
     discord
     keepassxc
+    file-roller
   ];
 
   xdg.desktopEntries = {
