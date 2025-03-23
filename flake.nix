@@ -45,8 +45,6 @@
     username = "ben";
   in
   {
-    formatter = nixpkgs.legacyPackages.${system}.alejandra;
-
     nixosConfigurations = {
       "${host}" = nixpkgs.lib.nixosSystem {
         specialArgs = {
