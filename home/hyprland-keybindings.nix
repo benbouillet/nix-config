@@ -102,10 +102,10 @@ with lib;
           "${modifier},mouse:273,Resize Window,resizewindow"
         ];
         binded = [
-          "${modifier}ALT,H,Resize Active Window Left,resizeactive,-30 0"
-          "${modifier}ALT,L,Resize Active Window Right,resizeactive,30 0"
-          "${modifier}ALT,K,Resize Active Window Down,resizeactive,0 -30"
-          "${modifier}ALT,J,Resize Active Window Up,resizeactive,0 30"
+          "${modifier}ALT,H,Resize Active Window Left,resizeactive,-20% 0%"
+          "${modifier}ALT,L,Resize Active Window Right,resizeactive,20% 0%"
+          "${modifier}ALT,K,Resize Active Window Down,resizeactive,0% -20%"
+          "${modifier}ALT,J,Resize Active Window Up,resizeactive,0% 20%"
         ];
       };
   };
