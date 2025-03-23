@@ -18,14 +18,14 @@ in
     inputs.hardware.nixosModules.lenovo-thinkpad-t480
 
     ./hardware-configuration.nix
-    ../../modules/common.nix
-    ../../modules/wireless.nix
-    ../../modules/desktop.nix
-    ../../modules/hyprland.nix
-    ../../modules/ssd.nix
-    ../../modules/tailscale.nix
-    ../../modules/sops.nix
-    (import ../../modules/stylix.nix {inherit pkgs theme username wallpaper_file;})
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/wireless.nix
+    ../../modules/nixos/desktop.nix
+    ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/ssd.nix
+    ../../modules/nixos/tailscale.nix
+    ../../modules/nixos/sops.nix
+    (import ../../modules/nixos/stylix.nix {inherit pkgs theme username wallpaper_file;})
   ];
 
   # Enable networking

@@ -11,7 +11,7 @@
   ];
   stylix = {
     enable = true;
-    image = ../assets/${wallpaper_file};
+    image = ../../assets/${wallpaper_file};
     base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
     fonts = {
       monospace = {
