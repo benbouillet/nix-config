@@ -125,9 +125,6 @@ with lib;
       windowrulev2 = [
         "noborder, class:^(tofi)$"
         "center, class:^(tofi)$"
-        "float, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
-        "stayfocused, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
-        "pin, class:^(org.pulseaudio.pavucontrol|.blueman-manager-wrapped|nm-connection-editor)$"
         "stayfocused, class:^(steam)$"
       ];
       gestures = {
