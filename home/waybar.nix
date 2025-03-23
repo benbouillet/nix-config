@@ -82,7 +82,7 @@ with lib;
           format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
           format-wifi = "{icon} ";
           format-disconnected = "󰤫 ";
-          tooltip = "{ifname}\n{essid}\n{ipaddr}";
+          tooltip-format = "{ifname}\n{essid}\n{ipaddr}";
           on-click = "sleep 0.1 && nm-connection-editor";
         };
         "battery" = {
