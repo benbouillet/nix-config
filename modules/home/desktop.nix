@@ -12,4 +12,13 @@
     discord
     keepassxc
   ];
+
+  xdg.desktopEntries = {
+    spotify = {
+      name = "Spotify";
+      genericName = "Music Player";
+      exec = "spotify";
+      terminal = false;
+    };
+  };
 }
