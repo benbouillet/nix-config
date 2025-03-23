@@ -9,5 +9,6 @@
     whatsie
     steam-unwrapped
     discord
+    keepassxc
   ];
 }
