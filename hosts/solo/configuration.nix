@@ -19,6 +19,7 @@ in
 
     ./hardware-configuration.nix
     ../../modules/common.nix
+    ../../modules/wireless.nix
     ../../modules/desktop.nix
     ../../modules/hyprland.nix
     ../../modules/ssd.nix

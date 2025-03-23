@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   username,
   ...
@@ -41,7 +42,10 @@
     plymouth.enable = true;
   };
 
-  networking.networkmanager.enable = true;
+  networking = {
+    useDHCP = lib.mkDefault true;
+    networkmanager.enable = true;
+  };
 
   time.timeZone = "Europe/Paris";
 
