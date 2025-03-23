@@ -25,20 +25,20 @@
 
   imports = [
     nixvim.homeManagerModules.nixvim
-    ../../home/firefox.nix
-    ../../home/nvim.nix
-    ../../home/tmux.nix
-    ../../home/zsh.nix
-    ../../home/hyprland.nix
-    ../../home/hyprland-keybindings.nix
-    ../../home/hyprlock.nix
-    ../../home/hypridle.nix
-    ../../home/tofi.nix
-    ../../home/waybar.nix
-    ../../home/swaync.nix
-    ../../home/wlogout.nix
-    ../../home/sre.nix
-    ../../home/desktop.nix
+    ../../modules/home/firefox.nix
+    ../../modules/home/nvim.nix
+    ../../modules/home/tmux.nix
+    ../../modules/home/zsh.nix
+    ../../modules/home/hyprland.nix
+    ../../modules/home/hyprland-keybindings.nix
+    ../../modules/home/hyprlock.nix
+    ../../modules/home/hypridle.nix
+    ../../modules/home/tofi.nix
+    ../../modules/home/waybar.nix
+    ../../modules/home/swaync.nix
+    ../../modules/home/wlogout.nix
+    ../../modules/home/sre.nix
+    ../../modules/home/desktop.nix
     ./syncthing.nix
   ];
 
