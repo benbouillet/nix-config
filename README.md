@@ -51,8 +51,20 @@
 - [x] Waybar temperature module
 - [x] Finish swaync integration from same
 - [x] emoji-picker
-- [ ] fix firefox config file backup error to HM
+- [x] sops-nix
+- [x] syncthing
+- [x] wireless
+- [x] notification center
+- [ ] Solve the missing applications in launcher issue (see [HM Documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-xdg.desktopEntries))
+- [ ] fix firefox config file backup error to HM (check [issue](https://github.com/nix-community/home-manager/issues/4199#issuecomment-2226810699))
 - [ ] Check on tmux shortcuts
 - [ ] secrets
 - [ ] check what can be switch to HM options in sre.nix & personal.nix
 - [ ] configure external monitors
+- [ ] caching
+- [ ] formatting
+- [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
+- [ ] notification center: solve UI issue with wlogout button
+- [ ] hyprswitch ?
+- [ ] swappy ?
+- [ ] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
