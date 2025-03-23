@@ -28,7 +28,6 @@
     ../../home/firefox.nix
     ../../home/nvim.nix
     ../../home/tmux.nix
-    ../../home/syncthing.nix
     ../../home/zsh.nix
     ../../home/hyprland.nix
     ../../home/hyprland-keybindings.nix
@@ -39,7 +38,7 @@
     ../../home/swaync.nix
     ../../home/wlogout.nix
     ../../home/sre.nix
-    ../../home/personal.nix
+    ../../home/desktop.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
