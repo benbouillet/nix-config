@@ -39,6 +39,7 @@
     ../../home/wlogout.nix
     ../../home/sre.nix
     ../../home/desktop.nix
+    ./syncthing.nix
   ];
 
   home.file."Pictures/Wallpapers" = {
