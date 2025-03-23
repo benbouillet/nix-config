@@ -22,6 +22,11 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -31,6 +36,7 @@
     nixos-hardware,
     stylix,
     nixvim,
+    sops-nix,
     ...
   }@inputs:
   let
@@ -65,7 +71,8 @@
               users.${username} = import ./hosts/${host}/home.nix;
             };
           }
-	  stylix.nixosModules.stylix
+          stylix.nixosModules.stylix
+          sops-nix.nixosModules.sops
         ];
       };
     };
