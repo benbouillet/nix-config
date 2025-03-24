@@ -3,6 +3,12 @@
   ...
 }:
 {
+  home.activation = {
+    removeTofiXDGDesktopEntries = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      rm -f /home/ben/.cache/tofi-drun
+    '';
+  };
+
   programs = {
     tofi = {
       enable = true;
