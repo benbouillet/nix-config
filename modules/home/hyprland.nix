@@ -80,6 +80,10 @@ with lib;
         repeat_rate = 20;
         repeat_delay = 400;
       };
+      device = {
+        name = "expert-wireless-tb-mouse";
+        sensitivity = -0.3;
+      };
       debug.disable_logs = true;
       general = {
         gaps_in = 4;
