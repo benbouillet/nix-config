@@ -10,7 +10,7 @@
         "desc:LG Electronics LG HDR WQHD 312NTWG9Z889,3440x1440,1920x0,1"
       ];
       workspace = [
-        "1,monitor:eDP-1"
+        "1,monitor:eDP-1,default:true"
         "2,monitor:eDP-1"
         "3,monitor:eDP-1"
         "4,monitor:eDP-1"
