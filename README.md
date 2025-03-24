@@ -68,3 +68,4 @@
 - [ ] hyprswitch ?
 - [ ] swappy ?
 - [ ] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
+- [ ] ssh-agent
