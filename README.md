@@ -55,11 +55,11 @@
 - [x] syncthing
 - [x] wireless
 - [x] notification center
-- [ ] Solve the missing applications in launcher issue (see [HM Documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-xdg.desktopEntries))
+- [x] Solve the missing applications in launcher issue (see [HM Documentation](https://nix-community.github.io/home-manager/options.xhtml#opt-xdg.desktopEntries))
 - [x] fix firefox config file backup error to HM (check [issue](https://github.com/nix-community/home-manager/issues/4199#issuecomment-2226810699))
 - [ ] Check on tmux shortcuts
-- [ ] secrets
-- [ ] check what can be switch to HM options in sre.nix & personal.nix
+- [x] secrets
+- [x] check what can be switch to HM options in sre.nix & personal.nix
 - [ ] configure external monitors
 - [ ] caching
 - [ ] formatting
