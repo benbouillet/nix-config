@@ -23,9 +23,7 @@
   ];
 
   services = {
-    podman = {
-      enable = true;
-    };
+    podman.enable = true;
   };
 
   programs = {
