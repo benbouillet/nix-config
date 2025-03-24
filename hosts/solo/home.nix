@@ -39,6 +39,7 @@
     ../../modules/home/wlogout.nix
     ../../modules/home/sre.nix
     ../../modules/home/desktop.nix
+    ../../modules/home/sunday.nix
     ./syncthing.nix
   ];
 
@@ -49,26 +50,5 @@
 
   programs = {
     home-manager.enable = true;
-    ghostty = {
-      enable = true;
-      enableZshIntegration = true;
-      installVimSyntax = true;
-    };
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-      historyWidgetOptions = [
-        "--sort"
-        "--exact"
-      ];
-    };
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
   };
 }

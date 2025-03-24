@@ -18,26 +18,8 @@
     terraform-docs
     tflint
 
-    # Networking
-    sshuttle
-
     # DevOps
     pre-commit
-
-    # Cloud
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
-
-    # Notetaking
-    notion-app-enhanced
-    obsidian
-
-    # Web
-    ungoogled-chromium
-
-    # Messaging
-    slack
-    postman
-    dbeaver-bin
   ];
 
   services = {

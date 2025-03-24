@@ -4,22 +4,38 @@
 }:
 {
   home.packages = with pkgs; [
-    fastfetch
     obsidian
     spotify
     whatsie
     steam-unwrapped
     discord
     keepassxc
-    file-roller
   ];
 
-  xdg.desktopEntries = {
-    spotify = {
-      name = "Spotify";
-      genericName = "Music Player";
-      exec = "spotify";
-      terminal = false;
+  programs = {
+    ghostty = {
+      enable = true;
+      enableZshIntegration = true;
+      installVimSyntax = true;
+    };
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      historyWidgetOptions = [
+        "--sort"
+        "--exact"
+      ];
+    };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fastfetch = {
+      enable = true;
     };
   };
 }
