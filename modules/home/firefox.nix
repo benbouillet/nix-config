@@ -1,10 +1,18 @@
 {
   pkgs,
+  lib,
   username,
   ...
 }:
 {
+  home.activation = {
+    removeFirefoxBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      rm -f /home/ben/.mozilla/firefox/ben/search.json.mozlz4.backup
+    '';
+  };
+
   stylix.targets.firefox.profileNames = [ username ];
+
   programs.firefox = {
     enable = true;
     profiles.${username} = {
