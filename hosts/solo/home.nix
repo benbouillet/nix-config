@@ -30,6 +30,7 @@
     ../../modules/home/tmux.nix
     ../../modules/home/zsh.nix
     ../../modules/home/hyprland.nix
+    ../../modules/home/monitors.nix
     ../../modules/home/hyprland-keybindings.nix
     ../../modules/home/hyprlock.nix
     ../../modules/home/hypridle.nix

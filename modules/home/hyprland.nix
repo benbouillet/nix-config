@@ -140,7 +140,6 @@ with lib;
         pseudotile = true;
         preserve_split = true;
       };
-      monitor = ",preferred,auto,1";
     };
   };
 }
