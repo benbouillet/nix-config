@@ -53,13 +53,6 @@ with lib;
         };
         "hyprland/workspaces" = {
           disable-scroll = true;
-          persistent-workspaces = {
-              "1" = [];
-              "2" = [];
-              "3" = [];
-              "4" = [];
-              "5" = [];
-          };
         };
 
         "bluetooth" = {
