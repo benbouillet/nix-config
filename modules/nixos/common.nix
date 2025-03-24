@@ -119,4 +119,6 @@
       ignoreShellProgramCheck = true;
     };
   };
+
+  programs.gnupg.agent.enable = true;
 }
