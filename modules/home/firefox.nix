@@ -63,14 +63,14 @@
     
           "NixOS Wiki" = {
             urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
-            iconUpdateURL = "https://wiki.nixos.org/favicon.png";
+            icon = "https://wiki.nixos.org/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nw" ];
           };
 
           "Raclette Search" = {
             urls = [{ template = "https://search.raclette.beer/search?q={searchTerms}"; }];
-            iconUpdateURL = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
+            icon = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@ra" ];
           };
