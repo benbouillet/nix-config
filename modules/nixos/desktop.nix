@@ -48,4 +48,13 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+
+  # Removing HM backup files (see https://github.com/nix-community/home-manager/issues/4199#issuecomment-2226810699)
+  system.userActivationScripts = {
+    removeConflictingFiles = {
+      text = ''
+        rm -f /home/ben/.mozilla/firefox/ben/search.json.mozlz4.backup
+      '';
+    };
+  };
 }

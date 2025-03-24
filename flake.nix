@@ -65,7 +65,7 @@
               };
               useGlobalPkgs = true;
               useUserPackages = true;
-              backupFileExtension = "hm.bak";
+              backupFileExtension = "backup";
               users.${username} = import ./hosts/${host}/home.nix;
             };
           }
