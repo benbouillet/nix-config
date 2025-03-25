@@ -105,6 +105,7 @@
     tmux
     vim
     wget
+    file-roller
   ];
 
   users = {
