@@ -44,6 +44,7 @@
         "kubectl"
         "terraform"
         "tmux"
+        "fzf"
       ];
     };
 
@@ -53,7 +54,7 @@
         file = "zsh-autosuggestions.plugin.zsh";
         src = builtins.fetchGit {
           url = "https://github.com/zsh-users/zsh-autosuggestions";
-          rev = "a411ef3e0992d4839f0732ebeb9823024afaaaa8";
+          rev = "e52ee8ca55bcc56a17c828767a3f98f22a68d4eb";
         };
       }
       {
