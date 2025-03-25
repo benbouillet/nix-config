@@ -41,6 +41,7 @@
     ../../modules/home/sre.nix
     ../../modules/home/desktop.nix
     ../../modules/home/sunday.nix
+    ../../modules/home/3d.nix
     ./syncthing.nix
   ];
 
