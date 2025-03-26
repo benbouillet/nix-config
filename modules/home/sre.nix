@@ -31,5 +31,10 @@
       enable = true;
       enableZshIntegration = true;
     };
+    zsh = {
+      sessionVariables = {
+        TENV_AUTO_INSTALL="true";
+      };
+    };
   };
 }
