@@ -121,5 +121,10 @@
     };
   };
 
-  programs.gnupg.agent.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    settings = {
+        default-cache-ttl = 2160000;
+    };
+  };
 }
