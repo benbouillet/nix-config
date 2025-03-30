@@ -19,7 +19,7 @@
         "7,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889"
         "8,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889"
         "9,monitor:desc:Invalid Vendor Codename - RTK 0x1920 demoset-1,default:true"
-        "10,desc:Invalid Vendor Codename - RTK 0x1920 demoset-1"
+        "10,monitor:desc:Invalid Vendor Codename - RTK 0x1920 demoset-1"
       ];
     };
   };
