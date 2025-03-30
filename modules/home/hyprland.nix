@@ -14,6 +14,7 @@ with lib;
 {
   home.packages = with pkgs; [
     hyprpolkitagent
+    hyprshot
     playerctl
     pavucontrol
   ];
