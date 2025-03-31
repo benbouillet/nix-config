@@ -7,7 +7,6 @@
     obsidian
     spotify
     whatsie
-    steam-unwrapped
     discord
     keepassxc
   ];
