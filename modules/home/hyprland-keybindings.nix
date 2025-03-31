@@ -37,6 +37,7 @@ with lib;
           ",XF86AudioMute,Mute,exec, swayosd-client --output-volume mute-toggle"
           ",XF86AudioMicMute,Mute,exec, swayosd-client --input-volume mute-toggle"
           "${modifier},Return,Open ${terminal},exec,${terminal}"
+          "${modifier},W,Open Browser,exec,firefox"
           "${modifier},T,Open file manager Thunar,exec,thunar"
           "${modifier},N,Toggle SwayNC,exec,swaync-client -t"
           "${modifier},SPACE,Launch Tofi,exec,tofi-drun --drun-launch=true"
