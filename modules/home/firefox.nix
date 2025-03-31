@@ -84,6 +84,11 @@
             urls = [{ template = "https://en.wikipedia.org/w/index.php?search={searchTerms}"; }];
             definedAliases = [ "@wk" ];
           };
+
+          "Youtube" = {
+            urls = [{ template = "https://www.youtube.com/results?search_query={searchTerms}"; }];
+            definedAliases = [ "@yt" ];
+          };
         };
       };
 
