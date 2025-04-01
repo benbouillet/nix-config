@@ -24,7 +24,6 @@
   };
 
   imports = [
-    nixvim.homeManagerModules.nixvim
     ../../modules/home/firefox.nix
     ../../modules/home/nvim.nix
     ../../modules/home/tmux.nix

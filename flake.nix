@@ -61,7 +61,6 @@
                 inherit username;
                 inherit inputs;
                 inherit host;
-                inherit nixvim;
               };
               useGlobalPkgs = true;
               useUserPackages = true;
@@ -69,8 +68,6 @@
               users.${username} = import ./hosts/${host}/home.nix;
             };
           }
-          stylix.nixosModules.stylix
-          sops-nix.nixosModules.sops
         ];
       };
     };

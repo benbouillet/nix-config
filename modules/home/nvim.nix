@@ -1,9 +1,12 @@
 {
+  inputs,
   pkgs,
   lib,
   ...
 }:
 {
+  imports = [ inputs.nixvim.homeManagerModules.default ];
+
   programs.nixvim = {
     enable = true;
     defaultEditor = true;

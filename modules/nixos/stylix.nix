@@ -1,11 +1,12 @@
 {
+  inputs,
   pkgs,
   theme,
-  username,
   wallpaper_file,
   ...
 }: 
 {
+  imports = [ inputs.stylix.nixosModules.stylix ];
   environment.systemPackages = with pkgs; [
     bibata-cursors
   ];
