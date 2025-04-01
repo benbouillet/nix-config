@@ -41,35 +41,64 @@
   }@inputs:
   let
     system = "x86_64-linux";
-    host = "solo";
     username = "ben";
   in
   {
     nixosConfigurations = {
-      "${host}" = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          inherit system;
-          inherit host;
-          inherit username;
-        };
-        modules = [
-          ./hosts/${host}/configuration.nix
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              extraSpecialArgs = {
-                inherit username;
-                inherit inputs;
-                inherit host;
+      "obiwan" = let
+          host = "obiwan";
+        in
+        nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit system;
+            inherit host;
+            inherit username;
+          };
+          modules = [
+            ./hosts/${host}/configuration.nix
+            home-manager.nixosModules.home-manager {
+              home-manager = {
+                extraSpecialArgs = {
+                  inherit username;
+                  inherit inputs;
+                  inherit host;
+                };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.${username} = import ./hosts/${host}/home.nix;
               };
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              users.${username} = import ./hosts/${host}/home.nix;
-            };
-          }
-        ];
-      };
+            }
+          ];
+        };
+      "solo" = let
+          host = "solo";
+        in
+        nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit system;
+            inherit host;
+            inherit username;
+          };
+          modules = [
+            ./hosts/${host}/configuration.nix
+            home-manager.nixosModules.home-manager {
+              home-manager = {
+                extraSpecialArgs = {
+                  inherit username;
+                  inherit inputs;
+                  inherit host;
+                };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.${username} = import ./hosts/${host}/home.nix;
+              };
+            }
+          ];
+        };
     };
   };
 }
