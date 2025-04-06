@@ -54,7 +54,8 @@
         file = "zsh-autosuggestions.plugin.zsh";
         src = builtins.fetchGit {
           url = "https://github.com/zsh-users/zsh-autosuggestions";
-          rev = "e52ee8ca55bcc56a17c828767a3f98f22a68d4eb";
+          rev = "v0.7.1";
+          sha256 = "02p5wq93i12w41cw6b00hcgmkc8k80aqzcy51qfzi0armxig555y";
         };
       }
       {
@@ -62,7 +63,8 @@
         file = "zsh-system-clipboard.plugin.zsh";
         src = builtins.fetchGit {
           url = "https://github.com/kutsan/zsh-system-clipboard";
-          rev = "cc5089a2c97ee50d06ecf0439a9760ccda4c9413";
+          rev = "v0.8.0";
+          sha256 = "08ndsqgkz397d9zaa3in40rp9y3y6jd7x55kq16hk5cxdcjc8r2m";
         };
       }
     ];
