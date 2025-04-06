@@ -15,7 +15,7 @@
 in
 {
   imports = [
-    inputs.hardware.nixosModules.framework-13-inch-7040-amd
+    inputs.hardware.nixosModules.framework-13-7040-amd
 
     ./hardware-configuration.nix
     ../../modules/nixos/common.nix
