@@ -8,7 +8,7 @@
 {
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  # home.stateVersion = "24.11";
+  home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
     nixos-icons
