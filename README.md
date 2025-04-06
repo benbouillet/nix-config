@@ -69,3 +69,18 @@
 - [ ] swappy ?
 - [ ] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
 - [ ] ssh-agent
+
+# Configuring SOPS
+
+## Setting up SSH Key
+
+```bash
+ssh-keygen -t ed25519
+```
+
+## Deriving Age key from SSH
+
+```bash
+mkdir -p ~/.config/sops/age
+nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+```
