@@ -51,20 +51,11 @@
     plugins = [
       {
         name = "zsh-autosuggestions";
-        file = "zsh-autosuggestions.plugin.zsh";
-        src = builtins.fetchGit {
-          url = "https://github.com/zsh-users/zsh-autosuggestions";
+        src = pkgs.fetchFromGitHub {
+          owner = "zsh-users";
+          repo = "zsh-autosuggestions";
           rev = "v0.7.1";
-          sha256 = "02p5wq93i12w41cw6b00hcgmkc8k80aqzcy51qfzi0armxig555y";
-        };
-      }
-      {
-        name = "zsh-system-clipboard";
-        file = "zsh-system-clipboard.plugin.zsh";
-        src = builtins.fetchGit {
-          url = "https://github.com/kutsan/zsh-system-clipboard";
-          rev = "v0.8.0";
-          sha256 = "08ndsqgkz397d9zaa3in40rp9y3y6jd7x55kq16hk5cxdcjc8r2m";
+          hash = "sha256-vpTyYq9ZgfgdDsWzjxVAE7FZH4MALMNZIFyEOBLm5Qo=";
         };
       }
     ];
