@@ -30,7 +30,6 @@
     ../../modules/home/zsh.nix
     ../../modules/home/git.nix
     ../../modules/home/hyprland.nix
-    ../../modules/home/monitors.nix
     ../../modules/home/hyprland-keybindings.nix
     ../../modules/home/hyprlock.nix
     ../../modules/home/hypridle.nix
@@ -42,6 +41,7 @@
     ../../modules/home/desktop.nix
     ../../modules/home/sunday.nix
     ../../modules/home/3d.nix
+    ./monitors.nix
     ./syncthing.nix
   ];
 
