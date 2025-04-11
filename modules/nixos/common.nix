@@ -100,7 +100,6 @@
 
   environment.systemPackages = with pkgs; [
     curl
-    git
     killall
     tmux
     vim

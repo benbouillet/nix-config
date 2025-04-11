@@ -2,23 +2,32 @@
   pkgs,
   ...
 }:
-{
-  home.packages = with pkgs; [
-    # Networking
-    sshuttle
+let
+  git_email = "ben.bouillet@sundayapp.com";
+  git_name = "Ben Bouillet";
+in {
+  home = {
+    file."dev/sundayapp/.keep" = {
+      text = "";
+    };
 
-    # Cloud
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
-    awscli2
+    packages = with pkgs; [
+      # Networking
+      sshuttle
 
-    # Notetaking
-    notion-app-enhanced
+      # Cloud
+      (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+      awscli2
 
-    # Messaging
-    slack
-    postman
-    dbeaver-bin
-  ];
+      # Notetaking
+      notion-app-enhanced
+
+      # Messaging
+      slack
+      postman
+      dbeaver-bin
+    ];
+  };
 
   programs = {
     chromium = {
@@ -28,6 +37,21 @@
         "bgnkhhnnamicmpeenaelnjfhikgbkllg" # adguard
         "fdjamakpfbbddfjaooikfcpapjohcfmg" # dashlane
         "lejiafennghcpgmbpiodgofeklkpahoe" # Custom UserAgent String
+      ];
+    };
+    git = {
+      enable = true;
+      includes =  [
+        {
+          condition = "gitdir:/home/${username}/dev/sundayapp/";
+          contents = {
+            user = {
+              email = git_email;
+              name = git_name;
+            };
+            commit.gpgsign = true;
+          };
+        }
       ];
     };
   };
