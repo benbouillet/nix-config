@@ -115,7 +115,7 @@ with lib;
           on-click = "waybar-tailscale-updown";
         };
         "custom/swaync" = {
-          format = "";
+          format = " ";
           on-click = "swaync-client -t";
         };
       }

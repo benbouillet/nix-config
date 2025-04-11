@@ -6,7 +6,7 @@ pkgs.writeShellScriptBin "waybar-tailscale-status" ''
     STATUS=$(tailscale status --peers=false)
     if [ $? = 0 ]
     then
-      text="󱇱"
+      text="󱇱 "
       tooltip=$(echo $STATUS | awk '{print "Tailscale connected\\n"$2" - "$1}')
     else
       text="󱇲 "

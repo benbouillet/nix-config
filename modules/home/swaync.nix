@@ -22,8 +22,15 @@
         widget-config = {
           buttons-grid.actions = [
             {
-              label = "󰐥";
+              label = "󰐥 Wlogout";
               command = "${lib.getExe pkgs.wlogout}";
+            }
+            {
+              label = "󱘖 Tailscale";
+              type = "toggle";
+              active = "true";
+              command = "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && tailscale down || tailscale up'";
+              update-command = "sh -c 'tailscale status --peers=false >/dev/null && echo true || echo false'";
             }
           ];
           title = {
