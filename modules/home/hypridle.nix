@@ -23,11 +23,11 @@
           on-resume = "brightnessctl --device='tpacpi::kbd_backlight' set 1";
         }
         {
-          timeout = 300;
+          timeout = 600;
           on-timeout = "hyprlock";
         }
         {
-          timeout = 330;
+          timeout = 800;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
