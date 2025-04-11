@@ -24,5 +24,10 @@ in {
         };
       }
     ];
+    extraConfig = {
+      init.defaultBranch = "main";
+      color.ui = "true";
+      pull.rebase = "true";
+    };
   };
 }
