@@ -16,6 +16,9 @@
       enable = true;
       enableZshIntegration = true;
       installVimSyntax = true;
+      settings = {
+        font-size = 14;
+      };
     };
     starship = {
       enable = true;
