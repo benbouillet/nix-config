@@ -6,27 +6,24 @@
   imports = [ inputs.nvf.homeManagerModules.nvf ];
 
   programs.nvf = {
-    enable = false;
+    enable = true;
 
     settings = {
       vim = {
         globals.mapleader = " ";
         globals.mapleader2 = " ";
+
+        theme.transparent = true;
+
+        useSystemClipboard = true;
+
+        lineNumberMode = "relative";
+
+        autopairs.nvim-autopairs.enable = true;
       };
     };
   };
 
-    # globals = {
-    #   mapleader = " ";
-    #   maplocalleader = " ";
-    # };
-    # clipboard.register = "unnamedplus";
-    # opts = {
-    #   number = true;
-    #   shiftwidth = 2;
-    #   relativenumber = true;
-    #   termguicolors = true;
-    # };
     # plugins = {
     #   nvim-autopairs.enable = true;
     #   transparent = {

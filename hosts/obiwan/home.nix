@@ -26,6 +26,7 @@
   imports = [
     ../../modules/home/firefox.nix
     ../../modules/home/nvim.nix
+    # ../../modules/home/nvf.nix
     ../../modules/home/tmux.nix
     ../../modules/home/zsh.nix
     ../../modules/home/git.nix
