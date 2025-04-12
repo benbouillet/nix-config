@@ -24,8 +24,8 @@
   };
 
   imports = [
+    ../../modules/home/neovim
     ../../modules/home/firefox.nix
-    ../../modules/home/nvim.nix
     ../../modules/home/tmux.nix
     ../../modules/home/zsh.nix
     ../../modules/home/git.nix
