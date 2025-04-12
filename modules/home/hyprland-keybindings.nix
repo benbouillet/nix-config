@@ -49,6 +49,7 @@ with lib;
           "${modifier},E,Emoji Picker,exec,emoji-picker"
           "${modifier},U,Shutdown/Restart/Suspend/Hibernate/Lock,exec,wlogout"
           "${modifier}SHIFT,F,Toggle Floating Windows,togglefloating"
+          "${modifier}SHIFT,P,Toggle Pinning Windows,pin"
           "${modifier}SHIFT,Q,Lock,exec,hyprlock"
           "${modifier}SHIFT,S,Display Hyprland Bindings/Shortcuts,exec,list-hyprland-bindings"
           "${modifier}SHIFT,left,Move Active Window Left,movewindow,l"
