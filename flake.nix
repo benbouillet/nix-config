@@ -37,11 +37,6 @@
   outputs = {
     nixpkgs,
     home-manager,
-    nur,
-    nixos-hardware,
-    stylix,
-    nixvim,
-    sops-nix,
     ...
   }@inputs:
   let
