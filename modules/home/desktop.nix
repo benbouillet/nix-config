@@ -1,5 +1,6 @@
 {
   pkgs,
+  username,
   ...
 }:
 {
@@ -37,6 +38,11 @@
     };
     fastfetch = {
       enable = true;
+    };
+    taskwarrior = {
+      enable = true;
+      package = pkgs.taskwarrior3;
+      dataLocation = "/home/${username}/sync/toolbox/taskwarrior";
     };
   };
 }
