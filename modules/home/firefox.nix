@@ -17,6 +17,7 @@
     enable = true;
     profiles.${username} = {
       name = username;
+      id = 0;
       isDefault = true;
       settings = {
         "extensions.autoDisableScopes" = "0";
@@ -60,7 +61,7 @@
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@hm" ];
           };
-    
+
           "NixOS Wiki" = {
             urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
             icon = "https://wiki.nixos.org/favicon.png";
