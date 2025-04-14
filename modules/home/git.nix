@@ -28,6 +28,7 @@ in {
       init.defaultBranch = "main";
       color.ui = "true";
       pull.rebase = "true";
+      push.autoSetupRemote = "true";
     };
   };
 }
