@@ -160,6 +160,26 @@ in {
             keyword = "gmail";
             url = "https://mail.google.com/mail/u/1/#inbox";
           }
+          {
+            name = "Gather";
+            keyword = "gather";
+            url = "https://app.gather.town/app/sgLPErJMsUVYXk0B/sunday";
+          }
+          {
+            name = "Github - sundayapp";
+            keyword = "github";
+            url = "https://www.github.com/sundayapp/";
+          }
+          {
+            name = "Dashlane";
+            keyword = "dashlane";
+            url = "https://app.dashlane.com/#/credentials";
+          }
+          {
+            name = "Notion";
+            keyword = "notion";
+            url = "https://www.notion.so/sundayapp/25f55f0d4ee940a18a37b24ce060c128";
+          }
         ];
         force = true;
       };
