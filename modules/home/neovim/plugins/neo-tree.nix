@@ -17,6 +17,13 @@
         width = 30;
         autoExpandWidth = true;
       };
+
+      sources = [
+        "filesystem"
+        "buffers"
+        "git_status"
+      ];
+      defaultSource = "filesystem";
     };
   };
 }
