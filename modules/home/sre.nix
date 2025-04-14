@@ -35,6 +35,9 @@
       sessionVariables = {
         TENV_AUTO_INSTALL="true";
       };
+      shellAliases = {
+        tg = "terragrunt";
+      };
     };
   };
 }
