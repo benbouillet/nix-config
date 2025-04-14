@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   username,
   ...
 }:
@@ -25,6 +26,12 @@ in {
       postman
       dbeaver-bin
     ];
+
+    activation = {
+      removeFirefoxSundayppBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        rm -f /home/ben/.mozilla/firefox/sunday/search.json.mozlz4.backup
+      '';
+    };
   };
 
   xdg.desktopEntries = {
