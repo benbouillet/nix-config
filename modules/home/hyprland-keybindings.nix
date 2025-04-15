@@ -26,6 +26,7 @@ with lib;
           ",XF86AudioLowerVolume,Decrease Volume,exec,swayosd-client --output-volume -5"
           "${modifier},XF86AudioRaiseVolume,Increase Input Volume,exec,swayosd-client --input-volume +5 --max-volume=100"
           "${modifier},XF86AudioLowerVolume,Decrease Input Volume,exec,swayosd-client --input-volume -5"
+          "${modifier},XF86AudioPlay,Play/Pause Media,exec,playerctl play-pause"
         ];
         bindld = [
           ",XF86MonBrightnessUp,Increase Brightness,exec,swayosd-client --brightness raise 5%+"
