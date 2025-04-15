@@ -63,6 +63,12 @@
   outputs = {
     nixpkgs,
     home-manager,
+    darwin,
+    mac-app-util,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
+    homebrew-bundle,
     ...
   }@inputs:
   let
@@ -148,10 +154,9 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit username useremail hostname;
-              hostConfig = getHostConfig hostname;
+              inherit username host;
             };
-            home-manager.users.${username} = import ./hosts/${host}/home.nix
+            home-manager.users.${username} = import ./hosts/${host}/home.nix;
             home-manager.sharedModules = [
               mac-app-util.homeManagerModules.default
             ];
