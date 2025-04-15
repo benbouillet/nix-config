@@ -1,6 +1,5 @@
 { pkgs,
   lib,
-  hostConfig,
   ...
 }:
 {
@@ -35,6 +34,6 @@
         "macpass"
         "unnaturalscrollwheels"
     # ];
-    ] ++ hostConfig.casks;
+    ];
   };
 }
