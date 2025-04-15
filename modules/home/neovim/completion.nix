@@ -21,7 +21,6 @@
             luasnip = "[snip]";
             buffer = "[buffer]";
             neorg = "[neorg]";
-            nixpkgs_maintainers = "[nixpkgs]";
           };
         };
       };
@@ -52,7 +51,6 @@
               option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
             }
             { name = "neorg"; }
-            { name = "nixpkgs_maintainers"; }
           ];
         };
       };
