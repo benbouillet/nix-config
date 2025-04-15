@@ -187,6 +187,26 @@ in {
             keyword = "notion";
             url = "https://www.notion.so/sundayapp/25f55f0d4ee940a18a37b24ce060c128";
           }
+          {
+            name = "AWS Console";
+            keyword = "aws";
+            url = "https://sundayapp.awsapps.com/start/#/?tab=accounts";
+          }
+          {
+            name = "GCP Console";
+            keyword = "gcp";
+            url = "https://console.cloud.google.com/";
+          }
+          {
+            name = "Datadog Sunday Prod";
+            keyword = "datadog";
+            url = "https://sunday-prod.datadoghq.eu/";
+          }
+          {
+            name = "Datadog Sunday Prod";
+            keyword = "datadog";
+            url = "https://sunday-alpha.datadoghq.eu/";
+          }
         ];
         force = true;
       };
