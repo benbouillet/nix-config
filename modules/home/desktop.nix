@@ -10,6 +10,7 @@
     whatsie
     discord
     keepassxc
+    speedcrunch
   ];
 
   programs = {

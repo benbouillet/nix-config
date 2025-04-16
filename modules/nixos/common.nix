@@ -20,7 +20,7 @@
         "nix-command"
         "flakes"
       ];
-      substituters =  [ 
+      substituters =  [
         "https://hyprland.cachix.org"
         "https://nix-community.cachix.org"
       ];
