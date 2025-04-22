@@ -32,9 +32,12 @@
         };
 
         servers = {
-          clangd.enable = true;
-          cmake.enable = true;
-          texlab.enable = true; # inria
+          bashls.enable = true;
+          jsonls.enable = true;
+          jqls.enable = true;
+          gopls.enable = true;
+          pylsp.enable = true;
+          nixd.enable = true;
         };
       };
     };
