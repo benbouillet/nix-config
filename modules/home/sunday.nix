@@ -232,6 +232,11 @@ in {
             keyword = "argocd";
             url = "https://argo.npint.sundayapp.xyz/";
           }
+          {
+            name = "Metabase";
+            keyword = "metabase";
+            url = "https://metabase.sundayapp.io/";
+          }
         ];
         force = true;
       };
