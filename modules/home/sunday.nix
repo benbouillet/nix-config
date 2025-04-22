@@ -82,7 +82,7 @@ in {
         "extensions.autoDisableScopes" = "0";
       };
       search = {
-        default = "Raclette Search";
+        default = "DuckduckGo";
         engines = {
           "Nix Packages" = {
             urls = [{
@@ -123,9 +123,16 @@ in {
 
           "NixOS Wiki" = {
             urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
-            icon = "https://wiki.nixos.org/favicon.png";
+            icon = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nw" ];
+          };
+
+          "Nix Docs" = {
+            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search=mapAttr"; }];
+            icon = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg";
+            updateInterval = 24 * 60 * 60 * 1000; # every day
+            definedAliases = [ "@nd" ];
           };
 
           "Raclette Search" = {
@@ -133,6 +140,11 @@ in {
             icon = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@ra" ];
+          };
+
+          "DuckduckGo" = {
+            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search={searchTerms}"; }];
+            definedAliases = [ "@dg" ];
           };
 
           "GitHub" = {
@@ -209,6 +221,16 @@ in {
             name = "Datadog Sunday Prod";
             keyword = "datadog";
             url = "https://sunday-alpha.datadoghq.eu/";
+          }
+          {
+            name = "ArgoCD Prod";
+            keyword = "argocd";
+            url = "https://argo.int.sundayapp.xyz/";
+          }
+          {
+            name = "ArgoCD non-Prod";
+            keyword = "argocd";
+            url = "https://argo.npint.sundayapp.xyz/";
           }
         ];
         force = true;
