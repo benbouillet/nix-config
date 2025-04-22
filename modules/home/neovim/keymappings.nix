@@ -51,6 +51,9 @@
               "<M-j>" = ":resize +2<CR>";
               "<M-h>" = ":vertical resize +2<CR>";
               "<M-l>" = ":vertical resize -2<CR>";
+
+              # Toggle Diagnostic Floating window
+              "gl" = "<cmd>lua vim.diagnostic.open_float()<CR>";
             };
         visual =
           lib.mapAttrsToList
