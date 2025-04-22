@@ -1,11 +1,8 @@
 {
   inputs,
-  config,
   username,
   host,
   pkgs,
-  options,
-  lib,
   ...
 }: let
   inherit (import ./variables.nix)
