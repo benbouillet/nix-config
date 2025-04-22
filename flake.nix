@@ -58,12 +58,6 @@
   outputs = {
     nixpkgs,
     home-manager,
-    darwin,
-    mac-app-util,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    homebrew-bundle,
     ...
   }@inputs:
   let
@@ -129,7 +123,7 @@
       "windu" = let
           host = "windu";
         in
-        darwin.lib.darwinSystem {
+        inputs.darwin.lib.darwinSystem {
           specialArgs = {
             inherit inputs;
             inherit system;
@@ -142,7 +136,7 @@
           ./hosts/${host}/host-users.nix
           ./hosts/${host}/nix-core.nix
 
-          mac-app-util.darwinModules.default
+          inputs.mac-app-util.darwinModules.default
 
           # home manager
           home-manager.darwinModules.home-manager {
@@ -153,11 +147,11 @@
             };
             home-manager.users.${username} = import ./hosts/${host}/home.nix;
             home-manager.sharedModules = [
-              mac-app-util.homeManagerModules.default
+              inputs.mac-app-util.homeManagerModules.default
             ];
           }
 
-          nix-homebrew.darwinModules.nix-homebrew {
+          inputs.nix-homebrew.darwinModules.nix-homebrew {
             nix-homebrew = {
               enable = true;
 
@@ -166,16 +160,16 @@
               user = username;
 
               taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
-                "homebrew/homebrew-bundle" = homebrew-bundle;
+                "homebrew/homebrew-core" = inputs.homebrew-core;
+                "homebrew/homebrew-cask" = inputs.homebrew-cask;
+                "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
               };
               mutableTaps = false;
               autoMigrate = true;
             };
           }
         ];
-        };
+      };
     };
   };
 }
