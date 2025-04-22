@@ -25,6 +25,9 @@ in {
       slack
       postman
       dbeaver-bin
+
+      # DB
+      jetbrains.datagrip
     ];
 
     activation = {

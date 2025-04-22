@@ -19,6 +19,7 @@
     tflint
 
     # DevOps
+    gh
     pre-commit
   ];
 
