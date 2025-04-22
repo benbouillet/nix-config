@@ -129,7 +129,7 @@ in {
           };
 
           "Nix Docs" = {
-            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search=mapAttr"; }];
+            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search={searchTerms}"; }];
             icon = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nd" ];
