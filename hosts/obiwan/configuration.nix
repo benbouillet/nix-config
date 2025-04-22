@@ -3,6 +3,7 @@
   username,
   host,
   pkgs,
+  config,
   ...
 }: let
   inherit (import ./variables.nix)
@@ -24,6 +25,9 @@ in
     ../../modules/nixos/sops.nix
     (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
   ];
+
+  sops.secrets."github/pat" = { };
+  nix.extraOptions = "!include ${config.sops.secrets."github/pat".path}";
 
   # Enable Firmware update
   # services.fwupd.enable = true;
