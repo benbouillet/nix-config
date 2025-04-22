@@ -143,8 +143,8 @@ in {
           };
 
           "DuckduckGo" = {
-            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search={searchTerms}"; }];
-            definedAliases = [ "@dg" ];
+            urls = [{ template = "https://duckduckgo.com/?t=h_&q={searchTerms}&ia=web"; }];
+            definedAliases = [ "@ddg" ];
           };
 
           "GitHub" = {
