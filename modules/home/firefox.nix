@@ -23,7 +23,7 @@
         "extensions.autoDisableScopes" = "0";
       };
       search = {
-        default = "Raclette Search";
+        default = "DuckduckGo";
         engines = {
           "Nix Packages" = {
             urls = [{
@@ -64,9 +64,16 @@
 
           "NixOS Wiki" = {
             urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
-            icon = "https://wiki.nixos.org/favicon.png";
+            icon = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@nw" ];
+          };
+
+          "Nix Docs" = {
+            urls = [{ template = "https://nix.dev/manual/nix/2.24/?search={searchTerms}"; }];
+            icon = "https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg";
+            updateInterval = 24 * 60 * 60 * 1000; # every day
+            definedAliases = [ "@nd" ];
           };
 
           "Raclette Search" = {
@@ -74,6 +81,11 @@
             icon = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = [ "@ra" ];
+          };
+
+          "DuckduckGo" = {
+            urls = [{ template = "https://duckduckgo.com/?t=h_&q={searchTerms}&ia=web"; }];
+            definedAliases = [ "@ddg" ];
           };
 
           "GitHub" = {
