@@ -38,6 +38,7 @@
           gopls.enable = true;
           pylsp.enable = true;
           nixd.enable = true;
+          terraformls.enable = true;
         };
       };
     };
