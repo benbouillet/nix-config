@@ -166,6 +166,11 @@ in {
             urls = [{ template = "https://github.com/sundayapp?q={searchTerms}&type=all&language=&sort="; }];
             definedAliases = [ "@su" ];
           };
+
+          "Github Code Search - Sunday" = {
+            urls = [{ template = "https://github.com/search?q=org%3Asundayapp+{searchTerms}&type=code"; }];
+            definedAliases = [ "@ghsu" ];
+          };
         };
       };
 
@@ -233,9 +238,14 @@ in {
             url = "https://argo.npint.sundayapp.xyz/";
           }
           {
-            name = "Metabase";
-            keyword = "metabase";
+            name = "Metabase Internal";
+            keyword = "metabase-internal";
             url = "https://metabase.sundayapp.io/";
+          }
+          {
+            name = "Metabase Public";
+            keyword = "metabase-public";
+            url = "https://metabase-public.sunday.cloud/";
           }
         ];
         force = true;
