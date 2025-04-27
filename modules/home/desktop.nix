@@ -7,7 +7,7 @@
   home.packages = with pkgs; [
     obsidian
     spotify
-    whatsie
+    altus
     discord
     keepassxc
     speedcrunch
