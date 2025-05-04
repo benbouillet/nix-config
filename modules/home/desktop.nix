@@ -11,6 +11,7 @@
     discord
     keepassxc
     speedcrunch
+    vlc
   ];
 
   programs = {
