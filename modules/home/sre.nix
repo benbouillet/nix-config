@@ -21,6 +21,8 @@
     # DevOps
     gh
     pre-commit
+
+    (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
 
   services = {
