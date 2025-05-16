@@ -39,6 +39,7 @@
           pylsp.enable = true;
           nixd.enable = true;
           terraformls.enable = true;
+          dockerls.enable = true;
         };
       };
     };
