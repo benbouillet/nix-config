@@ -21,6 +21,7 @@
     # DevOps
     gh
     pre-commit
+    podman-compose
 
     (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
