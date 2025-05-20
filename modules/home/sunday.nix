@@ -28,6 +28,9 @@ in {
 
       # DB
       jetbrains.datagrip
+
+      # QR on bill
+      balena-cli
     ];
 
     activation = {
