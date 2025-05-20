@@ -72,7 +72,7 @@ with lib;
             "󰤢"
             "󰤨"
           ];
-          format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes}";
+          format-ethernet = " ";
           format-wifi = "{icon} ";
           format-disconnected = "󰤫 ";
           tooltip-format = "{ifname}\n{essid}\n{ipaddr}";
