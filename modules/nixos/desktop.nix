@@ -44,6 +44,8 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
+    # Thunar media & trash management
+    gvfs.enable = true;
   };
 
   ### BLUETOOTH ###
