@@ -39,6 +39,7 @@
     ../../modules/home/desktop.nix
     ../../modules/home/sunday.nix
     ../../modules/home/3d.nix
+    ../../modules/home/productivity.nix
     ./syncthing.nix
     ./monitors.nix
   ];
