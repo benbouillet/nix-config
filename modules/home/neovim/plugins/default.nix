@@ -9,6 +9,7 @@
     ./lsp.nix
     ./comment.nix
     ./snacks.nix
+    ./motion.nix
   ];
 
   programs.nixvim = {
