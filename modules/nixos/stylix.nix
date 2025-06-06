@@ -4,7 +4,7 @@
   theme,
   wallpaper_file,
   ...
-}: 
+}:
 {
   imports = [ inputs.stylix.nixosModules.stylix ];
   environment.systemPackages = with pkgs; [
