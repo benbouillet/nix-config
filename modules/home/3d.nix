@@ -5,6 +5,6 @@
 {
   home.packages = with pkgs; [
     orca-slicer
-    freecad-wayland
+    freecad
   ];
 }
