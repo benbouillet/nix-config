@@ -23,6 +23,11 @@
     pre-commit
     podman-compose
 
+    # network
+    nmap
+    inetutils
+    masscan
+
     (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
 
