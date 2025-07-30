@@ -19,4 +19,12 @@ export TODO_DIR="/home/${username}/sync/toolbox/todotxt"
     "todo shop" = "${pkgs.todo-txt-cli}/bin/todo.sh ls +";
     "todo sunday" = "${pkgs.todo-txt-cli}/bin/todo.sh ls @sunday";
   };
+
+  programs = {
+    zsh = {
+      shellAliases = {
+        tdls = "todo ls @sunday";
+      };
+    };
+  };
 }
