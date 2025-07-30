@@ -41,6 +41,7 @@
     ../../modules/home/desktop.nix
     ../../modules/home/sunday.nix
     ../../modules/home/3d.nix
+    ../../modules/home/musescore.nix
     ./monitors.nix
     ./syncthing.nix
   ];
