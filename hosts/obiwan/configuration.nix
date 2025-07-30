@@ -23,6 +23,7 @@ in
     ../../modules/nixos/ssd.nix
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/sops.nix
+    ../../modules/nixos/vpn.nix
     (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
   ];
 
