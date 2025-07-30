@@ -4,7 +4,7 @@
 }:
 {
   home.packages = with pkgs; [
-    orca-slicer
+    # orca-slicer
     freecad
   ];
 }
