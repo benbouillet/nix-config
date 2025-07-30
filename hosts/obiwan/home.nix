@@ -40,6 +40,7 @@
     ../../modules/home/sunday.nix
     ../../modules/home/3d.nix
     ../../modules/home/productivity.nix
+    ../../modules/home/music.nix
     ./syncthing.nix
     ./monitors.nix
   ];
