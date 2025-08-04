@@ -147,7 +147,7 @@
             };
             home-manager.users.${username} = import ./hosts/${host}/home.nix;
             home-manager.sharedModules = [
-              inputs.mac-app-util.homeManagerModules.default
+              inputs.mac-app-util.homeModules.default
             ];
           }
 
