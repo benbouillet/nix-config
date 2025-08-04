@@ -502,22 +502,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_debug": {
-      "locked": {
-        "lastModified": 1753776068,
-        "narHash": "sha256-bJsN3p9sF79l6kMtYBB87xMafjkeLiJ8Ctw2KINqXHM=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "c3e01c8845145e8f5b24f5b917c8b5ab16b3884d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "pull/428028/head",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -622,7 +606,6 @@
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-darwin": "nixpkgs-darwin",
-        "nixpkgs_debug": "nixpkgs_debug",
         "nixvim": "nixvim",
         "nur": "nur",
         "sops-nix": "sops-nix",
