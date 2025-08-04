@@ -24,6 +24,7 @@ in
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/sops.nix
     ../../modules/nixos/vpn.nix
+    ../../modules/nixos/printing.nix
     (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
   ];
 

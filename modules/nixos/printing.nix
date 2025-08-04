@@ -1,6 +1,13 @@
 {
+  pkgs,
   ...
 }:
 {
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [
+      pkgs.hplip
+      pkgs.hplipWithPlugin
+    ];
+  };
 }
