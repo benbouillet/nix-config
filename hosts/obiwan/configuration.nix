@@ -16,8 +16,8 @@ in
     inputs.hardware.nixosModules.framework-13-7040-amd
 
     ./hardware-configuration.nix
+    ./networking.nix
     ../../modules/nixos/common.nix
-    ../../modules/nixos/wireless.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/hyprland.nix
     ../../modules/nixos/ssd.nix
