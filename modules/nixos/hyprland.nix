@@ -15,6 +15,8 @@
       xwayland.enable = true;
     };
 
+    xwayland.enable = true;
+
     dconf.enable = true;
   };
 
@@ -37,12 +39,18 @@
     config.common.default = "*";
   };
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${lib.getExe pkgs.tuigreet}; '${pkgs.uwsm}/bin/uwsm start -- hyprland-uwsm.desktop'";
-        user = "greeter";
+  services = {
+    xserver = {
+      enable = true;
+      displayManager.startx.enable = false;
+    };
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${lib.getExe pkgs.tuigreet}; '${pkgs.uwsm}/bin/uwsm start -- hyprland-uwsm.desktop'";
+          user = "greeter";
+        };
       };
     };
   };

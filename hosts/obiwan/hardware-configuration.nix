@@ -2,6 +2,7 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
+  pkgs,
   config,
   lib,
   modulesPath,
@@ -16,6 +17,9 @@
     graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [ mesa ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [ mesa ];
+
     };
   };
   services.xserver.videoDrivers = ["amdgpu"];

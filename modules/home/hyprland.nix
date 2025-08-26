@@ -130,7 +130,6 @@ with lib;
       windowrulev2 = [
         "noborder, class:^(tofi)$"
         "center, class:^(tofi)$"
-        "stayfocused, class:^(steam)$"
       ];
       gestures = {
         workspace_swipe = true;
