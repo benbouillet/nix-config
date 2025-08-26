@@ -17,7 +17,7 @@
 
     dconf.enable = true;
   };
-  
+
   security = {
     polkit.enable = true;
     pam.services.hyprlock = {};
@@ -41,7 +41,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${lib.getExe pkgs.greetd.tuigreet}; '${pkgs.uwsm}/bin/uwsm start -- hyprland-uwsm.desktop'";
+        command = "${lib.getExe pkgs.tuigreet}; '${pkgs.uwsm}/bin/uwsm start -- hyprland-uwsm.desktop'";
         user = "greeter";
       };
     };
