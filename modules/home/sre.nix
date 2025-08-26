@@ -12,6 +12,10 @@
     cmctl
     istioctl
     kubernetes-helm
+    stern
+    kubectl-klock
+    kubectl-ktop
+    kubectl-tree
 
     # IaC
     tenv
