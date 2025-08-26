@@ -27,9 +27,6 @@ in
     (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
   ];
 
-  sops.secrets."github/pat" = { };
-  nix.extraOptions = "!include ${config.sops.secrets."github/pat".path}";
-
   # Enable Firmware update
   # services.fwupd.enable = true;
 
