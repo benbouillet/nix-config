@@ -3,7 +3,6 @@
   username,
   host,
   pkgs,
-  config,
   ...
 }: let
   inherit (import ./variables.nix)
