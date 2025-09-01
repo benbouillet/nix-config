@@ -32,6 +32,9 @@
     inetutils
     masscan
 
+    # web
+    jwt-cli
+
     (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
 
