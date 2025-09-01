@@ -250,6 +250,16 @@ in {
             keyword = "metabase-public";
             url = "https://metabase-public.sunday.cloud/";
           }
+          {
+            name = "POS Tooling Alpha";
+            keyword = "pos-tooling-alpha";
+            url = "https://pos-tooling.alpha.sundayapp.dev/";
+          }
+          {
+            name = "POS Tooling Demo";
+            keyword = "pos-tooling-demo";
+            url = "https://pos-tooling.demo.sundayapp.dev/";
+          }
         ];
         force = true;
       };
