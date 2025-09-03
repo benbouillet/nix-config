@@ -29,6 +29,7 @@
     wl-clipboard
     brightnessctl
     networkmanagerapplet
+    usbutils
   ];
 
   ### AUDIO ###
@@ -43,6 +44,7 @@
     };
     # Thunar media & trash management
     gvfs.enable = true;
+    tumbler.enable = true;
   };
 
   ### BLUETOOTH ###
