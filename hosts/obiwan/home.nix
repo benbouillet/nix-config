@@ -38,6 +38,7 @@
     ../../modules/home/sre.nix
     ../../modules/home/desktop.nix
     ../../modules/home/sunday.nix
+    ../../modules/home/2d.nix
     ../../modules/home/3d.nix
     ../../modules/home/productivity.nix
     ../../modules/home/music.nix
