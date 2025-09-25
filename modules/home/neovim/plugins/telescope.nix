@@ -33,6 +33,18 @@
         ];
         set_env.COLORTERM = "truecolor";
         wrap_results = true;
+        vimgrep_arguments = [
+          "rg"
+          "--color=never"
+          "--no-heading"
+          "--with-filename"
+          "--line-number"
+          "--column"
+          "--smart-case"
+          "--hidden"
+          "--glob"
+          "!.git/*"
+        ];
       };
     };
   };
