@@ -131,10 +131,9 @@ with lib;
         "noborder, class:^(tofi)$"
         "center, class:^(tofi)$"
       ];
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_fingers = 4;
-      };
+      gesture = [
+        "3,horizontal,workspace"
+      ];
       misc = {
         initial_workspace_tracking = 0;
         mouse_move_enables_dpms = true;
