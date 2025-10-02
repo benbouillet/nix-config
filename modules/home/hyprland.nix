@@ -19,6 +19,10 @@ with lib;
     pavucontrol
   ];
 
+  services = {
+    playerctld.enable = true;
+  };
+
   gtk = {
     enable = true;
     iconTheme = {
@@ -59,7 +63,6 @@ with lib;
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user enable --now hyprpolkitagent.service"
-        # "uwsm app -- dunst"
         "uwsm app -- waybar"
         "uwsm app -- swayosd-server"
         "uwsm app -- nm-applet --indicator"
@@ -132,7 +135,7 @@ with lib;
         "center, class:^(tofi)$"
       ];
       gesture = [
-        "3,horizontal,workspace"
+        "4,horizontal,workspace"
       ];
       misc = {
         initial_workspace_tracking = 0;
