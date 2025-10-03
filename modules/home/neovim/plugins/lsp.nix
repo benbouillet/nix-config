@@ -40,6 +40,7 @@
           nixd.enable = true;
           terraformls.enable = true;
           dockerls.enable = true;
+          helm_ls.enable = true;
         };
       };
     };
