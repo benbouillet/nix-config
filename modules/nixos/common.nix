@@ -20,7 +20,11 @@
         "nix-command"
         "flakes"
       ];
+
+      download-buffer-size = 512 * 1024 * 1024;
+
       substituters =  [
+        "https://cache.nixos.org"
         "https://hyprland.cachix.org"
         "https://nix-community.cachix.org"
       ];
