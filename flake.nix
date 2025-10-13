@@ -1,5 +1,5 @@
 {
-  description = "My Thinkpad T480 configuration";
+  description = "Home Configurations";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -27,32 +27,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    ### MAC ###
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
-
-    darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
-    };
-
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    mac-app-util.url = "github:hraban/mac-app-util";
-
-    # Optional: Declarative tap management
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
   };
 
   outputs = {
@@ -67,105 +41,28 @@
   {
     nixosConfigurations = {
       "obiwan" = let
-          host = "obiwan";
-        in
-        nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-            inherit host;
-            inherit username;
-          };
-          modules = [
-            ./hosts/${host}/configuration.nix
-            home-manager.nixosModules.home-manager {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit username;
-                  inherit inputs;
-                  inherit host;
-                };
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                users.${username} = import ./hosts/${host}/home.nix;
-              };
-            }
-          ];
+        host = "obiwan";
+      in
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          inherit system;
+          inherit host;
+          inherit username;
         };
-      "solo" = let
-          host = "solo";
-        in
-        nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-            inherit host;
-            inherit username;
-          };
-          modules = [
-            ./hosts/${host}/configuration.nix
-            home-manager.nixosModules.home-manager {
-              home-manager = {
-                extraSpecialArgs = {
-                  inherit username;
-                  inherit inputs;
-                  inherit host;
-                };
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                users.${username} = import ./hosts/${host}/home.nix;
-              };
-            }
-          ];
-        };
-      "windu" = let
-          host = "windu";
-        in
-        inputs.darwin.lib.darwinSystem {
-          specialArgs = {
-            inherit inputs;
-            inherit system;
-            inherit host;
-            inherit username;
-          };
         modules = [
-          ./hosts/${host}/system.nix
-          ./hosts/${host}/apps.nix
-          ./hosts/${host}/host-users.nix
-          ./hosts/${host}/nix-core.nix
-
-          inputs.mac-app-util.darwinModules.default
-
-          # home manager
-          home-manager.darwinModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit username host;
-            };
-            home-manager.users.${username} = import ./hosts/${host}/home.nix;
-            home-manager.sharedModules = [
-              inputs.mac-app-util.homeModules.default
-            ];
-          }
-
-          inputs.nix-homebrew.darwinModules.nix-homebrew {
-            nix-homebrew = {
-              enable = true;
-
-              enableRosetta = true;
-
-              user = username;
-
-              taps = {
-                "homebrew/homebrew-core" = inputs.homebrew-core;
-                "homebrew/homebrew-cask" = inputs.homebrew-cask;
-                "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+          ./hosts/${host}/configuration.nix
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              extraSpecialArgs = {
+                inherit username;
+                inherit inputs;
+                inherit host;
               };
-              mutableTaps = false;
-              autoMigrate = true;
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              users.${username} = import ./hosts/${host}/home.nix;
             };
           }
         ];
