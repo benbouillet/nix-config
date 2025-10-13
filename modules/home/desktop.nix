@@ -12,6 +12,7 @@
     keepassxc
     speedcrunch
     vlc
+    digikam
   ];
 
   programs = {
