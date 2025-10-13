@@ -12,21 +12,20 @@
     plugins.neo-tree = {
       enable = true;
 
-      closeIfLastWindow = true;
-      window = {
-        width = 30;
-        autoExpandWidth = true;
-      };
+      settings = {
+        window = {
+          width = 30;
+          auto_expand_width = true;
+        };
+        close_if_last_window = true;
 
-      sources = [
-        "filesystem"
-        "buffers"
-        "git_status"
-      ];
+        default_source = "filesystem";
+        sources = [
+          "filesystem"
+          "buffers"
+          "git_status"
+        ];
 
-      defaultSource = "filesystem";
-
-      extraOptions = {
         filesystem = {
           filtered_items = {
             visible = true;
