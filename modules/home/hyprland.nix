@@ -133,9 +133,8 @@ with lib;
       windowrulev2 = [
         "noborder, class:^(tofi)$"
         "center, class:^(tofi)$"
-        "fullscreen,class:^steam_app_\d+$"
-        "monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889,class:^steam_app_\d+$"
-        "workspace 10,class:^steam_app_\d+$"
+        "fullscreen,class:gamescope"
+        "workspace 10,class:gamescope"
       ];
       gesture = [
         "4,horizontal,workspace"
