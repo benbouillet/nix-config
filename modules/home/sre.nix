@@ -31,6 +31,7 @@
     nmap
     inetutils
     masscan
+    openssl
 
     # web
     jwt-cli
