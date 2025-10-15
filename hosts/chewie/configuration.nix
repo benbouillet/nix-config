@@ -4,6 +4,7 @@
 }:
 {
   imports = [
+    ./hardware-configuration.nix
     ./disko.nix
     ./zfs.nix
     ../../modules/nixos/common.nix
