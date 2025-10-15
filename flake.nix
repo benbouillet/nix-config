@@ -32,6 +32,11 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -71,6 +76,22 @@
               users.${username} = import ./hosts/${host}/home.nix;
             };
           }
+        ];
+      };
+      "chewie" = let
+        host = "chewie";
+      in
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          inherit system;
+          inherit host;
+          inherit username;
+        };
+        modules = [
+          inputs.disko.nixosModules.disko
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/${host}/configuration.nix
         ];
       };
     };

@@ -69,30 +69,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  fonts = {
-    fontconfig = {
-      enable = true;
-      defaultFonts = {
-        monospace = [ "FiraCode" ];
-        sansSerif = [ "Roboto" ];
-        serif = [ "Roboto Serif" ];
-      };
-    };
-    enableDefaultPackages = true;
-    packages = with pkgs; [
-      nerd-fonts.fira-code
-      roboto
-      roboto-serif
-      noto-fonts-monochrome-emoji
-    ];
-  };
-
-  environment.pathsToLink = [
-    "/share/zsh"
-    "/share/xdg-desktop-portal"
-    "/share/applications"
-  ];
-
   services = {
     libinput.enable = true;
     openssh.enable = true;
@@ -105,29 +81,20 @@
   environment.systemPackages = with pkgs; [
     curl
     killall
-    tmux
     vim
     wget
-    file-roller
   ];
 
   users = {
-    mutableUsers = true;
+    mutableUsers = lib.mkDefault true;
     users."${username}" = {
       isNormalUser = true;
-      extraGroups = [
+      extraGroups = lib.mkDefault [
         "networkmanager"
         "wheel"
       ];
-      shell = pkgs.zsh;
-      ignoreShellProgramCheck = true;
-    };
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    settings = {
-        default-cache-ttl = 2160000;
+      shell = lib.mkDefault pkgs.zsh;
+      ignoreShellProgramCheck = lib.mkDefault true;
     };
   };
 }

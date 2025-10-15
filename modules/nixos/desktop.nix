@@ -16,7 +16,9 @@
   environment.systemPackages = with pkgs; [
     bat
     dig
+    tmux
     eza
+    file-roller
     htop
     jq
     ripgrep
@@ -31,6 +33,37 @@
     networkmanagerapplet
     usbutils
   ];
+
+  fonts = {
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ "FiraCode" ];
+        sansSerif = [ "Roboto" ];
+        serif = [ "Roboto Serif" ];
+      };
+    };
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      nerd-fonts.fira-code
+      roboto
+      roboto-serif
+      noto-fonts-monochrome-emoji
+    ];
+  };
+
+  environment.pathsToLink = [
+    "/share/zsh"
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
+
+  programs.gnupg.agent = {
+    enable = true;
+    settings = {
+        default-cache-ttl = 2160000;
+    };
+  };
 
   ### AUDIO ###
   security.rtkit.enable = true;
