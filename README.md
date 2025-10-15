@@ -9,6 +9,16 @@ nix build .#usbboot
 sudo dd if=result/iso/<ISO_FILE> of=/dev/<USBKEY> bs=4M conv=fsync status=progress
 ```
 
+### Provision a new machine
+
+```
+nix run github:nix-community/nixos-anywhere -- \
+  --generate-hardware-config nixos-generate-config ./hosts/chewie/hardware-configuration.nix \
+  --flake .#chewie \
+  --target-host root@<IP>
+  --ssh-port <SSH_PORT>
+```
+
 # TO DO
 - [x] Hyprland implementation
 - [x] Hyprland configuration
