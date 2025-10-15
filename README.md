@@ -1,3 +1,14 @@
+# Homelab Configurations
+
+## How to
+
+### Prepare a USB bootable nix system
+
+```
+nix build .#usbboot
+sudo dd if=result/iso/<ISO_FILE> of=/dev/<USBKEY> bs=4M conv=fsync status=progress
+```
+
 # TO DO
 - [x] Hyprland implementation
 - [x] Hyprland configuration
