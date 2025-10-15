@@ -48,9 +48,14 @@
     zpool = {
       # Root on NVMe
       rpool = {
-        mode = "single";
-        vdevs = [ "disk/nvme0:part:rpool" ];
+        topology = {
+          data = [
+            { type = "disk"; device = "disk/nvme0:part:rpool"; }
+          ];
+        };
+
         options = { ashift = "12"; autotrim = "on"; };
+
         rootFsOptions = {
           compression = "zstd";
           atime = "off";
@@ -58,6 +63,7 @@
           acltype = "posixacl";
           dnodesize = "auto";
         };
+
         datasets = {
           "rpool/ROOT" = { mountpoint = "none"; };
           "rpool/ROOT/nixos" = { mountpoint = "/"; };
@@ -70,8 +76,18 @@
 
       # SSD mirror for VM storage
       vm = {
-        mode = "mirror";
-        vdevs = [ [ "disk/ssd1:part:vm" "disk/ssd2:part:vm" ] ];
+        topology = {
+          data = [
+            {
+              type = "mirror";
+              devices = [
+                "disk/ssd1:part:vm"
+                "disk/ssd2:part:vm"
+              ];
+            }
+          ];
+          # optional special/log/cache/spares sections can go here later
+        };
         options = { ashift = "12"; autotrim = "on"; };
         rootFsOptions = {
           compression = "zstd";
@@ -94,9 +110,20 @@
 
       # HDD mirror for data/backup/archives
       data = {
-        mode = "mirror";
-        vdevs = [ [ "disk/hdd1:part:data" "disk/hdd2:part:data" ] ];
+        topology = {
+          data = [
+            {
+              type = "mirror";
+              devices = [
+                "disk/hdd1:part:data"
+                "disk/hdd2:part:data"
+              ];
+            }
+          ];
+        };
+
         options = { ashift = "12"; autotrim = "on"; };
+
         rootFsOptions = {
           compression = "zstd";
           atime = "off";
@@ -107,6 +134,7 @@
           keyformat    = "passphrase";
           keylocation  = "prompt";
         };
+
         datasets = {
           "data/isos"    = { mountpoint = "/srv/isos"; };
           "data/backups" = { mountpoint = "/srv/backups"; };
