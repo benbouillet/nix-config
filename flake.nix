@@ -27,11 +27,17 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
+    nixos-generators,
     ...
   }@inputs:
   let
@@ -67,6 +73,24 @@
           }
         ];
       };
+    };
+    packages.${system}.usbboot = nixos-generators.nixosGenerate {
+      system = system;
+      format = "install-iso";
+      modules = [{
+        services.openssh = {
+          enable = true;
+          settings = {
+            PasswordAuthentication = false;
+            KbdInteractiveAuthentication = false;
+            PermitRootLogin = "prohibit-password";
+          };
+        };
+        users.users.root.openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
+        ];
+        networking.networkmanager.enable = true;
+      }];
     };
   };
 }
