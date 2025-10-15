@@ -99,6 +99,11 @@
       system = system;
       format = "install-iso";
       modules = [{
+        nix = {
+          settings.experimental-features = [ "nix-command" "flakes" ];
+        };
+        programs.git.enable = true;
+
         services.openssh = {
           enable = true;
           settings = {
