@@ -16,7 +16,6 @@
   services.zfs = {
     autoScrub.enable = true;      # monthly scrub (default schedule)
     trim.enable = true;           # autotrim for SSD/NVMe
-    zed.enable = true;            # ZFS event daemon (alerts)
   };
 
   ########################################
@@ -29,7 +28,6 @@
   # VM host bits (optional but handy)
   ########################################
   virtualisation.libvirtd.enable = true;
-  users.users.ben.extraGroups = [ "libvirtd" "kvm" ];
   zramSwap.enable = true;
 
   # Bridge for guests (edit NIC name if you want bridged networking)
@@ -65,7 +63,8 @@
   # One-shot you run manually after boot to unlock and mount
   systemd.services."zfs-unlock" = {
     description = "Manually unlock ZFS encrypted datasets and mount them";
-    after  = [ "zfs-import-cache.service" "zfs-import-scan.service" "network-online.target" ];
+    after  = [ "zfs-import-cache.service" "zfs-import-scan.service" "local-fs.target" ];
+    wants  = [ "zfs-import-cache.service" "zfs-import-scan.service" ];
     before = [ "after-zfs-unlock.target" ];
     serviceConfig = {
       Type = "oneshot";

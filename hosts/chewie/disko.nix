@@ -12,33 +12,92 @@
           partitions = {
             ESP = {
               name = "ESP";
-              start = "1MiB"; end = "513MiB"; type = "EF00";
+              start = "1MiB";
+              end = "512MiB";
+              type = "EF00";
               content = {
-                type = "filesystem"; format = "vfat";
-                mountpoint = "/boot"; mountOptions = [ "umask=0077" ];
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "umask=0077" "nodev" "nosuid" "noexec" ];
               };
             };
-            rpool = { name = "rpool"; start = "513MiB"; end = "100%"; type = "BF01"; }; # ZFS
+            root = {
+              name = "root";
+              type = "8300";
+              start = "513MiB";
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+                mountOptions = [ "noatime" "lazytime" "discard=async" "commit=30" "errors=remount-ro" ];
+              };
+            };
           };
         };
       };
 
       ssd1 = {
-        device = "/dev/disk/by-id/ata-SSD500G-CHANGE1";
-        type = "disk"; content = { type = "gpt"; partitions = { vm = { start = "1MiB"; end = "100%"; type = "BF01"; }; }; };
+        type = "disk";
+        device = "/dev/disk/by-id/ata-CT500MX500SSD1_2326E6E82F2D";
+        content = {
+          type = "gpt";
+          partitions = {
+            vm = {
+              name = "vm";
+              size = "100%";
+              type = "BF01";
+              content = { type = "zfs"; pool = "vm"; };
+            };
+          };
+        };
       };
       ssd2 = {
-        device = "/dev/disk/by-id/ata-SSD500G-CHANGE2";
-        type = "disk"; content = { type = "gpt"; partitions = { vm = { start = "1MiB"; end = "100%"; type = "BF01"; }; }; };
+        type = "disk";
+        device = "/dev/disk/by-id/ata-CT500MX500SSD1_2326E6E82EE3";
+        content = {
+          type = "gpt";
+          partitions = {
+            vm = {
+              name = "vm";
+              size = "100%";
+              type = "BF01";
+              content = { type = "zfs"; pool = "vm"; };
+            };
+          };
+        };
       };
 
       hdd1 = {
-        device = "/dev/disk/by-id/ata-HDD1TB-CHANGE1";
-        type = "disk"; content = { type = "gpt"; partitions = { data = { start = "1MiB"; end = "100%"; type = "BF01"; }; }; };
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EZEX-08WN4A0_WD-WCC6Y3CCPLFK";
+        content = {
+          type = "gpt";
+          partitions = {
+            data = {
+              name = "data";
+              size = "100%";
+              type = "BF01";
+              content = { type = "zfs"; pool = "data"; };
+            };
+          };
+        };
       };
       hdd2 = {
-        device = "/dev/disk/by-id/ata-HDD1TB-CHANGE2";
-        type = "disk"; content = { type = "gpt"; partitions = { data = { start = "1MiB"; end = "100%"; type = "BF01"; }; }; };
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EZEX-60WN4A0_WD-WCC6Y7XR5PV8";
+        content = {
+          type = "gpt";
+          partitions = {
+            data = {
+              name = "data";
+              size = "100%";
+              type = "BF01";
+              content = { type = "zfs"; pool = "data"; };
+            };
+          };
+        };
       };
     };
 
@@ -46,84 +105,60 @@
     # ZFS POOLS + DATASETS
     ########################################
     zpool = {
-      # Root on NVMe
-      rpool = {
-        topology = {
-          data = [
-            { type = "disk"; device = "disk/nvme0:part:rpool"; }
-          ];
-        };
-
-        options = { ashift = "12"; autotrim = "on"; };
-
-        rootFsOptions = {
-          compression = "zstd";
-          atime = "off";
-          xattr = "sa";
-          acltype = "posixacl";
-          dnodesize = "auto";
-        };
-
-        datasets = {
-          "rpool/ROOT" = { mountpoint = "none"; };
-          "rpool/ROOT/nixos" = { mountpoint = "/"; };
-          "rpool/nix"  = { mountpoint = "/nix";  options = { atime = "on"; recordsize = "16K"; }; };
-          "rpool/var"  = { mountpoint = "/var"; };
-          "rpool/var/log" = { mountpoint = "/var/log";  options = { quota = "2G"; }; };
-          "rpool/home" = { mountpoint = "/home"; };
-        };
-      };
-
       # SSD mirror for VM storage
       vm = {
-        topology = {
-          data = [
-            {
-              type = "mirror";
-              devices = [
-                "disk/ssd1:part:vm"
-                "disk/ssd2:part:vm"
-              ];
-            }
-          ];
-          # optional special/log/cache/spares sections can go here later
+        type = "zpool";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [{
+              mode = "mirror";
+              members = [ "disk/ssd1:part:vm" "disk/ssd2:part:vm" ];
+            }];
+          };
         };
+
         options = { ashift = "12"; autotrim = "on"; };
+
         rootFsOptions = {
-          compression = "zstd";
-          atime = "off";
-          xattr = "sa";
           acltype = "posixacl";
-          logbias = "throughput";
+          atime = "off";
+          compression = "zstd";
           encryption   = "on";
           keyformat    = "passphrase";
           keylocation  = "prompt";
+          logbias = "throughput";
+          xattr = "sa";
         };
+
         datasets = {
           # file-based VM images live here (raw or qcow2). For KVM, raw + 16K works great.
-          "vm/images" = { mountpoint = "/var/lib/libvirt/images"; options = { recordsize = "16K"; }; };
+          "vm/images" = {
+            type = "zfs_fs";
+            mountpoint = "/var/lib/libvirt/images";
+            options = { recordsize = "16K"; };
+          };
           # Optional place for ISO files on SSD if you want fast installs:
-          "vm/iso"    = { mountpoint = "/var/lib/libvirt/iso"; };
-          # If you prefer ZVOLs per-VM, you'll create them later (see notes).
+          "vm/iso" = {
+            type = "zfs_fs";
+            mountpoint = "/var/lib/libvirt/iso";
+          };
         };
       };
 
       # HDD mirror for data/backup/archives
       data = {
-        topology = {
-          data = [
-            {
-              type = "mirror";
-              devices = [
-                "disk/hdd1:part:data"
-                "disk/hdd2:part:data"
-              ];
-            }
-          ];
+        type = "zpool";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [{
+              mode = "mirror";
+              members = [ "disk/hdd1:part:data" "disk/hdd2:part:data" ];
+            }];
+          };
         };
-
         options = { ashift = "12"; autotrim = "on"; };
-
         rootFsOptions = {
           compression = "zstd";
           atime = "off";
@@ -136,9 +171,9 @@
         };
 
         datasets = {
-          "data/isos"    = { mountpoint = "/srv/isos"; };
-          "data/backups" = { mountpoint = "/srv/backups"; };
-          "data/archive" = { mountpoint = "/srv/archive"; };
+          "data/isos"    = { type = "zfs_fs"; mountpoint = "/srv/isos"; };
+          "data/backups" = { type = "zfs_fs"; mountpoint = "/srv/backups"; };
+          "data/archive" = { type = "zfs_fs"; mountpoint = "/srv/archive"; };
         };
       };
     };
