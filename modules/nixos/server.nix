@@ -41,7 +41,7 @@
       hashedPassword = "!";                 # "!" = disabled password
 
       extraGroups =
-        (lib.optional config.virtualisation.libvirtd.enable "libvirtd")
+        (lib.optional  config.virtualisation.libvirtd.enable "libvirtd")
         ++ (lib.optional config.virtualisation.libvirtd.enable "kvm")
         ++ (lib.optional config.networking.networkmanager.enable "networkmanager");
 

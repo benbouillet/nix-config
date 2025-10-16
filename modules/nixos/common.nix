@@ -89,10 +89,7 @@
     mutableUsers = lib.mkDefault true;
     users."${username}" = {
       isNormalUser = true;
-      extraGroups = lib.mkDefault [
-        "networkmanager"
-        "wheel"
-      ];
+      extraGroups = [ "networkmanager" "wheel" ];
       shell = lib.mkDefault pkgs.zsh;
       ignoreShellProgramCheck = lib.mkDefault true;
     };
