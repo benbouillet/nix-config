@@ -65,9 +65,10 @@
     allowReboot = false;  # set true only if you’re comfortable
   };
 
-  boot.tmp.useTmpfs = true;
-  fileSystems."/tmp".options = [ "mode=1777" "nosuid" "nodev" "noexec" ];
-  fileSystems."/var/tmp".options = [ "mode=1777" "nosuid" "nodev" ];
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "4G";
+  };
 
   boot.kernel.sysctl = {
     "kernel.kptr_restrict" = 2;
