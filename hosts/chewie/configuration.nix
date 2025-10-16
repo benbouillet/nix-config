@@ -10,6 +10,7 @@
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/sops.nix
+    ../../modules/nixos/ssd.nix
   ];
   networking.hostName = host;
 

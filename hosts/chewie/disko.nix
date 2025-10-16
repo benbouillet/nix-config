@@ -12,8 +12,8 @@
           partitions = {
             ESP = {
               name = "ESP";
-              start = "1MiB";
-              end = "512MiB";
+              start = "0%";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -25,13 +25,12 @@
             root = {
               name = "root";
               type = "8300";
-              start = "513MiB";
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-                mountOptions = [ "noatime" "lazytime" "discard=async" "commit=30" "errors=remount-ro" ];
+                mountOptions = [ "noatime" "lazytime" "commit=30" "errors=remount-ro" ];
               };
             };
           };
@@ -45,7 +44,6 @@
           type = "gpt";
           partitions = {
             vm = {
-              name = "vm";
               size = "100%";
               type = "BF01";
               content = { type = "zfs"; pool = "vm"; };
@@ -60,7 +58,6 @@
           type = "gpt";
           partitions = {
             vm = {
-              name = "vm";
               size = "100%";
               type = "BF01";
               content = { type = "zfs"; pool = "vm"; };
@@ -76,7 +73,6 @@
           type = "gpt";
           partitions = {
             data = {
-              name = "data";
               size = "100%";
               type = "BF01";
               content = { type = "zfs"; pool = "data"; };
@@ -91,7 +87,6 @@
           type = "gpt";
           partitions = {
             data = {
-              name = "data";
               size = "100%";
               type = "BF01";
               content = { type = "zfs"; pool = "data"; };
@@ -113,7 +108,10 @@
             type = "topology";
             vdev = [{
               mode = "mirror";
-              members = [ "disk/ssd1:part:vm" "disk/ssd2:part:vm" ];
+              members = [
+                "/dev/disk/by-partlabel/disk-ssd1-vm"
+                "/dev/disk/by-partlabel/disk-ssd2-vm"
+              ];
             }];
           };
         };
@@ -154,7 +152,10 @@
             type = "topology";
             vdev = [{
               mode = "mirror";
-              members = [ "disk/hdd1:part:data" "disk/hdd2:part:data" ];
+              members = [
+                "/dev/disk/by-partlabel/disk-hdd1-data"
+                "/dev/disk/by-partlabel/disk-hdd2-data"
+              ];
             }];
           };
         };
