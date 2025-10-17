@@ -260,6 +260,11 @@ in {
             keyword = "pos-tooling-demo";
             url = "https://pos-tooling.demo.sundayapp.dev/";
           }
+          {
+            name = "Prelude";
+            keyword = "prelude";
+            url = "https://app.prelude.so/";
+          }
         ];
         force = true;
       };
