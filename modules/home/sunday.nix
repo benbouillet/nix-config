@@ -265,6 +265,11 @@ in {
             keyword = "prelude";
             url = "https://app.prelude.so/";
           }
+          {
+            name = "Wiz";
+            keyword = "wiz";
+            url = "https://app.wiz.io/";
+          }
         ];
         force = true;
       };
