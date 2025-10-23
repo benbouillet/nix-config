@@ -25,6 +25,7 @@ in
     ../../modules/nixos/vpn.nix
     ../../modules/nixos/printing.nix
     ../../modules/nixos/gaming.nix
+    ../../modules/nixos/sre.nix
     (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
   ];
 
