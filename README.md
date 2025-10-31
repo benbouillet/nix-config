@@ -10,13 +10,32 @@ sudo dd if=result/iso/<ISO_FILE> of=/dev/<USBKEY> bs=4M conv=fsync status=progre
 ```
 
 ### Provision a new machine
+Don't forget to update `~/.ssh/config` (way easier, esp. when
+using SSH jump and/or custom SSH port).
 
-```
+```shell
 nix run github:nix-community/nixos-anywhere -- \
   --generate-hardware-config nixos-generate-config ./<HOST>/chewie/hardware-configuration.nix \
   --flake .#<HOST> \
-  --target-host root@<TARGET_IP> \
-  --ssh-port <TARGET_PORT>
+  --target-host <TARGET>
+```
+
+### Deploy a new configuration
+Don't forget to update `~/.ssh/config` (way easier, esp. when
+using SSH jump and/or custom SSH port).
+
+```
+nixos-rebuild switch --flake ".#<HOST>" \
+  --target-host <TARGET> \
+  --build-host <TARGET> \
+  --sudo \
+  --use-substitutes
+```
+
+### Decrypt ZFS drives after reboot
+
+On the target host:
+```
 
 ```
 
