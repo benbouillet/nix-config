@@ -20,11 +20,16 @@ in {
           user = {
             email = git_email;
             name = git_name;
+            signingKey = "/home/${username}/.ssh/id_ed25519_sk_git_signing";
           };
+          gpg = {
+            format = "ssh";
+          };
+          commit.gpgsign = true;
         };
       }
     ];
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
       color.ui = "true";
       pull.rebase = "true";
