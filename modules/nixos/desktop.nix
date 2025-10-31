@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }:
@@ -33,6 +34,18 @@
     networkmanagerapplet
     usbutils
   ];
+
+  networking = {
+    networkmanager = {
+      enable = true;
+    };
+    useDHCP = lib.mkDefault true;
+  };
+
+
+  boot = {
+    plymouth.enable = true;
+  };
 
   fonts = {
     fontconfig = {
