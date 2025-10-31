@@ -85,7 +85,7 @@
     users."${username}" = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
-      shell = lib.mkDefault pkgs.zsh;
+      shell = pkgs.zsh;
       ignoreShellProgramCheck = lib.mkDefault true;
     };
   };
