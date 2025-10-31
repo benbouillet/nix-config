@@ -14,8 +14,7 @@
     overrideFolders = false;
     settings = {
       devices = {
-        "pixel" = { id = "DAPOL32-UCPTKEC-UKN2ZI7-LFXCIT7-BACEC6R-R3KP7DC-JN7UEXS-ZXS6SA6"; };
-        "windu" = { id = "7WUXUQS-BPY7X37-5OMTXRQ-XOOBJE2-BQ4AYNV-RRCJPUI-K6X6X56-4XPOWQ4"; };
+        "pixel" = { id = "6GRW4ZC-LDD3H7A-WW3SV7P-OFZ5BAH-GVGAZX7-PCAD62I-3C5NYLR-YYX2JQX"; };
       };
       options = {
         urAccepted = -1;
