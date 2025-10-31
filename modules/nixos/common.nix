@@ -46,11 +46,6 @@
     plymouth.enable = true;
   };
 
-  networking = {
-    useDHCP = lib.mkDefault true;
-    networkmanager.enable = true;
-  };
-
   time.timeZone = "Europe/Paris";
 
   console.keyMap = "us";
