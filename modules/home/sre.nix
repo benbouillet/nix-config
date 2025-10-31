@@ -43,10 +43,6 @@
     (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
 
-  services = {
-    podman.enable = true;
-  };
-
   programs = {
     direnv = {
       enable = true;
