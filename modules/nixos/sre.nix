@@ -13,6 +13,8 @@
     };
   };
 
+  services.pcscd.enable = true; # yubikey management
+
   users.users.${username} = {
     extraGroups = [
       "podman"

@@ -37,6 +37,9 @@
     # web
     jwt-cli
 
+    # security
+    yubikey-manager
+
     (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
   ];
 
