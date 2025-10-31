@@ -27,6 +27,8 @@
     unzip
     dive
     jless
+    jq
+    yq
     tldr
     wtype
     wl-clipboard
