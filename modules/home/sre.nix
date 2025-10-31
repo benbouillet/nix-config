@@ -21,6 +21,7 @@
     tenv
     terraform-docs
     tflint
+    trivy
 
     # DevOps
     gh
