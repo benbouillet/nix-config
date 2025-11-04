@@ -105,6 +105,11 @@
         };
       };
 
+      settings = {
+          "security.webauth.webauthn" = true;
+          "security.webauth.u2f" = true;
+      };
+
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         sponsorblock

@@ -1,4 +1,5 @@
 {
+  pkgs,
   username,
   ...
 }:
@@ -14,6 +15,7 @@
   };
 
   services.pcscd.enable = true; # yubikey management
+  services.udev.packages = with pkgs; [ libfido2 ];
 
   users.users.${username} = {
     extraGroups = [
