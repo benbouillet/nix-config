@@ -1,5 +1,4 @@
 {
-  pkgs,
   host,
   ...
 }:
@@ -7,7 +6,15 @@
   ########################################
   # Kernel & ZFS basics
   ########################################
-  boot.supportedFilesystems = [ "zfs" ];
+  boot = {
+    supportedFilesystems = [ "zfs" ];
+    # Set this to false to disable ZFS decrypting at boot
+    zfs = {
+      requestEncryptionCredentials = true;
+      extraPools = [ "data" "vm" ];
+    };
+  };
+
 
   # Reliable pool import
   networking.hostId = builtins.substring 0 8 (builtins.hashString "sha256" host);
@@ -30,10 +37,6 @@
   virtualisation.libvirtd.enable = true;
   zramSwap.enable = true;
 
-  # Bridge for guests (edit NIC name if you want bridged networking)
-  # networking.bridges.br0.interfaces = [ "enp3s0" ];
-  # networking.interfaces.br0.useDHCP = true;
-
   ########################################
   # Snapshot policy (sanoid)
   ########################################
@@ -50,35 +53,4 @@
       "rpool/var/log" = { autosnap = false; autoprune = true; };
     };
   };
-
-  # Optional: syncoid example (replicate to another host)
-  # services.syncoid = {
-  #   enable = true;
-  #   jobs."vm/images->backuphost:vm/images" = { recursive = true; };
-  # };
-
-  # Target that depends will be started AFTER you unlock & mount
-  systemd.targets."after-zfs-unlock".description = "Services that require encrypted ZFS datasets";
-
-  # One-shot you run manually after boot to unlock and mount
-  systemd.services."zfs-unlock" = {
-    description = "Manually unlock ZFS encrypted datasets and mount them";
-    after  = [ "zfs-import-cache.service" "zfs-import-scan.service" "local-fs.target" ];
-    wants  = [ "zfs-import-cache.service" "zfs-import-scan.service" ];
-    before = [ "after-zfs-unlock.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      # This will PROMPT you for each encryption root (vm, data) because keylocation=prompt
-      ExecStart = ''
-        ${pkgs.zfs}/bin/zfs load-key -a \
-        ${pkgs.zfs}/bin/zfs mount -a
-      '';
-    };
-  };
-
-  # Example: make libvirtd wait until datasets are available
-  # systemd.services.libvirtd = {
-  #   after = [ "after-zfs-unlock.target" ];
-  #   wants = [ "after-zfs-unlock.target" ];
-  # };
 }

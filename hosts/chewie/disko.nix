@@ -133,13 +133,21 @@
           # file-based VM images live here (raw or qcow2). For KVM, raw + 16K works great.
           "vm/images" = {
             type = "zfs_fs";
-            mountpoint = "/var/lib/libvirt/images";
-            options = { recordsize = "16K"; };
+            options = {
+              recordsize = "16K";
+              # canmount = "noauto";
+              # "org.openzfs.systemd:ignore" = "on";
+              mountpoint = "/var/lib/libvirt/images";
+            };
           };
           # Optional place for ISO files on SSD if you want fast installs:
           "vm/iso" = {
             type = "zfs_fs";
-            mountpoint = "/var/lib/libvirt/iso";
+            options = {
+              # canmount = "noauto";
+              # "org.openzfs.systemd:ignore" = "on";
+              mountpoint = "/var/lib/libvirt/iso";
+            };
           };
         };
       };
@@ -172,9 +180,30 @@
         };
 
         datasets = {
-          "data/isos"    = { type = "zfs_fs"; mountpoint = "/srv/isos"; };
-          "data/backups" = { type = "zfs_fs"; mountpoint = "/srv/backups"; };
-          "data/archive" = { type = "zfs_fs"; mountpoint = "/srv/archive"; };
+          "data/isos" = {
+            type = "zfs_fs";
+            options = {
+              # canmount = "noauto";
+              # "org.openzfs.systemd:ignore" = "on";
+              mountpoint = "/srv/isos";
+            };
+          };
+          "data/backups" = {
+            type = "zfs_fs";
+            options = {
+              # canmount = "noauto";
+              # "org.openzfs.systemd:ignore" = "on";
+              mountpoint = "/srv/backups";
+            };
+          };
+          "data/archive" = {
+            type = "zfs_fs";
+            options = {
+              # canmount = "noauto";
+              # "org.openzfs.systemd:ignore" = "on";
+              mountpoint = "/srv/archive";
+            };
+          };
         };
       };
     };

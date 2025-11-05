@@ -1,26 +1,47 @@
 {
   lib,
+  username,
+  host,
   config,
   pkgs,
   ...
 }:
 {
-  networking.firewall = {
+  networking = {
+    hostName = host;
+    usePredictableInterfaceNames = true;
+    useDHCP = false; # managed by systemd.networkd
+    useNetworkd = false;
+    nameservers = [ "8.8.8.8" "8.8.4.4"  ];
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];   # default deny
+      allowedUDPPorts = [ ];
+      # Stop responding to broadcasts & noise
+      logRefusedConnections = false;
+      allowPing = false;
+    };
+  };
+
+  systemd.network = {
     enable = true;
-    allowedTCPPorts = [ ];   # default deny
-    allowedUDPPorts = [ ];
-    # Stop responding to broadcasts & noise
-    logRefusedConnections = false;
-    allowPing = false;
+    wait-online.enable = true;
+
+    networks."10-wired" = {
+      matchConfig.Name = [ "en*" "eth*" ];
+      networkConfig = {
+        DHCP = "ipv4";
+      };
+    };
   };
 
   services.openssh = {
     enable = true;
-    openFirewall = true;
+    openFirewall = true;  # opens TCP/22
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;   # set true if you add TOTP/U2F 2FA
+      KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowAgentForwarding = false;
       AllowTcpForwarding = "no";              # flip to "local" only if you need it
@@ -34,17 +55,13 @@
   users = {
     mutableUsers = lib.mkForce false;
     users.root.hashedPassword = "!";
-    users.ben = {
+    users.${username} = {
       shell = lib.mkForce pkgs.bashInteractive;
-
-      # Lock the local password so console/SSH password logins are impossible
-      hashedPassword = "!";                 # "!" = disabled password
-
-      extraGroups =
-        (lib.optional  config.virtualisation.libvirtd.enable "libvirtd")
-        ++ (lib.optional config.virtualisation.libvirtd.enable "kvm")
-        ++ (lib.optional config.networking.networkmanager.enable "networkmanager");
-
+      isNormalUser = true;
+      hashedPassword = "!";
+      extraGroups = [ "wheel" ]
+        ++ (lib.optional  config.virtualisation.libvirtd.enable "libvirtd")
+        ++ (lib.optional config.virtualisation.libvirtd.enable "kvm");
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
       ];
@@ -57,13 +74,13 @@
     execWheelOnly = true;
   };
 
-  system.autoUpgrade = {
-    enable = false;
-    flake = "git+https://your.git/infra?ref=main";
-    dates = "03:30";
-    randomizedDelaySec = "30min";
-    allowReboot = false;  # set true only if you’re comfortable
-  };
+  # system.autoUpgrade = {
+  #   enable = false;
+  #   flake = "git+https://your.git/infra?ref=main";
+  #   dates = "03:30";
+  #   randomizedDelaySec = "30min";
+  #   allowReboot = false;  # set true only if you’re comfortable
+  # };
 
   boot.tmp = {
     useTmpfs = true;
