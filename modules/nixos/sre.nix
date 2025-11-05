@@ -22,4 +22,5 @@
       "podman"
     ];
   };
+   programs.ssh.startAgent = true;
 }
