@@ -20,10 +20,10 @@
               permissions = "user:ben:;";
               type = "ethernet";
               autoconnect = true;
-              autoconnect-priority = 100;
             };
             ipv4 = {
               method = "auto";
+              route-metric = "100";
             };
             ipv6 = {
               addr-gen-mode = "stable-privacy";
@@ -38,10 +38,10 @@
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
               autoconnect = true;
-              autoconnect-priority = 50;
             };
             ipv4 = {
               method = "auto";
+              route-metric = "200";
             };
             wifi = {
               mode = "infrastructure";
@@ -59,7 +59,6 @@
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
               autoconnect = true;
-              autoconnect-priority = 30;
             };
             ipv4 = {
               method = "auto";
@@ -85,7 +84,6 @@
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
               autoconnect = true;
-              autoconnect-priority = 30;
             };
             ipv4 = {
               method = "auto";
