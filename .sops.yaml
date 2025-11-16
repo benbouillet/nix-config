@@ -1,9 +1,9 @@
 keys:
-  - &solo age17k59t3n3lhwfjpnkqel8hp2q895yfky785v9avzmv9248t57cylsg0uh5e
+  - &chewie age1wn2ash827uq9nlkfctr3yhj5k30mnatldwwvxnewhtuuaq8x2fdq84u8x6
   - &obiwan age1vk8cvtxpvjqwrda303fezn3flq2vugnfldtcuu9jjg7u49g4nqvqxwgjl3
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
-      - *solo
+      - *chewie
       - *obiwan
