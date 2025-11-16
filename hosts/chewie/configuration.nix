@@ -9,6 +9,8 @@
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
+    ../../modules/nixos/sops.nix
+    ../../modules/nixos/tailscale.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY
