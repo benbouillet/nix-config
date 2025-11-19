@@ -36,7 +36,7 @@
               type = "wifi";
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
-              autoconnect = true;
+              autoconnect = false;
             };
             ipv4 = {
               method = "auto";
