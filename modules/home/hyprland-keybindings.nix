@@ -1,6 +1,4 @@
 {
-  pkgs,
-  lib,
   host,
   ...
 }:
@@ -9,11 +7,8 @@ let
     terminal
     ;
 in
-with lib;
 {
-  home.packages = with pkgs; [
-    swayosd
-  ];
+  services.swayosd.enable = true;
 
   wayland.windowManager.hyprland = {
     settings =
