@@ -1,6 +1,6 @@
 {
-  pkgs, 
-  ... 
+  pkgs,
+  ...
 }:
 {
   programs.tmux = {
@@ -10,8 +10,9 @@
     mouse = true;
     keyMode = "vi";
     baseIndex = 1;
+    historyLimit = 10000;
     plugins = with pkgs; [
-      tmuxPlugins.yank 
+      tmuxPlugins.yank
       tmuxPlugins.jump
       tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.tmux-thumbs
