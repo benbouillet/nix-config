@@ -16,6 +16,7 @@ in
 
     ./hardware-configuration.nix
     ./networking.nix
+    ./ssh.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/hyprland.nix

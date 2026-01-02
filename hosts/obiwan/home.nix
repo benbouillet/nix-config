@@ -46,6 +46,20 @@
     ./monitors.nix
   ];
 
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      serverAliveInterval = 30;
+      serverAliveCountMax = 3;
+      compression = true;
+    };
+    extraConfig = ''
+      Include ~/.ssh/chewie.conf
+      Include ~/.ssh/jellybox.conf
+    '';
+  };
+
   home.file."Pictures/Wallpapers" = {
     source = ../../assets;
     recursive = true;
