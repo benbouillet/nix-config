@@ -7,9 +7,9 @@
   programs = {
     thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
+      plugins = [
+        pkgs.thunar-archive-plugin
+        pkgs.thunar-volman
       ];
     };
   };
