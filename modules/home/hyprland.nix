@@ -96,6 +96,8 @@ with lib;
         resize_on_border = true;
       };
       dwindle = {
+        pseudotile = true;
+        preserve_split = true;
         force_split = 2;
       };
       decoration  = {
@@ -143,10 +145,6 @@ with lib;
         initial_workspace_tracking = 0;
         mouse_move_enables_dpms = true;
         key_press_enables_dpms = true;
-      };
-      dwindle = {
-        pseudotile = true;
-        preserve_split = true;
       };
       workspace = [
         "1,monitor:eDP-1,default:true"
