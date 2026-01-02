@@ -25,7 +25,7 @@
 
   systemd.network = {
     enable = true;
-    wait-online.enable = true;
+    wait-online.enable = false;
 
     networks."10-wired" = {
       matchConfig.Name = [ "en*" "eth*" ];
