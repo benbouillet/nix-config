@@ -14,14 +14,15 @@
   };
 
   # Scanning
-  hardware.sane = {
-    enable = true;
-    extraBackends = [ pkgs.hplipWithPlugin ];
-  };
-
-  users.users.${username}.extraGroups = [ "scanner" "lp" ];
-
-  environment.systemPackages = [
-    (pkgs.xsane.override { gimpSupport = true; })
-  ];
+  # disabled pending resolution
+  # hardware.sane = {
+  #   enable = true;
+  #   extraBackends = [ pkgs.hplipWithPlugin ];
+  # };
+  #
+  # users.users.${username}.extraGroups = [ "scanner" "lp" ];
+  #
+  # environment.systemPackages = [
+  #   (pkgs.xsane.override { gimpSupport = true; })
+  # ];
 }
