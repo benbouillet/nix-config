@@ -6,6 +6,7 @@
     ./hardware-configuration.nix
     ./disko.nix
     ./zfs.nix
+    ./reverse-proxy.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
