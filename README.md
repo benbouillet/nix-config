@@ -78,3 +78,10 @@ Then add the key to `.sops.yaml`
 ```bash
 sops updatekeys secrets/secrets.yaml
 ```
+
+
+## Updating SOPS secrets
+
+```bash
+sops secrets/secrets.yaml
+```
