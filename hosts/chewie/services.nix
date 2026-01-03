@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   lib,
   ...
 }:
@@ -10,7 +11,17 @@ let
       image = "alexwhen/docker-2048@sha256:4913452e5bd092db9c8b005523127b8f62821867021e23a9acb1ae0f7d2432e1";
       hostPort = 9001;
       containerPort = 80;
+      useSopsSecrets = false;
     };
+    # "dnd" = {
+    #   image = "felddy/foundryvtt:13.346.0";
+    #   hostPort = 9002;
+    #   containerPort = 30000;
+    #   useSopsSecrets = true;
+    #   environment = {
+    #     CONTAINER_PRESERVE_CONFIG = "true";
+    #   };
+    # };
   };
 
   mkContainers = name: s:
@@ -18,8 +29,19 @@ let
       image = s.image;
       autoStart = true;
       ports = [ "127.0.0.1:${toString s.hostPort}:${toString s.containerPort}" ];
+      environment = s.environment or {};
+      environmentFiles = if s.useSopsSecrets then [config.sops.secrets."services/${name}".path] else [];
       extraOptions = s.extraOptions or [];
     };
+
+  sopsSecretsDynamic =
+    lib.mapAttrs' (name: _s:
+      lib.nameValuePair "services/${name}" {
+        mode = "0400";
+        owner = "root";
+        group = "root";
+      }
+    ) (lib.filterAttrs (_: s: s.useSopsSecrets or false) services);
 
   renderedRoutes = lib.mapAttrsToList (k: v: ''
     @${k} host ${k}.${domain}
@@ -31,6 +53,10 @@ let
   routes = lib.concatStringsSep "\n" renderedRoutes;
 
 in {
+  sops.secrets = lib.mkMerge [
+    sopsSecretsDynamic
+  ];
+
   virtualisation = {
     podman.enable = true;
     oci-containers = {
