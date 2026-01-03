@@ -7,6 +7,7 @@
     ./disko.nix
     ./zfs.nix
     ./reverse-proxy.nix
+    ./services.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
