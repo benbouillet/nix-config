@@ -10,6 +10,9 @@
   "reviewersFromCodeOwners": true,
   "osvVulnerabilityAlerts": true,
   "prHourlyLimit": 0,
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "vulnerabilityAlerts": {
     "enabled": true,
     "labels": [
@@ -19,5 +22,16 @@
   "nix": {
     "enabled": true
   },
-  "packageRules": []
+  "packageRules": [],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "\\.nix$"
+      ],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
