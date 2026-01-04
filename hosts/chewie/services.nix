@@ -9,6 +9,7 @@ let
   services = {
     "2048" = {
       image = "alexwhen/docker-2048@sha256:4913452e5bd092db9c8b005523127b8f62821867021e23a9acb1ae0f7d2432e1";
+      isExposed = true;
       hostPort = 9001;
       containerPort = 80;
       useSopsSecrets = false;
@@ -22,16 +23,33 @@ let
     #     CONTAINER_PRESERVE_CONFIG = "true";
     #   };
     # };
+    "debian" = {
+      image = "debian:bookworm-slim";
+      cmd = ["/bin/bash" "-c" "sleep 3600"];
+    };
   };
+
+  withDefaults = name: s: s // {
+    isExposed = s.isExposed or false;
+    cmd = s.cmd or [];
+    useSopsSecrets = s.useSopsSecrets or false;
+    environment = s.environment or {};
+    environmentFiles = s.environmentFiles or [];
+    extraOptions = s.extraOptions or [];
+  };
+
+  # normalized services with defaults
+  services' = lib.mapAttrs withDefaults services;
 
   mkContainers = name: s:
     lib.nameValuePair name {
       image = s.image;
       autoStart = true;
-      ports = [ "127.0.0.1:${toString s.hostPort}:${toString s.containerPort}" ];
-      environment = s.environment or {};
+      cmd = s.cmd;
+      ports = if s.isExposed then [ "127.0.0.1:${toString s.hostPort}:${toString s.containerPort}" ] else [];
+      environment = s.environment;
       environmentFiles = if s.useSopsSecrets then [config.sops.secrets."services/${name}".path] else [];
-      extraOptions = s.extraOptions or [];
+      extraOptions = s.extraOptions;
     };
 
   sopsSecretsDynamic =
@@ -41,14 +59,16 @@ let
         owner = "root";
         group = "root";
       }
-    ) (lib.filterAttrs (_: s: s.useSopsSecrets or false) services);
+    ) (lib.filterAttrs (_: s: s.useSopsSecrets) services');
+
+  exposedServices = lib.filterAttrs (_: s: s.isExposed) services';
 
   renderedRoutes = lib.mapAttrsToList (k: v: ''
     @${k} host ${k}.${domain}
     handle @${k} {
       reverse_proxy 127.0.0.1:${toString v.hostPort}
     }
-  '') services;
+  '') exposedServices;
 
   routes = lib.concatStringsSep "\n" renderedRoutes;
 
@@ -61,7 +81,7 @@ in {
     podman.enable = true;
     oci-containers = {
       backend = "podman";
-      containers = lib.listToAttrs (lib.mapAttrsToList mkContainers services);
+      containers = lib.listToAttrs (lib.mapAttrsToList mkContainers services');
     };
   };
 
