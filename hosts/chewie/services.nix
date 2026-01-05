@@ -6,6 +6,7 @@
 }:
 let
   domain = "r4clette.com";
+  rootVolumesPath = "/srv/containers";
   services = {
     "2048" = {
       image = "alexwhen/docker-2048@sha256:4913452e5bd092db9c8b005523127b8f62821867021e23a9acb1ae0f7d2432e1";
@@ -25,41 +26,53 @@ let
     # };
     "debian" = {
       image = "debian:bookworm-slim";
-      cmd = ["/bin/bash" "-c" "sleep 3600"];
+      cmd = [
+        "/bin/bash"
+        "-c"
+        "sleep 3600"
+      ];
     };
   };
 
-  withDefaults = name: s: s // {
-    isExposed = s.isExposed or false;
-    cmd = s.cmd or [];
-    useSopsSecrets = s.useSopsSecrets or false;
-    environment = s.environment or {};
-    environmentFiles = s.environmentFiles or [];
-    extraOptions = s.extraOptions or [];
-  };
+  withDefaults =
+    name: s:
+    s
+    // {
+      isExposed = s.isExposed or false;
+      cmd = s.cmd or [ ];
+      useSopsSecrets = s.useSopsSecrets or false;
+      environment = s.environment or { };
+      environmentFiles = s.environmentFiles or [ ];
+      extraOptions = s.extraOptions or [ ];
+      volumes = s.volumes or [ ];
+    };
 
   # normalized services with defaults
   services' = lib.mapAttrs withDefaults services;
 
-  mkContainers = name: s:
+  mkContainers =
+    name: s:
     lib.nameValuePair name {
       image = s.image;
       autoStart = true;
       cmd = s.cmd;
-      ports = if s.isExposed then [ "127.0.0.1:${toString s.hostPort}:${toString s.containerPort}" ] else [];
+      ports =
+        if s.isExposed then [ "127.0.0.1:${toString s.hostPort}:${toString s.containerPort}" ] else [ ];
       environment = s.environment;
-      environmentFiles = if s.useSopsSecrets then [config.sops.secrets."services/${name}".path] else [];
+      environmentFiles =
+        if s.useSopsSecrets then [ config.sops.secrets."services/${name}".path ] else [ ];
       extraOptions = s.extraOptions;
+      volumes = if s.volumes != [ ] then map (x: rootVolumesPath + x + ":" + x) s.volumes else [ ];
     };
 
-  sopsSecretsDynamic =
-    lib.mapAttrs' (name: _s:
-      lib.nameValuePair "services/${name}" {
-        mode = "0400";
-        owner = "root";
-        group = "root";
-      }
-    ) (lib.filterAttrs (_: s: s.useSopsSecrets) services');
+  sopsSecretsDynamic = lib.mapAttrs' (
+    name: _s:
+    lib.nameValuePair "services/${name}" {
+      mode = "0400";
+      owner = "root";
+      group = "root";
+    }
+  ) (lib.filterAttrs (_: s: s.useSopsSecrets) services');
 
   exposedServices = lib.filterAttrs (_: s: s.isExposed) services';
 
@@ -72,9 +85,29 @@ let
 
   routes = lib.concatStringsSep "\n" renderedRoutes;
 
-in {
+  hostVolumePathsFor = s: map (x: rootVolumesPath + x) s.volumes;
+
+  allHostVolumePaths = lib.unique (
+    lib.concatLists (lib.mapAttrsToList (_: s: hostVolumePathsFor s) services')
+  );
+
+  volumeTmpfilesRules = map (p: "d ${p} 0750 root root - -") allHostVolumePaths;
+in
+{
   sops.secrets = lib.mkMerge [
     sopsSecretsDynamic
+  ];
+
+  # Create host mountpoints for bind mounts
+  systemd.tmpfiles.rules = volumeTmpfilesRules;
+  # Make sure tmpfiles has run before containers come up
+  systemd.services."podman-oci-containers".after = [
+    "zfs-mount.service"
+    "systemd-tmpfiles-setup.service"
+  ];
+  systemd.services."podman-oci-containers".requires = [
+    "zfs-mount.service"
+    "systemd-tmpfiles-setup.service"
   ];
 
   virtualisation = {
@@ -85,8 +118,7 @@ in {
     };
   };
 
-  services.caddy.virtualHosts."*.${domain}".extraConfig =
-    lib.mkAfter routes;
+  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter routes;
 
   # OCI Containers auto-repair systemd service
   systemd.services.container-auto-repair = {
