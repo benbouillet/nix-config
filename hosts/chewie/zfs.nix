@@ -11,18 +11,20 @@
     # Set this to false to disable ZFS decrypting at boot
     zfs = {
       requestEncryptionCredentials = true;
-      extraPools = [ "data" "vm" ];
+      extraPools = [
+        "hdd"
+        "ssd"
+      ];
     };
   };
-
 
   # Reliable pool import
   networking.hostId = builtins.substring 0 8 (builtins.hashString "sha256" host);
 
   # ZFS housekeeping
   services.zfs = {
-    autoScrub.enable = true;      # monthly scrub (default schedule)
-    trim.enable = true;           # autotrim for SSD/NVMe
+    autoScrub.enable = true; # monthly scrub (default schedule)
+    trim.enable = true; # autotrim for SSD/NVMe
   };
 
   ########################################
@@ -43,14 +45,17 @@
   services.sanoid = {
     enable = true;
     templates.keep = {
-      hourly = 24; daily = 7; weekly = 4; monthly = 3;
-      autosnap = true; autoprune = true;
+      hourly = 24;
+      daily = 7;
+      weekly = 4;
+      monthly = 3;
+      autosnap = true;
+      autoprune = true;
     };
     datasets = {
-      "vm/images"     = { useTemplate = [ "keep" ]; };
-      "data/backups"  = { useTemplate = [ "keep" ]; };
-      "rpool/var"     = { hourly = 6; daily = 1; autosnap = true; autoprune = true; };
-      "rpool/var/log" = { autosnap = false; autoprune = true; };
+      "ssd/containers" = {
+        useTemplate = [ "keep" ];
+      };
     };
   };
 }

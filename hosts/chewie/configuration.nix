@@ -4,7 +4,10 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./disko.nix
+    ./disko/nvme-root.nix
+    ./disko/zfs-disks.nix
+    ./disko/zpools.nix
+    ./disko/datasets.nix
     ./zfs.nix
     ./reverse-proxy.nix
     ./services.nix
