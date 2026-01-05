@@ -24,6 +24,21 @@ let
     #     CONTAINER_PRESERVE_CONFIG = "true";
     #   };
     # };
+    "gluetun" = {
+      image = "qmcgaw/gluetun:v3.41.0";
+      devices = [ "/dev/net/tun:/dev/net/tun" ];
+      capabilities = {
+        NET_ADMIN = true;
+      };
+      environment = {
+        VPN_SERVICE_PROVIDER = "protonvpn";
+        VPN_TYPE = "wireguard";
+        SERVER_COUNTRIES = "Switzerland";
+        PORT_FORWARD_ONLY = "on";
+        WIREGUARD_MTU = "1400";
+      };
+      useSopsSecrets = true;
+    };
     "debian" = {
       image = "debian:bookworm-slim";
       cmd = [
@@ -31,6 +46,7 @@ let
         "-c"
         "sleep 3600"
       ];
+      usesVPN = true;
     };
   };
 
@@ -41,10 +57,13 @@ let
       isExposed = s.isExposed or false;
       cmd = s.cmd or [ ];
       useSopsSecrets = s.useSopsSecrets or false;
+      usesVPN = s.usesVPN or false;
       environment = s.environment or { };
-      environmentFiles = s.environmentFiles or [ ];
       extraOptions = s.extraOptions or [ ];
+      devices = s.devices or [ ];
       volumes = s.volumes or [ ];
+      capabilities = s.capabilities or { };
+      dependsOn = s.dependsOn or [ ];
     };
 
   # normalized services with defaults
@@ -61,8 +80,11 @@ let
       environment = s.environment;
       environmentFiles =
         if s.useSopsSecrets then [ config.sops.secrets."services/${name}".path ] else [ ];
-      extraOptions = s.extraOptions;
+      extraOptions = s.extraOptions ++ (if s.usesVPN then [ "--network=container:gluetun" ] else [ ]);
+      dependsOn = s.dependsOn ++ (if s.usesVPN then [ "gluetun" ] else [ ]);
+      devices = s.devices;
       volumes = if s.volumes != [ ] then map (x: rootVolumesPath + x + ":" + x) s.volumes else [ ];
+      capabilities = s.capabilities;
     };
 
   sopsSecretsDynamic = lib.mapAttrs' (
