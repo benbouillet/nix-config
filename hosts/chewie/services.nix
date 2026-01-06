@@ -9,7 +9,7 @@ let
   rootVolumesPath = "/srv/containers";
   services = {
     "2048" = {
-      image = "alexwhen/docker-2048@sha256:4913452e5bd092db9c8b005523127b8f62821867021e23a9acb1ae0f7d2432e1";
+      image = "alexwhen/docker-2048:latest";
       isExposed = true;
       hostPort = 9001;
       containerPort = 80;
