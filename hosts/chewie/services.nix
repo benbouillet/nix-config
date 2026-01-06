@@ -97,7 +97,7 @@ let
       extraOptions = s.extraOptions ++ (if s.usesVPN then [ "--network=container:gluetun" ] else [ ]);
       dependsOn = s.dependsOn ++ (if s.usesVPN then [ "gluetun" ] else [ ]);
       devices = s.devices;
-      volumes = if s.volumes != [ ] then map (x: rootVolumesPath + x + ":" + x) s.volumes else [ ];
+      volumes = s.volumes;
       capabilities = s.capabilities;
     };
 
@@ -121,10 +121,10 @@ let
 
   routes = lib.concatStringsSep "\n" renderedRoutes;
 
-  hostVolumePathsFor = s: map (x: rootVolumesPath + x) s.volumes;
+  hostFromVolume = v: lib.head (lib.splitString ":" v);
 
   allHostVolumePaths = lib.unique (
-    lib.concatLists (lib.mapAttrsToList (_: s: hostVolumePathsFor s) services')
+    lib.concatLists (lib.mapAttrsToList (_: s: map hostFromVolume s.volumes) services')
   );
 
   volumeTmpfilesRules = map (p: "d ${p} 0750 root root - -") allHostVolumePaths;

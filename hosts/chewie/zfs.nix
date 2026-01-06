@@ -38,24 +38,4 @@
   ########################################
   virtualisation.libvirtd.enable = true;
   zramSwap.enable = true;
-
-  ########################################
-  # Snapshot policy (sanoid)
-  ########################################
-  services.sanoid = {
-    enable = true;
-    templates.keep = {
-      hourly = 24;
-      daily = 7;
-      weekly = 4;
-      monthly = 3;
-      autosnap = true;
-      autoprune = true;
-    };
-    datasets = {
-      "ssd/containers" = {
-        useTemplate = [ "keep" ];
-      };
-    };
-  };
 }
