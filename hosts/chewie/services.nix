@@ -24,6 +24,20 @@ let
     #     CONTAINER_PRESERVE_CONFIG = "true";
     #   };
     # };
+    # bazarr
+    # foundryvtt
+    # freshrss
+    # jellyfin
+    # jellyseerr
+    # lubelogger
+    # nzbget
+    # pihole
+    # prowlarr
+    # qbittorrent
+    # radarr
+    # searxng
+    # searxng_config.yml
+    # sonarr
     "gluetun" = {
       image = "qmcgaw/gluetun:v3.41.0";
       devices = [ "/dev/net/tun:/dev/net/tun" ];
