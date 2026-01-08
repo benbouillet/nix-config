@@ -54,7 +54,7 @@ in
     };
 
     "qbittorrent" = {
-      image = "lscr.io/linuxserver/qbittorrent:5.1.2";
+      image = "lscr.io/linuxserver/qbittorrent:20.04.1";
       environment = {
         PUID = "1000";
         PGID = "1000";
