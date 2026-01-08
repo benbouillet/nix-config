@@ -8,13 +8,6 @@ let
   domain = "r4clette.com";
   rootVolumesPath = "/srv/containers";
   services = {
-    "2048" = {
-      image = "alexwhen/docker-2048:latest";
-      isExposed = true;
-      hostPort = 9001;
-      containerPort = 80;
-      useSopsSecrets = false;
-    };
     # "dnd" = {
     #   image = "felddy/foundryvtt:13.346.0";
     #   hostPort = 9002;
@@ -24,44 +17,121 @@ let
     #     CONTAINER_PRESERVE_CONFIG = "true";
     #   };
     # };
-    # bazarr
     # foundryvtt
     # freshrss
     # jellyfin
     # jellyseerr
     # lubelogger
-    # nzbget
     # pihole
     # prowlarr
-    # qbittorrent
     # radarr
     # searxng
     # searxng_config.yml
     # sonarr
-    "gluetun" = {
-      image = "qmcgaw/gluetun:v3.41.0";
-      devices = [ "/dev/net/tun:/dev/net/tun" ];
-      capabilities = {
-        NET_ADMIN = true;
-      };
-      environment = {
-        VPN_SERVICE_PROVIDER = "protonvpn";
-        VPN_TYPE = "wireguard";
-        SERVER_COUNTRIES = "Switzerland";
-        PORT_FORWARD_ONLY = "on";
-        WIREGUARD_MTU = "1400";
-      };
-      useSopsSecrets = true;
-    };
-    "debian" = {
-      image = "debian:bookworm-slim";
-      cmd = [
-        "/bin/bash"
-        "-c"
-        "sleep 3600"
+    # "gluetun" = {
+    #   image = "qmcgaw/gluetun:v3.41.0";
+    #   devices = [ "/dev/net/tun:/dev/net/tun" ];
+    #   capabilities = {
+    #     NET_ADMIN = true;
+    #   };
+    #   environment = {
+    #     VPN_SERVICE_PROVIDER = "protonvpn";
+    #     VPN_TYPE = "wireguard";
+    #     SERVER_COUNTRIES = "Switzerland";
+    #     PORT_FORWARD_ONLY = "on";
+    #     WIREGUARD_MTU = "1400";
+    #   };
+    #   useSopsSecrets = true;
+    # };
+    "chat" = {
+      image = "ghcr.io/open-webui/open-webui:main-slim";
+      isExposed = true;
+      hostPort = 9020;
+      containerPort = 8080;
+      devices = [
+        "nvidia.com/gpu=all"
       ];
-      usesVPN = true;
+      volumes = [
+        "${rootVolumesPath}/openwebui/open-webui:/app/backend/data:rw"
+      ];
     };
+    "ollama" = {
+      image = "ollama/ollama:0.13.5";
+      isExposed = true;
+      hostPort = 9021;
+      containerPort = 11434;
+      devices = [
+        "nvidia.com/gpu=all"
+      ];
+      volumes = [
+        "${rootVolumesPath}/ollama:/root/.ollama:rw"
+      ];
+      extraOptions = [
+        "--network=container:chat"
+      ];
+    };
+    "search" = {
+      image = "itzcrazykns1337/perplexica:v1.12.0";
+      isExposed = true;
+      hostPort = 9022;
+      containerPort = 3000;
+      volumes = [
+        "${rootVolumesPath}/perplexica:/home/perplexica/data:rw"
+      ];
+    };
+    # "steam" = {
+    #   image = "josh5/steam-headless:latest";
+    #   isExposed = true;
+    #   hostPort = 9010;
+    #   containerPort = 8083;
+    #   useSopsSecrets = false;
+    #   environment = {
+    #     TZ = "Europe/Paris";
+    #     NAME = "SteamHeadless";
+    #     DISPLAY = ":55";
+    #     GAMES_DIR = "/mnt/games";
+    #     PUID = "1000";
+    #     PGID = "1000";
+    #     UMASK = "000";
+    #     USER_PASSWORD = "password";
+    #     MODE = "primary";
+    #     WEB_UI_MODE = "vnc";
+    #     ENABLE_VNC_AUDIO = "true";
+    #     PORT_NOVNC_WEB = "8083";
+    #     ENABLE_STEAM = "true";
+    #     STEAM_ARGS = "-silent";
+    #     ENABLE_SUNSHINE = "true";
+    #     SUNSHINE_USER = "ben";
+    #     SUNSHINE_PASS = "foo";
+    #     ENABLE_EVDEV_INPUTS = "true";
+    #     FORCE_X11_DUMMY_CONFIG = "true";
+    #     NVIDIA_DRIVER_CAPABILITIES = "all";
+    #     NVIDIA_VISIBLE_DEVICES = "all";
+    #   };
+    #   capabilities = {
+    #     NET_ADMIN = true;
+    #     SYS_ADMIN = true;
+    #     SYS_NICE = true;
+    #   };
+    #   devices = [
+    #     "/dev/fuse:/dev/fuse"
+    #     "/dev/uinput:/dev/uinput"
+    #     "nvidia.com/gpu=all"
+    #   ];
+    #   volumes = [
+    #     "${rootVolumesPath}/steam-headless/home/default:/home/default:rw"
+    #     "${rootVolumesPath}/steam-headless/games:/mnt/games:rw"
+    #     "/opt/container-data/steam-headless/sockets/.X11-unix:/tmp/.X11-unix:rw"
+    #     "/opt/container-data/steam-headless/sockets/pulse:/tmp/pulse:rw"
+    #   ];
+    #   extraOptions = [
+    #     "--ipc=host"
+    #     "--ulimit=nofile=1024:524288"
+    #     "--security-opt=seccomp=unconfined"
+    #     "--security-opt=apparmor=unconfined"
+    #     "--device-cgroup-rule=c 13:* rmw"
+    #   ];
+    # };
   };
 
   withDefaults =
@@ -127,7 +197,7 @@ let
     lib.concatLists (lib.mapAttrsToList (_: s: map hostFromVolume s.volumes) services')
   );
 
-  volumeTmpfilesRules = map (p: "d ${p} 0750 root root - -") allHostVolumePaths;
+  volumeTmpfilesRules = map (p: "d ${p} 2775 root zfsmnt - -") allHostVolumePaths;
 in
 {
   sops.secrets = lib.mkMerge [

@@ -12,10 +12,13 @@
     usePredictableInterfaceNames = true;
     useDHCP = false; # managed by systemd.networkd
     useNetworkd = false;
-    nameservers = [ "8.8.8.8" "8.8.4.4"  ];
+    nameservers = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
     firewall = {
       enable = true;
-      allowedTCPPorts = [ ];   # default deny
+      allowedTCPPorts = [ ]; # default deny
       allowedUDPPorts = [ ];
       # Stop responding to broadcasts & noise
       logRefusedConnections = false;
@@ -28,7 +31,10 @@
     wait-online.enable = false;
 
     networks."10-wired" = {
-      matchConfig.Name = [ "en*" "eth*" ];
+      matchConfig.Name = [
+        "en*"
+        "eth*"
+      ];
       networkConfig = {
         DHCP = "ipv4";
       };
@@ -37,14 +43,14 @@
 
   services.openssh = {
     enable = true;
-    openFirewall = true;  # opens TCP/22
+    openFirewall = true; # opens TCP/22
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowAgentForwarding = false;
-      AllowTcpForwarding = "no";              # flip to "local" only if you need it
+      AllowTcpForwarding = "no"; # flip to "local" only if you need it
       ClientAliveInterval = 30;
       ClientAliveCountMax = 2;
       LoginGraceTime = "30s";
@@ -59,13 +65,23 @@
       shell = lib.mkForce pkgs.bashInteractive;
       isNormalUser = true;
       hashedPassword = "!";
-      extraGroups = [ "wheel" ]
-        ++ (lib.optional  config.virtualisation.libvirtd.enable "libvirtd")
-        ++ (lib.optional config.virtualisation.libvirtd.enable "kvm");
+      extraGroups = [
+        "wheel"
+      ]
+      ++ (lib.optional config.virtualisation.libvirtd.enable "libvirtd")
+      ++ (lib.optional config.virtualisation.libvirtd.enable "kvm");
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
       ];
     };
+  };
+
+  programs.bash = {
+    enable = true;
+    shellInit = ''
+      export VISUAL=vim
+      set -o vi
+    '';
   };
 
   security.sudo = {

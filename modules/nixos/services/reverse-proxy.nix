@@ -40,5 +40,8 @@ in
 
   # Only allow access via Tailscale interface
   networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    80
+    443
+  ];
 }

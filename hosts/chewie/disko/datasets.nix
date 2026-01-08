@@ -13,7 +13,7 @@ in
 {
   users.groups.zfsmnt = { };
   users.users.${username}.extraGroups = [ "zfsmnt" ];
-  systemd.tmpfiles.rules = map (mp: "d ${mp} 2775 root zfsmnt") writableMountpoints;
+  systemd.tmpfiles.rules = map (mp: "d ${mp} 2775 root zfsmnt - -") writableMountpoints;
 
   ########################################
   # Snapshot policy (sanoid)
@@ -51,7 +51,7 @@ in
           "games" = {
             type = "zfs_fs";
             options = {
-              recordsize = "32";
+              recordsize = "32K";
               quota = "200GB";
               mountpoint = "/srv/games";
             };
