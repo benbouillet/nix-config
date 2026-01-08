@@ -19,7 +19,7 @@
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/debug.nix
     ../../modules/nixos/services/containers/arr.nix
-    ../../modules/nixos/services/containers/all.nix
+    ../../modules/nixos/services/llm.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY

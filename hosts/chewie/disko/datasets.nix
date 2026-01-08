@@ -56,6 +56,14 @@ in
               mountpoint = "/srv/games";
             };
           };
+          "llm" = {
+            type = "zfs_fs";
+            options = {
+              recordsize = "32K";
+              quota = "100GB";
+              mountpoint = "/srv/llm";
+            };
+          };
         };
       };
 
