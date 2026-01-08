@@ -12,6 +12,7 @@
     speedcrunch
     vlc
     digikam
+    moonlight-qt
   ];
 
   programs = {
