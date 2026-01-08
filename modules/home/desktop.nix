@@ -9,7 +9,6 @@
     spotify
     altus
     discord
-    keepassxc
     speedcrunch
     vlc
     digikam
@@ -22,6 +21,25 @@
       installVimSyntax = true;
       settings = {
         font-size = 14;
+      };
+    };
+    keepassxc = {
+      enable = true;
+      settings = {
+        Browser.Enabled = true;
+        GUI = {
+          AdvancedSettings = true;
+          ApplicationTheme = "dark";
+          CompactMode = true;
+          HidePasswords = true;
+          AutoSaveOnExit = true;
+        };
+        Config = {
+          Security_LockDatabaseIdle = true;
+          Security_LockDatabaseIdleSeconds = 600;
+          MinimizeOnCopy = true;
+        };
+        SSHAgent.Enabled = false;
       };
     };
     starship = {
