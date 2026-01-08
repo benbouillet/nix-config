@@ -9,7 +9,7 @@ let
   rootVolumesPath = "/srv/containers";
   services = {
     # "dnd" = {
-    #   image = "felddy/foundryvtt:13.346.0";
+    #   image = "felddy/foundryvtt:13.351.0";
     #   hostPort = 9002;
     #   containerPort = 30000;
     #   useSopsSecrets = true;
