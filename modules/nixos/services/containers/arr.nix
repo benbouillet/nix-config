@@ -134,7 +134,7 @@ in
     };
 
     "sonarr" = {
-      image = "lscr.io/linuxserver/sonarr:4.0.15";
+      image = "lscr.io/linuxserver/sonarr:4.0.16";
       environment = {
         PUID = "1000";
         PGID = "1000";
