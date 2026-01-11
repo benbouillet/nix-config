@@ -118,7 +118,7 @@ in
     };
 
     "radarr" = {
-      image = "lscr.io/linuxserver/radarr:5.26.2";
+      image = "lscr.io/linuxserver/radarr:6.0.4";
       environment = {
         PUID = "1000";
         PGID = "1000";
