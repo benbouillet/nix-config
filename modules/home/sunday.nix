@@ -317,6 +317,7 @@ in
         adaptive-tab-bar-colour
         dashlane
         user-agent-string-switcher
+        header-editor
       ];
     };
   };
