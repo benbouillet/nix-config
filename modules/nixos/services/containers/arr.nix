@@ -72,7 +72,7 @@ in
     };
 
     "nzbget" = {
-      image = "lscr.io/linuxserver/nzbget:25.2.20250801";
+      image = "lscr.io/linuxserver/nzbget:25.4.20260109";
       environment = {
         PUID = "1000";
         PGID = toString zfsmntGID;
