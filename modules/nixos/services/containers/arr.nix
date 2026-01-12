@@ -55,7 +55,7 @@ in
     };
 
     "qbittorrent" = {
-      image = "lscr.io/linuxserver/qbittorrent:20.04.1";
+      image = "lscr.io/linuxserver/qbittorrent:5.1.4";
       environment = {
         PUID = "1000";
         PGID = toString zfsmntGID;
