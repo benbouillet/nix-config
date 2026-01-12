@@ -5,6 +5,7 @@
 }:
 let
   domain = "r4clette.com";
+  zfsmntGID = 993;
   iGPURenderNode = "/dev/dri/renderD129";
   rootVolumesPath = "/srv/containers";
   mediaVolumePath = "/srv/media";
@@ -57,7 +58,7 @@ in
       image = "lscr.io/linuxserver/qbittorrent:5.1.2";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
         WEBUI_PORT = "8090";
       };
@@ -74,7 +75,7 @@ in
       image = "lscr.io/linuxserver/nzbget:25.2.20250801";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
       };
       volumes = [
@@ -90,7 +91,7 @@ in
       image = "lscr.io/linuxserver/bazarr:1.5.2";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
       };
       ports = [
@@ -121,7 +122,7 @@ in
       image = "lscr.io/linuxserver/radarr:5.26.2";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
       };
       ports = [
@@ -137,7 +138,7 @@ in
       image = "lscr.io/linuxserver/sonarr:4.0.15";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
       };
       ports = [
@@ -166,7 +167,7 @@ in
       image = "lscr.io/linuxserver/jellyfin:10.10.7";
       environment = {
         PUID = "1000";
-        PGID = "1000";
+        PGID = toString zfsmntGID;
         TZ = "Europe/Paris";
         JELLYFIN_PublishedServerUrl = "jellyfin.${domain}";
       };
@@ -176,7 +177,7 @@ in
       volumes = [
         "${rootVolumesPath}/jellyfin/config/:/config/:rw"
         "${rootVolumesPath}/jellyfin/cache/:/cache/:rw"
-        "${mediaVolumePath}/:/data/media/:rw"
+        "${mediaVolumePath}/:/data/:rw"
       ];
       devices = [
         "${iGPURenderNode}:${iGPURenderNode}:rwm"

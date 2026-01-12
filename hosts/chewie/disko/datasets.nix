@@ -3,6 +3,7 @@
   ...
 }:
 let
+  zfsmntGID = 993;
   writableMountpoints = [
     "/srv/containers"
     "/srv/media"
@@ -11,7 +12,9 @@ let
   ];
 in
 {
-  users.groups.zfsmnt = { };
+  users.groups.zfsmnt = {
+    gid = zfsmntGID;
+  };
   users.users.${username}.extraGroups = [ "zfsmnt" ];
   systemd.tmpfiles.rules = map (mp: "d ${mp} 2775 root zfsmnt - -") writableMountpoints;
 
@@ -46,6 +49,10 @@ in
               recordsize = "16K";
               quota = "100GB";
               mountpoint = "/srv/containers";
+              acltype = "posixacl";
+              aclinherit = "passthrough";
+              aclmode = "restricted";
+              xattr = "sa";
             };
           };
           "games" = {
@@ -54,14 +61,10 @@ in
               recordsize = "32K";
               quota = "200GB";
               mountpoint = "/srv/games";
-            };
-          };
-          "llm" = {
-            type = "zfs_fs";
-            options = {
-              recordsize = "32K";
-              quota = "100GB";
-              mountpoint = "/srv/llm";
+              acltype = "posixacl";
+              aclinherit = "passthrough";
+              aclmode = "restricted";
+              xattr = "sa";
             };
           };
         };
@@ -75,6 +78,10 @@ in
             options = {
               mountpoint = "/srv/backups";
               quota = "100GB";
+              acltype = "posixacl";
+              aclinherit = "passthrough";
+              aclmode = "restricted";
+              xattr = "sa";
             };
           };
           "media" = {
@@ -83,6 +90,22 @@ in
               recordsize = "1M";
               quota = "500GB";
               mountpoint = "/srv/media";
+              acltype = "posixacl";
+              aclinherit = "passthrough";
+              aclmode = "restricted";
+              xattr = "sa";
+            };
+          };
+          "llm" = {
+            type = "zfs_fs";
+            options = {
+              recordsize = "32K";
+              quota = "100GB";
+              mountpoint = "/srv/llm";
+              acltype = "posixacl";
+              aclinherit = "passthrough";
+              aclmode = "restricted";
+              xattr = "sa";
             };
           };
         };

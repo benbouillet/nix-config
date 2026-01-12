@@ -4,8 +4,11 @@
 }:
 let
   domain = "r4clette.com";
-  ollama_port = 9020;
-  openwebui_port = 9021;
+  ports = {
+    ollama = 9020;
+    open-webui = 9021;
+    perplexica = 9022;
+  };
   rootVolumesPath = "/srv/containers";
 in
 {
@@ -19,7 +22,7 @@ in
     "ollama" = {
       image = "ollama/ollama:0.13.5";
       ports = [
-        "127.0.0.1:${toString ollama_port}:11434"
+        "127.0.0.1:${toString ports.ollama}:11434"
       ];
       devices = [
         "nvidia.com/gpu=all"
@@ -38,7 +41,7 @@ in
     "open-webui" = {
       image = "ghcr.io/open-webui/open-webui:v0.6.43-slim";
       ports = [
-        "127.0.0.1:${toString openwebui_port}:8080"
+        "127.0.0.1:${toString ports.open-webui}:8080"
       ];
       volumes = [
         "${rootVolumesPath}/openwebui/:/app/backend/data:rw"
@@ -50,6 +53,22 @@ in
         OLLAMA_KV_CACHE_TYPE = "q8_0";
       };
     };
+    #     "open-webui" = {
+    #       image = "ghcr.io/open-webui/open-webui:v0.6.43-slim";
+    #       ports = [
+    #         "127.0.0.1:${toString openwebui_port}:8080"
+    #       ];
+    #       volumes = [
+    #         "${rootVolumesPath}/openwebui/:/app/backend/data:rw"
+    #       ];
+    #       environment = {
+    #         OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
+    #         OLLAMA_KEEP_ALIVE = "10m";
+    #         OLLAMA_FLASH_ATTENTION = "1";
+    #         OLLAMA_KV_CACHE_TYPE = "q8_0";
+    #       };
+    #     };
+    # docker run -d -p 3000:3000 -v perplexica-data:/home/perplexica/data --name perplexica itzcrazykns1337/perplexica:latest
   };
   # services = {
   #   ollama = {
@@ -88,12 +107,12 @@ in
   services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
     @ollama host ollama.${domain}
     handle @ollama {
-      reverse_proxy 127.0.0.1:${toString ollama_port}
+      reverse_proxy 127.0.0.1:${toString ports.ollama}
     }
 
     @open-webui host chat.${domain}
     handle @open-webui {
-      reverse_proxy 127.0.0.1:${toString openwebui_port}
+      reverse_proxy 127.0.0.1:${toString ports.open-webui}
     }
   '';
 

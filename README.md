@@ -44,6 +44,10 @@ datasets (no need to re-enter them).
 sudo zfs create \
   -o mountpoint=/srv/media \
   -o quota=500G \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o xattr=sa \
   hdd/media
 ```
 

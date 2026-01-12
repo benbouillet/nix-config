@@ -1,4 +1,6 @@
 {
+  username,
+  lib,
   pkgs,
   ...
 }:
@@ -22,6 +24,12 @@
       };
     };
     oci-containers.backend = "podman";
+  };
+
+  users.users.${username} = {
+    extraGroups = lib.mkAfter [
+      "podman"
+    ];
   };
 
   # OCI Containers auto-repair systemd service
