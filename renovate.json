@@ -3,7 +3,9 @@
   "extends": [
     "config:recommended",
     ":semanticCommitTypeAll(chore)",
-    "mergeConfidence:all-badges"
+    "mergeConfidence:all-badges",
+    ":automergeMinor",
+    ":automergeLinters"
   ],
   "timezone": "Europe/Paris",
   "dependencyDashboard": true,
