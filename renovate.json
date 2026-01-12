@@ -25,10 +25,11 @@
     "enabled": true
   },
   "packageRules": [],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [
-        "\\.nix$"
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.nix$/"
       ],
       "matchStrings": [
         "image\\s*=\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\""
