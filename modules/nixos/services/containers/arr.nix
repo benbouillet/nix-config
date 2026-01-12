@@ -164,7 +164,7 @@ in
     };
 
     "jellyfin" = {
-      image = "lscr.io/linuxserver/jellyfin:10.10.7";
+      image = "lscr.io/linuxserver/jellyfin:10.11.5";
       environment = {
         PUID = "1000";
         PGID = toString zfsmntGID;
