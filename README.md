@@ -73,6 +73,14 @@ On the target host:
 - [ ] swappy ?
 - [ ] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
 - [ ] `zed` for server
+- [ ] Server: Oauth with Authelia
+- [ ] Server: foundryvtt
+- [ ] Server: lubelogger
+- [ ] Server: perplexica
+- [ ] Server: searxng
+- [ ] Server: steam
+- [ ] Server: ollama
+- [ ] Server: open-webui
 
 # Configuring SOPS
 
