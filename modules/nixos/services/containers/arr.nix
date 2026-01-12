@@ -104,7 +104,7 @@ in
     };
 
     "prowlarr" = {
-      image = "lscr.io/linuxserver/prowlarr:1.37.0";
+      image = "lscr.io/linuxserver/prowlarr:2.3.0";
       environment = {
         PUID = "1000";
         PGID = "1000";
