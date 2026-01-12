@@ -17,7 +17,6 @@
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/services/reverse-proxy.nix
     ../../modules/nixos/services/containers/common.nix
-    ../../modules/nixos/services/containers/debug.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/llm.nix
   ];
