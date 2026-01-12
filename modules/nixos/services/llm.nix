@@ -39,7 +39,7 @@ in
       };
     };
     "open-webui" = {
-      image = "ghcr.io/open-webui/open-webui:v0.6.43-slim";
+      image = "ghcr.io/open-webui/open-webui:v0.7.2-slim";
       ports = [
         "127.0.0.1:${toString ports.open-webui}:8080"
       ];
@@ -54,7 +54,7 @@ in
       };
     };
     #     "open-webui" = {
-    #       image = "ghcr.io/open-webui/open-webui:v0.6.43-slim";
+    #       image = "ghcr.io/open-webui/open-webui:v0.7.2-slim";
     #       ports = [
     #         "127.0.0.1:${toString openwebui_port}:8080"
     #       ];
