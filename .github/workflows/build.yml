@@ -17,7 +17,7 @@ jobs:
           - chewie
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v12
