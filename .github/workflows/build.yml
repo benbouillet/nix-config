@@ -29,7 +29,7 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v12
 
       # Good defaults: flakes enabled, better caching, etc.
-      - uses: DeterminateSystems/magic-nix-cache-action@v7
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
 
       # 1) cheap sanity: flake checks (eval, tests, etc if defined)
       - name: nix flake check
