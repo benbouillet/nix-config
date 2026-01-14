@@ -1,0 +1,45 @@
+name: Nix build
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+    # optional but useful for Renovate branch statuses:
+    branches-ignore: []
+  workflow_dispatch:
+
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          # replace with your actual hosts under nixosConfigurations
+          - my-laptop
+          - my-server
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Nix flake inputs
+        uses: DeterminateSystems/flake-checker-action@main # This action
+
+      # Best “it just works” Nix install on GitHub runners
+      - uses: DeterminateSystems/nix-installer-action@v12
+
+      # Good defaults: flakes enabled, better caching, etc.
+      - uses: DeterminateSystems/magic-nix-cache-action@v7
+
+      # 1) cheap sanity: flake checks (eval, tests, etc if defined)
+      - name: nix flake check
+        run: nix flake check -L
+
+      # 2) build the actual NixOS system for each host
+      - name: build nixosConfiguration
+        run: nix build -L .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Build default package
+        run: nix build
