@@ -88,7 +88,7 @@ in
     };
 
     "bazarr" = {
-      image = "lscr.io/linuxserver/bazarr:1.5.2";
+      image = "lscr.io/linuxserver/bazarr:1.5.4";
       environment = {
         PUID = "1000";
         PGID = toString zfsmntGID;
