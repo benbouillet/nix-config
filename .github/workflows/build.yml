@@ -26,7 +26,7 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@main # This action
 
       # Best “it just works” Nix install on GitHub runners
-      - uses: DeterminateSystems/nix-installer-action@v12
+      - uses: DeterminateSystems/nix-installer-action@v21
 
       # Good defaults: flakes enabled, better caching, etc.
       - uses: DeterminateSystems/magic-nix-cache-action@v7
