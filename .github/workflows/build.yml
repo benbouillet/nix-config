@@ -28,4 +28,4 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@v12
 
       - name: Build Nix flake
-        run: nix build .#${{ matrix.host }}
+        run: nixos-rebuild build --flake .#${{ matrix.host }}
