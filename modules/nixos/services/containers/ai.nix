@@ -1,4 +1,5 @@
 {
+  username,
   lib,
   ...
 }:
@@ -9,14 +10,27 @@ let
     open-webui = 9021;
     perplexica = 9022;
   };
-  rootVolumesPath = "/srv/containers";
+  aiUser = {
+    name = "ai";
+    UID = 930;
+  };
+  containersGroup = {
+    name = "containers";
+    GID = 993;
+  };
+  models_path = "/srv/models";
 in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d /srv/llm/ 2775 root zfsmnt - -"
-    "d ${rootVolumesPath}/openwebui/ 2775 root zfsmnt - -"
-    "d ${rootVolumesPath}/ollama/ 2775 root zfsmnt - -"
+    "d ${models_path} 2775 ${username} ${containersGroup.name} - -"
   ];
+
+  users.users."${aiUser.name}" = {
+    isSystemUser = true;
+    createHome = false;
+    uid = aiUser.UID;
+    group = containersGroup.name;
+  };
 
   virtualisation.oci-containers.containers = {
     "ollama" = {
@@ -28,8 +42,8 @@ in
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "${rootVolumesPath}/ollama:/root/.ollama:rw"
-        "/srv/llm/:/usr/share/ollama/.ollama/models:rw"
+        "ollama:/root/.ollama:rw"
+        "${models_path}:/usr/share/ollama/.ollama/models:rw"
       ];
       environment = {
         OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
@@ -44,32 +58,22 @@ in
         "127.0.0.1:${toString ports.open-webui}:8080"
       ];
       volumes = [
-        "${rootVolumesPath}/openwebui/:/app/backend/data:rw"
+        "open-webui:/app/backend/data:rw"
       ];
-      environment = {
-        OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
-        OLLAMA_KEEP_ALIVE = "10m";
-        OLLAMA_FLASH_ATTENTION = "1";
-        OLLAMA_KV_CACHE_TYPE = "q8_0";
-      };
     };
-    #     "open-webui" = {
-    #       image = "ghcr.io/open-webui/open-webui:v0.7.2-slim";
-    #       ports = [
-    #         "127.0.0.1:${toString openwebui_port}:8080"
-    #       ];
-    #       volumes = [
-    #         "${rootVolumesPath}/openwebui/:/app/backend/data:rw"
-    #       ];
-    #       environment = {
-    #         OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
-    #         OLLAMA_KEEP_ALIVE = "10m";
-    #         OLLAMA_FLASH_ATTENTION = "1";
-    #         OLLAMA_KV_CACHE_TYPE = "q8_0";
-    #       };
-    #     };
-    # docker run -d -p 3000:3000 -v perplexica-data:/home/perplexica/data --name perplexica itzcrazykns1337/perplexica:latest
   };
+
+  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
+    @ollama host ollama.${domain}
+    handle @ollama {
+      reverse_proxy 127.0.0.1:${toString ports.ollama}
+    }
+
+    @open-webui host chat.${domain}
+    handle @open-webui {
+      reverse_proxy 127.0.0.1:${toString ports.open-webui}
+    }
+  '';
   # services = {
   #   ollama = {
   #     enable = true;
@@ -100,22 +104,9 @@ in
   #     environment = {
   #       OLLAMA_API_BASE_URL = "http://127.0.0.1:${toString ollama_port}";
   #     };
-  #     stateDir = "${rootVolumesPath}/openwebui/";
+  #     stateDir = "${containersVolumesPath}/openwebui/";
   #   };
   # };
-
-  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
-    @ollama host ollama.${domain}
-    handle @ollama {
-      reverse_proxy 127.0.0.1:${toString ports.ollama}
-    }
-
-    @open-webui host chat.${domain}
-    handle @open-webui {
-      reverse_proxy 127.0.0.1:${toString ports.open-webui}
-    }
-  '';
-
   # services.caddy.virtualHosts = {
   #   "ollama.${domain}".extraConfig = ''
   #     reverse_proxy 127.0.0.1:${toString ollama_port} {
