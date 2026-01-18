@@ -1,0 +1,119 @@
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  domain = "r4clette.com";
+  ports = {
+    searxng = 9030;
+    perplexica = 9031;
+  };
+  containersVolumesPath = "/srv/containers";
+  containersGroup = {
+    name = "containers";
+    GID = 993;
+  };
+  searxngSettings = pkgs.writeText "settings.yml" ''
+    use_default_settings: true
+    general:
+      debug: false
+      instance_name: "SearXNG"
+    search:
+      safe_search: 0
+      autocomplete: "duckduckgo"
+      autocomplete_min: 4
+      favicon_resolver: "allesedv"
+      default_lang: "en"
+      languages:
+        - all
+        - en
+        - en-US
+        - de
+        - de-BE
+        - de-CH
+        - de-DE
+        - it-IT
+        - fr
+        - fr-BE
+        - nl
+        - nl-BE
+        - nl-NL
+      formats:
+        - html
+        - json
+    ui:
+      hotkeys: vim
+    engines:
+      - name: wolframalpha
+        disabled: false
+  '';
+in
+{
+  sops.secrets."services/searxng" = {
+    mode = "0400";
+    owner = "root";
+    group = "root";
+  };
+
+  systemd.tmpfiles.rules = lib.mkAfter [
+    "d ${containersVolumesPath}/perplexica 2770 root ${containersGroup.name} - -"
+  ];
+
+  fileSystems."/var/cache/searxng" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [
+      "size=256M"
+      "mode=0755"
+    ];
+  };
+
+  virtualisation.oci-containers.containers = {
+    "searxng" = {
+      image = "docker.io/searxng/searxng:2026.1.11-cf74e1d9e";
+      ports = [
+        "127.0.0.1:${toString ports.searxng}:8080"
+      ];
+      volumes = [
+        "${searxngSettings}:/etc/searxng/settings.yml:ro"
+        "searxng-cache:/var/cache/searxng:rw"
+      ];
+      environment = {
+        SEARXNG_BASE_URL = "https://search.${domain}/";
+        SEARXNG_VALKEY_URL = "valkey://valkey:6379";
+      };
+      environmentFiles = [
+        config.sops.secrets."services/searxng".path
+      ];
+    };
+    "perplexica" = {
+      image = "itzcrazykns1337/perplexica:slim-v1.11.2";
+      ports = [
+        "127.0.0.1:${toString ports.perplexica}:3000"
+      ];
+      volumes = [
+        "${containersVolumesPath}/perplexica:/home/perplexica/data:rw"
+      ];
+      environment = {
+        SEARXNG_API_URL = "http://searxng:8080";
+      };
+    };
+    "valkey" = {
+      image = "docker.io/valkey/valkey:9.0.1-alpine3.23";
+    };
+  };
+
+  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
+    @searxng host search.${domain}
+    handle @searxng {
+      reverse_proxy 127.0.0.1:${toString ports.searxng}
+    }
+
+    @perplexica host perplexica.${domain}
+    handle @perplexica {
+      reverse_proxy 127.0.0.1:${toString ports.perplexica}
+    }
+  '';
+}
