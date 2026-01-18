@@ -73,7 +73,7 @@
   programs.gnupg.agent = {
     enable = true;
     settings = {
-        default-cache-ttl = 2160000;
+      default-cache-ttl = 2160000;
     };
   };
 

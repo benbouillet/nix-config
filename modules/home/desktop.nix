@@ -13,6 +13,8 @@
     vlc
     digikam
     moonlight-qt
+    carbon-now-cli
+    swappy
   ];
 
   programs = {
