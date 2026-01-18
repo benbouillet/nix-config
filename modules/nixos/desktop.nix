@@ -38,12 +38,9 @@
   ];
 
   networking = {
-    networkmanager = {
-      enable = true;
-    };
-    useDHCP = lib.mkDefault true;
+    networkmanager.enable = true;
+    useDHCP = false;
   };
-
 
   boot = {
     plymouth.enable = true;

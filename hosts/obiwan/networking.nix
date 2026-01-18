@@ -3,12 +3,10 @@
   ...
 }:
 {
-  sops.secrets."wireless/home" = {};
+  sops.secrets."wireless/home" = { };
 
   networking = {
     networkmanager = {
-      wifi.powersave = true;
-
       ensureProfiles = {
         environmentFiles = [ config.sops.secrets."wireless/home".path ];
         profiles = {
