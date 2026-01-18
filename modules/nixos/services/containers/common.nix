@@ -6,8 +6,11 @@
   ...
 }:
 let
-  containersVolumesPath = "/var/lib/containers/storage/volumes";
-  containersGID = 993;
+  containersVolumesPath = "/srv/containers";
+  containersGroup = {
+    name = "containers";
+    GID = 993;
+  };
 in
 {
   virtualisation = {
@@ -22,7 +25,7 @@ in
   };
 
   users.groups."containers" = {
-    gid = containersGID;
+    gid = containersGroup.GID;
   };
   users.users.${username}.extraGroups = lib.mkAfter [
     "containers"
@@ -30,7 +33,7 @@ in
   ];
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${containersVolumesPath} 2775 ${username} containers - -"
+    "d ${containersVolumesPath} 2775 root ${containersGroup.name} - -"
   ];
 
   systemd.services =
@@ -46,7 +49,7 @@ in
           "zfs-mount.service"
           "systemd-tmpfiles-setup.service"
         ];
-        unitConfig.RequiresMountsFor = [ containersVolumesPath ];
+        unitConfig.RequiresMountsFor = containersVolumesPath;
       }
     ) config.virtualisation.oci-containers.containers)
     // {

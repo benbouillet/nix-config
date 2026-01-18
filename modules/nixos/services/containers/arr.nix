@@ -1,5 +1,4 @@
 {
-  username,
   config,
   lib,
   ...
@@ -25,7 +24,8 @@ let
     GID = 993;
   };
   iGPURenderNode = "/dev/dri/renderD129";
-  mediaVolumePath = "/srv/media";
+  mediaVolumePath = "/srv/arrdata";
+  containersVolumesPath = "/srv/containers";
 in
 {
   sops.secrets."services/gluetun" = {
@@ -35,7 +35,8 @@ in
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${mediaVolumePath} 2770 ${username} ${containersGroup.name} - -"
+    "d ${mediaVolumePath} 2770 root ${containersGroup.name} - -"
+    "d ${mediaVolumePath}/media 2770 root ${containersGroup.name} - -"
   ];
 
   users.users."${arrUser.name}" = {
@@ -79,7 +80,7 @@ in
         WEBUI_PORT = "8090";
       };
       volumes = [
-        "qbittorrent:/config/:rw"
+        "${containersVolumesPath}/qbittorrent:/config/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
       extraOptions = [
@@ -95,7 +96,7 @@ in
         TZ = "Europe/Paris";
       };
       volumes = [
-        "nzbget:/config/:rw"
+        "${containersVolumesPath}/nzbget:/config/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
       extraOptions = [
@@ -114,7 +115,7 @@ in
         "127.0.0.1:${toString ports.bazarr}:6767"
       ];
       volumes = [
-        "bazarr:/config/:rw"
+        "${containersVolumesPath}/bazarr:/config/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
     };
@@ -130,7 +131,7 @@ in
         "127.0.0.1:${toString ports.prowlarr}:9696"
       ];
       volumes = [
-        "prowlarr:/config/:rw"
+        "${containersVolumesPath}/prowlarr:/config/:rw"
       ];
     };
 
@@ -145,7 +146,7 @@ in
         "127.0.0.1:${toString ports.radarr}:7878"
       ];
       volumes = [
-        "radarr:/config/:rw"
+        "${containersVolumesPath}/radarr:/config/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
     };
@@ -161,7 +162,7 @@ in
         "127.0.0.1:${toString ports.sonarr}:8989"
       ];
       volumes = [
-        "sonarr:/config/:rw"
+        "${containersVolumesPath}/sonarr:/config/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
     };
@@ -175,7 +176,7 @@ in
         "127.0.0.1:${toString ports.jellyseerr}:5055"
       ];
       volumes = [
-        "jellyseerr:/app/config/:rw"
+        "${containersVolumesPath}/jellyseerr:/app/config/:rw"
       ];
     };
 
@@ -191,8 +192,8 @@ in
         "127.0.0.1:${toString ports.jellyfin}:8096"
       ];
       volumes = [
-        "jellyfin-config:/config/:rw"
-        "jellyfin-cache:/cache/:rw"
+        "${containersVolumesPath}/jellyfin-config:/config/:rw"
+        "${containersVolumesPath}/jellyfin-cache:/cache/:rw"
         "${mediaVolumePath}/:/data/:rw"
       ];
       devices = [
