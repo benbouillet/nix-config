@@ -65,19 +65,15 @@ On the target host:
 
 # TO DO
 - [ ] Check on tmux shortcuts
-- [x] secrets
-- [ ] formatting
 - [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
-- [ ] notification center: solve UI issue with wlogout button
-- [ ] hyprswitch ?
-- [ ] swappy ?
-- [ ] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
+- [x] `swappy`
+- [x] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
 - [ ] `zed` for server
 - [ ] Server: Oauth with Authelia
 - [ ] Server: foundryvtt
 - [ ] Server: lubelogger
 - [ ] Server: perplexica
-- [ ] Server: searxng
+- [x] Server: searxng
 - [ ] Server: steam
 - [ ] Server: ollama
 - [ ] Server: open-webui
