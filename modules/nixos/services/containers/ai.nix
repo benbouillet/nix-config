@@ -1,5 +1,4 @@
 {
-  username,
   lib,
   ...
 }:
@@ -10,27 +9,20 @@ let
     open-webui = 9021;
     perplexica = 9022;
   };
-  aiUser = {
-    name = "ai";
-    UID = 930;
-  };
   containersGroup = {
     name = "containers";
     GID = 993;
   };
   models_path = "/srv/models";
+  containersVolumesPath = "/srv/containers";
 in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${models_path} 2775 ${username} ${containersGroup.name} - -"
+    "d ${models_path} 2775 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/ollama 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/open-webui 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/perplexica 2770 root ${containersGroup.name} - -"
   ];
-
-  users.users."${aiUser.name}" = {
-    isSystemUser = true;
-    createHome = false;
-    uid = aiUser.UID;
-    group = containersGroup.name;
-  };
 
   virtualisation.oci-containers.containers = {
     "ollama" = {
@@ -42,7 +34,7 @@ in
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "ollama:/root/.ollama:rw"
+        "${containersVolumesPath}/ollama/:/root/.ollama/:rw"
         "${models_path}:/usr/share/ollama/.ollama/models:rw"
       ];
       environment = {
@@ -58,8 +50,20 @@ in
         "127.0.0.1:${toString ports.open-webui}:8080"
       ];
       volumes = [
-        "open-webui:/app/backend/data:rw"
+        "${containersVolumesPath}/open-webui:/app/backend/data:rw"
       ];
+    };
+    "perplexica" = {
+      image = "itzcrazykns1337/perplexica:slim-v1.11.2";
+      ports = [
+        "127.0.0.1:${toString ports.perplexica}:3000"
+      ];
+      volumes = [
+        "${containersVolumesPath}/perplexica:/home/perplexica/data:rw"
+      ];
+      environment = {
+        SEARXNG_API_URL = "http://searxng:8080";
+      };
     };
   };
 
@@ -72,6 +76,11 @@ in
     @open-webui host chat.${domain}
     handle @open-webui {
       reverse_proxy 127.0.0.1:${toString ports.open-webui}
+    }
+
+    @perplexica host perplexica.${domain}
+    handle @perplexica {
+      reverse_proxy 127.0.0.1:${toString ports.perplexica}
     }
   '';
   # services = {

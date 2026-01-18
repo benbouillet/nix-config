@@ -37,6 +37,15 @@ in
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${mediaVolumePath} 2770 root ${containersGroup.name} - -"
     "d ${mediaVolumePath}/media 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/qbittorrent 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/nzbget 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/bazarr 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/sonarr 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/prowlarr 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/radarr 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/jellyfin-config 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/jellyfin-cache 2770 root ${containersGroup.name} - -"
+    "d ${containersVolumesPath}/jellyseerr 2770 root ${containersGroup.name} - -"
   ];
 
   users.users."${arrUser.name}" = {
