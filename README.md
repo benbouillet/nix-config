@@ -34,27 +34,11 @@ nixos-rebuild switch --flake ".#<HOST>" \
 
 ### Make a change in the disk configuration
 When adding/removing a ZFS datasets, make the changes imperatively,
-then mirror the configuration in `datasets.nix`.
-
-Remember that datasets configurations are inherited from the root
-datasets (no need to re-enter them).
-
-```
-# create dataset on the host
-sudo zfs create \
-  -o mountpoint=/srv/media \
-  -o quota=500G \
-  -o acltype=posixacl \
-  -o aclinherit=passthrough \
-  -o aclmode=restricted \
-  -o xattr=sa \
-  hdd/media
-```
+then document the change in [datasets.md](./hosts/chewie/disko/datasets.md).
 
 Potential locations where nix configuration must mirror imperative commands:
 * [zfs.nix](./hosts/chewie/zfs.nix) to add/remove the pools to mount at boot & update `sanoid` config
 * [zpools.nix](./hosts/chewie/disko/zpools.nix) to add/remove zpools
-* [datasets.nix](./hosts/chewie/disko/datasets.nix) to add/remove datasets
 
 ### Decrypt ZFS drives after reboot
 
@@ -75,8 +59,10 @@ On the target host:
 - [ ] Server: perplexica
 - [x] Server: searxng
 - [ ] Server: steam
-- [ ] Server: ollama
-- [ ] Server: open-webui
+- [x] Server: ollama
+- [x] Server: open-webui
+- [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
+- [ ] Server: [mealie](https://mealie.io/)
 
 # Configuring SOPS
 
