@@ -17,7 +17,7 @@ let
 in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${models_path} 2775 root ${containersGroup.name} - -"
+    "d ${models_path} 2770 root ${containersGroup.name} - -"
     "d ${containersVolumesPath}/ollama 2770 root ${containersGroup.name} - -"
     "d ${containersVolumesPath}/open-webui 2770 root ${containersGroup.name} - -"
   ];
