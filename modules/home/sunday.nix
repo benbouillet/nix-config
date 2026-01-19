@@ -52,6 +52,16 @@ in
         "WebBrowser"
       ];
     };
+    chromium = {
+      name = "Chromium - sundayapp";
+      exec = "chromium-browser";
+      terminal = false;
+      categories = [
+        "Application"
+        "Network"
+        "WebBrowser"
+      ];
+    };
   };
 
   programs = {
