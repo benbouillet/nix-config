@@ -16,10 +16,12 @@
     ../../modules/nixos/sops.nix
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/services/reverse-proxy.nix
+    ../../modules/nixos/services/postgresql.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/containers/ai.nix
     ../../modules/nixos/services/containers/search.nix
+    ../../modules/nixos/services/containers/nextcloud.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY
