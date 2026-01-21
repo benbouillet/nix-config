@@ -52,6 +52,11 @@ On the target host:
 - [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
 - [x] `swappy`
 - [x] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
+- [ ] server: logs
+- [ ] server: observability
+- [ ] server: uptime monitoring
+- [ ] server: alerting
+- [ ] server: OIDC
 - [ ] `zed` for server
 - [ ] Server: Oauth with Authelia
 - [ ] Server: foundryvtt
@@ -63,6 +68,7 @@ On the target host:
 - [x] Server: open-webui
 - [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
 - [ ] Server: [mealie](https://mealie.io/)
+- [ ] Server: Impermanence
 
 # Configuring SOPS
 
