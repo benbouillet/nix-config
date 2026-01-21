@@ -190,7 +190,7 @@ in
     };
 
     "jellyfin" = {
-      image = "lscr.io/linuxserver/jellyfin:10.11.5";
+      image = "lscr.io/linuxserver/jellyfin:10.11.6";
       environment = {
         PUID = toString arrUser.UID;
         PGID = toString containersGroup.GID;
