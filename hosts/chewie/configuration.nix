@@ -7,7 +7,6 @@
     ./disko/nvme-root.nix
     ./disko/zfs-disks.nix
     ./disko/zpools.nix
-    ./disko/datasets.nix
     ./zfs.nix
     ./gpu.nix
     ../../modules/nixos/common.nix
