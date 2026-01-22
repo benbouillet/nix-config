@@ -6,14 +6,14 @@
 let
   domain = "r4clette.com";
   ports = {
-    qbittorrent = 9090;
-    nzbget = 9091;
     bazarr = 9010;
     prowlarr = 9011;
     radarr = 9012;
     sonarr = 9013;
     jellyseerr = 9014;
     jellyfin = 9015;
+    qbittorrent = 9016;
+    nzbget = 9017;
   };
   arrUser = {
     name = "arr";

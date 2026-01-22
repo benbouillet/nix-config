@@ -58,7 +58,6 @@ On the target host:
 - [ ] server: alerting
 - [ ] server: OIDC
 - [ ] `zed` for server
-- [ ] Server: Oauth with Authelia
 - [ ] Server: foundryvtt
 - [ ] Server: lubelogger
 - [ ] Server: perplexica
@@ -69,6 +68,9 @@ On the target host:
 - [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
 - [ ] Server: [mealie](https://mealie.io/)
 - [ ] Server: Impermanence
+- [x] Server: SSO with Authelia
+- [ ] Server: OIDC with Authelia
+- [ ] Server: SMTP with Authelia
 
 # Configuring SOPS
 
