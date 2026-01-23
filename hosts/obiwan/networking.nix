@@ -17,6 +17,7 @@
               permissions = "user:ben:;";
               type = "ethernet";
               autoconnect = true;
+              autoconnect-priority = 0;
             };
             ipv4 = {
               method = "auto";
@@ -34,7 +35,8 @@
               type = "wifi";
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
-              autoconnect = false;
+              autoconnect = true;
+              autoconnect-priority = 10;
             };
             ipv4 = {
               method = "auto";
@@ -56,6 +58,7 @@
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
               autoconnect = true;
+              autoconnect-priority = 10;
             };
             ipv4 = {
               method = "auto";
@@ -81,6 +84,7 @@
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
               autoconnect = true;
+              autoconnect-priority = 10;
             };
             ipv4 = {
               method = "auto";
