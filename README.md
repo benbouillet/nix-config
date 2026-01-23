@@ -56,7 +56,6 @@ On the target host:
 - [ ] server: observability
 - [ ] server: uptime monitoring
 - [ ] server: alerting
-- [ ] server: OIDC
 - [ ] `zed` for server
 - [ ] Server: foundryvtt
 - [ ] Server: lubelogger
@@ -71,6 +70,7 @@ On the target host:
 - [x] Server: SSO with Authelia
 - [ ] Server: OIDC with Authelia
 - [ ] Server: SMTP with Authelia
+- [ ] Blogging
 
 # Configuring SOPS
 
