@@ -5,39 +5,59 @@
 }:
 let
   domain = "r4clette.com";
-  autheliaUser = {
-    name = "authelia";
-    UID = 930;
+  users = {
+    authelia = {
+      name = "authelia";
+      UID = 930;
+    };
+    lldap = {
+      name = "lldap";
+      UID = 931;
+    };
   };
-  autheliaGroup = {
-    name = "authelia";
-    GID = 994;
+  groups = {
+    authentication = {
+      name = "authent";
+      GID = 930;
+    };
   };
   ports = {
     postgres = 5432;
     authelia = 9091;
+    lldapWebUi = 17170;
+    lldapLdap = 3890;
   };
 in
 {
-  sops.secrets."authelia/identityValidationJWTSecret" = {
-    owner = autheliaUser.name;
-    group = autheliaGroup.name;
+  sops.secrets."authelia/identityValidationJwtSecret" = {
+    owner = users.authelia.name;
+    group = groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/sessionSecret" = {
-    owner = autheliaUser.name;
-    group = autheliaGroup.name;
+    owner = users.authelia.name;
+    group = groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/storageEncryptionKey" = {
-    owner = autheliaUser.name;
-    group = autheliaGroup.name;
+    owner = users.authelia.name;
+    group = groups.authentication.name;
     mode = "0400";
   };
-  sops.secrets."authelia/postgresPassword" = {
-    owner = autheliaUser.name;
-    group = autheliaGroup.name;
+  sops.secrets."authelia/smtpPassword" = {
+    owner = users.authelia.name;
+    group = groups.authentication.name;
     mode = "0400";
+  };
+  sops.secrets."lldap/env" = {
+    owner = users.lldap.name;
+    group = groups.authentication.name;
+    mode = "0400";
+  };
+  sops.secrets."lldap/adminPassword" = {
+    owner = users.lldap.name;
+    group = groups.authentication.name;
+    mode = "0440";
   };
 
   environment.etc."authelia/users.yml".text = ''
@@ -50,120 +70,166 @@ in
           - users
   '';
 
-  users.users."${autheliaUser.name}" = {
-    isSystemUser = true;
-    createHome = false;
-    uid = autheliaUser.UID;
-    group = autheliaGroup.name;
-  };
-  users.groups.${autheliaGroup.name} = {
-    gid = autheliaGroup.GID;
-  };
-
-  services.postgresql = {
-    enable = lib.mkForce true;
-    ensureDatabases = lib.mkAfter [
-      "authelia"
-    ];
-    ensureUsers = lib.mkAfter [
-      {
-        name = "authelia";
-        ensureDBOwnership = true;
-        ensureClauses = {
-          createrole = true;
-          createdb = true;
-          connection_limit = 5;
-          password = "SCRAM-SHA-256$4096:Q0qWO6bX/jc5tU5Yw/i+KA==$bNDhPFOHae8dmADQ0RyQ+mkXRe7cjT6swOxguaJ5wpk=:juVz8wdXAr9uEbtTqYP4zr+H8nRfFsCNpHtmS40HkLc=";
-        };
-      }
-    ];
-  };
-
-  services.authelia.instances."raclette" = {
-    enable = true;
-    user = autheliaUser.name;
-    group = autheliaGroup.name;
-    settings = {
-      server = {
-        address = "tcp://127.0.0.1:${toString ports.authelia}";
-        disable_healthcheck = false;
-      };
-
-      log.level = "info";
-
-      theme = "dark";
-      default_2fa_method = "totp";
-
-      session = {
-        name = "authelia_session";
-        same_site = "lax";
-        expiration = "1h";
-        inactivity = "5m";
-
-        cookies = [
-          {
-            domain = domain;
-            authelia_url = "https://auth.${domain}";
-          }
-        ];
-      };
-
-      storage = {
-        postgres = {
-          address = "tcp://127.0.0.1:${toString ports.postgres}";
-          database = "authelia";
-          schema = "public";
-          username = "authelia";
-        };
-        encryption_key = ""; # again, we’ll use secrets.* for this
-      };
-
-      notifier = {
-        filesystem = {
-          filename = "/tmp/notification.txt";
-        };
-      };
-
-      authentication_backend.file = {
-        path = "/etc/authelia/users.yml";
-        password = {
-          algorithm = "argon2id";
-          iterations = 3;
-          key_length = 32;
-          salt_length = 16;
-          memory = 65536;
-          parallelism = 4;
-        };
-      };
-
-      access_control = {
-        default_policy = "deny";
-        rules = [
-          {
-            domain = "debug.${domain}";
-            policy = "one_factor";
-            subject = "group:users";
-          }
-        ];
-      };
-
-      # identity_providers.oidc = {
-      #   enable = true;
-      # };
+  users.users = {
+    "${users.authelia.name}" = {
+      isSystemUser = true;
+      createHome = false;
+      uid = users.authelia.UID;
+      group = groups.authentication.name;
     };
-
-    environmentVariables = {
-      AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE = config.sops.secrets."authelia/postgresPassword".path;
+    "${users.lldap.name}" = {
+      isSystemUser = true;
+      createHome = false;
+      uid = users.lldap.UID;
+      group = groups.authentication.name;
     };
-
-    secrets = {
-      jwtSecretFile = config.sops.secrets."authelia/identityValidationJWTSecret".path;
-      sessionSecretFile = config.sops.secrets."authelia/sessionSecret".path;
-      storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+  };
+  users.groups = {
+    ${groups.authentication.name} = {
+      gid = groups.authentication.GID;
     };
   };
 
-  services.caddy.virtualHosts."auth.${domain}".extraConfig = ''
-    reverse_proxy 127.0.0.1:${toString ports.authelia}
-  '';
+  services = {
+    postgresql = {
+      enable = lib.mkForce true;
+      ensureDatabases = lib.mkAfter [
+        "authelia"
+        "lldap"
+      ];
+      ensureUsers = lib.mkAfter [
+        {
+          name = users.lldap.name;
+          ensureDBOwnership = true;
+          ensureClauses = {
+            createrole = true;
+            createdb = true;
+            connection_limit = 5;
+            password = "SCRAM-SHA-256$4096:NvD2yIkrFsiGwIE0I8p36A==$rVCm1iVVCZkQIoM7LkbmoTJ+fmDPIUHnLjQo4iCGSR8=:MWu5qzUt0LZ9X4Cv1zARwNJorj+TsV6z0iJfig9Lb0E=";
+          };
+        }
+        {
+          name = users.authelia.name;
+          ensureDBOwnership = true;
+          ensureClauses = {
+            createrole = true;
+            createdb = true;
+            connection_limit = 5;
+            password = "SCRAM-SHA-256$4096:0VaMc/tMcHS/mb/CPtCW9Q==$UJ9Jjmnr5O+a4JRhqbG3a74ZEpXwMelWNwPXzc1FvUo=:u9pn9psBM1kCoEVhXI8/1Pfpwt8qkss3RQY4q0Awsn8=";
+          };
+        }
+      ];
+    };
+
+    authelia.instances."raclette" = {
+      enable = true;
+      user = users.authelia.name;
+      group = groups.authentication.name;
+      settings = {
+        server = {
+          address = "tcp://127.0.0.1:${toString ports.authelia}";
+          disable_healthcheck = false;
+        };
+
+        log.level = "info";
+
+        theme = "dark";
+        default_2fa_method = "totp";
+
+        session = {
+          name = "authelia_session";
+          same_site = "lax";
+          expiration = "1h";
+          inactivity = "5m";
+
+          cookies = [
+            {
+              domain = domain;
+              authelia_url = "https://auth.${domain}";
+            }
+          ];
+        };
+
+        storage = {
+          postgres = {
+            address = "unix:///run/postgresql/.s.PGSQL.${toString ports.postgres}";
+            database = "authelia";
+            schema = "public";
+            username = "authelia";
+          };
+        };
+
+        notifier = {
+          smtp = {
+            address = "smtp://smtp.protonmail.ch:587";
+            username = "admin@r4clette.com";
+            sender = "Raclette Admin <admin@r4clette.com>";
+          };
+        };
+
+        authentication_backend.ldap = {
+          address = "ldap://127.0.0.1:${toString ports.lldapLdap}";
+          implementation = "lldap";
+          user = "uid=admin,ou=people,dc=r4clette,dc=com";
+          base_dn = "dc=r4clette,dc=com";
+        };
+
+        access_control = {
+          default_policy = "deny";
+          rules = [
+            {
+              domain = "debug.${domain}";
+              policy = "one_factor";
+              subject = "group:debug";
+            }
+          ];
+        };
+      };
+
+      environmentVariables = {
+        AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE = config.sops.secrets."authelia/smtpPassword".path;
+        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = config.sops.secrets."lldap/adminPassword".path;
+      };
+
+      secrets = {
+        jwtSecretFile = config.sops.secrets."authelia/identityValidationJwtSecret".path;
+        sessionSecretFile = config.sops.secrets."authelia/sessionSecret".path;
+        storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+      };
+    };
+
+    lldap = {
+      enable = true;
+      environmentFile = config.sops.secrets."lldap/env".path;
+      silenceForceUserPassResetWarning = true;
+
+      settings = {
+        ldap_base_dn = "dc=r4clette,dc=com";
+        ldap_user_dn = "admin";
+        ldap_user_email = "admin@${domain}";
+
+        ldap_user_pass_file = config.sops.secrets."lldap/adminPassword".path;
+
+        ldap_host = "127.0.0.1";
+        ldap_port = 3890;
+
+        http_host = "127.0.0.1";
+        http_port = 17170;
+
+        http_url = "https://id.${domain}";
+
+        environmentFile = config.sops.secrets."lldap/env".path;
+      };
+    };
+  };
+
+  services.caddy.virtualHosts = {
+    "auth.${domain}".extraConfig = ''
+      reverse_proxy 127.0.0.1:${toString ports.authelia}
+    '';
+
+    "id.${domain}".extraConfig = ''
+      reverse_proxy 127.0.0.1:${toString ports.lldapWebUi}
+    '';
+  };
 }
