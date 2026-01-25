@@ -28,7 +28,7 @@ let
   containersVolumesPath = "/srv/containers";
 in
 {
-  sops.secrets."services/gluetun" = {
+  sops.secrets."services/gluetun/env" = {
     mode = "0400";
     owner = "root";
     group = "root";
@@ -76,7 +76,7 @@ in
         WIREGUARD_MTU = "1400";
       };
       environmentFiles = [
-        config.sops.secrets."services/gluetun".path
+        config.sops.secrets."services/gluetun/env".path
       ];
     };
 

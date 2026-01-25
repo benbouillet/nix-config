@@ -51,7 +51,7 @@ let
   '';
 in
 {
-  sops.secrets."services/searxng" = {
+  sops.secrets."services/searxng/env" = {
     mode = "0400";
     owner = "root";
     group = "root";
@@ -85,7 +85,7 @@ in
         SEARXNG_VALKEY_URL = "valkey://valkey:6379";
       };
       environmentFiles = [
-        config.sops.secrets."services/searxng".path
+        config.sops.secrets."services/searxng/env".path
       ];
     };
     "perplexica" = {

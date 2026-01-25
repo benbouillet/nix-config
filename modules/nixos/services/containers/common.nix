@@ -36,6 +36,8 @@ in
     "d ${containersVolumesPath} 2775 root ${containersGroup.name} - -"
   ];
 
+  networking.firewall.trustedInterfaces = [ "podman0" ];
+
   systemd.services =
     # Creates containers mounts host folders before starting podman services
     (lib.mapAttrs' (

@@ -20,6 +20,10 @@ let
       name = "authent";
       GID = 930;
     };
+    oidc = {
+      name = "oidc";
+      GID = 931;
+    };
   };
   ports = {
     postgres = 5432;
@@ -48,6 +52,11 @@ in
     owner = users.authelia.name;
     group = groups.authentication.name;
     mode = "0400";
+  };
+  sops.secrets."authelia/oidcIssuerKey" = {
+    owner = users.authelia.name;
+    group = groups.oidc.name;
+    mode = "0440";
   };
   sops.secrets."lldap/env" = {
     owner = users.lldap.name;
@@ -87,6 +96,9 @@ in
   users.groups = {
     ${groups.authentication.name} = {
       gid = groups.authentication.GID;
+    };
+    ${groups.oidc.name} = {
+      gid = groups.oidc.GID;
     };
   };
 
@@ -182,6 +194,46 @@ in
               policy = "one_factor";
               subject = "group:debug";
             }
+            {
+              domain = "nextcloud.${domain}";
+              policy = "two_factor";
+              subject = "group:nextcloud";
+            }
+          ];
+        };
+
+        definitions.user_attributes.is_nextcloud_admin = {
+          expression = ''"nextcloud-admins" in groups'';
+        };
+
+        identity_providers.oidc = {
+          claims_policies.nextcloud_userinfo.custom_claims.is_nextcloud_admin = {
+            attribute = "is_nextcloud_admin";
+          };
+          scopes.nextcloud_userinfo.claims = [ "is_nextcloud_admin" ];
+          clients = [
+            {
+              client_id = "nextcloud";
+              client_name = "Nextcloud";
+              client_secret = "$pbkdf2-sha512$310000$eyITXRD6EHqMB0msWEqBNQ$V0D6V57a8NXZKj8HU3wLEjyU/XJJ5JxnFsMisO9vtdGAs.E.MX6z.HQWRl8Ik4c0zAse6MmrVlvLe8TQ53nbQg";
+              public = false;
+
+              authorization_policy = "two_factor";
+
+              claims_policy = "nextcloud_userinfo";
+
+              redirect_uris = [
+                "https://nextcloud.${domain}/apps/oidc_login/oidc"
+              ];
+
+              scopes = [
+                "openid"
+                "profile"
+                "email"
+                "groups"
+                "nextcloud_userinfo"
+              ];
+            }
           ];
         };
       };
@@ -195,6 +247,7 @@ in
         jwtSecretFile = config.sops.secrets."authelia/identityValidationJwtSecret".path;
         sessionSecretFile = config.sops.secrets."authelia/sessionSecret".path;
         storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+        oidcIssuerPrivateKeyFile = config.sops.secrets."authelia/oidcIssuerKey".path;
       };
     };
 

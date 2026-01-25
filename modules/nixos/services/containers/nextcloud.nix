@@ -6,29 +6,39 @@ let
   domain = "r4clette.com";
   ports = {
     nextcloud = 9040;
+    authelia = 9091;
   };
-  nextcloudUser = {
-    name = "nextcloud";
-    UID = 940;
+  users = {
+    nextcloud = {
+      name = "nextcloud";
+      UID = 940;
+    };
   };
-  containersGroup = {
-    name = "containers";
-    GID = 993;
+  groups = {
+    containers = {
+      name = "containers";
+      GID = 993;
+    };
+    oidc = {
+      name = "oidc";
+      GID = 931;
+    };
   };
   dataPath = "/srv/nextcloud";
   containersVolumesPath = "/srv/containers";
 in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${dataPath} 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/nextcloud 2770 root ${containersGroup.name} - -"
+    "d ${dataPath} 2770 root ${groups.containers.name} - -"
+    "d ${containersVolumesPath}/nextcloud 2770 root ${groups.containers.name} - -"
   ];
 
-  users.users."${nextcloudUser.name}" = {
+  users.users."${users.nextcloud.name}" = {
     isSystemUser = true;
     createHome = false;
-    uid = nextcloudUser.UID;
-    group = containersGroup.name;
+    uid = users.nextcloud.UID;
+    group = groups.containers.name;
+    extraGroups = [ groups.oidc.name ];
   };
 
   services.postgresql = {
@@ -54,8 +64,8 @@ in
     "nextcloud" = {
       image = "lscr.io/linuxserver/nextcloud:32.0.5-ls412";
       environment = {
-        PUID = toString nextcloudUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString users.nextcloud.UID;
+        PGID = toString groups.containers.GID;
         TZ = "Europe/Paris";
       };
       ports = [
@@ -64,6 +74,9 @@ in
       volumes = [
         "${containersVolumesPath}/nextcloud/:/config/:rw"
         "${dataPath}/:/data/:rw"
+      ];
+      extraOptions = [
+        "--add-host=auth.r4clette.com:host-gateway"
       ];
     };
   };
