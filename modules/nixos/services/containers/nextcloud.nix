@@ -41,6 +41,53 @@ in
     extraGroups = [ groups.oidc.name ];
   };
 
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      default_policy = "deny";
+      rules = [
+        {
+          domain = "nextcloud.${domain}";
+          policy = "one_factor";
+          subject = "group:nextcloud";
+        }
+      ];
+    };
+    definitions.user_attributes.is_nextcloud_admin = {
+      expression = ''"nextcloud-admins" in groups'';
+    };
+    identity_providers.oidc = {
+      claims_policies.nextcloud_userinfo.custom_claims.is_nextcloud_admin = {
+        attribute = "is_nextcloud_admin";
+      };
+      scopes.nextcloud_userinfo.claims = [ "is_nextcloud_admin" ];
+      clients = [
+        {
+          client_id = "nextcloud";
+          client_name = "Nextcloud";
+          client_secret = "$pbkdf2-sha512$310000$eyITXRD6EHqMB0msWEqBNQ$V0D6V57a8NXZKj8HU3wLEjyU/XJJ5JxnFsMisO9vtdGAs.E.MX6z.HQWRl8Ik4c0zAse6MmrVlvLe8TQ53nbQg";
+          public = false;
+
+          authorization_policy = "two_factor";
+
+          claims_policy = "nextcloud_userinfo";
+          consent_mode = "implicit";
+
+          redirect_uris = [
+            "https://nextcloud.${domain}/apps/oidc_login/oidc"
+          ];
+
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+            "nextcloud_userinfo"
+          ];
+        }
+      ];
+    };
+  };
+
   services.postgresql = {
     enable = lib.mkForce true;
     ensureDatabases = lib.mkAfter [
