@@ -10,6 +10,19 @@ let
   };
 in
 {
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      default_policy = "deny";
+      rules = [
+        {
+          domain = "debug.${domain}";
+          policy = "one_factor";
+          subject = "group:debug";
+        }
+      ];
+    };
+  };
+
   virtualisation.oci-containers.containers = {
     "debug" = {
       image = "traefik/whoami:v1.11";

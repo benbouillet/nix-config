@@ -68,8 +68,8 @@ On the target host:
 - [ ] Server: [mealie](https://mealie.io/)
 - [ ] Server: Impermanence
 - [x] Server: SSO with Authelia
-- [ ] Server: OIDC with Authelia
-- [ ] Server: SMTP with Authelia
+- [X] Server: OIDC with Authelia
+- [X] Server: SMTP with Authelia
 - [ ] Blogging
 
 # Configuring SOPS

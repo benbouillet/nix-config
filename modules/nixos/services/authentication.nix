@@ -190,11 +190,6 @@ in
           default_policy = "deny";
           rules = [
             {
-              domain = "debug.${domain}";
-              policy = "one_factor";
-              subject = "group:debug";
-            }
-            {
               domain = "nextcloud.${domain}";
               policy = "two_factor";
               subject = "group:nextcloud";
