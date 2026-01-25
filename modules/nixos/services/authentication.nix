@@ -221,6 +221,7 @@ in
               authorization_policy = "two_factor";
 
               claims_policy = "nextcloud_userinfo";
+              consent_mode = "implicit";
 
               redirect_uris = [
                 "https://nextcloud.${domain}/apps/oidc_login/oidc"
