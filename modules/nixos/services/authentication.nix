@@ -117,7 +117,7 @@ in
             createrole = true;
             createdb = true;
             connection_limit = 5;
-            password = "SCRAM-SHA-256$4096:NvD2yIkrFsiGwIE0I8p36A==$rVCm1iVVCZkQIoM7LkbmoTJ+fmDPIUHnLjQo4iCGSR8=:MWu5qzUt0LZ9X4Cv1zARwNJorj+TsV6z0iJfig9Lb0E=";
+            password = "SCRAM-SHA-256$4096:hDpTFtNaDMBJKeivoyfkhQ==$zEvVeTD6w9U+GQhxu6BSzu+VFQ0x+ucJn5zkj4KXMOk=:2FXSWeQh+LaC+tQ4A5waU2D3uYE3uoef9oV6I5q4Rt8=";
           };
         }
         {
