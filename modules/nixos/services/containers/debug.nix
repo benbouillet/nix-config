@@ -12,7 +12,6 @@ in
 {
   services.authelia.instances."raclette".settings = {
     access_control = {
-      default_policy = "deny";
       rules = [
         {
           domain = "debug.${domain}";
