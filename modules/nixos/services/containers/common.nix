@@ -32,10 +32,6 @@ in
     "podman"
   ];
 
-  systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${containersVolumesPath} 2775 root ${containersGroup.name} - -"
-  ];
-
   networking.firewall.trustedInterfaces = [ "podman0" ];
 
   systemd.services =
