@@ -154,6 +154,6 @@
     defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
 
-    age.keyFile = "/persist/var/lib/sops-nix/key.txt";
+    age.keyFile = "/var/lib/sops-nix/key.txt";
   };
 }

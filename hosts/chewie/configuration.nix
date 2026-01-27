@@ -4,9 +4,9 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./disko/nvme-root.nix
     ./zfs.nix
     ./gpu.nix
+    ./impermanence.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix

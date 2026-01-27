@@ -38,14 +38,14 @@
                 ];
               };
             };
-            root = {
-              name = "root";
+            persist = {
+              name = "persist";
               type = "8300";
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
-                mountpoint = "/";
+                mountpoint = "/persist";
                 mountOptions = [
                   "noatime"
                   "lazytime"
