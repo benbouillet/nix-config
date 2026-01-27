@@ -2,53 +2,67 @@ let
   diskId = "nvme-Samsung_SSD_980_1TB_S649NL0W136843P";
 in
 {
-  fileSystems."/" = {
-    device = "none";
-    fsType = "tmpfs";
-    options = [
-      "mode=755"
-      "size=4G"
-      "nosuid"
-      "nodev"
-      "relatime"
-    ];
+  disko.devices = {
+    nodev."/" = {
+      fsType = "tmpfs";
+      mountOptions = [
+        "size=10G"
+        "mode=0755"
+      ];
+    };
+
+    disk = {
+      nvme0 = {
+        device = "/dev/disk/by-id/nvme-Samsung_SSD_980_1TB_S649NL0W136843P";
+        type = "disk";
+
+        content = {
+          type = "gpt";
+          partitions = {
+            boot = {
+              priority = 1;
+              name = "boot";
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [
+                  "umask=0077"
+                  "nodev"
+                  "nosuid"
+                  "noexec"
+                ];
+              };
+            };
+            data = {
+              size = "100%";
+              content = {
+                type = "btrfs";
+                subvolumes = {
+                  nix = {
+                    type = "filesystem";
+                    mountpoint = "/nix";
+                    mountOptions = [ "compress=zstd" ];
+                  };
+                  persist = {
+                    type = "filesystem";
+                    mountpoint = "/persist";
+                    mountOptions = [ "compress=zstd" ];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    };
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-id/${diskId}-part1";
-    fsType = "vfat";
-    options = [
-      "umask=0077"
-      "nodev"
-      "nosuid"
-      "noexec"
-    ];
-    neededForBoot = true;
-  };
+  fileSystems."/persist".neededForBoot = true;
 
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-id/${diskId}-part2";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "lazytime"
-    ];
-    neededForBoot = true;
-  };
-
-  fileSystems."/persist" = {
-    device = "/dev/disk/by-id/${diskId}-part3";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "lazytime"
-      "commit=30"
-      "errors=remount-ro"
-    ];
-    neededForBoot = true;
-  };
-
-  environment.persistence."/persistent" = {
+  environment.persistence."/persist" = {
     enable = true;
     hideMounts = true;
     directories = [

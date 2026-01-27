@@ -33,6 +33,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence = {
       url = "github:nix-community/impermanence";
     };
@@ -97,6 +102,7 @@
               inherit username;
             };
             modules = [
+              inputs.disko.nixosModules.disko
               inputs.sops-nix.nixosModules.sops
               inputs.impermanence.nixosModules.impermanence
               ./hosts/${host}/configuration.nix
