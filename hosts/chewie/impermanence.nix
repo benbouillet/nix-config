@@ -1,3 +1,6 @@
+let
+  diskId = "nvme-Samsung_SSD_980_1TB_S649NL0W136843P";
+in
 {
   fileSystems."/" = {
     device = "none";
@@ -12,7 +15,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-partlabel/ESP";
+    device = "/dev/disk/by-id/${diskId}-part1";
     fsType = "vfat";
     options = [
       "umask=0077"
@@ -24,7 +27,7 @@
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-partlabel/nix";
+    device = "/dev/disk/by-id/${diskId}-part2";
     fsType = "ext4";
     options = [
       "noatime"
@@ -34,7 +37,7 @@
   };
 
   fileSystems."/persist" = {
-    device = "/dev/disk/by-partlabel/persist";
+    device = "/dev/disk/by-id/${diskId}-part3";
     fsType = "ext4";
     options = [
       "noatime"
