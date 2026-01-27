@@ -20,6 +20,10 @@ nix run github:nix-community/nixos-anywhere -- \
   --target-host <TARGET>
 ```
 
+Update the age key (depending on server or desktop, the path might change).
+Register the machine into tailscale.
+Update DNS is necessary.
+
 ### Deploy a new configuration
 Don't forget to update `~/.ssh/config` (way easier, esp. when
 using SSH jump and/or custom SSH port).
@@ -66,11 +70,14 @@ On the target host:
 - [x] Server: open-webui
 - [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
 - [ ] Server: [mealie](https://mealie.io/)
-- [ ] Server: Impermanence
+- [X] Server: Impermanence
 - [x] Server: SSO with Authelia
 - [X] Server: OIDC with Authelia
 - [X] Server: SMTP with Authelia
 - [ ] Blogging
+- [ ] Better impermanence mounts
+- [ ] Podman auto prune
+- [ ] nix store garbage collection
 
 # Configuring SOPS
 
