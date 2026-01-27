@@ -97,7 +97,6 @@
               inherit username;
             };
             modules = [
-              inputs.disko.nixosModules.disko
               inputs.sops-nix.nixosModules.sops
               inputs.impermanence.nixosModules.impermanence
               ./hosts/${host}/configuration.nix
