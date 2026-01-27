@@ -128,8 +128,6 @@ in
       volumes = [
         "${containersVolumesPath}/steam:/home/default:rw"
         "${gamesVolumePath}/:/mnt/games/:rw"
-        "/opt/container-data/steam-headless/sockets/.X11-unix:/tmp/.X11-unix:rw"
-        "/opt/container-data/steam-headless/sockets/pulse:/tmp/pulse:rw"
         "/dev/shm:/dev/shm"
         "/dev/input:/dev/input"
       ];
