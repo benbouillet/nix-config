@@ -1,5 +1,6 @@
 {
-  lib,
+  username,
+  inputs,
   pkgs,
   ...
 }:
@@ -35,6 +36,8 @@
     brightnessctl
     networkmanagerapplet
     usbutils
+    sops
+    age
   ];
 
   networking = {
@@ -96,4 +99,13 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+
+  ### SECRETS MANAGEMENT ###
+  imports = [ inputs.sops-nix.nixosModules.sops ];
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+
+    age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
+  };
 }

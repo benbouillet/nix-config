@@ -4,7 +4,8 @@
   host,
   pkgs,
   ...
-}: let
+}:
+let
   inherit (import ./variables.nix)
     theme
     wallpaper_file
@@ -22,12 +23,19 @@ in
     ../../modules/nixos/hyprland.nix
     ../../modules/nixos/ssd.nix
     ../../modules/nixos/tailscale.nix
-    ../../modules/nixos/sops.nix
     ../../modules/nixos/vpn.nix
     ../../modules/nixos/printing.nix
     ../../modules/nixos/gaming.nix
     ../../modules/nixos/sre.nix
-    (import ../../modules/nixos/stylix.nix {inherit inputs pkgs theme username wallpaper_file;})
+    (import ../../modules/nixos/stylix.nix {
+      inherit
+        inputs
+        pkgs
+        theme
+        username
+        wallpaper_file
+        ;
+    })
   ];
 
   # Enable Firmware update

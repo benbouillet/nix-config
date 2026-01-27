@@ -1,5 +1,6 @@
 {
   lib,
+  inputs,
   username,
   host,
   config,
@@ -145,4 +146,14 @@
   # Linux audit
   security.auditd.enable = true;
   security.audit.enable = true;
+
+  ### SECRETS MANAGEMENT ###
+  imports = [ inputs.sops-nix.nixosModules.sops ];
+
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+
+    age.keyFile = "/persist/var/lib/sops-nix/key.txt";
+  };
 }

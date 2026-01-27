@@ -16,7 +16,26 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" "nodev" "nosuid" "noexec" ];
+                mountOptions = [
+                  "umask=0077"
+                  "nodev"
+                  "nosuid"
+                  "noexec"
+                ];
+              };
+            };
+            nix = {
+              name = "nix";
+              type = "8300";
+              size = "100G";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/nix";
+                mountOptions = [
+                  "noatime"
+                  "lazytime"
+                ];
               };
             };
             root = {
@@ -27,7 +46,12 @@
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-                mountOptions = [ "noatime" "lazytime" "commit=30" "errors=remount-ro" ];
+                mountOptions = [
+                  "noatime"
+                  "lazytime"
+                  "commit=30"
+                  "errors=remount-ro"
+                ];
               };
             };
           };

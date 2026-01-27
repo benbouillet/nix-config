@@ -5,14 +5,11 @@
   imports = [
     ./hardware-configuration.nix
     ./disko/nvme-root.nix
-    ./disko/zfs-disks.nix
-    ./disko/zpools.nix
     ./zfs.nix
     ./gpu.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
-    ../../modules/nixos/sops.nix
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/services/reverse-proxy.nix
     ../../modules/nixos/services/postgresql.nix
