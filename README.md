@@ -75,9 +75,11 @@ On the target host:
 - [X] Server: OIDC with Authelia
 - [X] Server: SMTP with Authelia
 - [ ] Blogging
-- [ ] Better impermanence mounts
-- [ ] Podman auto prune
-- [ ] nix store garbage collection
+- [X] Better impermanence mounts
+- [X] Podman auto prune
+- [X] nix store garbage collection
+- [ ] change tmpfs upper limit
+- [ ] solve the chewie tailscale registration at each reboot
 
 # Configuring SOPS
 
