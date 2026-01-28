@@ -225,8 +225,6 @@ in
         http_port = 17170;
 
         http_url = "https://id.${domain}";
-
-        environmentFile = config.sops.secrets."lldap/env".path;
       };
     };
   };
