@@ -1,12 +1,9 @@
-let
-  diskId = "nvme-Samsung_SSD_980_1TB_S649NL0W136843P";
-in
 {
   disko.devices = {
     nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [
-        "size=10G"
+        "size=4G"
         "mode=0755"
       ];
     };
@@ -66,10 +63,8 @@ in
     enable = true;
     hideMounts = true;
     directories = [
-      "/var/lib/nixos"
-      "/var/lib/systemd"
+      "/var/lib"
       "/var/log"
-      "/var/lib/containers"
     ];
     files = [
       "/etc/machine-id"
