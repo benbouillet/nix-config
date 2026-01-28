@@ -216,6 +216,8 @@ in
 
         ldap_user_pass_file = config.sops.secrets."lldap/adminPassword".path;
 
+        force_ldap_user_pass_reset = "always";
+
         ldap_host = "127.0.0.1";
         ldap_port = 3890;
 
