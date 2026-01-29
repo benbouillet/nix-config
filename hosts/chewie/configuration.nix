@@ -14,6 +14,7 @@
     ../../modules/nixos/services/reverse-proxy.nix
     ../../modules/nixos/services/postgresql.nix
     ../../modules/nixos/services/authentication.nix
+    ../../modules/nixos/services/opencloud.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/containers/ai.nix
