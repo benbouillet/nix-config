@@ -98,7 +98,7 @@ in
     };
 
     "nzbget" = {
-      image = "lscr.io/linuxserver/nzbget:25.4.20260123";
+      image = "lscr.io/linuxserver/nzbget:25.4.20260130";
       environment = {
         PUID = toString arrUser.UID;
         PGID = toString containersGroup.GID;
