@@ -189,6 +189,19 @@ in
         access_control = {
           default_policy = "deny";
         };
+
+        identity_providers.oidc = {
+          cors = {
+            endpoints = [
+              "authorization"
+              "token"
+              "revocation"
+              "introspection"
+              "userinfo"
+            ];
+            allowed_origins_from_client_redirect_uris = true;
+          };
+        };
       };
 
       environmentVariables = {
