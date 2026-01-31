@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   ...
 }:
 let
@@ -22,6 +23,12 @@ let
   dataPath = "/srv/opencloud";
 in
 {
+  sops.secrets."opencloud/env" = {
+    mode = "0400";
+    owner = users.opencloud.name;
+    group = groups.opencloud.name;
+  };
+
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${dataPath} 2770 ${users.opencloud.name} ${groups.opencloud.name} - -"
   ];
@@ -34,75 +41,193 @@ in
 
   services.opencloud = {
     enable = true;
-    stateDir = dataPath;
-    user = users.opencloud.name;
     url = "https://opencloud.${domain}";
     address = "127.0.0.1";
     port = ports.opencloud;
+    settings = {
+      api = {
+        graph_assign_default_user_role = true;
+        graph_username_match = "none";
+      };
+      proxy = {
+        auto_provision_accounts = true;
+        oidc.rewrite_well_known = true;
+        oidc.access_token_verify_method = "none";
+        role_assignment = {
+          # driver = "oidc"; # HINT currently broken for Android & Desktop app
+          driver = "default";
+          oidc_role_mapper.role_claim = "groups";
+        };
+      };
+      csp = {
+        directives = {
+          connect-src = [
+            "https://opencloud.${domain}/"
+            "https://auth.${domain}/"
+          ];
+          frame-src = [
+            "https://opencloud.${domain}/"
+            "https://auth.${domain}/"
+          ];
+        };
+      };
+      web.web.config.oidc.client_id = "opencloud";
+      web.web.config.oidc.scope = "openid profile email groups";
+    };
     environment = {
+      OC_INSECURE = "false";
       PROXY_TLS = "false";
+      PROXY_INSECURE_BACKENDS = "true";
+      OC_EXCLUDE_RUN_SERVICES = "idp";
+      OC_OIDC_ISSUER = "https://auth.${domain}";
     };
   };
+
   # services.opencloud = {
   #   enable = true;
+  #   stateDir = dataPath;
+  #   user = users.opencloud.name;
+  #   url = "https://opencloud.${domain}";
+  #   address = "127.0.0.1";
+  #   port = ports.opencloud;
   #   environment = {
-  #     OC_INSECURE = "true";
-  #     OC_LOG_LEVEL = "error";
-  #     PROXY_TLS = "false";
+  #     OC_OIDC_ISSUER = "https://auth.${domain}";
+  #     OC_EXCLUDE_RUN_SERVICES = "idp,auth-basic,auth-bearer";
   #   };
+  #
   #   settings = {
-  #     # /etc/opencloud/proxy.yaml
   #     proxy = {
-  #       # Per-service log level (still keep OC_LOG_LEVEL for global default)
-  #       log_level = "info";
-  #
-  #       # OIDC behaviour – harmless now, useful once you plug in an external IdP.
-  #       oidc = {
-  #         # Makes OpenCloud rewrite the .well-known URL when sitting behind a proxy.
-  #         rewrite_well_known = true;
-  #       };
-  #
-  #       # When you later use an external OIDC IdP, this will auto-create users.
+  #       http.tls = false;
   #       auto_provision_accounts = true;
+  #       oidc = {
+  #         issuer = "https://auth.${domain}";
+  #         insecure = false;
+  #         rewrite_well_known = true;
+  #         access_token_verify_method = "none";
+  #         skip_user_info = false;
+  #       };
+  #       insecure_backends = false;
+  #       csp_config_file_location = "/etc/opencloud/csp.yaml";
+  #       user_oidc_claim = "preferred_username";
+  #       user_cs3_claim = "username";
+  #       role_assignment = {
+  #         driver = "default";
+  #       };
   #       auto_provision_claims = {
   #         username = "preferred_username";
   #         email = "email";
   #         display_name = "name";
   #         groups = "groups";
   #       };
-  #
-  #       # Optional role mapping from an OIDC claim → OpenCloud roles.
-  #       # This doesn’t do anything until you actually have such a claim.
-  #       role_assignment = {
-  #         driver = "oidc";
-  #         oidc_role_mapper = {
-  #           # Name of the claim in your IdP token that contains roles
-  #           role_claim = "opencloud_roles";
-  #
-  #           # Uncomment & adapt once you have real roles in your IdP:
-  #           # role_mapping = [
-  #           #   { role_name = "admin";      claim_value = "admin"; }
-  #           #   { role_name = "spaceadmin"; claim_value = "spaceadmin"; }
-  #           #   { role_name = "user";       claim_value = "user"; }
-  #           #   { role_name = "guest";      claim_value = "guest"; }
-  #           # ];
-  #         };
-  #       };
   #     };
-  #
-  #     # /etc/opencloud/web.yaml
+  #     graph = {
+  #       events.tls_insecure = false;
+  #       spaces.insecure = false;
+  #       api.graph_username_match = "none";
+  #     };
+  #     frontend = {
+  #       app_handler.insecure = false;
+  #       archiver.insecure = false;
+  #     };
+  #     auth_bearer.auth_providers.oidc.insecure = false;
+  #     ocdav.insecure = false;
+  #     thumbnails.thumbnail = {
+  #       webdav_allow_insecure = false;
+  #       cs3_allow_insecure = false;
+  #     };
+  #     search.events.tls_insecure = false;
+  #     audit.events.tls_insecure = false;
+  #     sharing.events.tls_insecure = false;
+  #     storage_users.events.tls_insecure = false;
+  #     notifications.notifications.events.tls_insecure = false;
+  #     nats.nats.tls_skip_verify_client_cert = false;
   #     web = {
   #       web = {
   #         config = {
   #           oidc = {
-  #             # Good default scope if/when you enable external OIDC
-  #             scope = "openid profile email opencloud_roles";
+  #             metadata_url = "https://auth.${domain}/.well-known/openid-configuration";
+  #             authority = "https://auth.${domain}";
+  #             client_id = "opencloud";
+  #             scope = "openid profile email groups offline_access";
   #           };
   #         };
   #       };
   #     };
+  #     csp = {
+  #       directives = {
+  #         script-src = [
+  #           "'self'"
+  #           "'unsafe-inline'"
+  #           "'unsafe-eval'"
+  #         ];
+  #         connect-src = [
+  #           "'self'"
+  #           "blob:"
+  #           "https://auth.${domain}/"
+  #           "https://opencloud.${domain}/"
+  #         ];
+  #         frame-src = [
+  #           "'self'"
+  #           "https://auth.${domain}/"
+  #           "https://opencloud.${domain}/"
+  #         ];
+  #       };
+  #     };
   #   };
+  #   environmentFile = config.sops.secrets."opencloud/env".path;
   # };
+
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      default_policy = "deny";
+      rules = [
+        {
+          domain = "opencloud.${domain}";
+          policy = "one_factor";
+          subject = "group:opencloud";
+        }
+      ];
+    };
+
+    identity_providers.oidc = {
+      # cors = {
+      #   endpoints = [
+      #     "authorization"
+      #     "token"
+      #     "revocation"
+      #     "introspection"
+      #     "userinfo"
+      #   ];
+      #   # This automatically allows origins derived from your clients'
+      #   # redirect_uris (so https://opencloud.${domain} gets allowed).
+      #   allowed_origins_from_client_redirect_uris = true;
+      # };
+
+      clients = [
+        {
+          client_id = "opencloud";
+          client_name = "Opencloud";
+          public = true;
+          redirect_uris = [
+            "https://opencloud.${domain}/"
+            "https://opencloud.${domain}/oidc-callback.html"
+            "https://opencloud.${domain}/oidc-silent-redirect.html"
+          ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+          ];
+          grant_types = [
+            "authorization_code"
+            "refresh_token"
+          ];
+          userinfo_signed_response_alg = "none";
+        }
+      ];
+    };
+  };
 
   services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
     @opencloud host opencloud.${domain}

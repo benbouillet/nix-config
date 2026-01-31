@@ -16,7 +16,7 @@ in
         {
           domain = "debug.${domain}";
           policy = "one_factor";
-          subject = "group:users";
+          subject = "group:debug";
         }
       ];
     };
