@@ -45,17 +45,29 @@ in
     port = ports.opencloud;
     settings = {
       api = {
-        graph_assign_default_user_role = true;
+        graph_assign_default_user_role = false;
         graph_username_match = "none";
       };
       proxy = {
         auto_provision_accounts = true;
         oidc.rewrite_well_known = true;
         oidc.access_token_verify_method = "none";
+
         role_assignment = {
-          # driver = "oidc"; # HINT currently broken for Android & Desktop app
-          driver = "default";
-          oidc_role_mapper.role_claim = "groups";
+          driver = "oidc";
+          oidc_role_mapper = {
+            role_claim = "groups";
+            role_mapping = [
+              {
+                role_name = "admin";
+                claim_value = "opencloud_admins";
+              }
+              {
+                role_name = "user";
+                claim_value = "opencloud_users";
+              }
+            ];
+          };
         };
         csp_config_file_location = "/etc/opencloud/csp.yaml";
       };
@@ -75,8 +87,14 @@ in
           ];
         };
       };
-      web.web.config.oidc.client_id = "opencloud";
-      web.web.config.oidc.scope = "openid profile email groups";
+      web.web.config.oidc = {
+        metadata_url = "https://opencloud.${domain}/.well-known/openid-configuration";
+        authority = "https://auth.${domain}";
+
+        client_id = "opencloud";
+        scope = "openid profile email groups";
+        response_type = "code";
+      };
     };
     environment = {
       OC_INSECURE = "false";
@@ -96,29 +114,35 @@ in
       }
     ];
 
-    identity_providers.oidc.clients = [
-      {
-        client_id = "opencloud";
-        client_name = "Opencloud";
-        public = true;
-        redirect_uris = [
-          "https://opencloud.${domain}/"
-          "https://opencloud.${domain}/oidc-callback.html"
-          "https://opencloud.${domain}/oidc-silent-redirect.html"
-        ];
-        scopes = [
-          "openid"
-          "profile"
-          "email"
-          "groups"
-        ];
-        grant_types = [
-          "authorization_code"
-          "refresh_token"
-        ];
-        userinfo_signed_response_alg = "none";
-      }
-    ];
+    identity_providers.oidc = {
+      claims_policies.opencloud = {
+        access_token = [ "groups" ];
+        id_token = [ "groups" ];
+      };
+      clients = [
+        {
+          client_id = "opencloud";
+          client_name = "Opencloud";
+          public = true;
+          redirect_uris = [
+            "https://opencloud.${domain}/"
+            "https://opencloud.${domain}/oidc-callback.html"
+            "https://opencloud.${domain}/oidc-silent-redirect.html"
+          ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+          ];
+          grant_types = [
+            "authorization_code"
+          ];
+          claims_policy = "opencloud";
+          userinfo_signed_response_alg = "none";
+        }
+      ];
+    };
   };
 
   services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
