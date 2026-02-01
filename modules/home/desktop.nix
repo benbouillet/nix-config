@@ -15,7 +15,6 @@
     moonlight-qt
     carbon-now-cli
     swappy
-    nextcloud-client
     opencloud-desktop
   ];
 
@@ -69,13 +68,6 @@
       enable = true;
       package = pkgs.taskwarrior3;
       dataLocation = "/home/${username}/sync/toolbox/taskwarrior";
-    };
-  };
-
-  services = {
-    nextcloud-client = {
-      enable = true;
-      startInBackground = true;
     };
   };
 }
