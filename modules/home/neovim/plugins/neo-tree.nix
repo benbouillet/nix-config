@@ -17,7 +17,7 @@
           width = 30;
           auto_expand_width = true;
         };
-        close_if_last_window = true;
+        close_if_last_window = false;
 
         default_source = "filesystem";
         sources = [
