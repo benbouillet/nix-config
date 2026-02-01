@@ -52,34 +52,35 @@ On the target host:
 ```
 
 # TO DO
-- [ ] Check on tmux shortcuts
-- [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
 - [x] `swappy`
 - [x] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
+- [x] Server: searxng
+- [x] Server: steam
+- [x] Server: ollama
+- [x] Server: open-webui
+- [x] Server: Impermanence
+- [x] Server: SSO with Authelia
+- [x] Server: OIDC with Authelia
+- [x] Server: SMTP with Authelia
+- [x] Better impermanence mounts
+- [x] Podman auto prune
+- [x] nix store garbage collection
+- [x] change tmpfs upper limit
+- [x] solve the chewie tailscale registration at each reboot
+- [ ] Solve the opencloud-desktop Oauth flow issue
 - [ ] server: logs
 - [ ] server: observability
 - [ ] server: uptime monitoring
 - [ ] server: alerting
+- [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
+- [ ] Server: [mealie](https://mealie.io/)
+- [ ] Blogging
 - [ ] `zed` for server
 - [ ] Server: foundryvtt
 - [ ] Server: lubelogger
 - [ ] Server: perplexica
-- [x] Server: searxng
-- [ ] Server: steam
-- [x] Server: ollama
-- [x] Server: open-webui
-- [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
-- [ ] Server: [mealie](https://mealie.io/)
-- [X] Server: Impermanence
-- [x] Server: SSO with Authelia
-- [X] Server: OIDC with Authelia
-- [X] Server: SMTP with Authelia
-- [ ] Blogging
-- [X] Better impermanence mounts
-- [X] Podman auto prune
-- [X] nix store garbage collection
-- [ ] change tmpfs upper limit
-- [ ] solve the chewie tailscale registration at each reboot
+- [ ] Check on tmux shortcuts
+- [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
 
 # Configuring SOPS
 
