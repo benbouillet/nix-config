@@ -16,6 +16,7 @@
     carbon-now-cli
     swappy
     nextcloud-client
+    opencloud-desktop
   ];
 
   programs = {
