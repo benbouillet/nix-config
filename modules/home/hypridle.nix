@@ -6,9 +6,9 @@
     enable = true;
     settings = {
       general = {
-          lock_cmd = "pidof hyprlock || hyprlock";
-          before_sleep_cmd = "pidof hyprlock || hyprlock";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "pidof hyprlock || hyprlock";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
       listener = [
@@ -17,7 +17,7 @@
           on-timeout = "brightnessctl -s set 10";
           on-resume = "brightnessctl -r";
         }
-        { 
+        {
           timeout = 150;
           on-timeout = "brightnessctl --device='tpacpi::kbd_backlight' set 0";
           on-resume = "brightnessctl --device='tpacpi::kbd_backlight' set 1";
