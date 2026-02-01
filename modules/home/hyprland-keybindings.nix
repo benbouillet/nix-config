@@ -8,8 +8,6 @@ let
     ;
 in
 {
-  services.swayosd.enable = true;
-
   wayland.windowManager.hyprland = {
     settings =
       let
@@ -17,21 +15,17 @@ in
       in
       {
         bindlde = [
-          ",XF86AudioRaiseVolume,Increase Volume,exec,swayosd-client --output-volume +5 --max-volume=100"
-          ",XF86AudioLowerVolume,Decrease Volume,exec,swayosd-client --output-volume -5"
-          "${modifier},XF86AudioRaiseVolume,Increase Input Volume,exec,swayosd-client --input-volume +5 --max-volume=100"
-          "${modifier},XF86AudioLowerVolume,Decrease Input Volume,exec,swayosd-client --input-volume -5"
-          "${modifier},XF86AudioPlay,Play/Pause Media,exec,playerctl play-pause"
-        ];
-        bindld = [
-          ",XF86MonBrightnessUp,Increase Brightness,exec,swayosd-client --brightness raise 5%+"
-          ",XF86MonBrightnessDown,Decrease Brightness, exec, swayosd-client --brightness lower 5%-"
-          "${modifier}, XF86MonBrightnessUp,Set Brightness to 100%,exec, brightnessctl set 100%"
-          "${modifier}, XF86MonBrightnessDown,Set Brightness to 0%, exec, brightnessctl set 0%"
+          ",XF86AudioRaiseVolume,Increase Volume,exec,wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
+          ",XF86AudioLowerVolume,Decrease Volume,exec,wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-"
+          "${modifier},XF86AudioRaiseVolume,Increase Input Volume,exec,wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 5%+"
+          "${modifier},XF86AudioLowerVolume,Decrease Input Volume,exec,wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 5%-"
+          ",XF86AudioPlay,Play/Pause Media,exec,playerctl play-pause"
+          ",XF86MonBrightnessUp,Increase Brightness,exec,brightnessctl set 5%+"
+          ",XF86MonBrightnessDown,Decrease Brightness,exec,brightnessctl set 5%-"
         ];
         bindd = [
-          ",XF86AudioMute,Mute,exec, swayosd-client --output-volume mute-toggle"
-          ",XF86AudioMicMute,Mute,exec, swayosd-client --input-volume mute-toggle"
+          ",XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          "${modifier},XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
           "${modifier},Return,Open ${terminal},exec,${terminal}"
           "${modifier},W,Open Browser,exec,firefox"
           "${modifier}SHIFT,W,Open Browser with sundayapp profile,exec,firefox -p sundayapp"

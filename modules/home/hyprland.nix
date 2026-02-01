@@ -31,7 +31,6 @@ with lib;
     };
   };
 
-  # see https://wiki.hyprland.org/Configuring/Environment-variables/
   home.file.".config/uwsm/env".text = ''
     # QT
     export QT_QPA_PLATFORM=wayland;xcb
@@ -55,16 +54,11 @@ with lib;
     enable = true;
     xwayland.enable = true;
     systemd.enable = false;
-    settings =
-      let
-        modifier = "SUPER";
-      in
-      {
+    settings = {
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user enable --now hyprpolkitagent.service"
         "uwsm app -- waybar"
-        "uwsm app -- swayosd-server"
         "uwsm app -- nm-applet --indicator"
         "uwsm app -- blueman-applet"
       ];
@@ -100,7 +94,7 @@ with lib;
         preserve_split = true;
         force_split = 2;
       };
-      decoration  = {
+      decoration = {
         rounding = 10;
         shadow = {
           enabled = true;
@@ -114,7 +108,7 @@ with lib;
           ignore_opacity = "off";
         };
       };
-      animations  = {
+      animations = {
         enabled = "yes";
         bezier = [
           "wind, 0.05, 0.9, 0.1, 1.05"

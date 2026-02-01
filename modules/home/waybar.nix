@@ -1,13 +1,11 @@
 {
   pkgs,
   lib,
-  host,
   config,
   ...
 }:
 with lib;
 {
-  # Configure & Theme Waybar
   programs.waybar = {
     enable = true;
     package = pkgs.waybar;
@@ -29,6 +27,9 @@ with lib;
           "clock"
         ];
         modules-right = [
+          "backlight"
+          "pulseaudio#source"
+          "pulseaudio"
           "bluetooth"
           "network"
           "battery"
@@ -54,7 +55,44 @@ with lib;
         "hyprland/workspaces" = {
           disable-scroll = true;
         };
-
+        "backlight" = {
+          device = "intel_backlight";
+          format = "{icon}  {percent}%";
+          format-icons = [
+            "󰃞"
+            "󰃟"
+            "󰃠"
+          ];
+        };
+        "pulseaudio" = {
+          format = "{icon}   {volume}%";
+          format-bluetooth = "{icon}   {volume}%";
+          format-muted = "   {volume}%";
+          format-icons = {
+            "alsa_output.pci-0000_00_1f.3.analog-stereo" = "";
+            "alsa_output.pci-0000_00_1f.3.analog-stereo-muted" = "";
+            headphone = "";
+            hands-free = "";
+            headset = "";
+            phone = "";
+            phone-muted = "";
+            portable = "";
+            car = "";
+            default = [
+              ""
+              ""
+            ];
+          };
+          scroll-step = 1;
+          on-click = "pavucontrol";
+          ignored-sinks = [ "Easy Effects Sink" ];
+        };
+        "pulseaudio#source" = {
+          format = "{format_source}";
+          format-source = "  {volume}%";
+          format-source-muted = "  {volume}%";
+          on-click = "pavucontrol";
+        };
         "bluetooth" = {
           format = "󰂯";
           format-disabled = "󰂲";
@@ -103,7 +141,7 @@ with lib;
           tooltip-format = "{power} - {timeTo}";
         };
         "clock" = {
-          format = ''{:%a  %b  %d  %H:%M %p}'';
+          format = "{:%a  %b  %d  %H:%M %p}";
           tooltip = false;
         };
         "custom/tailscale" = {
@@ -122,51 +160,51 @@ with lib;
     ];
     style = concatStrings [
       ''
-      * {
-        font-family: ${config.stylix.fonts.sansSerif.name};
-        font-size: 18px;
-      }
-
-      window#waybar {
-        background: #${config.lib.stylix.colors.base01};
-      }
-
-      button {
-        /* Avoid rounded borders under each button name */
-        border: none;
-        border-radius: 0;
-      }
-
-      #clock,
-      #battery,
-      #cpu,
-      #memory,
-      #network,
-      #bluetooth,
-      #backlight,
-      #custom-wlogout,
-      #custom-tailscale,
-      #custom-swaync,
-      #pulseaudio {
-        padding: 0 10px;
-      }
-
-      @keyframes blink {
-        to {
-          color: #000000;
+        * {
+          font-family: ${config.stylix.fonts.sansSerif.name};
+          font-size: 18px;
         }
-      }
 
-      /* Using steps() instead of linear as a timing function to limit cpu usage */
-      #battery.critical:not(.charging) {
-        background-color: #f53c3c;
-        color: #ffffff;
-        animation-name: blink;
-        animation-duration: 0.5s;
-        animation-timing-function: steps(12);
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-      }
+        window#waybar {
+          background: #${config.lib.stylix.colors.base01};
+        }
+
+        button {
+          /* Avoid rounded borders under each button name */
+          border: none;
+          border-radius: 0;
+        }
+
+        #clock,
+        #battery,
+        #cpu,
+        #memory,
+        #network,
+        #bluetooth,
+        #backlight,
+        #custom-wlogout,
+        #custom-tailscale,
+        #custom-swaync,
+        #pulseaudio {
+          padding: 0 10px;
+        }
+
+        @keyframes blink {
+          to {
+            color: #000000;
+          }
+        }
+
+        /* Using steps() instead of linear as a timing function to limit cpu usage */
+        #battery.critical:not(.charging) {
+          background-color: #f53c3c;
+          color: #ffffff;
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
       ''
     ];
   };
