@@ -114,7 +114,7 @@ in
     };
 
     "bazarr" = {
-      image = "lscr.io/linuxserver/bazarr:1.5.4";
+      image = "lscr.io/linuxserver/bazarr:1.5.5";
       environment = {
         PUID = toString arrUser.UID;
         PGID = toString containersGroup.GID;
