@@ -80,4 +80,9 @@
       dataLocation = "/home/${username}/sync/toolbox/taskwarrior";
     };
   };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+  };
 }

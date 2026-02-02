@@ -13,6 +13,7 @@
     ../../modules/nixos/tailscale.nix
     ../../modules/nixos/services/reverse-proxy.nix
     ../../modules/nixos/services/postgresql.nix
+    ../../modules/nixos/services/redis.nix
     ../../modules/nixos/services/authentication.nix
     ../../modules/nixos/services/opencloud.nix
     ../../modules/nixos/services/containers/common.nix

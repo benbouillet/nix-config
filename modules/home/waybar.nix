@@ -4,7 +4,9 @@
   config,
   ...
 }:
-with lib;
+let
+  opencloudHealthzUrl = "opencloud.r4clette.com/healthz";
+in
 {
   programs.waybar = {
     enable = true;
@@ -27,14 +29,12 @@ with lib;
           "clock"
         ];
         modules-right = [
+          "tray"
+          "custom/tailscale"
           "backlight"
           "pulseaudio#source"
           "pulseaudio"
-          "bluetooth"
-          "network"
           "battery"
-          "custom/tailscale"
-          "custom/swaync"
         ];
 
         "cpu" = {
@@ -64,16 +64,31 @@ with lib;
             "󰃠"
           ];
         };
+        "tray" = {
+          icon-size = 16;
+          spacing = 15;
+        };
+        "custom/tailscale" = {
+          return-type = "json";
+          exec = ''
+            if tailscale status --peers=false >/dev/null 2>&1; then
+              ip=$(tailscale status --peers=false | awk 'NR==1 {print $1}')
+              printf '{"text":"󰱓","tooltip":"Tailscale connected: %s","class":"running"}\n' "$ip"
+            else
+              printf '{"text":"󰅛","tooltip":"Tailscale - not connected","class":"stopped"}\n'
+            fi
+          '';
+          interval = 5;
+          on-click = "tailscale status --peers=false && tailscale down || tailscale up";
+        };
         "pulseaudio" = {
           format = "{icon}   {volume}%";
-          format-bluetooth = "{icon}   {volume}%";
+          format-bluetooth = "󰥰  {volume}%";
           format-muted = "   {volume}%";
           format-icons = {
             "alsa_output.pci-0000_00_1f.3.analog-stereo" = "";
             "alsa_output.pci-0000_00_1f.3.analog-stereo-muted" = "";
             headphone = "";
-            hands-free = "";
-            headset = "";
             phone = "";
             phone-muted = "";
             portable = "";
@@ -144,21 +159,9 @@ with lib;
           format = "{:%a  %b  %d  %H:%M %p}";
           tooltip = false;
         };
-        "custom/tailscale" = {
-          format = "{}";
-          interval = 1;
-          return-type = "json";
-          exec = "waybar-tailscale-status";
-          tooltip = true;
-          on-click = "waybar-tailscale-updown";
-        };
-        "custom/swaync" = {
-          format = " ";
-          on-click = "swaync-client -t";
-        };
       }
     ];
-    style = concatStrings [
+    style = lib.concatStrings [
       ''
         * {
           font-family: ${config.stylix.fonts.sansSerif.name};
@@ -185,8 +188,10 @@ with lib;
         #custom-wlogout,
         #custom-tailscale,
         #custom-swaync,
+        #custom-opencloud,
+        #pulseaudio-source,
         #pulseaudio {
-          padding: 0 10px;
+          padding: 0 12px;
         }
 
         @keyframes blink {
@@ -195,7 +200,8 @@ with lib;
           }
         }
 
-        /* Using steps() instead of linear as a timing function to limit cpu usage */
+        #custom-tailscale.stopped,
+        #custom-opencloud.stopped,
         #battery.critical:not(.charging) {
           background-color: #f53c3c;
           color: #ffffff;

@@ -82,18 +82,17 @@
 
   ### AUDIO ###
   security.rtkit.enable = true;
-  services = {
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      wireplumber.enable = true;
-    };
-    # Thunar media & trash management
-    gvfs.enable = true;
-    tumbler.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
   };
+
+  # Thunar media & trash management
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
 
   ### BLUETOOTH ###
   hardware.bluetooth.enable = true;
@@ -107,5 +106,16 @@
     defaultSopsFormat = "yaml";
 
     age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
+  };
+
+  ### KEYRING ###
+  services.gnome = {
+    gnome-keyring.enable = true;
+    gcr-ssh-agent.enable = false;
+  };
+  security.pam.services = {
+    login.enableGnomeKeyring = true;
+    greetd.enableGnomeKeyring = true;
+    hyprland.enableGnomeKeyring = true;
   };
 }

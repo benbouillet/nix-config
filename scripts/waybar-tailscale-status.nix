@@ -12,7 +12,7 @@ pkgs.writeShellScriptBin "waybar-tailscale-status" ''
       text="󱇲 "
       tooltip="Tailscale disconnected"
     fi
-  
+
     echo "{\"text\":\"$text\", \"tooltip\":\"$tooltip\"}"
   }
 

@@ -30,6 +30,7 @@ let
     authelia = 9091;
     lldapWebUi = 17170;
     lldapLdap = 3890;
+    redis = 6379;
   };
 in
 {
@@ -160,6 +161,11 @@ in
               authelia_url = "https://auth.${domain}";
             }
           ];
+
+          redis = {
+            host = "127.0.0.1";
+            port = ports.redis;
+          };
         };
 
         storage = {
@@ -191,6 +197,11 @@ in
         };
 
         identity_providers.oidc = {
+          lifespans = {
+            access_token = "1h";
+            id_token = "1h";
+            refresh_token = "720h";
+          };
           cors = {
             endpoints = [
               "authorization"

@@ -68,7 +68,10 @@ On the target host:
 - [x] change tmpfs upper limit
 - [x] solve the chewie tailscale registration at each reboot
 - [x] implemented logind for closing lid lock
-- [ ] Solve the opencloud-desktop Oauth flow issue
+- [x] Solve the opencloud-desktop Oauth flow issue
+- [x] deploy redis/valkey for persistent session in Authelia
+- [ ] deploy redis/valkey for searxng
+- [ ] deploy common ports/URL config attribute set for all configs
 - [ ] server: logs
 - [ ] server: observability
 - [ ] server: uptime monitoring

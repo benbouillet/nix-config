@@ -6,6 +6,7 @@ let
   domain = "r4clette.com";
   ports = {
     opencloud = 9050;
+    opencloudDebug = 9143;
   };
   users = {
     opencloud = {
@@ -47,6 +48,10 @@ in
       api = {
         graph_assign_default_user_role = false;
         graph_username_match = "none";
+      };
+      gateway.debug = {
+        addr = "127.0.0.1:${toString ports.opencloudDebug}";
+        token = "";
       };
       proxy = {
         auto_provision_accounts = true;
@@ -116,6 +121,7 @@ in
           client_name = "Opencloud";
           public = true;
           authorization_policy = "one_factor";
+          consent_mode = "implicit";
           redirect_uris = [
             "https://opencloud.${domain}/"
             "https://opencloud.${domain}/oidc-callback.html"
@@ -138,6 +144,7 @@ in
           client_name = "Opencloud Desktop";
           public = true;
           authorization_policy = "one_factor";
+          consent_mode = "implicit";
           redirect_uris = [
             "http://localhost"
             "http://127.0.0.1"
@@ -161,6 +168,7 @@ in
           client_name = "Opencloud Android";
           public = true;
           authorization_policy = "one_factor";
+          consent_mode = "implicit";
           redirect_uris = [
             "oc://android.opencloud.eu"
           ];
@@ -183,7 +191,17 @@ in
   };
 
   services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
+    @opencloud_health {
+      host opencloud.${domain}
+      path /healthz
+    }
+
+    handle @opencloud_health {
+      reverse_proxy 127.0.0.1:${toString ports.opencloudDebug}
+    }
+
     @opencloud host opencloud.${domain}
+
     handle @opencloud {
       reverse_proxy 127.0.0.1:${toString ports.opencloud}
     }
