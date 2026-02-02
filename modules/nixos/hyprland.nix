@@ -22,7 +22,7 @@
 
   security = {
     polkit.enable = true;
-    pam.services.hyprlock = {};
+    pam.services.hyprlock = { };
   };
 
   environment.sessionVariables = {
@@ -52,6 +52,11 @@
           user = "greeter";
         };
       };
+    };
+    logind.settings.Login = {
+      lidSwitch = "lock";
+      lidSwitchExternalPower = "lock";
+      lidSwitchDocked = "lock";
     };
   };
 }
