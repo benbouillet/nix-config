@@ -53,7 +53,7 @@ with lib;
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    systemd.enable = false;
+    systemd.enable = true;
     settings = {
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
