@@ -24,7 +24,7 @@
       enableZshIntegration = true;
       installVimSyntax = true;
       settings = {
-        font-size = 14;
+        font-size = 12;
       };
     };
     keepassxc = {
