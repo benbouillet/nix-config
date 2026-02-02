@@ -67,7 +67,7 @@ On the target host:
 - [x] nix store garbage collection
 - [x] change tmpfs upper limit
 - [x] solve the chewie tailscale registration at each reboot
-- [ ] implemented logind for closing lid lock
+- [x] implemented logind for closing lid lock
 - [ ] Solve the opencloud-desktop Oauth flow issue
 - [ ] server: logs
 - [ ] server: observability

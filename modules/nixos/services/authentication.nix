@@ -199,9 +199,6 @@ in
               "introspection"
               "userinfo"
             ];
-            allowed_origins = [
-              "https://opencloud.${domain}"
-            ];
             allowed_origins_from_client_redirect_uris = true;
           };
         };

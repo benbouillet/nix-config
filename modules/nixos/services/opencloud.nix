@@ -54,20 +54,7 @@ in
         oidc.access_token_verify_method = "none";
 
         role_assignment = {
-          driver = "oidc";
-          oidc_role_mapper = {
-            role_claim = "groups";
-            role_mapping = [
-              {
-                role_name = "admin";
-                claim_value = "opencloud_admins";
-              }
-              {
-                role_name = "user";
-                claim_value = "opencloud_users";
-              }
-            ];
-          };
+          driver = "default";
         };
         csp_config_file_location = "/etc/opencloud/csp.yaml";
       };
@@ -91,7 +78,7 @@ in
         metadata_url = "https://opencloud.${domain}/.well-known/openid-configuration";
         authority = "https://auth.${domain}";
 
-        client_id = "opencloud";
+        client_id = "web";
         scope = "openid profile email groups";
         response_type = "code";
       };
@@ -114,6 +101,10 @@ in
       }
     ];
 
+    identity_providers.oidc.cors.allowed_origins = [
+      "https://opencloud.${domain}"
+    ];
+
     identity_providers.oidc = {
       claims_policies.opencloud = {
         access_token = [ "groups" ];
@@ -121,9 +112,10 @@ in
       };
       clients = [
         {
-          client_id = "opencloud";
+          client_id = "web";
           client_name = "Opencloud";
           public = true;
+          authorization_policy = "one_factor";
           redirect_uris = [
             "https://opencloud.${domain}/"
             "https://opencloud.${domain}/oidc-callback.html"
@@ -137,6 +129,51 @@ in
           ];
           grant_types = [
             "authorization_code"
+          ];
+          claims_policy = "opencloud";
+          userinfo_signed_response_alg = "none";
+        }
+        {
+          client_id = "OpenCloudDesktop";
+          client_name = "Opencloud Desktop";
+          public = true;
+          authorization_policy = "one_factor";
+          redirect_uris = [
+            "http://localhost"
+            "http://127.0.0.1"
+          ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+            "offline_access"
+          ];
+          grant_types = [
+            "authorization_code"
+            "refresh_token"
+          ];
+          claims_policy = "opencloud";
+          userinfo_signed_response_alg = "none";
+        }
+        {
+          client_id = "OpenCloudAndroid";
+          client_name = "Opencloud Android";
+          public = true;
+          authorization_policy = "one_factor";
+          redirect_uris = [
+            "oc://android.opencloud.eu"
+          ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+            "groups"
+            "offline_access"
+          ];
+          grant_types = [
+            "authorization_code"
+            "refresh_token"
           ];
           claims_policy = "opencloud";
           userinfo_signed_response_alg = "none";
