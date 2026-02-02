@@ -38,10 +38,20 @@
           HidePasswords = true;
           AutoSaveOnExit = true;
         };
-        Config = {
-          Security_LockDatabaseIdle = true;
-          Security_LockDatabaseIdleSeconds = 600;
+        Security = {
+          LockDatabaseIdle = true;
+          LockDatabaseIdleSeconds = 600;
           MinimizeOnCopy = true;
+        };
+        PasswordGenerator = {
+          AdvancedMode = true;
+          LowerCase = true;
+          UpperCase = true;
+          Numbers = true;
+          Logograms = false;
+          EASCII = false;
+          Dashes = true;
+          Length = 32;
         };
         SSHAgent.Enabled = false;
       };

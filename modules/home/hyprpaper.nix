@@ -1,4 +1,5 @@
 {
+  username,
   ...
 }:
 {
@@ -14,7 +15,7 @@
         wallpaper = [
           {
             monitor = "";
-            path = "~/.config/wallpapers/dnd_map.jpg";
+            path = "/home/${username}/.config/wallpapers/dnd_map.jpg";
             fit_mode = "cover";
           }
         ];
