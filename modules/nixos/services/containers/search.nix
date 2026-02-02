@@ -46,6 +46,12 @@ let
     ui:
       hotkeys: vim
     engines:
+      - name: wikidata
+        disabled: false
+      - name: ahmia
+        disabled: false
+      - name: torch
+        disabled: false
       - name: wolframalpha
         disabled: false
   '';
