@@ -66,16 +66,16 @@ in
         };
         "tray" = {
           icon-size = 16;
-          spacing = 15;
+          spacing = 20;
         };
         "custom/tailscale" = {
           return-type = "json";
           exec = ''
             if tailscale status --peers=false >/dev/null 2>&1; then
               ip=$(tailscale status --peers=false | awk 'NR==1 {print $1}')
-              printf '{"text":"󰱓","tooltip":"Tailscale connected: %s","class":"running"}\n' "$ip"
+              printf '{"text":" 󰱓","tooltip":"Tailscale connected: %s","class":"running"}\n' "$ip"
             else
-              printf '{"text":"󰅛","tooltip":"Tailscale - not connected","class":"stopped"}\n'
+              printf '{"text":" 󰅛","tooltip":"Tailscale - not connected","class":"stopped"}\n'
             fi
           '';
           interval = 5;
