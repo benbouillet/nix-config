@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   ...
 }:
 let
@@ -44,6 +45,7 @@ in
     url = "https://opencloud.${domain}";
     address = "127.0.0.1";
     port = ports.opencloud;
+    stateDir = dataPath;
     settings = {
       api = {
         graph_assign_default_user_role = false;
@@ -95,6 +97,7 @@ in
       OC_EXCLUDE_RUN_SERVICES = "idp";
       OC_OIDC_ISSUER = "https://auth.${domain}";
     };
+    environmentFile = config.sops.secrets."opencloud/env".path;
   };
 
   services.authelia.instances."raclette".settings = {
