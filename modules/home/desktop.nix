@@ -15,7 +15,6 @@
     moonlight-qt
     carbon-now-cli
     swappy
-    opencloud-desktop
   ];
 
   programs = {
