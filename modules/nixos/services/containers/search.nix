@@ -98,7 +98,7 @@ in
       };
     };
     "valkey" = {
-      image = "docker.io/valkey/valkey:9.0.1-alpine3.23";
+      image = "docker.io/valkey/valkey:9.0.2-alpine3.23";
     };
   };
 
