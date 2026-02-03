@@ -1,39 +1,27 @@
 {
   lib,
+  globals,
   ...
 }:
-let
-  domain = "r4clette.com";
-  ports = {
-    ollama = 9020;
-    open-webui = 9021;
-  };
-  containersGroup = {
-    name = "containers";
-    GID = 993;
-  };
-  models_path = "/srv/models";
-  containersVolumesPath = "/srv/containers";
-in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${models_path} 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/ollama 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/open-webui 2770 root ${containersGroup.name} - -"
+    "d ${globals.modelsPath} 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/ollama 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/open-webui 2770 root ${globals.groups.containers.name} - -"
   ];
 
   virtualisation.oci-containers.containers = {
     "ollama" = {
       image = "ollama/ollama:0.15.4";
       ports = [
-        "127.0.0.1:${toString ports.ollama}:11434"
+        "127.0.0.1:${toString globals.ports.ollama}:11434"
       ];
       devices = [
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "${containersVolumesPath}/ollama/:/root/.ollama/:rw"
-        "${models_path}:/usr/share/ollama/.ollama/models:rw"
+        "${globals.containersVolumesPath}/ollama/:/root/.ollama/:rw"
+        "${globals.modelsPath}:/usr/share/ollama/.ollama/models:rw"
       ];
       environment = {
         OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
@@ -45,23 +33,23 @@ in
     "open-webui" = {
       image = "ghcr.io/open-webui/open-webui:v0.7.2-slim";
       ports = [
-        "127.0.0.1:${toString ports.open-webui}:8080"
+        "127.0.0.1:${toString globals.ports.open-webui}:8080"
       ];
       volumes = [
-        "${containersVolumesPath}/open-webui:/app/backend/data:rw"
+        "${globals.containersVolumesPath}/open-webui:/app/backend/data:rw"
       ];
     };
   };
 
-  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
-    @ollama host ollama.${domain}
+  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
+    @ollama host ollama.${globals.domain}
     handle @ollama {
-      reverse_proxy 127.0.0.1:${toString ports.ollama}
+      reverse_proxy 127.0.0.1:${toString globals.ports.ollama}
     }
 
-    @open-webui host chat.${domain}
+    @open-webui host chat.${globals.domain}
     handle @open-webui {
-      reverse_proxy 127.0.0.1:${toString ports.open-webui}
+      reverse_proxy 127.0.0.1:${toString globals.ports.open-webui}
     }
   '';
 }

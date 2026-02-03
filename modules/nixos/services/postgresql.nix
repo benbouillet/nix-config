@@ -1,15 +1,15 @@
 {
   pkgs,
   lib,
+  globals,
   ...
 }:
 let
-  dbPath = "/srv/postgres";
   podmanBridgeCIDR = "10.88.0.0/16";
 in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${dbPath} 2750 postgres postgres - -"
+    "d ${globals.dbPath} 2750 postgres postgres - -"
   ];
 
   networking.firewall.interfaces."podman0".allowedTCPPorts = [ 5432 ];
@@ -17,7 +17,7 @@ in
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
-    dataDir = dbPath;
+    dataDir = globals.dbPath;
     settings = {
       listen_addresses = lib.mkForce "*";
       port = 5432;

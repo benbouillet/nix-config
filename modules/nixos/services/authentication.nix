@@ -1,72 +1,43 @@
 {
   lib,
   config,
+  globals,
   ...
 }:
-let
-  domain = "r4clette.com";
-  users = {
-    authelia = {
-      name = "authelia";
-      UID = 930;
-    };
-    lldap = {
-      name = "lldap";
-      UID = 931;
-    };
-  };
-  groups = {
-    authentication = {
-      name = "authent";
-      GID = 930;
-    };
-    oidc = {
-      name = "oidc";
-      GID = 931;
-    };
-  };
-  ports = {
-    postgres = 5432;
-    authelia = 9091;
-    lldapWebUi = 17170;
-    lldapLdap = 3890;
-    redis = 6379;
-  };
-in
 {
   sops.secrets."authelia/identityValidationJwtSecret" = {
-    owner = users.authelia.name;
-    group = groups.authentication.name;
+    owner = globals.users.authelia.name;
+    group = globals.groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/sessionSecret" = {
-    owner = users.authelia.name;
-    group = groups.authentication.name;
+    owner = globals.users.authelia.name;
+    group = globals.groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/storageEncryptionKey" = {
-    owner = users.authelia.name;
-    group = groups.authentication.name;
+    owner = globals.users.authelia.name;
+    group = globals.groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/smtpPassword" = {
-    owner = users.authelia.name;
-    group = groups.authentication.name;
+    owner = globals.users.authelia.name;
+    group = globals.groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."authelia/oidcIssuerKey" = {
-    owner = users.authelia.name;
-    group = groups.oidc.name;
+    owner = globals.users.authelia.name;
+    group = globals.groups.oidc.name;
     mode = "0440";
   };
   sops.secrets."lldap/env" = {
-    owner = users.lldap.name;
-    group = groups.authentication.name;
+    owner = globals.users.lldap.name;
+    group = globals.groups.authentication.name;
     mode = "0400";
   };
   sops.secrets."lldap/adminPassword" = {
-    owner = users.lldap.name;
-    group = groups.authentication.name;
+    owner = globals.users.lldap.name;
+    group = globals.groups.authentication.name;
     mode = "0440";
   };
 
@@ -81,25 +52,25 @@ in
   '';
 
   users.users = {
-    "${users.authelia.name}" = {
+    "${globals.users.authelia.name}" = {
       isSystemUser = true;
       createHome = false;
-      uid = users.authelia.UID;
-      group = groups.authentication.name;
+      uid = globals.users.authelia.UID;
+      group = globals.groups.authentication.name;
     };
-    "${users.lldap.name}" = {
+    "${globals.users.lldap.name}" = {
       isSystemUser = true;
       createHome = false;
-      uid = users.lldap.UID;
-      group = groups.authentication.name;
+      uid = globals.users.lldap.UID;
+      group = globals.groups.authentication.name;
     };
   };
   users.groups = {
-    ${groups.authentication.name} = {
-      gid = groups.authentication.GID;
+    ${globals.groups.authentication.name} = {
+      gid = globals.groups.authentication.GID;
     };
-    ${groups.oidc.name} = {
-      gid = groups.oidc.GID;
+    ${globals.groups.oidc.name} = {
+      gid = globals.groups.oidc.GID;
     };
   };
 
@@ -112,7 +83,7 @@ in
       ];
       ensureUsers = lib.mkAfter [
         {
-          name = users.lldap.name;
+          name = globals.users.lldap.name;
           ensureDBOwnership = true;
           ensureClauses = {
             createrole = true;
@@ -122,7 +93,7 @@ in
           };
         }
         {
-          name = users.authelia.name;
+          name = globals.users.authelia.name;
           ensureDBOwnership = true;
           ensureClauses = {
             createrole = true;
@@ -136,11 +107,11 @@ in
 
     authelia.instances."raclette" = {
       enable = true;
-      user = users.authelia.name;
-      group = groups.authentication.name;
+      user = globals.users.authelia.name;
+      group = globals.groups.authentication.name;
       settings = {
         server = {
-          address = "tcp://127.0.0.1:${toString ports.authelia}";
+          address = "tcp://127.0.0.1:${toString globals.ports.authelia}";
           disable_healthcheck = false;
         };
 
@@ -152,25 +123,26 @@ in
         session = {
           name = "authelia_session";
           same_site = "lax";
-          expiration = "1h";
-          inactivity = "5m";
+          expiration = "2h";
+          inactivity = "10m";
+          remember_me = "7d";
 
           cookies = [
             {
-              domain = domain;
-              authelia_url = "https://auth.${domain}";
+              domain = globals.domain;
+              authelia_url = "https://auth.${globals.domain}";
             }
           ];
 
           redis = {
             host = "127.0.0.1";
-            port = ports.redis;
+            port = globals.ports.redis;
           };
         };
 
         storage = {
           postgres = {
-            address = "unix:///run/postgresql/.s.PGSQL.${toString ports.postgres}";
+            address = "unix:///run/postgresql/.s.PGSQL.${toString globals.ports.postgres}";
             database = "authelia";
             schema = "public";
             username = "authelia";
@@ -186,7 +158,7 @@ in
         };
 
         authentication_backend.ldap = {
-          address = "ldap://127.0.0.1:${toString ports.lldapLdap}";
+          address = "ldap://127.0.0.1:${toString globals.ports.lldapLdap}";
           implementation = "lldap";
           user = "uid=admin,ou=people,dc=r4clette,dc=com";
           base_dn = "dc=r4clette,dc=com";
@@ -236,7 +208,7 @@ in
       settings = {
         ldap_base_dn = "dc=r4clette,dc=com";
         ldap_user_dn = "admin";
-        ldap_user_email = "admin@${domain}";
+        ldap_user_email = "admin@${globals.domain}";
 
         ldap_user_pass_file = config.sops.secrets."lldap/adminPassword".path;
 
@@ -248,18 +220,18 @@ in
         http_host = "127.0.0.1";
         http_port = 17170;
 
-        http_url = "https://id.${domain}";
+        http_url = "https://id.${globals.domain}";
       };
     };
   };
 
   services.caddy.virtualHosts = {
-    "auth.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString ports.authelia}
+    "auth.${globals.domain}".extraConfig = ''
+      reverse_proxy 127.0.0.1:${toString globals.ports.authelia}
     '';
 
-    "id.${domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString ports.lldapWebUi}
+    "id.${globals.domain}".extraConfig = ''
+      reverse_proxy 127.0.0.1:${toString globals.ports.lldapWebUi}
     '';
   };
 }

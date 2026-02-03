@@ -2,19 +2,10 @@
   pkgs,
   config,
   lib,
+  globals,
   ...
 }:
 let
-  domain = "r4clette.com";
-  ports = {
-    searxng = 9030;
-    perplexica = 9031;
-  };
-  containersVolumesPath = "/srv/containers";
-  containersGroup = {
-    name = "containers";
-    GID = 993;
-  };
   searxngSettings = pkgs.writeText "settings.yml" ''
     use_default_settings: true
     general:
@@ -64,7 +55,7 @@ in
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${containersVolumesPath}/perplexica 2770 root ${containersGroup.name} - -"
+    "d ${globals.containersVolumesPath}/perplexica 2770 root ${globals.groups.containers.name} - -"
   ];
 
   fileSystems."/var/cache/searxng" = {
@@ -80,14 +71,14 @@ in
     "searxng" = {
       image = "docker.io/searxng/searxng:2026.1.11-cf74e1d9e";
       ports = [
-        "127.0.0.1:${toString ports.searxng}:8080"
+        "127.0.0.1:${toString globals.ports.searxng}:8080"
       ];
       volumes = [
         "${searxngSettings}:/etc/searxng/settings.yml:ro"
         "searxng-cache:/var/cache/searxng:rw"
       ];
       environment = {
-        SEARXNG_BASE_URL = "https://search.${domain}/";
+        SEARXNG_BASE_URL = "https://search.${globals.domain}/";
         SEARXNG_VALKEY_URL = "valkey://valkey:6379";
       };
       environmentFiles = [
@@ -97,10 +88,10 @@ in
     "perplexica" = {
       image = "itzcrazykns1337/perplexica:slim-v1.11.2";
       ports = [
-        "127.0.0.1:${toString ports.perplexica}:3000"
+        "127.0.0.1:${toString globals.ports.perplexica}:3000"
       ];
       volumes = [
-        "${containersVolumesPath}/perplexica:/home/perplexica/data:rw"
+        "${globals.containersVolumesPath}/perplexica:/home/perplexica/data:rw"
       ];
       environment = {
         SEARXNG_API_URL = "http://searxng:8080";
@@ -111,15 +102,15 @@ in
     };
   };
 
-  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
-    @searxng host search.${domain}
+  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
+    @searxng host search.${globals.domain}
     handle @searxng {
-      reverse_proxy 127.0.0.1:${toString ports.searxng}
+      reverse_proxy 127.0.0.1:${toString globals.ports.searxng}
     }
 
-    @perplexica host perplexica.${domain}
+    @perplexica host perplexica.${globals.domain}
     handle @perplexica {
-      reverse_proxy 127.0.0.1:${toString ports.perplexica}
+      reverse_proxy 127.0.0.1:${toString globals.ports.perplexica}
     }
   '';
 }

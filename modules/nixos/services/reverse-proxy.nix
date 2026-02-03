@@ -1,10 +1,10 @@
 {
   pkgs,
   config,
+  globals,
   ...
 }:
 let
-  domain = "r4clette.com";
   caddyWithCloudflare = pkgs.caddy.withPlugins {
     plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
     hash = "sha256-dnhEjopeA0UiI+XVYHYpsjcEI6Y1Hacbi28hVKYQURg=";
@@ -21,12 +21,12 @@ in
     enable = true;
     package = caddyWithCloudflare;
     environmentFile = config.sops.secrets."caddy/chewie".path;
-    virtualHosts."*.${domain}".extraConfig = ''
+    virtualHosts."*.${globals.domain}".extraConfig = ''
       tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
       }
 
-      @hello host hello.${domain}
+      @hello host hello.${globals.domain}
       handle @hello {
         respond "Hello, World!"
       }
@@ -38,7 +38,6 @@ in
     '';
   };
 
-  # Only allow access via Tailscale interface
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
     80

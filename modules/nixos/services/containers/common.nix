@@ -3,15 +3,9 @@
   lib,
   config,
   pkgs,
+  globals,
   ...
 }:
-let
-  containersVolumesPath = "/srv/containers";
-  containersGroup = {
-    name = "containers";
-    GID = 993;
-  };
-in
 {
   virtualisation = {
     podman = {
@@ -29,7 +23,7 @@ in
   };
 
   users.groups."containers" = {
-    gid = containersGroup.GID;
+    gid = globals.groups.containers.GID;
   };
   users.users.${username}.extraGroups = lib.mkAfter [
     "containers"
@@ -51,7 +45,7 @@ in
           "zfs-mount.service"
           "systemd-tmpfiles-setup.service"
         ];
-        unitConfig.RequiresMountsFor = containersVolumesPath;
+        unitConfig.RequiresMountsFor = globals.containersVolumesPath;
       }
     ) config.virtualisation.oci-containers.containers)
     // {

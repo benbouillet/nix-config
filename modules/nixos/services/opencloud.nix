@@ -163,6 +163,7 @@ in
             "authorization_code"
             "refresh_token"
           ];
+          response_types = [ "code" ];
           claims_policy = "opencloud";
           userinfo_signed_response_alg = "none";
         }
@@ -186,6 +187,7 @@ in
             "authorization_code"
             "refresh_token"
           ];
+          response_types = [ "code" ];
           claims_policy = "opencloud";
           userinfo_signed_response_alg = "none";
         }

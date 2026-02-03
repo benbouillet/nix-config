@@ -7,6 +7,7 @@
     ./zfs.nix
     ./gpu.nix
     ./impermanence.nix
+    ./globals.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
@@ -15,7 +16,7 @@
     ../../modules/nixos/services/postgresql.nix
     ../../modules/nixos/services/redis.nix
     ../../modules/nixos/services/authentication.nix
-    ../../modules/nixos/services/opencloud.nix
+    # ../../modules/nixos/services/opencloud.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/containers/ai.nix

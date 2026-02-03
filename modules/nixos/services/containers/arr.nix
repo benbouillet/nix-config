@@ -1,31 +1,11 @@
 {
   config,
   lib,
+  globals,
   ...
 }:
 let
-  domain = "r4clette.com";
-  ports = {
-    bazarr = 9010;
-    prowlarr = 9011;
-    radarr = 9012;
-    sonarr = 9013;
-    jellyseerr = 9014;
-    jellyfin = 9015;
-    qbittorrent = 9016;
-    nzbget = 9017;
-  };
-  arrUser = {
-    name = "arr";
-    UID = 920;
-  };
-  containersGroup = {
-    name = "containers";
-    GID = 993;
-  };
   iGPURenderNode = "/dev/dri/renderD129";
-  mediaVolumePath = "/srv/arrdata";
-  containersVolumesPath = "/srv/containers";
 in
 {
   sops.secrets."services/gluetun/env" = {
@@ -35,32 +15,32 @@ in
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${mediaVolumePath} 2770 root ${containersGroup.name} - -"
-    "d ${mediaVolumePath}/media 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/qbittorrent 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/nzbget 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/bazarr 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/sonarr 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/prowlarr 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/radarr 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/jellyfin-config 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/jellyfin-cache 2770 root ${containersGroup.name} - -"
-    "d ${containersVolumesPath}/jellyseerr 2770 root ${containersGroup.name} - -"
+    "d ${globals.mediaVolumePath} 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.mediaVolumePath}/media 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/nzbget 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/bazarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/sonarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/prowlarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/radarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.containersVolumesPath}/jellyseerr 2770 root ${globals.groups.containers.name} - -"
   ];
 
-  users.users."${arrUser.name}" = {
+  users.users."${globals.users.arr.name}" = {
     isSystemUser = true;
     createHome = false;
-    uid = arrUser.UID;
-    group = containersGroup.name;
+    uid = globals.users.arr.UID;
+    group = globals.groups.containers.name;
   };
 
   virtualisation.oci-containers.containers = {
     "gluetun" = {
       image = "qmcgaw/gluetun:v3.41.0";
       ports = [
-        "127.0.0.1:${toString ports.qbittorrent}:8090" # qbittorrent
-        "127.0.0.1:${toString ports.nzbget}:6789" # nzbget
+        "127.0.0.1:${toString globals.ports.qbittorrent}:8090" # qbittorrent
+        "127.0.0.1:${toString globals.ports.nzbget}:6789" # nzbget
       ];
       devices = [
         "/dev/net/tun:/dev/net/tun"
@@ -83,14 +63,14 @@ in
     "qbittorrent" = {
       image = "lscr.io/linuxserver/qbittorrent:5.1.4-r1-ls436";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
         WEBUI_PORT = "8090";
       };
       volumes = [
-        "${containersVolumesPath}/qbittorrent:/config/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/qbittorrent:/config/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -100,13 +80,13 @@ in
     "nzbget" = {
       image = "lscr.io/linuxserver/nzbget:25.4.20260130";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
       };
       volumes = [
-        "${containersVolumesPath}/nzbget:/config/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/nzbget:/config/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -116,63 +96,63 @@ in
     "bazarr" = {
       image = "lscr.io/linuxserver/bazarr:1.5.5";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString ports.bazarr}:6767"
+        "127.0.0.1:${toString globals.ports.bazarr}:6767"
       ];
       volumes = [
-        "${containersVolumesPath}/bazarr:/config/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/bazarr:/config/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
     };
 
     "prowlarr" = {
       image = "lscr.io/linuxserver/prowlarr:2.3.0";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString ports.prowlarr}:9696"
+        "127.0.0.1:${toString globals.ports.prowlarr}:9696"
       ];
       volumes = [
-        "${containersVolumesPath}/prowlarr:/config/:rw"
+        "${globals.containersVolumesPath}/prowlarr:/config/:rw"
       ];
     };
 
     "radarr" = {
       image = "lscr.io/linuxserver/radarr:6.0.4";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString ports.radarr}:7878"
+        "127.0.0.1:${toString globals.ports.radarr}:7878"
       ];
       volumes = [
-        "${containersVolumesPath}/radarr:/config/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/radarr:/config/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
     };
 
     "sonarr" = {
       image = "lscr.io/linuxserver/sonarr:4.0.16";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString ports.sonarr}:8989"
+        "127.0.0.1:${toString globals.ports.sonarr}:8989"
       ];
       volumes = [
-        "${containersVolumesPath}/sonarr:/config/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/sonarr:/config/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
     };
 
@@ -182,28 +162,28 @@ in
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString ports.jellyseerr}:5055"
+        "127.0.0.1:${toString globals.ports.jellyseerr}:5055"
       ];
       volumes = [
-        "${containersVolumesPath}/jellyseerr:/app/config/:rw"
+        "${globals.containersVolumesPath}/jellyseerr:/app/config/:rw"
       ];
     };
 
     "jellyfin" = {
       image = "lscr.io/linuxserver/jellyfin:10.11.6";
       environment = {
-        PUID = toString arrUser.UID;
-        PGID = toString containersGroup.GID;
+        PUID = toString globals.users.arr.UID;
+        PGID = toString globals.groups.containers.GID;
         TZ = "Europe/Paris";
-        JELLYFIN_PublishedServerUrl = "jellyfin.${domain}";
+        JELLYFIN_PublishedServerUrl = "jellyfin.${globals.domain}";
       };
       ports = [
-        "127.0.0.1:${toString ports.jellyfin}:8096"
+        "127.0.0.1:${toString globals.ports.jellyfin}:8096"
       ];
       volumes = [
-        "${containersVolumesPath}/jellyfin-config:/config/:rw"
-        "${containersVolumesPath}/jellyfin-cache:/cache/:rw"
-        "${mediaVolumePath}/:/data/:rw"
+        "${globals.containersVolumesPath}/jellyfin-config:/config/:rw"
+        "${globals.containersVolumesPath}/jellyfin-cache:/cache/:rw"
+        "${globals.mediaVolumePath}/:/data/:rw"
       ];
       devices = [
         "${iGPURenderNode}:${iGPURenderNode}:rwm"
@@ -224,45 +204,45 @@ in
     };
   };
 
-  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
-    @qbittorrent host qbittorrent.${domain}
+  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
+    @qbittorrent host qbittorrent.${globals.domain}
     handle @qbittorrent {
-      reverse_proxy 127.0.0.1:${toString ports.qbittorrent}
+      reverse_proxy 127.0.0.1:${toString globals.ports.qbittorrent}
     }
 
-    @nzbget host nzbget.${domain}
+    @nzbget host nzbget.${globals.domain}
     handle @nzbget {
-      reverse_proxy 127.0.0.1:${toString ports.nzbget}
+      reverse_proxy 127.0.0.1:${toString globals.ports.nzbget}
     }
 
-    @bazarr host bazarr.${domain}
+    @bazarr host bazarr.${globals.domain}
     handle @bazarr {
-      reverse_proxy 127.0.0.1:${toString ports.bazarr}
+      reverse_proxy 127.0.0.1:${toString globals.ports.bazarr}
     }
 
-    @prowlarr host prowlarr.${domain}
+    @prowlarr host prowlarr.${globals.domain}
     handle @prowlarr {
-      reverse_proxy 127.0.0.1:${toString ports.prowlarr}
+      reverse_proxy 127.0.0.1:${toString globals.ports.prowlarr}
     }
 
-    @radarr host radarr.${domain}
+    @radarr host radarr.${globals.domain}
     handle @radarr {
-      reverse_proxy 127.0.0.1:${toString ports.radarr}
+      reverse_proxy 127.0.0.1:${toString globals.ports.radarr}
     }
 
-    @sonarr host sonarr.${domain}
+    @sonarr host sonarr.${globals.domain}
     handle @sonarr {
-      reverse_proxy 127.0.0.1:${toString ports.sonarr}
+      reverse_proxy 127.0.0.1:${toString globals.ports.sonarr}
     }
 
-    @jellyseerr host jellyseerr.${domain}
+    @jellyseerr host jellyseerr.${globals.domain}
     handle @jellyseerr {
-      reverse_proxy 127.0.0.1:${toString ports.jellyseerr}
+      reverse_proxy 127.0.0.1:${toString globals.ports.jellyseerr}
     }
 
-    @jellyfin host jellyfin.${domain}
+    @jellyfin host jellyfin.${globals.domain}
     handle @jellyfin {
-      reverse_proxy 127.0.0.1:${toString ports.jellyfin}
+      reverse_proxy 127.0.0.1:${toString globals.ports.jellyfin}
     }
   '';
 }

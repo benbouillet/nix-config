@@ -1,28 +1,8 @@
 {
+  globals,
   lib,
   ...
 }:
-let
-  domain = "r4clette.com";
-  ports = {
-    steam = 8083;
-    authelia = 9091;
-  };
-  users = {
-    steam = {
-      name = "steam";
-      UID = 950;
-    };
-  };
-  groups = {
-    steam = {
-      name = "steam";
-      GID = 950;
-    };
-  };
-  gamesVolumePath = "/srv/games";
-  containersVolumesPath = "/srv/containers";
-in
 {
   boot.kernelModules = [ "uinput" ];
   hardware.uinput.enable = true;
@@ -34,11 +14,11 @@ in
   '';
 
   users.users = {
-    "${users.steam.name}" = {
+    "${globals.users.steam.name}" = {
       isSystemUser = true;
       createHome = false;
-      uid = users.steam.UID;
-      group = groups.steam.name;
+      uid = globals.users.steam.UID;
+      group = globals.groups.steam.name;
       extraGroups = [
         "input"
         "uinput"
@@ -47,21 +27,21 @@ in
   };
 
   users.groups = {
-    ${groups.steam.name} = {
-      gid = groups.steam.GID;
+    ${globals.groups.steam.name} = {
+      gid = globals.groups.steam.GID;
     };
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${containersVolumesPath}/steam 2770 ${users.steam.name} ${groups.steam.name} - -"
-    "d ${gamesVolumePath} 2770 ${users.steam.name} ${groups.steam.name} - -"
+    "d ${globals.containersVolumesPath}/steam 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
+    "d ${globals.gamesVolumePath} 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
   ];
 
   services.authelia.instances."raclette".settings = {
     access_control = {
       rules = [
         {
-          domain = "steam.${domain}";
+          domain = "steam.${globals.domain}";
           policy = "one_factor";
           subject = "group:steam";
         }
@@ -96,14 +76,14 @@ in
         NAME = "SteamHeadless";
         DISPLAY = ":55";
         GAMES_DIR = "/mnt/games";
-        PUID = toString users.steam.UID;
-        PGID = toString groups.steam.GID;
+        PUID = toString globals.users.steam.UID;
+        PGID = toString globals.groups.steam.GID;
         UMASK = "000";
         USER_PASSWORD = "password";
         MODE = "primary";
         WEB_UI_MODE = "vnc";
         ENABLE_VNC_AUDIO = "true";
-        PORT_NOVNC_WEB = toString ports.steam;
+        PORT_NOVNC_WEB = toString globals.ports.steam;
         ENABLE_STEAM = "true";
         STEAM_ARGS = "-silent";
         ENABLE_SUNSHINE = "true";
@@ -126,8 +106,8 @@ in
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "${containersVolumesPath}/steam:/home/default:rw"
-        "${gamesVolumePath}/:/mnt/games/:rw"
+        "${globals.containersVolumesPath}/steam:/home/default:rw"
+        "${globals.gamesVolumePath}/:/mnt/games/:rw"
         "/dev/shm:/dev/shm"
         "/dev/input:/dev/input"
       ];
@@ -143,10 +123,10 @@ in
     };
   };
 
-  services.caddy.virtualHosts."*.${domain}".extraConfig = lib.mkAfter ''
-    @steam host steam.${domain}
+  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
+    @steam host steam.${globals.domain}
     handle @steam {
-      reverse_proxy 127.0.0.1:${toString ports.steam}
+      reverse_proxy 127.0.0.1:${toString globals.ports.steam}
     }
   '';
 }
