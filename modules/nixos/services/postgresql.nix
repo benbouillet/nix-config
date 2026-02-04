@@ -18,6 +18,7 @@
     settings = {
       listen_addresses = lib.mkForce "*";
       port = globals.ports.postgres;
+      password_encryption = "scram-sha-256";
     };
     authentication = ''
       # local connections over UNIX socket: still peer for convenience

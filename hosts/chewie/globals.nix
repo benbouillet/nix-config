@@ -20,6 +20,7 @@ let
       searxng = 9030;
       perplexica = 9031;
       paperless = 9040;
+      nextcloud = 9050;
       authelia = 9091;
       debug = 9999;
       lldapWebUi = 17170;
@@ -40,6 +41,10 @@ let
       lldap = {
         name = "lldap";
         UID = 931;
+      };
+      nextcloud = {
+        name = "nextcloud";
+        UID = 940;
       };
     };
     groups = {
@@ -66,6 +71,7 @@ let
       containersVolumes = "/srv/containers";
       models = "/srv/models";
       mediaVolume = "/srv/arrdata";
+      nextcloud = "/srv/nextcloud";
       postgres = "/srv/postgres";
     };
     podmanBridgeCIDR = "10.88.0.0/16";

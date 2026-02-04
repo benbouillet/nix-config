@@ -16,11 +16,11 @@
     ../../modules/nixos/services/postgresql.nix
     ../../modules/nixos/services/redis.nix
     ../../modules/nixos/services/authentication.nix
-    # ../../modules/nixos/services/opencloud.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/containers/ai.nix
     ../../modules/nixos/services/containers/paperless.nix
+    ../../modules/nixos/services/containers/nextcloud.nix
     ../../modules/nixos/services/containers/search.nix
     # ../../modules/nixos/services/containers/steam.nix
     ../../modules/nixos/services/containers/debug.nix
