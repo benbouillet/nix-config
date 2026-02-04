@@ -151,6 +151,22 @@
                   --use-substitutes
               '';
             };
+            scram-sha-256-build = pkgs.buildGoModule {
+              name = "scram-sha-256";
+              src = pkgs.fetchFromGitHub {
+                owner = "supercaracal";
+                repo = "scram-sha-256";
+                rev = "v1.1.0";
+                hash = "sha256-gl0q3q/24CALYuK9v23c9PZZPdmdSzkR6fAfLeLrgBA=";
+              };
+              vendorHash = "sha256-L7nK+w4CB2H3b6vL0ZoFfaRMgCmpqzQo8ThMM60C76I=";
+            };
+            scram-sha-256 = pkgs.writeShellApplication {
+              name = "scram-sha-256";
+              text = ''
+                ${scram-sha-256-build}/bin/term
+              '';
+            };
           in
           pkgs.mkShell {
             name = "flake-dev";
@@ -161,6 +177,7 @@
               statix
               alejandra
               nixdeploy
+              scram-sha-256
             ];
             shellHook = ''
               echo "Dev shell ready. Useful commands:"
