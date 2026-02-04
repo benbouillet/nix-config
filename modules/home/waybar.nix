@@ -4,9 +4,6 @@
   config,
   ...
 }:
-let
-  opencloudHealthzUrl = "opencloud.r4clette.com/healthz";
-in
 {
   programs.waybar = {
     enable = true;
