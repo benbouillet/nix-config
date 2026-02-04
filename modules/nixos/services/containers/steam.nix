@@ -33,8 +33,8 @@
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.containersVolumesPath}/steam 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
-    "d ${globals.gamesVolumePath} 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
+    "d ${globals.paths.containersVolumes}/steam 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
+    "d ${globals.path.games} 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
   ];
 
   services.authelia.instances."raclette".settings = {
@@ -106,7 +106,7 @@
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/steam:/home/default:rw"
+        "${globals.paths.containersVolumes}/steam:/home/default:rw"
         "${globals.gamesVolumePath}/:/mnt/games/:rw"
         "/dev/shm:/dev/shm"
         "/dev/input:/dev/input"

@@ -4,23 +4,20 @@
   globals,
   ...
 }:
-let
-  podmanBridgeCIDR = "10.88.0.0/16";
-in
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.dbPath} 2750 postgres postgres - -"
+    "d ${globals.paths.postgres} 2750 postgres postgres - -"
   ];
 
-  networking.firewall.interfaces."podman0".allowedTCPPorts = [ 5432 ];
+  networking.firewall.interfaces."podman0".allowedTCPPorts = [ globals.ports.postgres ];
 
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
-    dataDir = globals.dbPath;
+    dataDir = globals.paths.postgres;
     settings = {
       listen_addresses = lib.mkForce "*";
-      port = 5432;
+      port = globals.ports.postgres;
     };
     authentication = ''
       # local connections over UNIX socket: still peer for convenience
@@ -31,7 +28,7 @@ in
       host    all             all             ::1/128                 md5
 
       # Podman bridge
-      host    all             all             ${podmanBridgeCIDR}     md5
+      host    all             all             ${globals.podmanBridgeCIDR}     md5
     '';
   };
 }

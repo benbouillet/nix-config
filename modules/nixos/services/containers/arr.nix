@@ -15,17 +15,17 @@ in
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.mediaVolumePath} 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.mediaVolumePath}/media 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/nzbget 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/bazarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/sonarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/prowlarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/radarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/jellyseerr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.mediaVolume} 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.mediaVolume}/media 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/nzbget 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/bazarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/sonarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/prowlarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/radarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/jellyseerr 2770 root ${globals.groups.containers.name} - -"
   ];
 
   users.users."${globals.users.arr.name}" = {
@@ -69,8 +69,8 @@ in
         WEBUI_PORT = "8090";
       };
       volumes = [
-        "${globals.containersVolumesPath}/qbittorrent:/config/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/qbittorrent:/config/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -85,8 +85,8 @@ in
         TZ = "Europe/Paris";
       };
       volumes = [
-        "${globals.containersVolumesPath}/nzbget:/config/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/nzbget:/config/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -104,8 +104,8 @@ in
         "127.0.0.1:${toString globals.ports.bazarr}:6767"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/bazarr:/config/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/bazarr:/config/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
     };
 
@@ -120,7 +120,7 @@ in
         "127.0.0.1:${toString globals.ports.prowlarr}:9696"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/prowlarr:/config/:rw"
+        "${globals.paths.containersVolumes}/prowlarr:/config/:rw"
       ];
     };
 
@@ -135,8 +135,8 @@ in
         "127.0.0.1:${toString globals.ports.radarr}:7878"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/radarr:/config/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/radarr:/config/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
     };
 
@@ -151,8 +151,8 @@ in
         "127.0.0.1:${toString globals.ports.sonarr}:8989"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/sonarr:/config/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/sonarr:/config/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
     };
 
@@ -165,7 +165,7 @@ in
         "127.0.0.1:${toString globals.ports.jellyseerr}:5055"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/jellyseerr:/app/config/:rw"
+        "${globals.paths.containersVolumes}/jellyseerr:/app/config/:rw"
       ];
     };
 
@@ -181,9 +181,9 @@ in
         "127.0.0.1:${toString globals.ports.jellyfin}:8096"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/jellyfin-config:/config/:rw"
-        "${globals.containersVolumesPath}/jellyfin-cache:/cache/:rw"
-        "${globals.mediaVolumePath}/:/data/:rw"
+        "${globals.paths.containersVolumes}/jellyfin-config:/config/:rw"
+        "${globals.paths.containersVolumes}/jellyfin-cache:/cache/:rw"
+        "${globals.paths.mediaVolume}/:/data/:rw"
       ];
       devices = [
         "${iGPURenderNode}:${iGPURenderNode}:rwm"

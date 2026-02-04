@@ -5,9 +5,9 @@
 }:
 {
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.modelsPath} 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/ollama 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.containersVolumesPath}/open-webui 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.models} 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/ollama 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.containersVolumes}/open-webui 2770 root ${globals.groups.containers.name} - -"
   ];
 
   virtualisation.oci-containers.containers = {
@@ -20,8 +20,8 @@
         "nvidia.com/gpu=all"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/ollama/:/root/.ollama/:rw"
-        "${globals.modelsPath}:/usr/share/ollama/.ollama/models:rw"
+        "${globals.paths.containersVolumes}/ollama/:/root/.ollama/:rw"
+        "${globals.paths.models}:/usr/share/ollama/.ollama/models:rw"
       ];
       environment = {
         OLLAMA_MODELS = "/usr/share/ollama/.ollama/models";
@@ -36,7 +36,7 @@
         "127.0.0.1:${toString globals.ports.open-webui}:8080"
       ];
       volumes = [
-        "${globals.containersVolumesPath}/open-webui:/app/backend/data:rw"
+        "${globals.paths.containersVolumes}/open-webui:/app/backend/data:rw"
       ];
     };
   };

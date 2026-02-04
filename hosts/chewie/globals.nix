@@ -3,10 +3,10 @@ let
   globals = {
     domain = "r4clette.com";
     ports = {
+      lldapLdap = 3890;
+      postgres = 5432;
+      redis = 6379;
       steam = 8083;
-      authelia = 9091;
-      ollama = 9020;
-      open-webui = 9021;
       bazarr = 9010;
       prowlarr = 9011;
       radarr = 9012;
@@ -15,13 +15,14 @@ let
       jellyfin = 9015;
       qbittorrent = 9016;
       nzbget = 9017;
-      debug = 9999;
+      ollama = 9020;
+      open-webui = 9021;
       searxng = 9030;
       perplexica = 9031;
-      postgres = 5432;
+      paperless = 9040;
+      authelia = 9091;
+      debug = 9999;
       lldapWebUi = 17170;
-      lldapLdap = 3890;
-      redis = 6379;
     };
     users = {
       steam = {
@@ -59,11 +60,15 @@ let
         GID = 931;
       };
     };
-    gamesVolumePath = "/srv/games";
-    containersVolumesPath = "/srv/containers";
-    modelsPath = "/srv/models";
-    mediaVolumePath = "/srv/arrdata";
-    dbPath = "/srv/postgres";
+    paths = {
+      paperlessMedia = "/srv/documents";
+      games = "/srv/games";
+      containersVolumes = "/srv/containers";
+      models = "/srv/models";
+      mediaVolume = "/srv/arrdata";
+      postgres = "/srv/postgres";
+    };
+    podmanBridgeCIDR = "10.88.0.0/16";
   };
 in
 {

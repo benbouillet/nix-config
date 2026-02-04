@@ -45,7 +45,7 @@
           "zfs-mount.service"
           "systemd-tmpfiles-setup.service"
         ];
-        unitConfig.RequiresMountsFor = globals.containersVolumesPath;
+        unitConfig.RequiresMountsFor = globals.paths.containersVolumes;
       }
     ) config.virtualisation.oci-containers.containers)
     // {
