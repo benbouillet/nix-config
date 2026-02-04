@@ -1,15 +1,17 @@
 {
   imports = [
     ./barbar.nix
-    ./lualine.nix
-    ./transparent.nix
-    ./neo-tree.nix
-    ./treesitter.nix
-    ./telescope.nix
-    ./lsp.nix
+    ./blame.nix
     ./comment.nix
-    ./snacks.nix
+    ./lsp.nix
+    ./lualine.nix
     ./motion.nix
+    ./neo-tree.nix
+    ./render-markdown.nix
+    ./snacks.nix
+    ./telescope.nix
+    ./transparent.nix
+    ./treesitter.nix
   ];
 
   programs.nixvim = {
