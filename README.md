@@ -70,9 +70,11 @@ On the target host:
 - [x] implemented logind for closing lid lock
 - [x] Solve the opencloud-desktop Oauth flow issue
 - [x] deploy redis/valkey for persistent session in Authelia
+- [x] paperless
+- [x] deploy common ports/URL config attribute set for all configs
+- [ ] implement [parperless-ai](https://github.com/clusterzx/paperless-ai)
 - [ ] put gluetun on its own network (cf. https://chatgpt.com/g/g-p-6761ee636fa481918a7868fc7e6f333c-nixos/c/698124d3-5f20-8385-98d8-36dbfaa98fbd)
 - [ ] deploy redis/valkey for searxng
-- [ ] deploy common ports/URL config attribute set for all configs
 - [ ] server: logs
 - [ ] server: observability
 - [ ] server: uptime monitoring
