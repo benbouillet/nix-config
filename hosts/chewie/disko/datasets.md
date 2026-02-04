@@ -58,3 +58,14 @@ sudo zfs create \
   -o recordsize=16K \
   ssd/nextcloud
 ```
+
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/documents \
+  -o quota=200G \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o xattr=sa \
+  hdd/documents
+```
