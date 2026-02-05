@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   config,
   globals,
@@ -12,8 +13,10 @@
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.nextcloud} 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/nextcloud 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.nextcloud} 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/custom_apps 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/config 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/themes 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
   ];
 
   users.users."${globals.users.nextcloud.name}" = {
@@ -21,6 +24,12 @@
     createHome = false;
     uid = globals.users.nextcloud.UID;
     group = globals.groups.containers.name;
+  };
+
+  users.groups = {
+    ${globals.groups.nextcloud.name} = {
+      gid = globals.groups.nextcloud.GID;
+    };
   };
 
   services = {
@@ -53,6 +62,9 @@
       ];
       volumes = [
         "${globals.paths.nextcloud}:/var/www/html/data:rw"
+        "${globals.paths.containersVolumes}/nextcloud/custom_apps:/var/www/html/custom_apps:rw"
+        "${globals.paths.containersVolumes}/nextcloud/config:/var/www/html/config:rw"
+        "${globals.paths.containersVolumes}/nextcloud/themes:/var/www/html/themes:rw"
       ];
       environment = {
         PUID = toString globals.users.nextcloud.UID;
@@ -61,7 +73,7 @@
         POSTGRES_HOST = "host.containers.internal";
         POSTGRES_DB = "nextcloud";
         POSTGRES_USER = "nextcloud";
-        NEXTCLOUD_ADMIN_USER = "admin";
+        # NEXTCLOUD_ADMIN_USER = "admin";
         NEXTCLOUD_DATA_DIR = "/var/www/html/data";
         NEXTCLOUD_TRUSTED_DOMAINS = "nextcloud.${globals.domain}";
         NEXTCLOUD_UPDATE = "0";
@@ -125,12 +137,39 @@
   };
 
   systemd.services."podman-nextcloud" = {
-    after = [
-      "postgresql.service"
-    ];
-    requires = [
-      "postgresql.service"
-    ];
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+    wants = [ "nextcloud-oidc-setup.service" ];
+  };
+
+  systemd.services."nextcloud-oidc-setup" = {
+    description = "Setup Nextcloud OIDC Login app";
+    after = [ "podman-nextcloud.service" ];
+    wants = [ "podman-nextcloud.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    path = [ "/run/current-system/sw" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      Group = "root";
+    };
+
+    script = ''
+      set -euo pipefail
+
+      # ${pkgs.podman}/bin/podman exec nextcloud php occ app:install user_oidc || true
+
+      echo "Waiting for Nextcloud to be ready..."
+      for i in {1..30}; do
+        if ${pkgs.podman}/bin/podman exec nextcloud php occ status || true 2>/dev/null | grep -q "installed: true"; then
+          echo "Nextcloud is ready!"
+          break
+        fi
+        sleep 2
+      done
+    '';
   };
 
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''

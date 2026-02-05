@@ -48,14 +48,6 @@ let
       };
     };
     groups = {
-      steam = {
-        name = "steam";
-        GID = 950;
-      };
-      containers = {
-        name = "containers";
-        GID = 993;
-      };
       authentication = {
         name = "authent";
         GID = 930;
@@ -63,6 +55,18 @@ let
       oidc = {
         name = "oidc";
         GID = 931;
+      };
+      nextcloud = {
+        name = "nextcloud";
+        GID = 940;
+      };
+      steam = {
+        name = "steam";
+        GID = 950;
+      };
+      containers = {
+        name = "containers";
+        GID = 993;
       };
     };
     paths = {
