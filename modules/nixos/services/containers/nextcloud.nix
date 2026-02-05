@@ -71,13 +71,9 @@
         SMTP_NAME = "admin@${globals.domain}";
         MAIL_FROM_ADDRESS = "Raclette Admin <admin@r4clette.com>";
         MAIL_DOMAIN = globals.domain;
-
-        # >>> NEW: reverse proxy / HTTPS awareness <<<
         OVERWRITEHOST = "nextcloud.${globals.domain}";
         OVERWRITEPROTOCOL = "https";
-        # Podman bridge network proxy, be generous and allow the whole /16
         TRUSTED_PROXIES = "${globals.podmanBridgeCIDR} 127.0.0.1";
-        # Let PHP read X-Forwarded-* instead of remote_addr
         APACHE_DISABLE_REWRITE_IP = "1";
       };
       environmentFiles = [ config.sops.secrets."services/nextcloud/env".path ];
@@ -172,18 +168,18 @@
         sleep 2
       done
 
-      # Allow Nextcloud to talk to Authelia's (local) IP
-      ${pkgs.podman}/bin/podman exec nextcloud php occ config:system:set allow_local_remote_servers --type=bool --value=true
-
       # If after 30 tries it's still not installed, bail out; no point configuring OIDC.
       if ! ${pkgs.podman}/bin/podman exec nextcloud php occ status 2>/dev/null | grep -q "installed: true"; then
         echo "Nextcloud is not installed yet, skipping OIDC setup."
         exit 0
       fi
 
+      # Allow Nextcloud to talk to Authelia's (local) IP
+      ${pkgs.podman}/bin/podman exec nextcloud php occ config:system:set allow_local_remote_servers --type=bool --value=true
+
       echo "Installing and enabling user_oidc…"
       ${pkgs.podman}/bin/podman exec nextcloud php occ app:install user_oidc || true
-      ${pkgs.podman}/bin/podman exec nextcloud php occ app:enable oidc_login || true
+      ${pkgs.podman}/bin/podman exec nextcloud php occ app:enable user_oidc || true
 
       echo "Configuring user_oidc provider OIDC_PROVIDER_ID for Authelia…"
       # This will create the provider if it doesn't exist, or update it if it does.
@@ -192,11 +188,17 @@
           --clientid="''${OIDC_CLIENT_ID}" \
           --clientsecret="''${NEXTCLOUD_OIDC_CLIENT_SECRET}" \
           --discoveryuri="''${DISCOVERY_URL}" \
-          --scope="openid profile email groups"
+          --scope="openid profile email groups" \
+          --mapping-uid="sub" \
+          --mapping-display-name="name" \
+          --mapping-email="email" \
+          --mapping-groups="groups" \
+          --unique-uid="true" \
+          --group-provisioning="true" \
+          --group-whitelist-regex="^(nextcloud-users|nextcloud-admins)\$" \
+          --group-restrict-login-to-whitelist="true"
 
-      echo "Tuning user_oidc system config…"
-
-      # Authelia often only accepts client_secret_post
+      # Default token endpoint auth method for the user_oidc app
       ${pkgs.podman}/bin/podman exec nextcloud php occ \
         config:system:set user_oidc default_token_endpoint_auth_method \
           --type=string --value="client_secret_post"
@@ -208,11 +210,9 @@
       ${pkgs.podman}/bin/podman exec nextcloud php occ \
         config:system:set user_oidc soft_auto_provision --type=boolean --value="true" || true
 
-      # Optional but usually what you want in an OIDC-only world:
-      # make OIDC the only user backend (no password login form).
-      # Uncomment if/when you’re happy with OIDC.
-      # ${pkgs.podman}/bin/podman exec nextcloud php occ \
-      #   config:app:set user_oidc allow_multiple_user_backends --value="0" || true
+      # Deactivates OIDC first login. Set back to `1` if Authelia authentication is broken
+      ${pkgs.podman}/bin/podman exec nextcloud php occ \
+        config:app:set user_oidc allow_multiple_user_backends --value="0" || true
 
       # Optional: pre-create groups that come from LLDAP/Authelia.
       # If your LLDAP groups are `nextcloud-users` and `nextcloud-admins`,
