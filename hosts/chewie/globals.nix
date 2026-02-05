@@ -42,10 +42,6 @@ let
         name = "lldap";
         UID = 931;
       };
-      nextcloud = {
-        name = "nextcloud";
-        UID = 940;
-      };
     };
     groups = {
       authentication = {
@@ -55,10 +51,6 @@ let
       oidc = {
         name = "oidc";
         GID = 931;
-      };
-      nextcloud = {
-        name = "nextcloud";
-        GID = 940;
       };
       steam = {
         name = "steam";

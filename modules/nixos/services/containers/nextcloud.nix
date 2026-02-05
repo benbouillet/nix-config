@@ -12,25 +12,13 @@
     group = "root";
   };
 
+  # Note: official Nextcloud docker image is using UID 33 & GID 33
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.nextcloud} 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
-    "d ${globals.paths.containersVolumes}/nextcloud/custom_apps 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
-    "d ${globals.paths.containersVolumes}/nextcloud/config 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
-    "d ${globals.paths.containersVolumes}/nextcloud/themes 2770 ${globals.users.nextcloud.name} ${globals.groups.nextcloud.name} - -"
+    "d ${globals.paths.nextcloud} 2770 33 33 - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/custom_apps 2770 33 33 - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/config 2770 33 33 - -"
+    "d ${globals.paths.containersVolumes}/nextcloud/themes 2770 33 33 - -"
   ];
-
-  users.users."${globals.users.nextcloud.name}" = {
-    isSystemUser = true;
-    createHome = false;
-    uid = globals.users.nextcloud.UID;
-    group = globals.groups.containers.name;
-  };
-
-  users.groups = {
-    ${globals.groups.nextcloud.name} = {
-      gid = globals.groups.nextcloud.GID;
-    };
-  };
 
   services = {
     postgresql = {
@@ -67,13 +55,10 @@
         "${globals.paths.containersVolumes}/nextcloud/themes:/var/www/html/themes:rw"
       ];
       environment = {
-        PUID = toString globals.users.nextcloud.UID;
-        PGID = toString globals.groups.containers.GID;
         TZ = "Etc/UTC";
         POSTGRES_HOST = "host.containers.internal";
         POSTGRES_DB = "nextcloud";
         POSTGRES_USER = "nextcloud";
-        # NEXTCLOUD_ADMIN_USER = "admin";
         NEXTCLOUD_DATA_DIR = "/var/www/html/data";
         NEXTCLOUD_TRUSTED_DOMAINS = "nextcloud.${globals.domain}";
         NEXTCLOUD_UPDATE = "0";
