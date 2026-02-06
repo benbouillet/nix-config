@@ -58,7 +58,7 @@ with lib;
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user enable --now hyprpolkitagent.service"
-        # "uwsm app -- waybar"
+        "uwsm app -- waybar"
         "uwsm app -- nm-applet --indicator"
         "uwsm app -- blueman-applet"
       ];
@@ -126,11 +126,10 @@ with lib;
           "workspaces, 1, 5, wind"
         ];
       };
-      windowrulev2 = [
-        "noborder, class:^(tofi)$"
-        "center, class:^(tofi)$"
-        "fullscreen,class:gamescope"
-        "workspace 10,class:gamescope"
+      windowrule = [
+        "match:class gamescope, fullscreen on"
+        "match:class gamescope, workspace 10"
+        "match:class ^(tofi)$, center on"
       ];
       gesture = [
         "4,horizontal,workspace"
