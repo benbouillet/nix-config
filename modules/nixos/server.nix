@@ -30,10 +30,14 @@
       "8.8.8.8"
       "8.8.4.4"
     ];
+    nftables.enable = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [ ]; # default deny
-      allowedUDPPorts = [ ];
+      # Always allow traffic from your Tailscale network
+      trustedInterfaces = [ "tailscale0" ];
+      # Allow the Tailscale UDP port through the firewall
+      allowedUDPPorts = [ config.services.tailscale.port ];
       # Stop responding to broadcasts & noise
       logRefusedConnections = false;
       allowPing = false;
@@ -111,6 +115,20 @@
   #   randomizedDelaySec = "30min";
   #   allowReboot = false;  # set true only if you’re comfortable
   # };
+
+  # TAILSCALE
+  services = {
+    tailscale = {
+      enable = true;
+      extraSetFlags = [ "--operator=${username}" ];
+      extraUpFlags = [ "--operator=${username}" ];
+    };
+  };
+  # 2. Force tailscaled to use nftables (Critical for clean nftables-only systems)
+  # This avoids the "iptables-compat" translation layer issues.
+  systemd.services.tailscaled.serviceConfig.Environment = [
+    "TS_DEBUG_FIREWALL_MODE=nftables"
+  ];
 
   boot.tmp = {
     useTmpfs = true;
