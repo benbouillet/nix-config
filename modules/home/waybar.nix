@@ -29,8 +29,8 @@
           "tray"
           "custom/tailscale"
           "backlight"
-          "pulseaudio#source"
-          "pulseaudio"
+          "wireplumber#source"
+          "wireplumber"
           "battery"
         ];
 
@@ -78,31 +78,28 @@
           interval = 5;
           on-click = "tailscale status --peers=false && tailscale down || tailscale up";
         };
-        "pulseaudio" = {
+        "wireplumber" = {
           format = "{icon}   {volume}%";
-          format-bluetooth = "󰥰  {volume}%";
-          format-muted = "   {volume}%";
-          format-icons = {
-            "alsa_output.pci-0000_00_1f.3.analog-stereo" = "";
-            "alsa_output.pci-0000_00_1f.3.analog-stereo-muted" = "";
-            headphone = "";
-            phone = "";
-            phone-muted = "";
-            portable = "";
-            car = "";
-            default = [
-              ""
-              ""
-            ];
-          };
+          format-muted = " ";
+          # `node_name` or `node_description` can be used for icon mapping
+          tooltip = true;
+          tooltip-format = "{node_name}";
+          format-icons.default = [
+            ""
+            ""
+          ];
           scroll-step = 1;
           on-click = "pavucontrol";
-          ignored-sinks = [ "Easy Effects Sink" ];
         };
-        "pulseaudio#source" = {
-          format = "{format_source}";
-          format-source = "  {volume}%";
-          format-source-muted = "  {volume}%";
+        "wireplumber#source" = {
+          format = "{icon}  {volume}%";
+          format-muted = " ";
+          # `node_name` or `node_description` can be used for icon mapping
+          tooltip = true;
+          tooltip-format = "{node_name}";
+          format-icons.default = [ "" ];
+          node-type = "Audio/Source";
+          scroll-step = 1;
           on-click = "pavucontrol";
         };
         "bluetooth" = {

@@ -1,11 +1,36 @@
 {
   host,
+  pkgs,
   ...
 }:
 let
   inherit (import ../../hosts/${host}/variables.nix)
     terminal
     ;
+  selectOutput = pkgs.writeShellScript "select-audio-output" ''
+    pw-dump | jq -r '
+      .[]
+      | select(.info.props["media.class"] == "Audio/Sink")
+      | (.id | tostring) + ": " + .info.props["node.description"]
+    ' \
+    | sort -u \
+    | tofi --width "70%" --fuzzy-match true --prompt-text "Select audio output: " \
+    | awk -F': ' '{print $1}' \
+    | tr -d '\n' \
+    | xargs -I{} wpctl set-default {}
+  '';
+  selectInput = pkgs.writeShellScript "select-audio-input" ''
+    pw-dump | jq -r '
+      .[]
+      | select(.info.props["media.class"] == "Audio/Source")
+      | (.id | tostring) + ": " + .info.props["node.description"]
+    ' \
+    | sort -u \
+    | tofi --width "70%" --fuzzy-match true --prompt-text "Select audio input: " \
+    | awk -F': ' '{print $1}' \
+    | tr -d '\n' \
+    | xargs -I{} wpctl set-default {}
+  '';
 in
 {
   wayland.windowManager.hyprland = {
@@ -24,6 +49,8 @@ in
           ",XF86MonBrightnessDown,Decrease Brightness,exec,brightnessctl set 5%-"
         ];
         bindd = [
+          "${modifier}SHIFT,XF86AudioRaiseVolume,Choose Audio Output,exec,${selectOutput}"
+          "${modifier}SHIFT,XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
           ",XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           "${modifier},XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
           "${modifier},Return,Open ${terminal},exec,${terminal}"
