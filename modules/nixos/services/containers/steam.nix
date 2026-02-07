@@ -34,7 +34,7 @@
 
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${globals.paths.containersVolumes}/steam 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
-    "d ${globals.path.games} 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
+    "d ${globals.paths.games} 2770 ${globals.users.steam.name} ${globals.groups.steam.name} - -"
   ];
 
   services.authelia.instances."raclette".settings = {
@@ -107,7 +107,7 @@
       ];
       volumes = [
         "${globals.paths.containersVolumes}/steam:/home/default:rw"
-        "${globals.gamesVolumePath}/:/mnt/games/:rw"
+        "${globals.paths.games}/:/mnt/games/:rw"
         "/dev/shm:/dev/shm"
         "/dev/input:/dev/input"
       ];
@@ -121,6 +121,22 @@
         "--device-cgroup-rule=c 10:* rmw"
       ];
     };
+  };
+
+  networking.firewall = {
+    allowedUDPPorts = [
+      47998
+      47999
+      48000
+      48002
+      48010
+    ];
+    allowedTCPPorts = [
+      47984
+      47989
+      47990
+      48010
+    ];
   };
 
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
