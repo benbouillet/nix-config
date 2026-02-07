@@ -16,7 +16,6 @@ let
           - wikipedia
           - openverse
           - docker hub
-          - wikidata
           - ebay
           - findthatmeme
           - free software directory
@@ -37,7 +36,6 @@ let
           - startpage images
           - steam
           - senscritique
-          - wikidata
           - ahmia
           - torch
           - wolframalpha
@@ -93,14 +91,6 @@ let
         engine: docker_hub
         shortcut: dh
         categories: [it, packages]
-      - name: wikidata
-        engine: wikidata
-        shortcut: wd
-        timeout: 3.0
-        weight: 2
-        # add "list" to the array to get results in the results list
-        display_type: ["infobox"]
-        categories: [general]
       - name: ebay
         engine: ebay
         shortcut: eb
