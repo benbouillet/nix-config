@@ -79,7 +79,9 @@ in
       ];
       environment = {
         SEARXNG_BASE_URL = "https://search.${globals.domain}/";
-        SEARXNG_VALKEY_URL = "valkey://valkey:6379";
+        SEARXNG_VALKEY_URL = "valkey://host.containers.internal:${
+          toString config.services.redis.servers."raclette".port
+        }";
       };
       environmentFiles = [
         config.sops.secrets."services/searxng/env".path
@@ -96,9 +98,6 @@ in
       environment = {
         SEARXNG_API_URL = "http://searxng:8080";
       };
-    };
-    "valkey" = {
-      image = "docker.io/valkey/valkey:9.0.2-alpine3.23";
     };
   };
 
