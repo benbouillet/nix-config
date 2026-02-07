@@ -169,4 +169,10 @@
 
     age.keyFile = "/var/lib/sops-nix/key.txt";
   };
+
+  # Monitoring
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9000;
+  };
 }
