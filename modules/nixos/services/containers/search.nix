@@ -7,44 +7,209 @@
 }:
 let
   searxngSettings = pkgs.writeText "settings.yml" ''
-    use_default_settings: true
+    use_default_settings:
+      engines:
+        keep_only:
+          - arch linux wiki
+          - nixos wiki
+          - bandcamp
+          - wikipedia
+          - openverse
+          - docker hub
+          - wikidata
+          - ebay
+          - findthatmeme
+          - free software directory
+          - gitlab
+          - github
+          - github code
+          - codeberg
+          - goodreads
+          - hackernews
+          - ollama
+          - openstreetmap
+          - podcastindex
+          - radio browser
+          - reddit
+          - stackoverflow
+          - startpage
+          - startpage news
+          - startpage images
+          - steam
+          - senscritique
+          - wikidata
+          - ahmia
+          - torch
+          - wolframalpha
+
     general:
       debug: false
       instance_name: "SearXNG"
+
     search:
       safe_search: 0
-      autocomplete: "duckduckgo"
+      autocomplete: "startpage"
       autocomplete_min: 4
       favicon_resolver: "allesedv"
-      default_lang: "en"
+      default_lang: "auto"
       languages:
         - all
         - en
-        - en-US
         - de
-        - de-BE
-        - de-CH
-        - de-DE
-        - it-IT
         - fr
-        - fr-BE
         - nl
-        - nl-BE
-        - nl-NL
       formats:
         - html
         - json
+
     ui:
       hotkeys: vim
+
     engines:
+      - name: arch linux wiki
+        engine: archlinux
+        shortcut: al
+      - name: nixos wiki
+        engine: mediawiki
+        shortcut: nixw
+        base_url: https://wiki.nixos.org/
+        search_type: text
+        categories: [it, software wikis]
+      - name: bandcamp
+        engine: bandcamp
+        shortcut: bc
+        categories: music
+      - name: wikipedia
+        engine: wikipedia
+        shortcut: wp
+        # add "list" to the array to get results in the results list
+        display_type: ["infobox"]
+        categories: [general]
+      - name: openverse
+        engine: openverse
+        categories: images
+        shortcut: opv
+      - name: docker hub
+        engine: docker_hub
+        shortcut: dh
+        categories: [it, packages]
       - name: wikidata
-        disabled: false
-      - name: ahmia
-        disabled: false
-      - name: torch
-        disabled: false
-      - name: wolframalpha
-        disabled: false
+        engine: wikidata
+        shortcut: wd
+        timeout: 3.0
+        weight: 2
+        # add "list" to the array to get results in the results list
+        display_type: ["infobox"]
+        categories: [general]
+      - name: ebay
+        engine: ebay
+        shortcut: eb
+        base_url: 'https://www.ebay.fr'
+        inactive: true
+        timeout: 5
+      - name: findthatmeme
+        engine: findthatmeme
+        shortcut: ftm
+      - name: free software directory
+        engine: mediawiki
+        shortcut: fsd
+        categories: [it, software wikis]
+        base_url: https://directory.fsf.org/
+        search_type: title
+        timeout: 5.0
+        about:
+          website: https://directory.fsf.org/
+          wikidata_id: Q2470288
+      - name: gitlab
+        engine: gitlab
+        base_url: https://gitlab.com
+        shortcut: gl
+        about:
+          website: https://gitlab.com/
+          wikidata_id: Q16639197
+      - name: github
+        engine: github
+        shortcut: gh
+      - name: github code
+        engine: github_code
+        shortcut: ghc
+        ghc_auth:
+          # type is one of:
+          # * none
+          # * personal_access_token
+          # * bearer
+          # When none is passed, the token is not requried.
+          type: "none"
+          token: "token"
+        # specify whether to highlight the matching lines to the query
+        ghc_highlight_matching_lines: true
+        ghc_strip_new_lines: true
+        ghc_strip_whitespace: false
+        timeout: 10.0
+      - name: codeberg
+        # https://docs.searxng.org/dev/engines/online/gitea.html
+        engine: gitea
+        base_url: https://codeberg.org
+        shortcut: cb
+      - name: goodreads
+        engine: goodreads
+        shortcut: good
+        timeout: 4.0
+      - name: hackernews
+        engine: hackernews
+        shortcut: hn
+      - name: ollama
+        engine: ollama
+        shortcut: ollama
+      - name: openstreetmap
+        engine: openstreetmap
+        shortcut: osm
+      - name: podcastindex
+        engine: podcastindex
+        shortcut: podcast
+      - name: radio browser
+        engine: radio_browser
+        shortcut: rb
+      - name: reddit
+        engine: reddit
+        shortcut: re
+        page_size: 25
+      - name: stackoverflow
+        engine: stackexchange
+        shortcut: st
+        api_site: 'stackoverflow'
+        categories: [it, q&a]
+      - name: startpage
+        engine: startpage
+        shortcut: sp
+        startpage_categ: web
+        categories: [general, web]
+      - name: startpage news
+        engine: startpage
+        startpage_categ: news
+        categories: [news, web]
+        shortcut: spn
+      - name: startpage images
+        engine: startpage
+        startpage_categ: images
+        categories: [images, web]
+        shortcut: spi
+      - name: steam
+        engine: steam
+        shortcut: stm
+      - name: senscritique
+        engine: senscritique
+        shortcut: scr
+        timeout: 4.0
+
+    doi_resolvers:
+      oadoi.org: 'https://oadoi.org/'
+      doi.org: 'https://doi.org/'
+      sci-hub.se: 'https://sci-hub.se/'
+      sci-hub.st: 'https://sci-hub.st/'
+      sci-hub.ru: 'https://sci-hub.ru/'
+
+    default_doi_resolver: 'doi.org'
   '';
 in
 {
