@@ -118,4 +118,13 @@
     greetd.enableGnomeKeyring = true;
     hyprland.enableGnomeKeyring = true;
   };
+
+  # Tailscale
+  services = {
+    tailscale = {
+      enable = true;
+      extraSetFlags = [ "--operator=${username}" ];
+      extraUpFlags = [ "--operator=${username}" ];
+    };
+  };
 }

@@ -22,7 +22,6 @@ in
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/hyprland.nix
     ../../modules/nixos/ssd.nix
-    ../../modules/nixos/tailscale.nix
     ../../modules/nixos/vpn.nix
     ../../modules/nixos/printing.nix
     ../../modules/nixos/gaming.nix
