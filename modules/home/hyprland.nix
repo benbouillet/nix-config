@@ -58,7 +58,6 @@ with lib;
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "systemctl --user enable --now hyprpolkitagent.service"
-        "uwsm app -- waybar"
         "uwsm app -- nm-applet --indicator"
         "uwsm app -- blueman-applet"
       ];
