@@ -33,7 +33,7 @@ in
 
       # default / catch-all
       handle {
-        respond "Unknown subdomain"
+        respond "Unknown subdomain" 404
       }
     '';
   };
