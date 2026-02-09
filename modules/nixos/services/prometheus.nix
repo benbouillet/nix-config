@@ -1,9 +1,25 @@
 {
   globals,
+  pkgs,
   lib,
   config,
   ...
 }:
+let
+  blackboxConfig = {
+    modules = {
+      http_health = {
+        prober = "http";
+        timeout = "5s";
+        http = {
+          valid_status_codes = [ 200 ];
+          method = "GET";
+          fail_if_body_not_matches_regexp = [ "^Healthy$" ];
+        };
+      };
+    };
+  };
+in
 {
   services.prometheus = {
     enable = true;
@@ -13,13 +29,52 @@
     scrapeConfigs = [
       {
         job_name = "node";
+        metrics_path = "/metrics";
         static_configs = [
           {
-            targets = [ "chewie:${toString config.services.prometheus.exporters.node.port}" ];
+            targets = [
+              "chewie:${toString globals.ports.prometheus_exporters.node}"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "blackbox";
+        metrics_path = "/probe";
+        params = {
+          module = [ "http_health" ];
+        };
+        static_configs = [
+          {
+            targets = [
+              "https://jellyfin.${globals.domain}/health"
+            ];
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
     ];
+    exporters = {
+      blackbox = {
+        enable = true;
+        port = globals.ports.prometheus_exporters.blackbox;
+        listenAddress = "0.0.0.0";
+        configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
+      };
+    };
   };
 
   services.authelia.instances."raclette".settings = {

@@ -21,9 +21,14 @@ let
       perplexica = 9031;
       paperless = 9040;
       nextcloud = 9050;
+      prometheus = 9090;
       authelia = 9091;
       debug = 9999;
       lldapWebUi = 17170;
+      prometheus_exporters = {
+        node = 9000;
+        blackbox = 9115;
+      };
     };
     users = {
       steam = {

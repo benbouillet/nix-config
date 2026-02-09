@@ -1,4 +1,5 @@
 {
+  globals,
   lib,
   inputs,
   username,
@@ -191,6 +192,6 @@
   # Monitoring
   services.prometheus.exporters.node = {
     enable = true;
-    port = 9000;
+    port = globals.ports.prometheus_exporters.node;
   };
 }
