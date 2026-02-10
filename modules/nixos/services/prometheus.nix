@@ -8,13 +8,37 @@
 let
   blackboxConfig = {
     modules = {
-      http_health = {
+      http_health_healthy = {
         prober = "http";
         timeout = "5s";
         http = {
           valid_status_codes = [ 200 ];
           method = "GET";
           fail_if_body_not_matches_regexp = [ "^Healthy$" ];
+        };
+      };
+      http_health_version = {
+        prober = "http";
+        timeout = "5s";
+        http = {
+          valid_status_codes = [ 200 ];
+          method = "GET";
+          fail_if_body_not_matches_regexp = [ "(?m)^v\\d+\\.\\d+.\\d+(-[0-9A-Za-z-]+)?$" ];
+        };
+      };
+      http_health_json = {
+        prober = "http";
+        timeout = "5s";
+        http = {
+          valid_status_codes = [ 200 ];
+          method = "GET";
+          fail_if_header_not_matches = [
+            {
+              header = "content-type";
+              regexp = "application/json";
+            }
+          ];
+          fail_if_body_not_matches_regexp = [ "\"status\": \"OK\"" ];
         };
       };
     };
@@ -39,16 +63,81 @@ in
         ];
       }
       {
-        job_name = "blackbox";
+        job_name = "blackbox-healthy";
         metrics_path = "/probe";
         params = {
-          module = [ "http_health" ];
+          module = [ "http_health_healthy" ];
         };
         static_configs = [
           {
             targets = [
               "https://jellyfin.${globals.domain}/health"
             ];
+            labels = {
+              type = "web-services";
+            };
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+          }
+        ];
+      }
+      {
+        job_name = "blackbox-json";
+        metrics_path = "/probe";
+        params = {
+          module = [ "http_health_json" ];
+        };
+        static_configs = [
+          {
+            targets = [
+              "https://sonarr.${globals.domain}/ping"
+            ];
+            labels = {
+              type = "web-services";
+            };
+          }
+        ];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+          {
+            source_labels = [ "__param_target" ];
+            target_label = "instance";
+          }
+          {
+            target_label = "__address__";
+            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+          }
+        ];
+      }
+      {
+        job_name = "blackbox-version";
+        metrics_path = "/probe";
+        params = {
+          module = [ "http_health_version" ];
+        };
+        static_configs = [
+          {
+            targets = [
+              "https://qbittorrent.${globals.domain}/api/v2/app/version"
+            ];
+            labels = {
+              type = "web-services";
+            };
           }
         ];
         relabel_configs = [
