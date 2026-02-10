@@ -4,6 +4,15 @@
   ...
 }:
 {
+  virtualisation.oci-containers.containers = {
+    "debug" = {
+      image = "traefik/whoami:v1.11";
+      ports = [
+        "127.0.0.1:${toString globals.ports.debug}:80"
+      ];
+    };
+  };
+
   services.authelia.instances."raclette".settings = {
     access_control = {
       rules = [
@@ -12,15 +21,6 @@
           policy = "one_factor";
           subject = "group:debug";
         }
-      ];
-    };
-  };
-
-  virtualisation.oci-containers.containers = {
-    "debug" = {
-      image = "traefik/whoami:v1.11";
-      ports = [
-        "127.0.0.1:${toString globals.ports.debug}:80"
       ];
     };
   };
