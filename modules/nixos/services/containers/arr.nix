@@ -16,7 +16,8 @@ in
 
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${globals.paths.mediaVolume} 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.mediaVolume}/media 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.mediaVolume}/media/torrents 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.paths.mediaVolume}/media/usenet 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/nzbget 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/bazarr 2770 root ${globals.groups.containers.name} - -"
