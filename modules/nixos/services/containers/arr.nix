@@ -205,37 +205,125 @@ in
     };
   };
 
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      rules = [
+        {
+          domain = "qbittorrent.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+        {
+          domain = "nzbget.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+        {
+          domain = "bazarr.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+        {
+          domain = "prowlarr.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+        {
+          domain = "radarr.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+        {
+          domain = "sonarr.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:arr-admins";
+        }
+      ];
+    };
+  };
+
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
+    # Health routes
+    @sonarr_ping {
+      host sonarr.${globals.domain}
+      path /ping
+    }
+    handle @sonarr_ping {
+      reverse_proxy 127.0.0.1:${toString globals.ports.sonarr}
+    }
+
+    @radarr_ping {
+      host radarr.${globals.domain}
+      path /ping
+    }
+    handle @radarr_ping {
+      reverse_proxy 127.0.0.1:${toString globals.ports.radarr}
+    }
+
+    @qbittorrent_ping {
+      host qbittorrent.${globals.domain}
+      path /api/v2/app/version
+    }
+    handle @qbittorrent_ping {
+      reverse_proxy 127.0.0.1:${toString globals.ports.qbittorrent}
+    }
+
+    # App behind OIDC
     @qbittorrent host qbittorrent.${globals.domain}
     handle @qbittorrent {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.qbittorrent}
     }
 
     @nzbget host nzbget.${globals.domain}
     handle @nzbget {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.nzbget}
     }
 
     @bazarr host bazarr.${globals.domain}
     handle @bazarr {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.bazarr}
     }
 
     @prowlarr host prowlarr.${globals.domain}
     handle @prowlarr {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.prowlarr}
     }
 
     @radarr host radarr.${globals.domain}
     handle @radarr {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.radarr}
     }
 
     @sonarr host sonarr.${globals.domain}
     handle @sonarr {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
       reverse_proxy 127.0.0.1:${toString globals.ports.sonarr}
     }
 
+    # Available on tailnet
     @jellyseerr host jellyseerr.${globals.domain}
     handle @jellyseerr {
       reverse_proxy 127.0.0.1:${toString globals.ports.jellyseerr}
