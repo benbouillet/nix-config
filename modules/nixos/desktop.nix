@@ -45,6 +45,11 @@
     useDHCP = false;
   };
 
+  systemd.network = {
+    enable = true;
+    wait-online.enable = false;
+  };
+
   boot = {
     plymouth.enable = true;
   };
