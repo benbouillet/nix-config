@@ -38,7 +38,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "gluetun" = {
-      image = "qmcgaw/gluetun:v3.41.0";
+      image = "qmcgaw/gluetun:v3.41.1";
       ports = [
         "127.0.0.1:${toString globals.ports.qbittorrent}:8090" # qbittorrent
         "127.0.0.1:${toString globals.ports.nzbget}:6789" # nzbget
