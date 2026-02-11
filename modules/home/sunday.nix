@@ -100,7 +100,7 @@ in
         "extensions.autoDisableScopes" = "0";
       };
       search = {
-        default = "DuckduckGo";
+        default = "Raclette Search";
         engines = {
           "Nix Packages" = {
             urls = [
@@ -181,9 +181,7 @@ in
           };
 
           "Raclette Search" = {
-            urls = [ { template = "https://search.raclette.beer/search?q={searchTerms}"; } ];
-            icon = "https://search.raclette.beer/static/themes/simple/img/searxng.png";
-            updateInterval = 24 * 60 * 60 * 1000; # every day
+            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}"; } ];
             definedAliases = [ "@ra" ];
           };
 
