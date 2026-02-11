@@ -164,6 +164,37 @@ in
         configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
       };
     };
+    alertmanager = {
+      enable = true;
+      webExternalUrl = "https://alerts.${globals.domain}";
+      port = globals.ports.prometheus-alertmanager;
+      listenAddress = "0.0.0.0";
+      extraFlags = [ "--cluster.listen-address=''" ];
+
+      configuration = {
+        global = {
+          # How long to wait before marking an alert as resolved
+          resolve_timeout = "5m";
+        };
+
+        # Top-level routing tree: "what receiver gets what"
+        route = {
+          receiver = "default"; # must match one of receivers[].name
+          group_by = [ "alertname" "job" ];
+          group_wait = "30s";
+          group_interval = "5m";
+          repeat_interval = "4h";
+        };
+
+        receivers = [
+          {
+            name = "default";
+            # With no integrations, this just "blackholes" alerts
+            # (useful as a starting point / for local testing)
+          }
+        ];
+      };
+    };
   };
 
   services.authelia.instances."raclette".settings = {
@@ -171,6 +202,11 @@ in
       rules = [
         {
           domain = "prometheus.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:monitoring";
+        }
+        {
+          domain = "alerts.${globals.domain}";
           policy = "one_factor";
           subject = "group:monitoring";
         }
@@ -185,8 +221,16 @@ in
         uri /api/verify?rd=https://auth.${globals.domain}
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-
       reverse_proxy 127.0.0.1:${toString config.services.prometheus.port}
+    }
+
+    @alertmanager host alerts.${globals.domain}
+    handle @alertmanager {
+      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+        uri /api/verify?rd=https://auth.${globals.domain}
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      reverse_proxy 127.0.0.1:${toString config.services.prometheus.alertmanager.port}
     }
   '';
 }
