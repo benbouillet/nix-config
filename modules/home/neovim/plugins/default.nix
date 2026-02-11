@@ -1,5 +1,6 @@
 {
   imports = [
+    ./augment.nix
     ./barbar.nix
     ./blame.nix
     ./comment.nix
