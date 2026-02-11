@@ -23,6 +23,8 @@ let
       nextcloud = 9050;
       prometheus = 9090;
       authelia = 9091;
+      prometheus-alertmanager = 9093;
+      ntfy = 9094;
       debug = 9999;
       lldapWebUi = 17170;
       prometheus_exporters = {
