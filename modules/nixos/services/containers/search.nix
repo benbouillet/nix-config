@@ -42,14 +42,14 @@ let
 
     general:
       debug: false
-      instance_name: "SearXNG"
+      instance_name: "Raclette's SearXNG"
 
     search:
       safe_search: 0
-      autocomplete: "startpage"
-      autocomplete_min: 4
-      favicon_resolver: "allesedv"
-      default_lang: "auto"
+      autocomplete: ""
+      autocomplete_min: 5
+      favicon_resolver: allesedv
+      default_lang: auto
       languages:
         - all
         - en
@@ -129,8 +129,8 @@ let
           # * personal_access_token
           # * bearer
           # When none is passed, the token is not requried.
-          type: "none"
-          token: "token"
+          type: none
+          token: token
         # specify whether to highlight the matching lines to the query
         ghc_highlight_matching_lines: true
         ghc_strip_new_lines: true

@@ -19,11 +19,8 @@
       name = username;
       id = 0;
       isDefault = true;
-      settings = {
-        "extensions.autoDisableScopes" = "0";
-      };
       search = {
-        default = "SearXNG";
+        default = "searxng-en";
         engines = {
           "Nix Packages" = {
             urls = [
@@ -103,29 +100,27 @@
             definedAliases = [ "@nd" ];
           };
 
-          "SearXNG" = {
-            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}"; } ];
-            icon = "https://search.r4clette.com/static/themes/simple/img/searxng.png";
-            updateInterval = 24 * 60 * 60 * 1000; # every day
-            definedAliases = [ "@sx" ];
+          "searxng-fr" = {
+            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}&language=fr&safesearch=0&categories=general"; } ];
+            definedAliases = [ "@fr" ];
           };
 
-          "DuckduckGo" = {
-            urls = [ { template = "https://duckduckgo.com/?t=h_&q={searchTerms}&ia=web"; } ];
-            definedAliases = [ "@ddg" ];
+          "searxng-en" = {
+            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}&language=en&safesearch=0&categories=general"; } ];
+            definedAliases = [ "@en" ];
           };
 
-          "GitHub" = {
+          "github" = {
             urls = [ { template = "https://github.com/search?q={searchTerms}&type=code"; } ];
             definedAliases = [ "@gh" ];
           };
 
-          "Wikipedia" = {
+          "wikipedia" = {
             urls = [ { template = "https://en.wikipedia.org/w/index.php?search={searchTerms}"; } ];
             definedAliases = [ "@wk" ];
           };
 
-          "Youtube" = {
+          "youtube" = {
             urls = [ { template = "https://www.youtube.com/results?search_query={searchTerms}"; } ];
             definedAliases = [ "@yt" ];
           };
@@ -135,6 +130,14 @@
       settings = {
         "security.webauth.webauthn" = true;
         "security.webauth.u2f" = true;
+
+        "extensions.autodisablescopes" = "0"; # from your first settings block
+
+        # "keyword.enabled" = false;
+
+        "browser.search.suggest.enabled" = false;
+        "browser.urlbar.suggest.searches" = false;
+        "browser.urlbar.suggest.engines" = false;
       };
 
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
