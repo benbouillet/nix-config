@@ -73,6 +73,13 @@ On the target host:
 - [x] paperless
 - [x] deploy common ports/URL config attribute set for all configs
 - [x] implemented containerized Nextcloud
+- [x] ntfy.sh
+- [ ] alerts to ntfy.sh
+- [ ] machine up alerting
+- [ ] services up alerting
+- [ ] cpu/ram pressure alerting
+- [ ] ZFS low storage alerting
+- [ ] btrfs low storage alerting
 - [ ] implement [parperless-ai](https://github.com/clusterzx/paperless-ai)
 - [ ] put gluetun on its own network (cf. https://chatgpt.com/g/g-p-6761ee636fa481918a7868fc7e6f333c-nixos/c/698124d3-5f20-8385-98d8-36dbfaa98fbd)
 - [ ] put cpu/memory limits on services
