@@ -71,6 +71,7 @@
         SMTP_NAME = "admin@${globals.domain}";
         MAIL_FROM_ADDRESS = "Raclette Admin <admin@r4clette.com>";
         MAIL_DOMAIN = globals.domain;
+        OVERWRITECLIURL = "https://nextcloud.${globals.domain}";
         OVERWRITEHOST = "nextcloud.${globals.domain}";
         OVERWRITEPROTOCOL = "https";
         TRUSTED_PROXIES = "${globals.podmanBridgeCIDR} 127.0.0.1";
@@ -106,6 +107,7 @@
           consent_mode = "implicit";
           redirect_uris = [
             "https://nextcloud.${globals.domain}/index.php/apps/user_oidc/code"
+            "https://nextcloud.${globals.domain}/apps/user_oidc/code"
           ];
           scopes = [
             "openid"
