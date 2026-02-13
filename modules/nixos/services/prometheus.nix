@@ -43,6 +43,65 @@ let
       };
     };
   };
+
+  rulesYml = pkgs.writeText "services-alerts.yml" ''
+    groups:
+      - name: services-basics
+        rules:
+          - alert: serviceDown
+            expr: probe_success == 0
+            for: 1m
+            labels:
+              severity: info
+              type: web-services
+              team: platform
+            annotations:
+              summary: "Service down: {{ $labels.instance }}"
+              description: "Prometheus has not been able to reach this services for 5 minutes."
+
+      - name: infra-basics
+        rules:
+          - alert: HostMemoryPressure
+            expr: |
+              (
+                1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+              ) > 0.90
+            for: 10m
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "High memory pressure on {{ $labels.instance }}"
+              description: "MemAvailable < 5% for 10 minutes."
+              runbook_url: "https://runbooks.example.com/memory-pressure"
+
+      - name: prometheus-self
+        rules:
+          - alert: PrometheusScrapeFailures
+            expr: increase(prometheus_target_scrapes_exceeded_sample_limit_total[10m]) > 0
+               or increase(prometheus_target_scrapes_sample_duplicate_timestamp_total[10m]) > 0
+               or increase(prometheus_target_scrapes_sample_out_of_order_total[10m]) > 0
+               or increase(prometheus_target_scrapes_sample_out_of_bounds_total[10m]) > 0
+            for: 5m
+            labels:
+              severity: info
+              team: platform
+            annotations:
+              summary: "Prometheus scrape quality issues"
+              description: "Samples are being rejected (limit/duplicate/out-of-order/out-of-bounds)."
+              runbook_url: "https://runbooks.example.com/prom-scrape-issues"
+
+          - alert: PrometheusRuleEvaluationFailures
+            expr: increase(prometheus_rule_evaluation_failures_total[10m]) > 0
+            for: 5m
+            labels:
+              severity: info
+              team: platform
+            annotations:
+              summary: "Prometheus rule evaluation failures"
+              description: "Some rules failed to evaluate in the last 10 minutes."
+              runbook_url: "https://runbooks.example.com/prom-rule-fail"
+  '';
 in
 {
   services.prometheus = {
@@ -50,6 +109,7 @@ in
     port = globals.ports.prometheus;
     globalConfig.scrape_interval = "10s";
     webExternalUrl = "https://prometheus.${globals.domain}";
+    ruleFiles = [ rulesYml ];
     scrapeConfigs = [
       {
         job_name = "node";
