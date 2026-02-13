@@ -44,7 +44,7 @@
 
   virtualisation.oci-containers.containers = {
     "nextcloud" = {
-      image = "docker.io/nextcloud:32.0.5";
+      image = "docker.io/nextcloud:32.0.6";
       ports = [
         "127.0.0.1:${toString globals.ports.nextcloud}:80"
       ];
