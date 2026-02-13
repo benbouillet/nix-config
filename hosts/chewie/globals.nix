@@ -24,6 +24,7 @@ let
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9093;
+      prometheus-alertmanager-ntfy = 9095;
       ntfy = 9094;
       debug = 9999;
       lldapWebUi = 17170;
