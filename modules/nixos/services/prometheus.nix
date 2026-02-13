@@ -216,6 +216,15 @@ in
         ];
       }
     ];
+    alertmanagers = [
+      {
+        static_configs = [
+          { targets = [ "127.0.0.1:${toString config.services.prometheus.alertmanager.port}" ]; }
+        ];
+      }
+    ];
+
+    # Blackbox exporter - should be moved to another host
     exporters = {
       blackbox = {
         enable = true;
@@ -224,35 +233,91 @@ in
         configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
       };
     };
+
+    # Alert manager
     alertmanager = {
       enable = true;
       webExternalUrl = "https://alerts.${globals.domain}";
       port = globals.ports.prometheus-alertmanager;
-      listenAddress = "0.0.0.0";
-      extraFlags = [ "--cluster.listen-address=''" ];
+      listenAddress = "127.0.0.1";
+      extraFlags = [ "--cluster.listen-address=" ];
 
       configuration = {
         global = {
-          # How long to wait before marking an alert as resolved
           resolve_timeout = "5m";
         };
 
-        # Top-level routing tree: "what receiver gets what"
         route = {
-          receiver = "default"; # must match one of receivers[].name
-          group_by = [ "alertname" "job" ];
-          group_wait = "30s";
-          group_interval = "5m";
-          repeat_interval = "4h";
+          receiver = "ntfy";
+          group_by = [
+            "alertname"
+            "job"
+          ];
+          group_wait = "10s";
+          group_interval = "30s";
+          repeat_interval = "1h";
         };
 
         receivers = [
           {
-            name = "default";
-            # With no integrations, this just "blackholes" alerts
-            # (useful as a starting point / for local testing)
+            name = "ntfy";
+            webhook_configs = [
+              {
+                url = "http://${toString config.services.prometheus.alertmanager-ntfy.settings.http.addr}/hook";
+                send_resolved = true;
+              }
+            ];
           }
         ];
+      };
+    };
+
+    alertmanager-ntfy = {
+      enable = true;
+      settings = {
+        http.addr = "127.0.0.1:${toString globals.ports.prometheus-alertmanager-ntfy}";
+        ntfy = {
+          baseurl = "https://ntfy.${globals.domain}";
+          notification = {
+            topic = "chewie";
+            priority = ''
+              status == "resolved"
+                ? "default"
+                : labels["severity"] == "critical"
+                  ? "urgent"
+                  : labels["severity"] == "warning"
+                    ? "high"
+                    : labels["severity"] == "info"
+                      ? "default"
+                      : "default"
+            '';
+            tags = [
+              {
+                tag = "+1";
+                condition = "status == \"resolved\"";
+              }
+              {
+                tag = "rotating_light";
+                condition = "status == \"firing\"";
+              }
+              {
+                tag = "{{ index .Labels \"severity\" }}";
+              }
+            ];
+            templates = {
+              title = ''
+                {{ if eq .Status "resolved" }}Resolved: {{ end }}{{ index .Annotations "summary" }}
+              '';
+              description = ''
+                {{ index .Annotations "description" }}
+              '';
+              headers = {
+                "X-Click" = "{{ .GeneratorURL }}";
+              };
+            };
+          };
+          async = false;
+        };
       };
     };
   };
