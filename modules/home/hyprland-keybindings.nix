@@ -51,6 +51,9 @@ in
         bindd = [
           "${modifier}SHIFT,XF86AudioRaiseVolume,Choose Audio Output,exec,${selectOutput}"
           "${modifier}SHIFT,XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
+          "${modifier},XF86AudioPrev,Previous Track,exec,playerctl previous"
+          "${modifier},XF86AudioNext,Next Track,exec,playerctl next"
+          "${modifier},XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
           ",XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           "${modifier},XF86AudioMute,Mute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
           "${modifier},Return,Open ${terminal},exec,${terminal}"
