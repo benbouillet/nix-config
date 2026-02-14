@@ -61,6 +61,8 @@
 
       # Folding
       foldlevel = 99; # Folds with a level higher than this number will be closed
+
+      hlsearch = false; # <-- disable highlight after search & replace
     };
   };
 }
