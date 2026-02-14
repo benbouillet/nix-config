@@ -7,6 +7,17 @@
 let
   git_email = "ben.bouillet@sundayapp.com";
   git_name = "Ben Bouillet";
+  sundayStart = pkgs.writeShellScriptBin "sunday-start" ''
+    set -e
+
+    ${pkgs.chromium}/bin/chromium-browser \
+      "https://app.v2.gather.town/app/sunday-a6ea157f-0c3c-4a79-b8d0-2c04c8a97015" &
+
+    ${pkgs.slack}/bin/slack &
+
+    ${pkgs.hyprland}/bin/hyprctl dispatch workspace 5
+    ${pkgs.firefox}/bin/firefox -P sundayapp &
+  '';
 in
 {
   home = {
@@ -42,19 +53,14 @@ in
   };
 
   xdg.desktopEntries = {
+    sunday-start = {
+      name = "Start Sundayapp";
+      exec = "${sundayStart}/bin/sunday-start";
+      terminal = false;
+    };
     firefox = {
       name = "Firefox - sundayapp";
       exec = "firefox -P sundayapp";
-      terminal = false;
-      categories = [
-        "Application"
-        "Network"
-        "WebBrowser"
-      ];
-    };
-    chromium = {
-      name = "Chromium - sundayapp";
-      exec = "chromium-browser";
       terminal = false;
       categories = [
         "Application"
