@@ -129,6 +129,13 @@ with lib;
         "match:class gamescope, fullscreen on"
         "match:class gamescope, workspace 10"
         "match:class ^(tofi)$, center on"
+        "match:class ^(tofi)$, center on"
+        "match:class ^(chromium-browser)$, workspace 1"
+        "match:class ^(chromium-browser)$, fullscreen on"
+        "match:class ^(Slack)$, workspace 2"
+        "match:class ^(Slack)$, fullscreen on"
+        "match:class ^(Altus)$, workspace 3"
+        "match:class ^(Altus)$, fullscreen on"
       ];
       gesture = [
         "4,horizontal,workspace"
