@@ -51,52 +51,26 @@ On the target host:
 
 ```
 
-# TO DO
-- [x] `swappy`
-- [x] code snippet screenshot tool (check [medium](https://medium.com/sysf/taking-easy-screenshots-of-your-code-with-this-awesome-cli-tool-bcc43aec653a))
-- [x] Server: searxng
-- [x] Server: steam
-- [x] Server: ollama
-- [x] Server: open-webui
-- [x] Server: Impermanence
-- [x] Server: SSO with Authelia
-- [x] Server: OIDC with Authelia
-- [x] Server: SMTP with Authelia
-- [x] Better impermanence mounts
-- [x] Podman auto prune
-- [x] nix store garbage collection
-- [x] change tmpfs upper limit
-- [x] solve the chewie tailscale registration at each reboot
-- [x] implemented logind for closing lid lock
-- [x] Solve the opencloud-desktop Oauth flow issue
-- [x] deploy redis/valkey for persistent session in Authelia
-- [x] paperless
-- [x] deploy common ports/URL config attribute set for all configs
-- [x] implemented containerized Nextcloud
-- [x] ntfy.sh
-- [ ] alerts to ntfy.sh
-- [ ] machine up alerting
-- [ ] services up alerting
-- [ ] cpu/ram pressure alerting
-- [ ] ZFS low storage alerting
-- [ ] btrfs low storage alerting
-- [ ] implement [parperless-ai](https://github.com/clusterzx/paperless-ai)
-- [ ] put gluetun on its own network (cf. https://chatgpt.com/g/g-p-6761ee636fa481918a7868fc7e6f333c-nixos/c/698124d3-5f20-8385-98d8-36dbfaa98fbd)
-- [ ] put cpu/memory limits on services
-- [ ] deploy redis/valkey for searxng
-- [ ] server: logs
-- [ ] server: observability
-- [ ] server: uptime monitoring
-- [ ] server: alerting
-- [ ] Server: [recyclarr](https://recyclarr.dev/guide/getting-started/)
-- [ ] Server: [mealie](https://mealie.io/)
-- [ ] Blogging
-- [ ] `zed` for server
-- [ ] Server: foundryvtt
-- [ ] Server: lubelogger
-- [ ] Server: perplexica
-- [ ] Check on tmux shortcuts
-- [ ] investigate LF (see [Vimjoyer's video](https://www.youtube.com/watch?v=z8y_qRUYEWU))
+# Features
+- [x] Tailscale-backed network layout
+- [x] Server hardening
+- [x] OCI containers deployment
+- [x] nix modules deployment
+- [x] ZFS datasets with at rest encryption
+- [x] KVM compatible workflow for reboot
+- [x] Impermanence
+- [x] Reverse proxy
+- [x] OIDC + SSO
+- [x] Alerting
+- [x] Monitoring
+- [ ] Observability
+- [ ] Logs management
+- [ ] Per container service CPU/memory limits
+- [ ] Per nix service CPU/memory limits
+- [ ] Dedicated node for blackbox monitoring
+- [ ] Dedicated node for PSU monitoring
+- [ ] Dedicated node for alertign
+- [ ] Dedicated node for backup
 
 # Configuring SOPS
 
