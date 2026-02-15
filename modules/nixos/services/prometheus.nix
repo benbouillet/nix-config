@@ -61,19 +61,31 @@ let
 
       - name: infra-basics
         rules:
+          - alert: OomKills
+            expr: |
+              increase(node_vmstat_oom_kill[5m]) > 0
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "OOM on: {{ $labels.instance }}"
+              description: "OOM kill detected on {{ $labels.instance }}."
           - alert: HostMemoryPressure
             expr: |
               (
-                1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
-              ) > 0.90
+                node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.10
+              )
+              and
+              (
+                rate(node_vmstat_pswpout[5m]) > 0
+              )
             for: 10m
             labels:
               severity: warning
               team: platform
             annotations:
               summary: "High memory pressure on {{ $labels.instance }}"
-              description: "MemAvailable < 5% for 10 minutes."
-              runbook_url: "https://runbooks.example.com/memory-pressure"
+              description: "MemAvailable < 10% for 10 minutes with kernel actively pushing pages to swap."
 
       - name: prometheus-self
         rules:
