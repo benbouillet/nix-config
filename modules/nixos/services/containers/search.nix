@@ -30,10 +30,10 @@ let
           - podcastindex
           - radio browser
           - reddit
+          - duckduckgo
+          - duckduckgo images
+          - duckduckgo videos
           - stackoverflow
-          - startpage
-          - startpage news
-          - startpage images
           - steam
           - senscritique
           - ahmia
@@ -46,9 +46,9 @@ let
 
     search:
       safe_search: 0
-      autocomplete: ""
-      autocomplete_min: 5
-      favicon_resolver: allesedv
+      autocomplete: duckduckgo
+      autocomplete_min: 4
+      favicon_resolver: duckduckgo
       default_lang: auto
       languages:
         - all
@@ -169,21 +169,25 @@ let
         shortcut: st
         api_site: 'stackoverflow'
         categories: [it, q&a]
-      - name: startpage
-        engine: startpage
-        shortcut: sp
-        startpage_categ: web
-        categories: [general, web]
-      - name: startpage news
-        engine: startpage
-        startpage_categ: news
-        categories: [news, web]
-        shortcut: spn
-      - name: startpage images
-        engine: startpage
-        startpage_categ: images
+      - name: duckduckgo
+        engine: duckduckgo
+        shortcut: ddg
+      - name: duckduckgo images
+        engine: duckduckgo_extra
         categories: [images, web]
-        shortcut: spi
+        ddg_category: images
+        shortcut: ddi
+      - name: duckduckgo videos
+        engine: duckduckgo_extra
+        categories: [videos, web]
+        ddg_category: videos
+        shortcut: ddv
+      - name: duckduckgo news
+        engine: duckduckgo_extra
+        categories: [news, web]
+        ddg_category: news
+        shortcut: ddn
+        disabled: true
       - name: steam
         engine: steam
         shortcut: stm
@@ -237,6 +241,7 @@ in
         SEARXNG_VALKEY_URL = "valkey://host.containers.internal:${
           toString config.services.redis.servers."raclette".port
         }";
+        FORCE_OWNERSHIP = "false";
       };
       environmentFiles = [
         config.sops.secrets."services/searxng/env".path
