@@ -90,10 +90,11 @@ let
       - name: prometheus-self
         rules:
           - alert: PrometheusScrapeFailures
-            expr: increase(prometheus_target_scrapes_exceeded_sample_limit_total[10m]) > 0
-               or increase(prometheus_target_scrapes_sample_duplicate_timestamp_total[10m]) > 0
-               or increase(prometheus_target_scrapes_sample_out_of_order_total[10m]) > 0
-               or increase(prometheus_target_scrapes_sample_out_of_bounds_total[10m]) > 0
+            expr: |
+              increase(prometheus_target_scrapes_exceeded_sample_limit_total[10m]) > 0
+              or increase(prometheus_target_scrapes_sample_duplicate_timestamp_total[10m]) > 0
+              or increase(prometheus_target_scrapes_sample_out_of_order_total[10m]) > 0
+              or increase(prometheus_target_scrapes_sample_out_of_bounds_total[10m]) > 0
             for: 5m
             labels:
               severity: info
