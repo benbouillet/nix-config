@@ -56,12 +56,60 @@ let
               type: web-services
               team: platform
             annotations:
-              summary: "Service down: {{ $labels.instance }}"
-              description: "Prometheus has not been able to reach this services for 5 minutes."
+              summary: "Service down: `{{ $labels.instance }}`"
+              description: "Service `{{ $labels.instance }}` has been unreachable for the last 5 minutes."
+
+      - name: storage
+        rules:
+          - alert: zfsUnhealthy
+            expr: |
+              zfs_pool_health{state="degraded"} > 0
+              or zfs_pool_health{state="faulted"} > 0
+              or zfs_pool_health{state="offline"} > 0
+              or zfs_pool_health{state="removed"} > 0
+              or zfs_pool_health{state="suspended"} > 0
+              or zfs_pool_health{state="unavail"} > 0
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "Zpool unhealthy on `{{ $labels.instance }}`"
+              description: "ZFS pool `{{ $labels.zpool }}` on `{{ $labels.instance }}` is in state `{{ $labels.state }}`."
+          - alert: zfsPoolLowCapacity
+            expr: |
+              (zfs_pool_allocated_bytes / zfs_pool_size_bytes) > 0.80
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "Zpool low capacity on `{{ $labels.instance }}`"
+              description: "ZFS pool `{{ $labels.pool }}` on `{{ $labels.instance }}` is above 80% capacity."
+          - alert: zfsDatasetLowCapacity
+            expr: |
+              zfs_dataset_used_bytes
+              /
+              (zfs_dataset_used_bytes + zfs_dataset_available_bytes) > 0.85
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "ZFS Dataset low capacity on `{{ $labels.instance }}`"
+              description: "ZFS dataset `{{ $labels.name }}` on pool `{{ $labels.pool }}` on host `{{ $labels.instance }}` is above 85% capacity."
+          - alert: btrfsDatasetLowCapacity
+            expr: |
+              1 - (node_filesystem_avail_bytes{fstype="btrfs",mountpoint="/persist"}/
+              node_filesystem_size_bytes{fstype="btrfs",mountpoint="/persist"}) > 0.85
+            labels:
+              severity: warning
+              team: platform
+            annotations:
+              summary: "Root disk low capacity on `{{ $labels.instance }}`"
+              description: "Btrfs root disk `{{ $labels.mountpoint }}` on host `{{ $labels.instance }}` is above 85% capacity."
+
 
       - name: infra-basics
         rules:
-          - alert: OomKills
+          - alert: oomKill
             expr: |
               increase(node_vmstat_oom_kill[5m]) > 0
             labels:
@@ -69,7 +117,7 @@ let
               team: platform
             annotations:
               summary: "OOM on: {{ $labels.instance }}"
-              description: "OOM kill detected on {{ $labels.instance }}."
+              description: "Out-of-memory process kill detected on `{{ $labels.instance }}`."
           - alert: HostMemoryPressure
             expr: |
               (
@@ -85,7 +133,7 @@ let
               team: platform
             annotations:
               summary: "High memory pressure on {{ $labels.instance }}"
-              description: "MemAvailable < 10% for 10 minutes with kernel actively pushing pages to swap."
+              description: "MemAvailable < 10% for 10 minutes with kernel actively pushing pages to swap on host `{{ $labels.instance }}`."
 
       - name: prometheus-self
         rules:
@@ -225,6 +273,17 @@ in
           {
             target_label = "__address__";
             replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+          }
+        ];
+      }
+      {
+        job_name = "zfs";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = [
+              "chewie:${toString globals.ports.prometheus_exporters.zfs}"
+            ];
           }
         ];
       }
