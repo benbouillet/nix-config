@@ -51,6 +51,8 @@ in
         bindd = [
           "${modifier}SHIFT,XF86AudioRaiseVolume,Choose Audio Output,exec,${selectOutput}"
           "${modifier}SHIFT,XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
+          "${modifier},XF86MonBrightnessUp,Increase Keyboard Brightness,exec,brightnessctl --device='framework_laptop::kbd_backlight' set 20%+"
+          "${modifier},XF86MonBrightnessDown,Decrease Keyboard Brightness,exec,brightnessctl --device='framework_laptop::kbd_backlight' set 20%-"
           "${modifier},XF86AudioPrev,Previous Track,exec,playerctl previous"
           "${modifier},XF86AudioNext,Next Track,exec,playerctl next"
           "${modifier},XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
