@@ -21,6 +21,11 @@ let
       perplexica = 9031;
       paperless = 9040;
       nextcloud = 9050;
+      opencloud = {
+        proxy = 9051;
+        webdav = 9052;
+        debug = 9053;
+      };
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9093;
@@ -51,6 +56,10 @@ let
         name = "lldap";
         UID = 931;
       };
+      opencloud = {
+        name = "opencloud";
+        UID = 940;
+      };
     };
     groups = {
       authentication = {
@@ -69,6 +78,10 @@ let
         name = "containers";
         GID = 993;
       };
+      opencloud = {
+        name = "opencloud";
+        GID = 940;
+      };
     };
     paths = {
       paperlessMedia = "/srv/documents";
@@ -77,6 +90,7 @@ let
       models = "/srv/models";
       mediaVolume = "/srv/arrdata";
       nextcloud = "/srv/nextcloud";
+      opencloud = "/srv/opencloud";
       postgres = "/srv/postgres";
     };
     podmanBridgeCIDR = "10.88.0.0/16";
