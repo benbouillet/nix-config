@@ -12,7 +12,7 @@
 
   virtualisation.oci-containers.containers = {
     "ollama" = {
-      image = "ollama/ollama:0.16.1";
+      image = "ollama/ollama:0.16.2";
       ports = [
         "127.0.0.1:${toString globals.ports.ollama}:11434"
       ];
