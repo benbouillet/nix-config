@@ -85,7 +85,7 @@
       web.web.config.oidc = {
         metadata_url = "https://auth.${globals.domain}/.well-known/openid-configuration";
         authority = "https://auth.${globals.domain}";
-        client_id = "opencloud";
+        client_id = "web";
         scope = "openid profile email groups";
         response_type = "code";
       };
@@ -123,7 +123,7 @@
       };
       clients = [
         {
-          client_id = "opencloud";
+          client_id = "web";
           client_name = "Opencloud";
           public = true;
           authorization_policy = "one_factor";
@@ -168,6 +168,7 @@
           ];
           claims_policy = "opencloud";
           userinfo_signed_response_alg = "none";
+          response_types = [ "code" ];
         }
         {
           client_id = "OpenCloudAndroid";
@@ -191,6 +192,7 @@
           ];
           claims_policy = "opencloud";
           userinfo_signed_response_alg = "none";
+          response_types = [ "code" ];
         }
       ];
     };
