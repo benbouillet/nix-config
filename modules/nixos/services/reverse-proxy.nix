@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   globals,
   ...
@@ -21,7 +22,7 @@ in
     enable = true;
     package = caddyWithCloudflare;
     environmentFile = config.sops.secrets."caddy/chewie".path;
-    virtualHosts."*.${globals.domain}".extraConfig = ''
+    virtualHosts."*.${globals.domain}".extraConfig = lib.mkOrder 9999 ''
       tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
       }
