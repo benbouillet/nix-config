@@ -26,6 +26,7 @@ let
         webdav = 9052;
         debug = 9053;
       };
+      seafile = 9054;
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9093;
@@ -60,6 +61,10 @@ let
         name = "opencloud";
         UID = 940;
       };
+      seafile = {
+        name = "seafile";
+        UID = 950;
+      };
     };
     groups = {
       authentication = {
@@ -81,6 +86,10 @@ let
       opencloud = {
         name = "opencloud";
         GID = 940;
+      };
+      seafile = {
+        name = "seafile";
+        GID = 950;
       };
     };
     paths = {
