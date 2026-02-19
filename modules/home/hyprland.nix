@@ -57,6 +57,7 @@ with lib;
     settings = {
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS"
         "systemctl --user enable --now hyprpolkitagent.service"
         "uwsm app -- nm-applet --indicator"
         "uwsm app -- blueman-applet"
