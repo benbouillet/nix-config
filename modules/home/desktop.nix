@@ -84,4 +84,18 @@
     enable = true;
     platformTheme.name = "gtk";
   };
+  #
+  # systemd.user.services.opencloud = {
+  #   Unit = {
+  #     Description = "OpenCloud Desktop Client";
+  #     After = [ "graphical-session.target" ];
+  #   };
+  #   Service = {
+  #     ExecStart = "${pkgs.opencloud-desktop}/bin/opencloud --logfile -";
+  #     Restart = "on-failure";
+  #   };
+  #   Install = {
+  #     WantedBy = [ "default.target" ];
+  #   };
+  # };
 }

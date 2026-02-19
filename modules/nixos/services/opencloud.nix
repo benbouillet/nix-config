@@ -46,7 +46,7 @@
         oidc.access_token_verify_method = "none";
 
         role_assignment = {
-          driver = "oidc";
+          driver = "default";
           oidc_role_mapper = {
             role_claim = "groups";
             role_mapping = [
