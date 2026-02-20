@@ -3,6 +3,7 @@ let
   globals = {
     domain = "r4clette.com";
     ports = {
+      mysql = 3306;
       lldapLdap = 3890;
       postgres = 5432;
       redis = 6379;
