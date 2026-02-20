@@ -28,6 +28,7 @@ let
         debug = 9053;
       };
       seafile = 9054;
+      seafile-notification-server = 9055;
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9093;

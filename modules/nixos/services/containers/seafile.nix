@@ -136,33 +136,23 @@
       NON_ROOT = "false";
       SEAFILE_LOG_TO_STDOUT = "true";
 
-      # Admin Configuration (only used on first setup)
-      INIT_SEAFILE_ADMIN_EMAIL = "benbouillet@pm.me";
-      INIT_SEAFILE_ADMIN_PASSWORD = "foobarbfoo";
-
       # MySQL/MariaDB Configuration
       SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
       SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
       SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
-      # SEAFILE_MYSQL_DB_PASSWORD
-      # INIT_SEAFILE_MYSQL_ROOT_PASSWORD
       SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
       SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
       SEAFILE_MYSQL_DB_SEAHUB_DB_NAME = "seahub_db";
-
-      # JWT Configuration
-      # JWT_PRIVATE_KEY
 
       # Cache Configuration (Redis)
       CACHE_PROVIDER = "redis";
       REDIS_HOST = "host.containers.internal";
       REDIS_PORT = toString globals.ports.redis;
-      # REDIS_PASSWORD = "";
 
       # Notification Server #### TO CHANGE !!!! ###
-      ENABLE_NOTIFICATION_SERVER = "false";
-      # INNER_NOTIFICATION_SERVER_URL = "http://notification-server:8083";
-      # NOTIFICATION_SERVER_URL = "https://${domain}/notification";
+      ENABLE_NOTIFICATION_SERVER = "true";
+      INNER_NOTIFICATION_SERVER_URL = "http://seafile-notification-server:8083";
+      NOTIFICATION_SERVER_URL = "https://seafile.${globals.domain}/notification";
 
       # SeaDoc Configuration (disabled - not running seadoc container)
       ENABLE_SEADOC = "false";
