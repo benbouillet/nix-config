@@ -129,8 +129,8 @@
     environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
     environment = {
       SEAFILE_SERVER_HOSTNAME = "seafile.${globals.domain}";
-      SEAFILE_SERVER_PROTOCOL = "http";
-      FORCE_HTTPS_IN_CONF = "false";
+      SEAFILE_SERVER_PROTOCOL = "https";
+      FORCE_HTTPS_IN_CONF = "true";
       TIME_ZONE = "Etc/UTC";
       SITE_ROOT = "/";
       NON_ROOT = "false";
