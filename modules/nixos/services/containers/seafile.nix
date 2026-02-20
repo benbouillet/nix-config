@@ -165,10 +165,58 @@
     };
   };
 
+  virtualisation.oci-containers.containers.seafile-notification-server = {
+    image = "seafileltd/notification-server:13.0.10";
+    autoStart = true;
+    volumes = [
+      "/srv/seafile:/shared/seafile"
+    ];
+    ports = [ "127.0.0.1:${toString globals.ports.seafile-notification-server}:8083" ];
+    environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
+    environment = {
+      SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
+      SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
+      SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
+      SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
+      SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
+      SEAFILE_LOG_TO_STDOUT = "true";
+      NOTIFICATION_SERVER_LOG_LEVEL = "info";
+    };
+  };
+
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      rules = [
+        {
+          domain = "seafile.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:debug";
+        }
+      ];
+    };
+  };
+
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
     @seafile host seafile.${globals.domain}
     handle @seafile {
-      reverse_proxy 127.0.0.1:${toString globals.ports.seafile}
+      @notif path /notification*
+      handle @notif {
+        reverse_proxy 127.0.0.1:${toString globals.ports.seafile-notification-server}
+      }
+
+      @api path /api2/* /api/v2.1/* /seafhttp* /seafdav*
+      handle @api {
+        reverse_proxy 127.0.0.1:${toString globals.ports.seafile}
+      }
+
+      handle {
+        forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
+          uri /api/verify?rd=https://auth.${globals.domain}
+          copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+        }
+
+        reverse_proxy 127.0.0.1:${toString globals.ports.seafile}
+      }
     }
   '';
 }
