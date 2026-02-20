@@ -79,7 +79,7 @@
   # };
 
   # virtualisation.oci-containers.containers.seafile = {
-  #   image = "seafileltd/seafile-mc:13.0.17";
+  #   image = "seafileltd/seafile-mc:13.0.18";
   #   autoStart = true;
   #   # volumes = [
   #   #   "/srv/seafile/data:/shared"
