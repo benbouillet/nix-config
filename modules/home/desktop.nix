@@ -86,17 +86,17 @@
     platformTheme.name = "gtk";
   };
 
-  # systemd.user.services.seafile = {
-  #   Unit = {
-  #     Description = "Seafile Desktop Client";
-  #     After = [ "graphical-session.target" ];
-  #   };
-  #   Service = {
-  #     ExecStart = "${pkgs.seafile-client}/bin/seafile-applet";
-  #     Restart = "on-failure";
-  #   };
-  #   Install = {
-  #     WantedBy = [ "default.target" ];
-  #   };
-  # };
+  systemd.user.services.seafile = {
+    Unit = {
+      Description = "Seafile Desktop Client";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.seafile-client}/bin/seafile-applet";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
 }
