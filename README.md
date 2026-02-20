@@ -65,6 +65,7 @@ On the target host:
 - [x] Monitoring
 - [ ] Observability
 - [ ] Logs management
+- [ ] Containers logs management
 - [ ] Per container service CPU/memory limits
 - [ ] Per nix service CPU/memory limits
 - [ ] Dedicated node for blackbox monitoring
