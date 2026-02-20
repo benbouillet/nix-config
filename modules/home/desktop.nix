@@ -15,6 +15,7 @@
     moonlight-qt
     carbon-now-cli
     swappy
+    seafile-client
   ];
 
   programs = {
@@ -84,14 +85,14 @@
     enable = true;
     platformTheme.name = "gtk";
   };
-  #
-  # systemd.user.services.opencloud = {
+
+  # systemd.user.services.seafile = {
   #   Unit = {
-  #     Description = "OpenCloud Desktop Client";
+  #     Description = "Seafile Desktop Client";
   #     After = [ "graphical-session.target" ];
   #   };
   #   Service = {
-  #     ExecStart = "${pkgs.opencloud-desktop}/bin/opencloud --logfile -";
+  #     ExecStart = "${pkgs.seafile-client}/bin/seafile-applet";
   #     Restart = "on-failure";
   #   };
   #   Install = {
