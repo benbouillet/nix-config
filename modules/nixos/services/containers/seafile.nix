@@ -115,17 +115,17 @@
   virtualisation.oci-containers.containers.seafile = {
     image = "seafileltd/seafile-mc:13.0.18";
     autoStart = true;
-    # volumes = [
-    #   "/srv/seafile/data:/shared"
-    # ];
+    volumes = [
+      "/srv/seafile:/shared/seafile"
+    ];
     ports = [ "127.0.0.1:${toString globals.ports.seafile}:80" ];
-    # extraOptions = [
-    #   "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
-    #   "--health-interval=30s"
-    #   "--health-timeout=10s"
-    #   "--health-retries=5"
-    #   "--health-start-period=120s"
-    # ];
+    extraOptions = [
+      "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
+      "--health-interval=30s"
+      "--health-timeout=10s"
+      "--health-retries=5"
+      "--health-start-period=120s"
+    ];
     environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
     environment = {
       SEAFILE_SERVER_HOSTNAME = "seafile.${globals.domain}";

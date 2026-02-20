@@ -101,6 +101,7 @@ let
       mediaVolume = "/srv/arrdata";
       nextcloud = "/srv/nextcloud";
       opencloud = "/srv/opencloud";
+      seafile = "/srv/seafile";
       postgres = "/srv/postgres";
     };
     podmanBridgeCIDR = "10.88.0.0/16";
