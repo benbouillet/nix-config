@@ -22,11 +22,6 @@ let
       perplexica = 9031;
       paperless = 9040;
       nextcloud = 9050;
-      opencloud = {
-        proxy = 9051;
-        webdav = 9052;
-        debug = 9053;
-      };
       seafile = 9054;
       seafile-notification-server = 9055;
       prometheus = 9090;
@@ -59,10 +54,6 @@ let
         name = "lldap";
         UID = 931;
       };
-      opencloud = {
-        name = "opencloud";
-        UID = 940;
-      };
       seafile = {
         name = "seafile";
         UID = 950;
@@ -85,10 +76,6 @@ let
         name = "containers";
         GID = 993;
       };
-      opencloud = {
-        name = "opencloud";
-        GID = 940;
-      };
       seafile = {
         name = "seafile";
         GID = 950;
@@ -101,7 +88,6 @@ let
       models = "/srv/models";
       mediaVolume = "/srv/arrdata";
       nextcloud = "/srv/nextcloud";
-      opencloud = "/srv/opencloud";
       seafile = "/srv/seafile";
       postgres = "/srv/postgres";
     };
