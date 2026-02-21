@@ -33,6 +33,13 @@
     enable = true;
     interval = "hourly";
     templates = {
+      "databases" = {
+        autosnap = true;
+        autoprune = true;
+        hourly = 24;
+        daily = 7;
+        weekly = 0;
+      };
       "containers" = {
         autosnap = true;
         autoprune = true;

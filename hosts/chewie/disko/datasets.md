@@ -85,3 +85,38 @@ sudo zfs create \
   -o xattr=sa \
   hdd/documents
 ```
+
+# Databases
+```sh
+sudo zfs create -o mountpoint=none ssd/db
+sudo zfs create \
+  -o mountpoint=/srv/db/postgres \
+  -o quota=5G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=restricted \
+  -o aclmode=discard \
+  -o dnodesize=auto \
+  -o recordsize=8K \
+  -o primarycache=all \
+  -o logbias=latency \
+  ssd/db/postgres
+sudo zfs create \
+  -o mountpoint=/srv/db/mysql \
+  -o quota=5G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=restricted \
+  -o aclmode=discard \
+  -o dnodesize=auto \
+  -o recordsize=16K \
+  -o primarycache=all \
+  -o logbias=latency \
+  ssd/db/mysql
+```

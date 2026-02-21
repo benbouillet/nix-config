@@ -91,6 +91,14 @@ let
       seafile = "/srv/seafile";
       postgres = "/srv/postgres";
     };
+    zfs = {
+      databases = {
+        mysql = {
+          name = "ssd/db/mysql";
+          mountPoint = "/srv/db/mysql";
+        };
+      };
+    };
     podmanBridgeCIDR = "10.88.0.0/16";
   };
 in

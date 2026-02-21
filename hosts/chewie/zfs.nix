@@ -32,6 +32,12 @@
   # Snapshots
   ########################################
   services.sanoid.datasets = {
-    "ssd/containers".use_template = [ "containers" ];
+    "ssd/containers" = {
+      use_template = [ "containers" ];
+    };
+    "ssd/db" = {
+      use_template = [ "databases" ];
+      recursive = true;
+    };
   };
 }
