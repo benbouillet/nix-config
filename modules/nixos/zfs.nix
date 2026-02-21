@@ -28,4 +28,18 @@
   ########################################
   virtualisation.libvirtd.enable = true;
   zramSwap.enable = true;
+
+  services.sanoid = {
+    enable = true;
+    interval = "hourly";
+    templates = {
+      "containers" = {
+        autosnap = true;
+        autoprune = true;
+        hourly = 6;
+        daily = 3;
+        weekly = 2;
+      };
+    };
+  };
 }

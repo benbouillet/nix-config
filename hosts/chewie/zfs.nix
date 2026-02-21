@@ -27,4 +27,11 @@
     listenAddress = "0.0.0.0";
     port = globals.ports.prometheus_exporters.zfs;
   };
+
+  ########################################
+  # Snapshots
+  ########################################
+  services.sanoid.datasets = {
+    "ssd/containers".use_template = [ "containers" ];
+  };
 }
