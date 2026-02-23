@@ -14,7 +14,7 @@
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_18;
-    dataDir = globals.paths.postgres;
+    dataDir = globals.zfs.databases.postgres.mountPoint;
     settings = {
       listen_addresses = lib.mkForce "*";
       port = globals.ports.postgres;

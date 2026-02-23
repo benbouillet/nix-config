@@ -93,6 +93,10 @@ let
     };
     zfs = {
       databases = {
+        postgres = {
+          name = "ssd/db/postgres";
+          mountPoint = "/srv/db/postgres";
+        };
         mysql = {
           name = "ssd/db/mysql";
           mountPoint = "/srv/db/mysql";
