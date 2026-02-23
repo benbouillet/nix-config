@@ -108,3 +108,27 @@ sops updatekeys secrets/secrets.yaml
 ```bash
 sops secrets/secrets.yaml
 ```
+
+# ZFS datasets
+
+See [datasets.md](./hosts/chewie/disko/datasets.md)
+
+## Hierarchy
+```
+chewie
+├── ssd
+│   ├── services
+│   │   ├── infra
+│   │   └── apps
+│   ├── databases
+│   │   ├── mysql
+│   │   └── postgres
+│   └── data
+│       └── vaultwarden
+└── hdd
+    └── data
+        ├── media
+        ├── paperless
+        ├── seafile
+        └── immich
+```
