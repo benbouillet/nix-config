@@ -36,9 +36,6 @@ let
           - stackoverflow
           - steam
           - senscritique
-          - ahmia
-          - torch
-          - wolframalpha
 
     general:
       debug: false
@@ -46,9 +43,9 @@ let
 
     search:
       safe_search: 0
-      autocomplete: duckduckgo
+      autocomplete: brave
       autocomplete_min: 4
-      favicon_resolver: duckduckgo
+      favicon_resolver: yandex
       default_lang: auto
       languages:
         - all
@@ -64,6 +61,18 @@ let
       hotkeys: vim
 
     engines:
+      - name: brave
+        engine: brave
+        brave_category: search
+        time_range_support: true
+        paging: true
+        categories: [general, web]
+      - name: brave.images
+        engine: brave
+        network: brave
+        shortcut: brimg
+        categories: [images, web]
+        brave_category: images
       - name: arch linux wiki
         engine: archlinux
         shortcut: al
@@ -172,6 +181,8 @@ let
       - name: duckduckgo
         engine: duckduckgo
         shortcut: ddg
+        categories: [general, web]
+        suspended_time: 600
       - name: duckduckgo images
         engine: duckduckgo_extra
         categories: [images, web]
