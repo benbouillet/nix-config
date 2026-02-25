@@ -33,5 +33,22 @@
       key = "<leader>at";
       action = "<cmd>Augment chat-toggle<CR>";
     }
+    {
+      mode = "n";
+      key = "<leader>ae";
+      action.__raw = ''
+        function()
+          -- If unset, treat as "enabled" (false).
+          local cur = vim.g.augment_disable_completions
+          if cur == nil then cur = false end
+
+          vim.g.augment_disable_completions = not cur
+
+          local state = vim.g.augment_disable_completions and "OFF" or "ON"
+          vim.notify("Augment completions: " .. state)
+        end
+      '';
+      options = { noremap = true; silent = true; desc = "Toggle Augment completions"; };
+    }
   ];
 }
