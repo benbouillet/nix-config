@@ -1,5 +1,4 @@
 {
-  pkgs,
   config,
   lib,
   globals,
@@ -19,9 +18,9 @@
   '';
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.mediaVolume} 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.mediaVolume}/media/torrents 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.mediaVolume}/media/usenet 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.data.media.mountPoint}/media 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.data.media.mountPoint}/torrents 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.data.media.mountPoint}/usenet 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/nzbget 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/bazarr 2770 root ${globals.groups.containers.name} - -"
@@ -75,7 +74,7 @@
       };
       volumes = [
         "${globals.paths.containersVolumes}/qbittorrent:/config/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -91,7 +90,7 @@
       };
       volumes = [
         "${globals.paths.containersVolumes}/nzbget:/config/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       extraOptions = [
         "--network=container:gluetun"
@@ -110,7 +109,7 @@
       ];
       volumes = [
         "${globals.paths.containersVolumes}/bazarr:/config/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
 
@@ -141,7 +140,7 @@
       ];
       volumes = [
         "${globals.paths.containersVolumes}/radarr:/config/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
 
@@ -157,7 +156,7 @@
       ];
       volumes = [
         "${globals.paths.containersVolumes}/sonarr:/config/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
 
@@ -188,7 +187,7 @@
       volumes = [
         "${globals.paths.containersVolumes}/jellyfin-config:/config/:rw"
         "${globals.paths.containersVolumes}/jellyfin-cache:/cache/:rw"
-        "${globals.paths.mediaVolume}/:/data/:rw"
+        "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       devices = [
         "/dev/dri/render-intel:/dev/dri/renderD128:rwm"
