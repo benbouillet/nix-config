@@ -101,6 +101,7 @@
       # Vaulwarden overrides
       zfs set quota=2G                         ssd/data/vaultwarden
       zfs set recordsize=8K                    ssd/data/vaultwarden
+      zfs set mountpoint=/srv/data/vaultwarden ssd/data/vaultwarden
 
       # HDD pool defaults
       zfs set compression=zstd                 hdd
