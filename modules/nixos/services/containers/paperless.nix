@@ -13,7 +13,6 @@
 
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${globals.paths.containersVolumes}/paperless/data 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.paperlessMedia} 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.paths.containersVolumes}/paperless/consume 2770 root ${globals.groups.containers.name} - -"
   ];
 
@@ -46,7 +45,7 @@
       ];
       volumes = [
         "${globals.paths.containersVolumes}/paperless/data:/usr/src/paperless/data:rw"
-        "${globals.paths.paperlessMedia}:/usr/src/paperless/media:rw"
+        "${globals.zfs.data.paperless.mountPoint}:/usr/src/paperless/media:rw"
         "${globals.paths.containersVolumes}/paperless/consume:/usr/src/paperless/consume:rw"
       ];
       environment = {
