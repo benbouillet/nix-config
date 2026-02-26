@@ -62,6 +62,9 @@
       environmentFiles = [
         config.sops.secrets."services/gluetun/env".path
       ];
+      extraOptions = [
+        "--memory=128m"
+      ];
     };
 
     "qbittorrent" = {
@@ -78,6 +81,7 @@
       ];
       extraOptions = [
         "--network=container:gluetun"
+        "--memory=128m"
       ];
     };
 
@@ -94,6 +98,7 @@
       ];
       extraOptions = [
         "--network=container:gluetun"
+        "--memory=128m"
       ];
     };
 
@@ -111,6 +116,9 @@
         "${globals.zfs.services.apps.mountPoint}/bazarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
+      extraOptions = [
+        "--memory=384m"
+      ];
     };
 
     "prowlarr" = {
@@ -125,6 +133,9 @@
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/prowlarr:/config/:rw"
+      ];
+      extraOptions = [
+        "--memory=192m"
       ];
     };
 
@@ -158,6 +169,9 @@
         "${globals.zfs.services.apps.mountPoint}/sonarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
+      extraOptions = [
+        "--memory=192m"
+      ];
     };
 
     "seerr" = {
@@ -170,6 +184,9 @@
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/seerr:/app/config/:rw"
+      ];
+      extraOptions = [
+        "--memory=256m"
       ];
     };
 
@@ -191,6 +208,9 @@
       ];
       devices = [
         "/dev/dri/render-intel:/dev/dri/renderD128:rwm"
+      ];
+      extraOptions = [
+        "--memory=1g"
       ];
     };
   };
