@@ -153,6 +153,9 @@
         "${globals.zfs.services.apps.mountPoint}/radarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
+      extraOptions = [
+        "--memory=256m"
+      ];
     };
 
     "sonarr" = {

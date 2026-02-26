@@ -73,75 +73,84 @@
     ];
   };
 
-  virtualisation.oci-containers.containers.seafile = {
-    image = "seafileltd/seafile-mc:13.0.18";
-    autoStart = true;
-    volumes = [
-      "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
-    ];
-    ports = [ "127.0.0.1:${toString globals.ports.seafile}:80" ];
-    extraOptions = [
-      "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
-      "--health-interval=30s"
-      "--health-timeout=10s"
-      "--health-retries=5"
-      "--health-start-period=120s"
-    ];
-    environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
-    environment = {
-      SEAFILE_SERVER_HOSTNAME = "seafile.${globals.domain}";
-      SEAFILE_SERVER_PROTOCOL = "https";
-      FORCE_HTTPS_IN_CONF = "true";
-      TIME_ZONE = "Etc/UTC";
-      SITE_ROOT = "/";
-      NON_ROOT = "false";
-      SEAFILE_LOG_TO_STDOUT = "true";
+  virtualisation.oci-containers.containers = {
+    seafile = {
+      image = "seafileltd/seafile-mc:13.0.18";
+      autoStart = true;
+      volumes = [
+        "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
+      ];
+      ports = [ "127.0.0.1:${toString globals.ports.seafile}:80" ];
+      extraOptions = [
+        "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
+        "--health-interval=30s"
+        "--health-timeout=10s"
+        "--health-retries=5"
+        "--health-start-period=120s"
+        "--memory=4g"
+        "--memory-swap=8g"
+        "--pids-limit=256"
+      ];
+      environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
+      environment = {
+        SEAFILE_SERVER_HOSTNAME = "seafile.${globals.domain}";
+        SEAFILE_SERVER_PROTOCOL = "https";
+        FORCE_HTTPS_IN_CONF = "true";
+        TIME_ZONE = "Etc/UTC";
+        SITE_ROOT = "/";
+        NON_ROOT = "false";
+        SEAFILE_LOG_TO_STDOUT = "true";
 
-      # MySQL/MariaDB Configuration
-      SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
-      SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
-      SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
-      SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
-      SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
-      SEAFILE_MYSQL_DB_SEAHUB_DB_NAME = "seahub_db";
+        # MySQL/MariaDB Configuration
+        SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
+        SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
+        SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
+        SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
+        SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
+        SEAFILE_MYSQL_DB_SEAHUB_DB_NAME = "seahub_db";
 
-      # Cache Configuration (Redis)
-      CACHE_PROVIDER = "redis";
-      REDIS_HOST = "host.containers.internal";
-      REDIS_PORT = toString globals.ports.redis;
+        # Cache Configuration (Redis)
+        CACHE_PROVIDER = "redis";
+        REDIS_HOST = "host.containers.internal";
+        REDIS_PORT = toString globals.ports.redis;
 
-      # Notification Server #### TO CHANGE !!!! ###
-      ENABLE_NOTIFICATION_SERVER = "true";
-      INNER_NOTIFICATION_SERVER_URL = "http://seafile-notification-server:8083";
-      NOTIFICATION_SERVER_URL = "https://seafile.${globals.domain}/notification";
+        # Notification Server #### TO CHANGE !!!! ###
+        ENABLE_NOTIFICATION_SERVER = "true";
+        INNER_NOTIFICATION_SERVER_URL = "http://seafile-notification-server:8083";
+        NOTIFICATION_SERVER_URL = "https://seafile.${globals.domain}/notification";
 
-      # SeaDoc Configuration (disabled - not running seadoc container)
-      ENABLE_SEADOC = "false";
+        # SeaDoc Configuration (disabled - not running seadoc container)
+        ENABLE_SEADOC = "false";
 
-      # Seafile AI (disabled)
-      ENABLE_SEAFILE_AI = "false";
+        # Seafile AI (disabled)
+        ENABLE_SEAFILE_AI = "false";
 
-      # Limits
-      MD_FILE_COUNT_LIMIT = "100000";
+        # Limits
+        MD_FILE_COUNT_LIMIT = "100000";
+      };
     };
-  };
-
-  virtualisation.oci-containers.containers.seafile-notification-server = {
-    image = "seafileltd/notification-server:13.0.10";
-    autoStart = true;
-    volumes = [
-      "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
-    ];
-    ports = [ "127.0.0.1:${toString globals.ports.seafile-notification-server}:8083" ];
-    environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
-    environment = {
-      SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
-      SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
-      SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
-      SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
-      SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
-      SEAFILE_LOG_TO_STDOUT = "true";
-      NOTIFICATION_SERVER_LOG_LEVEL = "info";
+    seafile-notification-server = {
+      image = "seafileltd/notification-server:13.0.10";
+      autoStart = true;
+      volumes = [
+        "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
+      ];
+      extraOptions = [
+        "--memory=128m"
+        "--memory-swap=256m"
+        "--pids-limit=64"
+      ];
+      ports = [ "127.0.0.1:${toString globals.ports.seafile-notification-server}:8083" ];
+      environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
+      environment = {
+        SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
+        SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
+        SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
+        SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
+        SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
+        SEAFILE_LOG_TO_STDOUT = "true";
+        NOTIFICATION_SERVER_LOG_LEVEL = "info";
+      };
     };
   };
 

@@ -10,6 +10,9 @@
       ports = [
         "127.0.0.1:${toString globals.ports.debug}:80"
       ];
+      extraOptions = [
+        "--memory=64m"
+      ];
     };
   };
 

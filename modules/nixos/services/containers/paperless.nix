@@ -69,6 +69,11 @@
         PAPERLESS_OCR_LANGUAGE = "fra+eng";
       };
       environmentFiles = [ config.sops.secrets."services/paperless/env".path ];
+      extraOptions = [
+        "--memory=768m"
+        "--memory-swap=512m"
+        "--pids-limit=64"
+      ];
     };
   };
 

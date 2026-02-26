@@ -246,6 +246,11 @@ in
       volumes = [
         "${searxngSettings}:/etc/searxng/settings.yml:ro"
       ];
+      extraOptions = [
+        "--memory=512m"
+        "--memory-swap=1g"
+        "--pids-limit=64"
+      ];
       environment = {
         SEARXNG_BASE_URL = "https://search.${globals.domain}/";
         SEARXNG_VALKEY_URL = "valkey://host.containers.internal:${
