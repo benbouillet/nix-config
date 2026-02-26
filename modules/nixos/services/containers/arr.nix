@@ -21,15 +21,15 @@
     "d ${globals.zfs.data.media.mountPoint}/media 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.zfs.data.media.mountPoint}/torrents 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.zfs.data.media.mountPoint}/usenet 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/nzbget 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/bazarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/sonarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/prowlarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/radarr 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/jellyseerr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/qbittorrent 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/nzbget 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/bazarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/sonarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/prowlarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/radarr 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
+    "d ${globals.zfs.services.apps.mountPoint}/seerr 2770 root ${globals.groups.containers.name} - -"
   ];
 
   users.users."${globals.users.arr.name}" = {
@@ -73,7 +73,7 @@
         WEBUI_PORT = "8090";
       };
       volumes = [
-        "${globals.paths.containersVolumes}/qbittorrent:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/qbittorrent:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       extraOptions = [
@@ -89,7 +89,7 @@
         TZ = "Europe/Paris";
       };
       volumes = [
-        "${globals.paths.containersVolumes}/nzbget:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/nzbget:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       extraOptions = [
@@ -108,7 +108,7 @@
         "127.0.0.1:${toString globals.ports.bazarr}:6767"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/bazarr:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/bazarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
@@ -124,7 +124,7 @@
         "127.0.0.1:${toString globals.ports.prowlarr}:9696"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/prowlarr:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/prowlarr:/config/:rw"
       ];
     };
 
@@ -139,7 +139,7 @@
         "127.0.0.1:${toString globals.ports.radarr}:7878"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/radarr:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/radarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
@@ -155,21 +155,21 @@
         "127.0.0.1:${toString globals.ports.sonarr}:8989"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/sonarr:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/sonarr:/config/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
     };
 
-    "jellyseerr" = {
-      image = "fallenbagel/jellyseerr:2.7.3";
+    "seerr" = {
+      image = "ghcr.io/seerr-team/seerr:v3.0.1";
       environment = {
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.jellyseerr}:5055"
+        "127.0.0.1:${toString globals.ports.seerr}:5055"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/jellyseerr:/app/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/seerr:/app/config/:rw"
       ];
     };
 
@@ -185,8 +185,8 @@
         "127.0.0.1:${toString globals.ports.jellyfin}:8096"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/jellyfin-config:/config/:rw"
-        "${globals.paths.containersVolumes}/jellyfin-cache:/cache/:rw"
+        "${globals.zfs.services.apps.mountPoint}/jellyfin-config:/config/:rw"
+        "${globals.zfs.services.apps.mountPoint}/jellyfin-cache:/cache/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       devices = [
@@ -327,9 +327,9 @@
     }
 
     # Available on tailnet
-    @jellyseerr host jellyseerr.${globals.domain}
-    handle @jellyseerr {
-      reverse_proxy 127.0.0.1:${toString globals.ports.jellyseerr}
+    @seerr host seerr.${globals.domain}
+    handle @seerr {
+      reverse_proxy 127.0.0.1:${toString globals.ports.seerr}
     }
 
     @jellyfin host jellyfin.${globals.domain}

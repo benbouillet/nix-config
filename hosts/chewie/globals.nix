@@ -12,7 +12,7 @@ let
       prowlarr = 9011;
       radarr = 9012;
       sonarr = 9013;
-      jellyseerr = 9014;
+      seerr = 9014;
       jellyfin = 9015;
       qbittorrent = 9016;
       nzbget = 9017;
