@@ -21,8 +21,8 @@
     ../../modules/nixos/services/ntfy.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
-    ../../modules/nixos/services/containers/ai.nix
-    ../../modules/nixos/services/containers/paperless.nix
+    # ../../modules/nixos/services/containers/ai.nix
+    # ../../modules/nixos/services/containers/paperless.nix
     # ../../modules/nixos/services/containers/nextcloud.nix
     ../../modules/nixos/services/containers/seafile.nix
     ../../modules/nixos/services/containers/search.nix

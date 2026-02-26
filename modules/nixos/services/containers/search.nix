@@ -258,18 +258,18 @@ in
         config.sops.secrets."services/searxng/env".path
       ];
     };
-    "perplexica" = {
-      image = "itzcrazykns1337/perplexica:slim-v1.11.2";
-      ports = [
-        "127.0.0.1:${toString globals.ports.perplexica}:3000"
-      ];
-      volumes = [
-        "${globals.paths.containersVolumes}/perplexica:/home/perplexica/data:rw"
-      ];
-      environment = {
-        SEARXNG_API_URL = "http://searxng:8080";
-      };
-    };
+    # "perplexica" = {
+    #   image = "itzcrazykns1337/perplexica:slim-v1.11.2";
+    #   ports = [
+    #     "127.0.0.1:${toString globals.ports.perplexica}:3000"
+    #   ];
+    #   volumes = [
+    #     "${globals.paths.containersVolumes}/perplexica:/home/perplexica/data:rw"
+    #   ];
+    #   environment = {
+    #     SEARXNG_API_URL = "http://searxng:8080";
+    #   };
+    # };
   };
 
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
