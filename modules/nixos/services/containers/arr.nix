@@ -103,7 +103,7 @@
     };
 
     "bazarr" = {
-      image = "lscr.io/linuxserver/bazarr:1.5.5";
+      image = "lscr.io/linuxserver/bazarr:1.5.6";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
