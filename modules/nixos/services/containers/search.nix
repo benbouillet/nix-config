@@ -245,7 +245,6 @@ in
       ];
       volumes = [
         "${searxngSettings}:/etc/searxng/settings.yml:ro"
-        "searxng-cache:/var/cache/searxng:rw"
       ];
       environment = {
         SEARXNG_BASE_URL = "https://search.${globals.domain}/";
