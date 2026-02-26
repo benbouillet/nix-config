@@ -234,7 +234,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "nextcloud-fpm" = {
-      image = "docker.io/nextcloud:32.0.6-fpm";
+      image = "docker.io/nextcloud:33.0.0-fpm";
       extraOptions = [
         "--memory=512m"
         "--memory-swap=512m"
