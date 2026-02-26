@@ -118,17 +118,22 @@
 
       # Media overrides
       zfs set quota=800G                       hdd/data/media
+      zfs set mountpoint=/srv/data/media       hdd/data/media
 
       # Seafile overrides
       zfs set quota=100G                       hdd/data/seafile
+      zfs set mountpoint=/srv/data/seafile     hdd/data/seafile
 
       # Paperless overrides
       zfs set quota=50G                        hdd/data/paperless
+      zfs set mountpoint=/srv/data/paperless   hdd/data/paperless
 
       # Immich overrides
       zfs set quota=200G                       hdd/data/immich
+      zfs set mountpoint=/srv/data/immich      hdd/data/immich
     '';
   };
+
   system.activationScripts.zfs-datasets-options-setup = {
     text = ''
       echo "Running zfs-datasets-options-setup.service via systemd during activation..."

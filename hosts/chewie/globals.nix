@@ -102,6 +102,38 @@ let
           mountPoint = "/srv/db/mysql";
         };
       };
+      services = {
+        infra = {
+          name = "ssd/services/infra";
+          mountPoint = "/srv/services/infra";
+        };
+        apps = {
+          name = "ssd/services/apps";
+          mountPoint = "/srv/services/apps";
+        };
+      };
+      data = {
+        vaultwarden = {
+          name = "ssd/data/vaultwarden";
+          mountPoint = "/srv/data/vaultwarden";
+        };
+        media = {
+          name = "hdd/data/media";
+          mountPoint = "/srv/data/media";
+        };
+        seafile = {
+          name = "hdd/data/seafile";
+          mountPoint = "/srv/data/seafile";
+        };
+        paperless = {
+          name = "hdd/data/paperless";
+          mountPoint = "/srv/data/paperless";
+        };
+        immich = {
+          name = "hdd/data/immich";
+          mountPoint = "/srv/data/immich";
+        };
+      };
     };
     podmanBridgeCIDR = "10.88.0.0/16";
   };
