@@ -77,7 +77,7 @@
     image = "seafileltd/seafile-mc:13.0.18";
     autoStart = true;
     volumes = [
-      "/srv/seafile:/shared/seafile"
+      "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
     ];
     ports = [ "127.0.0.1:${toString globals.ports.seafile}:80" ];
     extraOptions = [
@@ -130,7 +130,7 @@
     image = "seafileltd/notification-server:13.0.10";
     autoStart = true;
     volumes = [
-      "/srv/seafile:/shared/seafile"
+      "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
     ];
     ports = [ "127.0.0.1:${toString globals.ports.seafile-notification-server}:8083" ];
     environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
