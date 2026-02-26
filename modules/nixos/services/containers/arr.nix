@@ -1,18 +1,22 @@
 {
+  pkgs,
   config,
   lib,
   globals,
   ...
 }:
-let
-  iGPURenderNode = "/dev/dri/renderD129";
-in
 {
   sops.secrets."services/gluetun/env" = {
     mode = "0400";
     owner = "root";
     group = "root";
   };
+
+  # We create a UDEV rule here to ensure a stable path for the GPU device node.
+  # because we can't escape colons in '/dev/dri/by-path/pci-0000:00:02.0-render'
+  services.udev.extraRules = ''
+    SUBSYSTEM=="drm", KERNEL=="renderD*", DRIVERS=="i915", ATTRS{vendor}=="0x8086", SYMLINK+="dri/render-intel"
+  '';
 
   systemd.tmpfiles.rules = lib.mkAfter [
     "d ${globals.paths.mediaVolume} 2770 root ${globals.groups.containers.name} - -"
@@ -187,7 +191,7 @@ in
         "${globals.paths.mediaVolume}/:/data/:rw"
       ];
       devices = [
-        "${iGPURenderNode}:${iGPURenderNode}:rwm"
+        "/dev/dri/render-intel:/dev/dri/renderD128:rwm"
       ];
     };
   };
