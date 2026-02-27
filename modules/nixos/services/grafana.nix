@@ -5,14 +5,29 @@
   ...
 }:
 {
+  sops.secrets."grafana/secret_key" = {
+    mode = "0400";
+    owner = "grafana";
+    group = "grafana";
+  };
+
   services.grafana = {
     enable = true;
     settings = {
-      http_addr = "127.0.0.1";
-      http_port = globals.ports.grafana;
-      enforce_domain = true;
-      enable_gzip = true;
-      domain = "grafana.${globals.domain}";
+      server = {
+        http_addr = "127.0.0.1";
+        http_port = globals.ports.grafana;
+        enforce_domain = true;
+        enable_gzip = true;
+        domain = "grafana.${globals.domain}";
+      };
+      auth = {
+        disable_login_form = true;
+        disable_signout_menu = true;
+      };
+      security = {
+        secret_key = "\$__file{${config.sops.secrets."grafana/secret_key".path}}";
+      };
     };
   };
 
@@ -35,7 +50,7 @@
         uri /api/verify?rd=https://auth.${globals.domain}
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy 127.0.0.1:${toString config.services.grafana.port}
+      reverse_proxy 127.0.0.1:${toString config.services.grafana.settings.server.http_port}
     }
   '';
 }

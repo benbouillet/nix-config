@@ -18,6 +18,7 @@
     ../../modules/nixos/services/redis.nix
     ../../modules/nixos/services/authentication.nix
     ../../modules/nixos/services/prometheus.nix
+    ../../modules/nixos/services/grafana.nix
     ../../modules/nixos/services/ntfy.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix

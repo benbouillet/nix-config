@@ -29,6 +29,7 @@ let
       prometheus-alertmanager = 9093;
       prometheus-alertmanager-ntfy = 9095;
       ntfy = 9094;
+      grafana = 9096;
       debug = 9999;
       lldapWebUi = 17170;
       prometheus_exporters = {
