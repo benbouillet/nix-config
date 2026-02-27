@@ -66,6 +66,7 @@
       };
     };
     provision = {
+      enable = true;
       datasources.settings = {
         deleteDatasources = [
           {
@@ -83,7 +84,21 @@
           }
         ];
       };
+      dashboards.settings.providers = [
+        {
+          name = "declarative-dashboards";
+          disableDeletion = false;
+          options = {
+            path = "/etc/grafana-dashboards";
+            foldersFromFilesStructure = true;
+          };
+        }
+      ];
     };
+  };
+
+  environment.etc = {
+    "grafana-dashboards/node.json".source = ./assets/grafana/node.json;
   };
 
   services.authelia.instances."raclette".settings = {
