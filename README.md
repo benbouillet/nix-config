@@ -44,12 +44,11 @@ Potential locations where nix configuration must mirror imperative commands:
 * [zfs.nix](./hosts/chewie/zfs.nix) to add/remove the pools to mount at boot & update `sanoid` config
 * [zpools.nix](./hosts/chewie/disko/zpools.nix) to add/remove zpools
 
-### Decrypt ZFS drives after reboot
-
-On the target host:
+### Generate an Authelia client PBKDF2 hash
+```bash
+nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 ```
 
-```
 
 # Features
 - [x] Tailscale-backed network layout
