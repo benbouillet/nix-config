@@ -73,14 +73,32 @@
             name = "Prometheus";
             orgId = 1;
           }
+          {
+            name = "Loki";
+            orgId = 1;
+          }
         ];
         datasources = [
           {
-            url = "http://localhost:${toString globals.ports.prometheus}";
-            type = "prometheus";
             name = "Prometheus";
+            type = "prometheus";
+            url = "http://localhost:${toString globals.ports.prometheus}";
             editable = false;
             access = "proxy";
+          }
+          {
+            name = "Loki";
+            type = "loki";
+            url = "http://127.0.0.1:${toString globals.ports.loki-http}";
+            editable = false;
+            access = "proxy";
+
+            # optional niceties
+            isDefault = false;
+            jsonData = {
+              maxLines = 2000;
+              timeout = 60;
+            };
           }
         ];
       };

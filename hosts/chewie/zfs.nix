@@ -96,12 +96,16 @@
 
       # Data defaults
       zfs set mountpoint=none                  ssd/data
-      zfs set quota=10G                        ssd/data
+      zfs set quota=50G                        ssd/data
 
       # Vaulwarden overrides
       zfs set quota=2G                         ssd/data/vaultwarden
       zfs set recordsize=8K                    ssd/data/vaultwarden
       zfs set mountpoint=/srv/data/vaultwarden ssd/data/vaultwarden
+
+      # Loki overrides
+      zfs set quota=30G                        ssd/data/loki
+      zfs set mountpoint=/srv/data/loki        ssd/data/loki
 
       # HDD pool defaults
       zfs set compression=zstd                 hdd

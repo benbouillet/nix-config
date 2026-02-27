@@ -26,10 +26,14 @@ let
       seafile-notification-server = 9055;
       prometheus = 9090;
       authelia = 9091;
-      prometheus-alertmanager = 9093;
-      prometheus-alertmanager-ntfy = 9095;
+      prometheus-alertmanager = 9092;
+      prometheus-alertmanager-ntfy = 9093;
       ntfy = 9094;
-      grafana = 9096;
+      grafana = 9095;
+      loki-http = 9096;
+      loki-grpc = 9097;
+      promtail-http = 9098;
+      promtail-grpc = 9099;
       debug = 9999;
       lldapWebUi = 17170;
       prometheus_exporters = {
@@ -117,6 +121,10 @@ let
         vaultwarden = {
           name = "ssd/data/vaultwarden";
           mountPoint = "/srv/data/vaultwarden";
+        };
+        loki = {
+          name = "ssd/data/loki";
+          mountPoint = "/srv/data/loki";
         };
         media = {
           name = "hdd/data/media";
