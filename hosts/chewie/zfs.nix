@@ -48,10 +48,9 @@
   systemd.services."zfs-datasets-options-setup" = {
     description = "Setup ZFS dataset options";
 
-    requires = [ "zfs-import.target" ];
-    after = [ "zfs-import.target" ];
-    before = [ "zfs-mount.service" ];
-    wantedBy = [ "zfs-mount.service" ];
+    wantedBy = [ "multi-user.target" ];
+    after = [ "zfs-import.target" "zfs-mount.service" ];
+    requires = [ "zfs-import.target" "zfs-mount.service" ];
 
     path = [ pkgs.zfs ];
 
@@ -130,13 +129,6 @@
 
       # Immich overrides
       zfs set quota=200G                       hdd/data/immich
-    '';
-  };
-
-  system.activationScripts.zfs-datasets-options-setup = {
-    text = ''
-      echo "Running zfs-datasets-options-setup.service via systemd during activation..."
-      ${pkgs.systemd}/bin/systemctl start zfs-datasets-options-setup.service
     '';
   };
 }
