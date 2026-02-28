@@ -49,8 +49,14 @@
     description = "Setup ZFS dataset options";
 
     wantedBy = [ "multi-user.target" ];
-    after = [ "zfs-import.target" "zfs-mount.service" ];
-    requires = [ "zfs-import.target" "zfs-mount.service" ];
+    after = [
+      "zfs-import.target"
+      "zfs-mount.service"
+    ];
+    requires = [
+      "zfs-import.target"
+      "zfs-mount.service"
+    ];
 
     path = [ pkgs.zfs ];
 
@@ -96,10 +102,6 @@
       # Data defaults
       zfs set mountpoint=none                  ssd/data
       zfs set quota=50G                        ssd/data
-
-      # Vaulwarden overrides
-      zfs set quota=2G                         ssd/data/vaultwarden
-      zfs set recordsize=8K                    ssd/data/vaultwarden
 
       # Loki overrides
       zfs set quota=30G                        ssd/data/loki
