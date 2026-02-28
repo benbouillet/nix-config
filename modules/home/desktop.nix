@@ -17,6 +17,7 @@
     swappy
     seafile-client
     bitwarden-cli
+    bitwarden-desktop
   ];
 
   programs = {
