@@ -25,6 +25,7 @@ let
       seafile = 9054;
       seafile-notification-server = 9055;
       mealie = 9060;
+      immich = 9061;
       vaultwarden = 9070;
       prometheus = 9090;
       authelia = 9091;

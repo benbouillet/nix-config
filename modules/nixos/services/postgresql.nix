@@ -13,12 +13,16 @@
 
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_18;
+    package = pkgs.postgresql_18.withPackages (p: [
+      p.pgvector
+      p.vectorchord
+    ]);
     dataDir = globals.zfs.databases.postgres.mountPoint;
     settings = {
       listen_addresses = lib.mkForce "*";
       port = globals.ports.postgres;
       password_encryption = "scram-sha-256";
+      shared_preload_libraries = "vchord.so";
     };
     authentication = ''
       # local connections over UNIX socket: still peer for convenience
