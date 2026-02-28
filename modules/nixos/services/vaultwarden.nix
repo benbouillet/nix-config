@@ -30,7 +30,7 @@
     ];
   };
 
-  systemd.services."podman-vaultwarden" = {
+  systemd.services."vaultwarden" = {
     after = [ "postgresql.service" ];
     requires = [ "postgresql.service" ];
   };
