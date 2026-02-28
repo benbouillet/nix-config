@@ -40,15 +40,17 @@
     domain = "vault.${globals.domain}";
     dbBackend = "postgresql";
     config = {
-      SIGNUPS_ALLOWED = "true";
+      SIGNUPS_ALLOWED = true;
       ROCKET_ADDRESS = "127.0.0.1";
       ROCKET_PORT = globals.ports.vaultwarden;
       ROCKET_LOG = "error";
       SMTP_HOST = "smtp.protonmail.ch";
-      SMTP_FROM = "Raclette Admin <admin@${globals.domain}>";
+      SMTP_FROM = "admin@${globals.domain}";
+      SMTP_FROM_NAME = "Raclette Admin";
       SMTP_PORT = "587";
       SMTP_SECURITY = "starttls";
       SMTP_USERNAME = "admin@${globals.domain}";
+      SMTP_TIMEOUT = "15";
     };
     environmentFile = config.sops.secrets."vaultwarden/env".path;
   };
