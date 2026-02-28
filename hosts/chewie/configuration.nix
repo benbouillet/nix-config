@@ -21,6 +21,7 @@
     ../../modules/nixos/services/grafana.nix
     ../../modules/nixos/services/loki.nix
     ../../modules/nixos/services/ntfy.nix
+    ../../modules/nixos/services/vaultwarden.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     # ../../modules/nixos/services/containers/ai.nix
