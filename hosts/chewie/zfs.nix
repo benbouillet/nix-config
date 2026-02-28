@@ -101,11 +101,9 @@
       # Vaulwarden overrides
       zfs set quota=2G                         ssd/data/vaultwarden
       zfs set recordsize=8K                    ssd/data/vaultwarden
-      zfs set mountpoint=/srv/data/vaultwarden ssd/data/vaultwarden
 
       # Loki overrides
       zfs set quota=30G                        ssd/data/loki
-      zfs set mountpoint=/srv/data/loki        ssd/data/loki
 
       # HDD pool defaults
       zfs set compression=zstd                 hdd
@@ -123,19 +121,15 @@
 
       # Media overrides
       zfs set quota=800G                       hdd/data/media
-      zfs set mountpoint=/srv/data/media       hdd/data/media
 
       # Seafile overrides
       zfs set quota=100G                       hdd/data/seafile
-      zfs set mountpoint=/srv/data/seafile     hdd/data/seafile
 
       # Paperless overrides
       zfs set quota=50G                        hdd/data/paperless
-      zfs set mountpoint=/srv/data/paperless   hdd/data/paperless
 
       # Immich overrides
       zfs set quota=200G                       hdd/data/immich
-      zfs set mountpoint=/srv/data/immich      hdd/data/immich
     '';
   };
 
