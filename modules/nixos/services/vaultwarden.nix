@@ -51,7 +51,6 @@
       SMTP_SECURITY = "starttls";
       SMTP_USERNAME = "admin@${globals.domain}";
       SMTP_TIMEOUT = "15";
-      SSO_ENABLED = false;
     };
     environmentFile = config.sops.secrets."vaultwarden/env".path;
   };
