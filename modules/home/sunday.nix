@@ -332,6 +332,7 @@ in
         dashlane
         user-agent-string-switcher
         header-editor
+        bitwarden
       ];
     };
   };

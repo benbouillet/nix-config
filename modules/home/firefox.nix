@@ -151,6 +151,7 @@
         augmented-steam
         privacy-badger
         adaptive-tab-bar-colour
+        bitwarden
       ];
     };
   };

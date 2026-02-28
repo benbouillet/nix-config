@@ -16,6 +16,7 @@
     carbon-now-cli
     swappy
     seafile-client
+    bitwarden-cli
   ];
 
   programs = {
