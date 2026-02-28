@@ -24,6 +24,7 @@ let
       nextcloud = 9050;
       seafile = 9054;
       seafile-notification-server = 9055;
+      mealie = 9060;
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9092;
