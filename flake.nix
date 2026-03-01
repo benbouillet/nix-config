@@ -108,6 +108,24 @@
               ./hosts/${host}/configuration.nix
             ];
           };
+        "yoda" =
+          let
+            host = "yoda";
+          in
+          nixpkgs.lib.nixosSystem {
+            specialArgs = {
+              inherit inputs;
+              inherit system;
+              inherit host;
+              inherit username;
+            };
+            modules = [
+              inputs.disko.nixosModules.disko
+              inputs.sops-nix.nixosModules.sops
+              inputs.impermanence.nixosModules.impermanence
+              ./hosts/${host}/configuration.nix
+            ];
+          };
       };
       packages.${system}.usbboot = nixos-generators.nixosGenerate {
         system = system;

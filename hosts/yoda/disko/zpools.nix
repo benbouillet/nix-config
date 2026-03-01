@@ -14,14 +14,14 @@
               {
                 mode = "raidz2";
                 members = [
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544102JR800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544102FU800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544104JK800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA5441052J800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544102L9800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544102JF800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544204T5800HGN"
-                  "/dev/disk/by-id/ata-INTEL_SSDSC2BB800G6_BTWA544205P1800HGN"
+                  "/dev/disk/by-partlabel/disk-ssd1-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd2-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd3-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd4-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd5-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd6-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd7-ssd"
+                  "/dev/disk/by-partlabel/disk-ssd8-ssd"
                 ];
               }
             ];

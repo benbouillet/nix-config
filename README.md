@@ -44,6 +44,13 @@ Potential locations where nix configuration must mirror imperative commands:
 * [zfs.nix](./hosts/chewie/zfs.nix) to add/remove the pools to mount at boot & update `sanoid` config
 * [zpools.nix](./hosts/chewie/disko/zpools.nix) to add/remove zpools
 
+### Create a new SOPS age key
+```bash
+age-keygen -o agekey.txt
+# Get the public key
+age-keygen -y agekey.txt
+```
+
 ### Generate an Authelia client PBKDF2 hash
 ```bash
 nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
