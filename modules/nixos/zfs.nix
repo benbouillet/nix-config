@@ -33,19 +33,30 @@
     enable = true;
     interval = "hourly";
     templates = {
-      "databases" = {
-        autosnap = true;
-        autoprune = true;
+      "standard" = {
         hourly = 24;
         daily = 7;
-        weekly = 0;
-      };
-      "containers" = {
+        weekly = 3;
+        monthly = 0;
         autosnap = true;
         autoprune = true;
-        hourly = 6;
-        daily = 3;
-        weekly = 2;
+      };
+      "highchurn" = {
+        hourly = 12;
+        daily = 7;
+        weekly = 0;
+        monthly = 0;
+        autosnap = true;
+        autoprune = true;
+      };
+      "cold" = {
+        hourly = 0;
+        daily = 7;
+        weekly = 4;
+        monthly = 6;
+        yearly = 1;
+        autosnap = true;
+        autoprune = true;
       };
     };
   };
