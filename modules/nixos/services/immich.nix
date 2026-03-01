@@ -50,7 +50,7 @@
     host = "127.0.0.1";
     port = globals.ports.immich;
     mediaLocation = globals.zfs.data.immich.mountPoint;
-    accelerationDevices = [ "pci-0000:01:00.0-render" ];
+    accelerationDevices = [ "/dev/dri/by-path/pci-0000:01:00.0-render" ];
     database = {
       enable = false;
       host = "127.0.0.1";
