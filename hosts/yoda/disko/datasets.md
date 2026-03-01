@@ -1,0 +1,104 @@
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/media \
+  -o quota=500G \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o xattr=sa \
+  hdd/media
+```
+
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/containers  \
+  -o quota=100G \
+  -o canmount=on \
+  -o atime=offi \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=restricted \
+  -o aclmode=discard \
+  -o dnodesize=auto \
+  -o recordsize=16K \
+  ssd/containers
+```
+
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/nextcloud \
+  -o quota=200G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o dnodesize=auto \
+  -o recordsize=16K \
+  ssd/nextcloud
+```
+
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/seafile \
+  -o quota=100G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o dnodesize=auto \
+  -o recordsize=16K \
+  ssd/seafile
+```
+
+```sh
+sudo zfs create \
+  -o mountpoint=/srv/documents \
+  -o quota=200G \
+  -o acltype=posixacl \
+  -o aclinherit=passthrough \
+  -o aclmode=restricted \
+  -o xattr=sa \
+  hdd/documents
+```
+
+# Databases
+```sh
+sudo zfs create -o mountpoint=none ssd/db
+sudo zfs create \
+  -o mountpoint=/srv/db/postgres \
+  -o quota=5G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=restricted \
+  -o aclmode=discard \
+  -o dnodesize=auto \
+  -o recordsize=8K \
+  -o primarycache=all \
+  -o logbias=latency \
+  ssd/db/postgres
+sudo zfs create \
+  -o mountpoint=/srv/db/mysql \
+  -o quota=5G \
+  -o canmount=on \
+  -o atime=off \
+  -o compression=zstd \
+  -o xattr=sa \
+  -o acltype=posixacl \
+  -o aclinherit=restricted \
+  -o aclmode=discard \
+  -o dnodesize=auto \
+  -o recordsize=16K \
+  -o primarycache=all \
+  -o logbias=latency \
+  ssd/db/mysql
+```

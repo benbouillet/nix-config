@@ -63,7 +63,7 @@
         config.sops.secrets."services/gluetun/env".path
       ];
       extraOptions = [
-        "--memory=128m"
+        "--memory=256m"
       ];
     };
 
