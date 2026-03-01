@@ -1,6 +1,7 @@
 {
   globals,
   pkgs,
+  config,
   ...
 }:
 {
@@ -45,6 +46,16 @@
       use_template = [ "standard" ];
       recursive = true;
     };
+  };
+
+  ########################################
+  # Syncoid to yoda
+  ########################################
+  sops.secrets."ssh/yoda_to_chewie_syncoid_key_pub" = {
+    owner = "root";
+    group = "root";
+    mode  = "0644"; # public key file is fine to be world-readable
+    path  = "/etc/ssh/authorized_keys.d/root";
   };
 
   ########################################

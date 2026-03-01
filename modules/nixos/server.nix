@@ -74,6 +74,7 @@
       ClientAliveCountMax = 2;
       LoginGraceTime = "30s";
       ChallengeResponseAuthentication = false;
+      AuthorizedKeysFile = ".ssh/authorized_keys /etc/ssh/authorized_keys.d/%u";
     };
   };
 
@@ -173,6 +174,11 @@
       bantime = "1h";
       findtime = "10m";
     };
+    ignoreIP = [
+      "127.0.0.1/8"
+      "::1"
+      "100.64.0.0/10"  # Tailscale CGNAT range
+    ];
   };
 
   # Linux audit
