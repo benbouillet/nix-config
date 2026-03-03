@@ -16,17 +16,17 @@
       mode = "0400";
       path = "/home/ben/.ssh/yoda.conf";
     };
-    "ssh/chewie-local" = {
+    "ssh/chewieViaRouter" = {
       owner = username;
       group = "users";
       mode = "0400";
-      path = "/home/ben/.ssh/chewie-local.conf";
+      path = "/home/ben/.ssh/chewieViaRouter.conf";
     };
-    "ssh/yoda-local" = {
+    "ssh/yodaViaRouter" = {
       owner = username;
       group = "users";
       mode = "0400";
-      path = "/home/ben/.ssh/yoda-local.conf";
+      path = "/home/ben/.ssh/yodaViaRouter.conf";
     };
     "ssh/jellybox" = {
       owner = username;

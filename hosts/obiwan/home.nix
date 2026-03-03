@@ -57,9 +57,9 @@
     };
     extraConfig = ''
       Include ~/.ssh/chewie.conf
-      Include ~/.ssh/chewie-local.conf
+      Include ~/.ssh/chewieViaRouter.conf
       Include ~/.ssh/yoda.conf
-      Include ~/.ssh/yoda-local.conf
+      Include ~/.ssh/yodaViaRouter.conf
       Include ~/.ssh/jellybox.conf
     '';
   };

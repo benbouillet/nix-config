@@ -1,5 +1,6 @@
 {
   globals,
+  config,
   pkgs,
   ...
 }:
@@ -55,19 +56,22 @@
     }
   ];
 
-  sops.secrets."ssh/yoda_to_chewie_syncoid_key_priv" = {
-    owner = "syncoid";
-    group = "syncoid";
-    mode = "0400";
-    path = "/var/lib/syncoid/.ssh/chewie_root_ed25519";
+  sops.secrets = {
+    "ssh/yodaToChewieSyncoidKeyPriv" = {
+      owner = "syncoid";
+      group = "syncoid";
+      mode = "0400";
+      path = "/var/lib/syncoid/.ssh/chewie_root_ed25519";
+    };
+    "ssh/yodaToChewieLocal" = {
+      owner = "root";
+      group = "syncoid";
+      mode = "0440";
+    };
   };
 
   programs.ssh.extraConfig = ''
-    Host chewie
-      HostName chewie
-      User syncoid
-      IdentityFile /var/lib/syncoid/.ssh/chewie_root_ed25519
-      IdentitiesOnly yes
+    Include ${config.sops.secrets."ssh/yodaToChewieLocal".path}
   '';
 
   ########################################
