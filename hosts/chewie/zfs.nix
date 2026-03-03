@@ -38,6 +38,9 @@
       use_template = [ "cold" ];
       recursive = true;
     };
+    "hdd/data/media" = {
+      use_template = [ "nosnapshot" ];
+    };
     "ssd/db" = {
       use_template = [ "highchurn" ];
       recursive = true;

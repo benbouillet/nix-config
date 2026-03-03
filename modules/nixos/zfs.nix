@@ -33,6 +33,14 @@
     enable = true;
     interval = "hourly";
     templates = {
+      "nosnapshot" = {
+        hourly = 0;
+        daily = 0;
+        weekly = 0;
+        monthly = 0;
+        autosnap = true;
+        autoprune = true;
+      };
       "standard" = {
         hourly = 24;
         daily = 7;
