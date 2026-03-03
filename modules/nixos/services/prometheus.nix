@@ -79,7 +79,7 @@ let
             expr: |
               (zfs_pool_allocated_bytes / zfs_pool_size_bytes) > 0.80
             labels:
-              severity: warning
+              severity: info
               team: platform
             annotations:
               summary: "Zpool low capacity on `{{ $labels.instance }}`"
@@ -90,17 +90,28 @@ let
               /
               (zfs_dataset_used_bytes + zfs_dataset_available_bytes) > 0.85
             labels:
-              severity: warning
+              severity: info
               team: platform
             annotations:
               summary: "ZFS Dataset low capacity on `{{ $labels.instance }}`"
               description: "ZFS dataset `{{ $labels.name }}` on pool `{{ $labels.pool }}` on host `{{ $labels.instance }}` is above 85% capacity."
+          - alert: zfsDatasetVeryLowCapacity
+            expr: |
+              zfs_dataset_used_bytes
+              /
+              (zfs_dataset_used_bytes + zfs_dataset_available_bytes) > 0.95
+            labels:
+              severity: info
+              team: platform
+            annotations:
+              summary: "ZFS Dataset very low capacity on `{{ $labels.instance }}`"
+              description: "ZFS dataset `{{ $labels.name }}` on pool `{{ $labels.pool }}` on host `{{ $labels.instance }}` is above 95% capacity1"
           - alert: btrfsDatasetLowCapacity
             expr: |
               1 - (node_filesystem_avail_bytes{fstype="btrfs",mountpoint="/persist"}/
               node_filesystem_size_bytes{fstype="btrfs",mountpoint="/persist"}) > 0.85
             labels:
-              severity: warning
+              severity: info
               team: platform
             annotations:
               summary: "Root disk low capacity on `{{ $labels.instance }}`"
