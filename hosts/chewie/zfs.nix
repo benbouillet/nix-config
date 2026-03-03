@@ -1,9 +1,11 @@
 {
   globals,
   pkgs,
-  config,
   ...
 }:
+let
+  yodaToChewiePublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBULf9dIT77X0zgCIIvFN/CORkEckj47Fn1mTc3AfFtY root@yoda";
+in
 {
   ########################################
   # Kernel & ZFS basics
@@ -52,14 +54,33 @@
   };
 
   ########################################
-  # Syncoid to yoda
+  # Syncoid pulled from yoda
   ########################################
-  sops.secrets."ssh/yoda_to_chewie_syncoid_key_pub" = {
-    owner = "root";
-    group = "root";
-    mode = "0644"; # public key file is fine to be world-readable
-    path = "/etc/ssh/authorized_keys.d/root";
+  users.groups.syncoid = { };
+
+  users.users.syncoid = {
+    isSystemUser = true;
+    group = "syncoid";
+    home = "/var/lib/syncoid";
+    createHome = true;
+    shell = pkgs.bashInteractive;
   };
+
+  security.sudo.extraRules = [
+    {
+      users = [ "syncoid" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/zfs";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  users.users.syncoid.openssh.authorizedKeys.keys = [
+    yodaToChewiePublicKey
+  ];
 
   ########################################
   # Options

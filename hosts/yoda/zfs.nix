@@ -29,18 +29,44 @@
   ########################################
   # Syncoid (pulling from chewie)
   ########################################
-  sops.secrets."ssh/yoda_to_chewie_syncoid_key_priv" = {
-    owner = "root";
-    group = "root";
-    mode = "0400";
-    path = "/root/.ssh/chewie_root_ed25519";
+  users.groups.syncoid = { };
+
+  users.users.syncoid = {
+    isSystemUser = true;
+    group = "syncoid";
+    home = "/var/lib/syncoid";
+    createHome = true;
+    shell = pkgs.bashInteractive;
   };
 
-  environment.etc."ssh/ssh_config.d/20-chewie.conf".text = ''
+  systemd.tmpfiles.rules = [
+    "d /var/lib/syncoid/.ssh 0700 syncoid syncoid - -"
+  ];
+
+  security.sudo.extraRules = [
+    {
+      users = [ "syncoid" ];
+      commands = [
+        {
+          command = "${pkgs.zsh}/bin/zfs";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
+  sops.secrets."ssh/yoda_to_chewie_syncoid_key_priv" = {
+    owner = "syncoid";
+    group = "syncoid";
+    mode = "0400";
+    path = "/var/lib/syncoid/.ssh/chewie_root_ed25519";
+  };
+
+  programs.ssh.extraConfig = ''
     Host chewie
       HostName chewie
-      User root
-      IdentityFile /root/.ssh/chewie_root_ed25519
+      User syncoid
+      IdentityFile /var/lib/syncoid/.ssh/chewie_root_ed25519
       IdentitiesOnly yes
   '';
 
