@@ -40,7 +40,7 @@
     # security
     yubikey-manager
 
-    (import ../../scripts/aws-creds-exporter.nix {inherit pkgs; })
+    (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
   ];
 
   programs = {
@@ -50,10 +50,10 @@
     };
     zsh = {
       sessionVariables = {
-        TENV_AUTO_INSTALL="true";
+        TENV_AUTO_INSTALL = "true";
       };
       shellAliases = {
-        tg = "terragrunt";
+        tg = "terragrunt run --tf-path terraform --parallelism=5 --";
       };
     };
   };
