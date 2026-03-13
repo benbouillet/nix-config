@@ -35,7 +35,29 @@
               type = "wifi";
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
-              autoconnect = true;
+              autoconnect = false;
+              autoconnect-priority = 10;
+            };
+            ipv4 = {
+              method = "auto";
+              route-metric = "100";
+            };
+            wifi = {
+              mode = "infrastructure";
+              ssid = "$HOME_UUID";
+            };
+            wifi-security = {
+              key-mgmt = "wpa-psk";
+              psk = "$HOME_PSK";
+            };
+          };
+          "douvrin-wifi" = {
+            connection = {
+              id = "home-wifi";
+              type = "wifi";
+              interface-name = "wlp1s0";
+              permissions = "user:ben:;";
+              autoconnect = false;
               autoconnect-priority = 10;
             };
             ipv4 = {
@@ -57,7 +79,7 @@
               type = "wifi";
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
-              autoconnect = true;
+              autoconnect = false;
               autoconnect-priority = 20;
             };
             ipv4 = {
