@@ -1,11 +1,10 @@
 {
   pkgs,
   username,
-  auggie,
   ...
 }:
 {
-  home.packages = (with pkgs; [
+  home.packages = with pkgs; [
     obsidian
     spotify
     altus
@@ -19,8 +18,6 @@
     seafile-client
     bitwarden-cli
     bitwarden-desktop
-  ]) ++ [
-    auggie
   ];
 
   programs = {

@@ -2,6 +2,7 @@
   pkgs,
   lib,
   username,
+  auggie,
   ...
 }:
 let
@@ -25,7 +26,7 @@ in
       text = "";
     };
 
-    packages = with pkgs; [
+    packages = (with pkgs; [
       # Networking
       sshuttle
 
@@ -43,6 +44,8 @@ in
 
       # QR on bill
       balena-cli
+    ]) ++ [
+      auggie
     ];
 
     activation = {
