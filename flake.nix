@@ -58,6 +58,8 @@
         inherit system;
         config.allowUnfree = true;
       };
+
+      auggie = import ./packages/auggie/package.nix { inherit pkgs; };
     in
     {
       nixosConfigurations = {
@@ -71,6 +73,7 @@
               inherit system;
               inherit host;
               inherit username;
+              inherit auggie;
             };
             modules = [
               ./hosts/${host}/configuration.nix
@@ -81,6 +84,7 @@
                     inherit username;
                     inherit inputs;
                     inherit host;
+                    inherit auggie;
                   };
                   useGlobalPkgs = true;
                   useUserPackages = true;
