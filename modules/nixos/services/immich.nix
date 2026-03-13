@@ -51,6 +51,7 @@
     port = globals.ports.immich;
     mediaLocation = globals.zfs.data.immich.mountPoint;
     accelerationDevices = [ "/dev/dri/by-path/pci-0000:01:00.0-render" ];
+    machine-learning.enable = false;
     database = {
       enable = false;
       host = "127.0.0.1";
