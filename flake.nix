@@ -41,6 +41,10 @@
     impermanence = {
       url = "github:nix-community/impermanence";
     };
+
+    sunday-augment = {
+      url = "git+ssh://git@github.com/sundayapp/augment-tools";
+    };
   };
 
   outputs =

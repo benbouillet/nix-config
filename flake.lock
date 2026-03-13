@@ -441,7 +441,8 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "sops-nix": "sops-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "sunday-augment": "sunday-augment"
       }
     },
     "sops-nix": {
@@ -494,6 +495,21 @@
         "owner": "danth",
         "repo": "stylix",
         "type": "github"
+      }
+    },
+    "sunday-augment": {
+      "locked": {
+        "lastModified": 1773421619,
+        "narHash": "sha256-H0MHEO9W5l0rHOQKdZub3yO/74itZg5N18amZ1i8bKM=",
+        "ref": "refs/heads/main",
+        "rev": "e43162acb74c22b5059de179a68330024ef5acd9",
+        "revCount": 81,
+        "type": "git",
+        "url": "ssh://git@github.com/sundayapp/augment-tools"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/sundayapp/augment-tools"
       }
     },
     "systems": {

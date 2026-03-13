@@ -26,27 +26,29 @@ in
       text = "";
     };
 
-    packages = (with pkgs; [
-      # Networking
-      sshuttle
+    packages =
+      (with pkgs; [
+        # Networking
+        sshuttle
 
-      # Cloud
-      (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-      awscli2
+        # Cloud
+        (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+        awscli2
 
-      # Messaging
-      slack
-      postman
-      dbeaver-bin
+        # Messaging
+        slack
+        postman
+        dbeaver-bin
 
-      # DB
-      jetbrains.datagrip
+        # DB
+        jetbrains.datagrip
 
-      # QR on bill
-      balena-cli
-    ]) ++ [
-      auggie
-    ];
+        # QR on bill
+        balena-cli
+      ])
+      ++ [
+        auggie
+      ];
 
     activation = {
       removeFirefoxSundayppBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

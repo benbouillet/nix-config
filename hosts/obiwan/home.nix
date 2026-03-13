@@ -1,6 +1,7 @@
 {
   pkgs,
   username,
+  inputs,
   ...
 }:
 {
@@ -45,6 +46,7 @@
     ../../modules/home/music.nix
     ./syncthing.nix
     ./monitors.nix
+    inputs.sunday-augment.homeManagerModules.default
   ];
 
   programs.ssh = {
