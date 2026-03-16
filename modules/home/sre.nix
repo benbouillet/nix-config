@@ -1,5 +1,6 @@
 {
   pkgs,
+  opencode-augment-auth,
   ...
 }:
 {
@@ -84,9 +85,9 @@
         autoshare = false;
         autoupdate = true;
         plugin = [
-          "opencode-augment-auth"
+          "${opencode-augment-auth}"
         ];
-        model = "augment/claude-sonnet-4.5";
+        model = "augment/claude-sonnet-4-5";
       };
       rules = ''
         ## Environment

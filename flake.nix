@@ -69,6 +69,7 @@
       };
 
       auggie = import ./packages/auggie/package.nix { inherit pkgs; };
+      opencode-augment-auth = import ./packages/opencode-augment-auth/package.nix { inherit pkgs; };
     in
     {
       nixosConfigurations = {
@@ -94,6 +95,7 @@
                     inherit inputs;
                     inherit host;
                     inherit auggie;
+                    inherit opencode-augment-auth;
                   };
                   useGlobalPkgs = true;
                   useUserPackages = true;
