@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   username,
   ...
@@ -17,7 +18,9 @@
     swappy
     seafile-client
     bitwarden-cli
-    bitwarden-desktop
+    # bitwarden-desktop
+    inputs.nixpkgs-bitwarden.legacyPackages.${pkgs.system}.bitwarden-desktop
+    qobuz-player
   ];
 
   programs = {

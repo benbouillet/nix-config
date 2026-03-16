@@ -438,6 +438,7 @@
         "impermanence": "impermanence",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-bitwarden": "nixpkgs-bitwarden",
         "nixvim": "nixvim",
         "nur": "nur",
         "sops-nix": "sops-nix",

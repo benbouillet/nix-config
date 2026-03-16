@@ -45,6 +45,11 @@
     sunday-augment = {
       url = "git+ssh://git@github.com/sundayapp/augment-tools";
     };
+
+    # TEMP waiting for fix
+    nixpkgs-bitwarden = {
+      url = "github:nixos/nixpkgs/6d8ffea89217a81866905574e9df26e0fcc6b97c";
+    };
   };
 
   outputs =
