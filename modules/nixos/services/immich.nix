@@ -58,7 +58,6 @@
       port = globals.ports.postgres;
       user = "immich";
       name = "immich";
-      enableVectors = false;
     };
     redis = {
       enable = false;
