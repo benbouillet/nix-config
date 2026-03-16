@@ -80,6 +80,14 @@
         '';
       };
       enableMcpIntegration = true;
+      settings = {
+        autoshare = false;
+        autoupdate = true;
+        plugin = [
+          "opencode-augment-auth"
+        ];
+        model = "augment/claude-sonnet-4.5";
+      };
       rules = ''
         ## Environment
         - Stack: Kubernetes (kubectl, k9s, argocd, istioctl), Terraform (via tenv), AWS, Podman
