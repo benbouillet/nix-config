@@ -171,6 +171,10 @@ in
 
       # Immich overrides
       zfs set quota=200G                       hdd/data/immich
+
+      # Radicale overrides
+      zfs set mountpoint=/srv/data/radicale    ssd/data/radicale
+      zfs set quota=1G                         ssd/data/radicale
     '';
   };
 }

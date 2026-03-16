@@ -27,6 +27,7 @@ let
       mealie = 9060;
       immich = 9061;
       lubelogger = 9062;
+      radicale = 9063;
       vaultwarden = 9070;
       prometheus = 9090;
       authelia = 9091;
@@ -145,6 +146,10 @@ let
         immich = {
           name = "hdd/data/immich";
           mountPoint = "/srv/data/immich";
+        };
+        radicale = {
+          name = "ssd/data/radicale";
+          mountPoint = "/srv/data/radicale";
         };
       };
     };

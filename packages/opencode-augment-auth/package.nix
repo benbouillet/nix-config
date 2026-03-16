@@ -25,4 +25,3 @@ pkgs.buildNpmPackage {
     license = pkgs.lib.licenses.mit;
   };
 }
-

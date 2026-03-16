@@ -22,6 +22,7 @@
     ../../modules/nixos/services/loki.nix
     ../../modules/nixos/services/ntfy.nix
     ../../modules/nixos/services/immich.nix
+    ../../modules/nixos/services/radicale.nix
     ../../modules/nixos/services/vaultwarden.nix
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
