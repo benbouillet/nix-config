@@ -10,7 +10,7 @@
     ];
     file.".todo/config" = {
       text = ''
-export TODO_DIR="/home/${username}/sync/toolbox/todotxt"
+export TODO_DIR="/home/${username}/Seafile/ben/todotxt"
       '';
     };
   };
