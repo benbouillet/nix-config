@@ -273,7 +273,7 @@ in
     };
 
     "nextcloud-nginx" = {
-      image = "docker.io/nginx:1.29.5-alpine";
+      image = "docker.io/nginx:1.29.6-alpine";
       extraOptions = [
         "--memory=128m"
         "--memory-swap=128m"
