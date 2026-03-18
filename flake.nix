@@ -80,7 +80,6 @@
           nixpkgs.lib.nixosSystem {
             specialArgs = {
               inherit inputs;
-              inherit system;
               inherit host;
               inherit username;
               inherit auggie;
@@ -112,7 +111,6 @@
           nixpkgs.lib.nixosSystem {
             specialArgs = {
               inherit inputs;
-              inherit system;
               inherit host;
               inherit username;
             };
@@ -130,7 +128,6 @@
           nixpkgs.lib.nixosSystem {
             specialArgs = {
               inherit inputs;
-              inherit system;
               inherit host;
               inherit username;
             };
