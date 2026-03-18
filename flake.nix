@@ -48,7 +48,7 @@
 
     # TEMP waiting for fix
     nixpkgs-bitwarden = {
-      url = "github:nixos/nixpkgs/6d8ffea89217a81866905574e9df26e0fcc6b97c";
+      url = "github:nixos/nixpkgs/e23fc8baed2557531354f724f0db4d775b056c49";
     };
   };
 
