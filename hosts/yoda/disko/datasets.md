@@ -27,22 +27,6 @@ sudo zfs create \
 
 ```sh
 sudo zfs create \
-  -o mountpoint=/srv/nextcloud \
-  -o quota=200G \
-  -o canmount=on \
-  -o atime=off \
-  -o compression=zstd \
-  -o xattr=sa \
-  -o acltype=posixacl \
-  -o aclinherit=passthrough \
-  -o aclmode=restricted \
-  -o dnodesize=auto \
-  -o recordsize=16K \
-  ssd/nextcloud
-```
-
-```sh
-sudo zfs create \
   -o mountpoint=/srv/seafile \
   -o quota=100G \
   -o canmount=on \

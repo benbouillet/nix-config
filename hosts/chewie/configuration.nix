@@ -29,7 +29,6 @@
     ../../modules/nixos/services/containers/lubelogger.nix
     # ../../modules/nixos/services/containers/ai.nix
     # ../../modules/nixos/services/containers/paperless.nix
-    # ../../modules/nixos/services/containers/nextcloud.nix
     ../../modules/nixos/services/containers/seafile.nix
     ../../modules/nixos/services/containers/search.nix
     # ../../modules/nixos/services/containers/steam.nix

@@ -21,7 +21,6 @@ let
       searxng = 9030;
       perplexica = 9031;
       paperless = 9040;
-      nextcloud = 9050;
       seafile = 9054;
       seafile-notification-server = 9055;
       mealie = 9060;
@@ -97,7 +96,6 @@ let
       containersVolumes = "/srv/containers";
       models = "/srv/models";
       mediaVolume = "/srv/arrdata";
-      nextcloud = "/srv/nextcloud";
       seafile = "/srv/seafile";
       postgres = "/srv/postgres";
     };
