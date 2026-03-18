@@ -154,7 +154,7 @@
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       extraOptions = [
-        "--memory=256m"
+        "--memory=386m"
       ];
     };
 
