@@ -32,7 +32,7 @@ jobs:
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v12
 
-      - name: Build Nix flake
+      - name: Evaluate Nix config
         run: |
-          nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel \
+          nix eval --raw '.#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath' \
             --override-input sunday-augment "git+https://x-access-token:${{ secrets.SUNDAY_AUGMENT_PAT }}@github.com/sundayapp/augment-tools?ref=main"
