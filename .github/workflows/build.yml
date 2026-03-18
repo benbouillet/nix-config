@@ -15,6 +15,7 @@ jobs:
         host:
           - obiwan
           - chewie
+          - yoda
 
     steps:
       - uses: actions/checkout@v6
@@ -32,4 +33,6 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@v12
 
       - name: Build Nix flake
-        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+        run: |
+          nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel \
+            --override-input sunday-augment "git+https://x-access-token:${{ secrets.SUNDAY_AUGMENT_PAT }}@github.com/sundayapp/augment-tools"

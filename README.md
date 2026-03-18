@@ -57,6 +57,10 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 ```
 
 
+# TODO
+
+- [ ] **CI/CD**: handle private GitHub flake inputs (e.g. `sunday-augment`) — the pipeline needs SSH/token access to private repos before it can evaluate the flake.
+
 # Features
 - [x] Tailscale-backed network layout
 - [x] Server hardening
