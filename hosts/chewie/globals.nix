@@ -148,7 +148,7 @@ let
           mountPoint = "/srv/data/immich";
         };
         radicale = {
-          name = "ssd/data/radicale";
+          name = "hdd/data/radicale";
           mountPoint = "/srv/data/radicale";
         };
       };

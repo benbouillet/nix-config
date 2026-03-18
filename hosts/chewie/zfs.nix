@@ -56,31 +56,16 @@ in
   ########################################
   # Syncoid pulled from yoda
   ########################################
-  users.groups.syncoid = { };
-
   users.users.syncoid = {
-    isSystemUser = true;
-    group = "syncoid";
-    home = "/var/lib/syncoid";
-    createHome = true;
     shell = pkgs.bashInteractive;
+    openssh.authorizedKeys.keys = [
+      yodaToChewiePublicKey
+    ];
   };
 
-  security.sudo.extraRules = [
-    {
-      users = [ "syncoid" ];
-      commands = [
-        {
-          command = "/run/current-system/sw/bin/zfs";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
-
-  users.users.syncoid.openssh.authorizedKeys.keys = [
-    yodaToChewiePublicKey
-  ];
+  services.syncoid = {
+    enable = true;
+  };
 
   ########################################
   # Options
@@ -173,8 +158,8 @@ in
       zfs set quota=200G                       hdd/data/immich
 
       # Radicale overrides
-      zfs set mountpoint=/srv/data/radicale    ssd/data/radicale
-      zfs set quota=1G                         ssd/data/radicale
+      zfs set mountpoint=/srv/data/radicale    hdd/data/radicale
+      zfs set quota=1G                         hdd/data/radicale
     '';
   };
 }

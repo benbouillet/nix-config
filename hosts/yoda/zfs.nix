@@ -30,38 +30,11 @@
   ########################################
   # Syncoid (pulling from chewie)
   ########################################
-  users.groups.syncoid = { };
-
-  users.users.syncoid = {
-    isSystemUser = true;
-    group = "syncoid";
-    home = "/var/lib/syncoid";
-    createHome = true;
-    shell = pkgs.bashInteractive;
-  };
-
-  systemd.tmpfiles.rules = [
-    "d /var/lib/syncoid/.ssh 0700 syncoid syncoid - -"
-  ];
-
-  security.sudo.extraRules = [
-    {
-      users = [ "syncoid" ];
-      commands = [
-        {
-          command = "${pkgs.zsh}/bin/zfs";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
-
   sops.secrets = {
     "ssh/yodaToChewieSyncoidKeyPriv" = {
       owner = "syncoid";
       group = "syncoid";
       mode = "0400";
-      path = "/var/lib/syncoid/.ssh/chewie_root_ed25519";
     };
     "ssh/yodaToChewieLocal" = {
       owner = "root";
@@ -73,6 +46,30 @@
   programs.ssh.extraConfig = ''
     Include ${config.sops.secrets."ssh/yodaToChewieLocal".path}
   '';
+
+  services.syncoid = {
+    enable = true;
+    sshKey = config.sops.secrets."ssh/yodaToChewieSyncoidKeyPriv".path;
+    interval = "*-*-* 04:00:00";
+    commands = {
+      "databases" = {
+        source = "syncoid@chewie:ssd/db";
+        target = "ssd/backups/chewie/db";
+        recursive = true;
+      };
+    };
+  };
+
+  ########################################
+  # Snapshots
+  ########################################
+  services.sanoid.datasets = {
+    "ssd/backups" = {
+      use_template = [ "backup" ];
+      recursive = true;
+      process_children_only = true;
+    };
+  };
 
   ########################################
   # Options
@@ -113,8 +110,8 @@
       zfs set mountpoint=none                  ssd/backups
       zfs set quota=2T                         ssd/backups
 
-      zfs set mountpoint=none                  ssd/backups/yoda
-      zfs set quota=1T                         ssd/backups/yoda
+      zfs set mountpoint=none                  ssd/backups/chewie
+      zfs set quota=1T                         ssd/backups/chewie
     '';
   };
 }

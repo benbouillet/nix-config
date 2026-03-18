@@ -24,11 +24,8 @@
   };
 
   ########################################
-  # VM host bits (optional but handy)
+  # Sanoid
   ########################################
-  virtualisation.libvirtd.enable = true;
-  zramSwap.enable = true;
-
   services.sanoid = {
     enable = true;
     interval = "hourly";
@@ -38,13 +35,13 @@
         daily = 0;
         weekly = 0;
         monthly = 0;
-        autosnap = true;
+        autosnap = false;
         autoprune = true;
       };
       "standard" = {
         hourly = 24;
         daily = 7;
-        weekly = 3;
+        weekly = 0;
         monthly = 0;
         autosnap = true;
         autoprune = true;
@@ -61,10 +58,17 @@
         hourly = 0;
         daily = 7;
         weekly = 4;
-        monthly = 6;
-        yearly = 1;
+        monthly = 1;
+        yearly = 0;
         autosnap = true;
         autoprune = true;
+      };
+      "backup" = {
+        autosnap = false;
+        autoprune = true;
+        daily = 30;
+        weekly = 8;
+        monthly = 12;
       };
     };
   };
