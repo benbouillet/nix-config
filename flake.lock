@@ -332,17 +332,17 @@
     },
     "nixpkgs-bitwarden": {
       "locked": {
-        "lastModified": 1773871584,
-        "narHash": "sha256-VFtaBEQ00BNujiYSd07R8Tvjv56P3QJow1N5bTy9z6g=",
+        "lastModified": 1773925113,
+        "narHash": "sha256-ogwPyKiseiaq2veylFpusAgihbvSPRkrCAyYcEw72p0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e23fc8baed2557531354f724f0db4d775b056c49",
+        "rev": "c32aa27b81b30e00ae1dcbcdd6a674f7dd2293ac",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e23fc8baed2557531354f724f0db4d775b056c49",
+        "rev": "c32aa27b81b30e00ae1dcbcdd6a674f7dd2293ac",
         "type": "github"
       }
     },
