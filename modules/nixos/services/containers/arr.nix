@@ -159,7 +159,7 @@
     };
 
     "sonarr" = {
-      image = "lscr.io/linuxserver/sonarr:4.0.16";
+      image = "lscr.io/linuxserver/sonarr:4.0.17";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
