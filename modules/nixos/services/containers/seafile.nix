@@ -75,7 +75,7 @@
 
   virtualisation.oci-containers.containers = {
     seafile = {
-      image = "seafileltd/seafile-mc:13.0.18";
+      image = "seafileltd/seafile-mc:13.0.19";
       autoStart = true;
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
