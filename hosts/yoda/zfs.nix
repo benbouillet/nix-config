@@ -56,6 +56,7 @@
         source = "syncoid@chewie:ssd/db";
         target = "ssd/backups/chewie/db";
         recursive = true;
+        extraArgs = [ "--no-sync-snap" ];
       };
     };
   };
@@ -107,11 +108,18 @@
       zfs set dnodesize=auto                   ssd
       zfs set recordsize=16K                   ssd
 
+      # Backups defaults
+      zfs create -p                            ssd/backups 2>/dev/null || true
       zfs set mountpoint=none                  ssd/backups
       zfs set quota=2T                         ssd/backups
 
+      # Chewie backups
+      zfs create -p                            ssd/backups/chewie 2>/dev/null || true
       zfs set mountpoint=none                  ssd/backups/chewie
       zfs set quota=1T                         ssd/backups/chewie
+
+      # Chewie backup targets
+      zfs create -p                            ssd/backups/chewie/db 2>/dev/null || true
     '';
   };
 }
