@@ -12,6 +12,16 @@ pkgs.buildNpmPackage {
 
   npmDepsHash = "sha256-vUp7XPA6z8yvnTPlJVouQJy9KsVRCGT35SYFR3ylaHg=";
 
+  postPatch = ''
+    # Replace deprecated apiKey/apiUrl auth with AUGMENT_SESSION_AUTH env var
+    substituteInPlace src/server.ts \
+      --replace-fail 'apiKey: sess.accessToken,' "" \
+      --replace-fail 'apiUrl: sess.tenantURL,' "" \
+      --replace-fail 'return AuggieClass.create({' \
+        'process.env.AUGMENT_SESSION_AUTH = JSON.stringify(sess);
+    return AuggieClass.create({'
+  '';
+
   installPhase = ''
     runHook preInstall
     mkdir -p $out
