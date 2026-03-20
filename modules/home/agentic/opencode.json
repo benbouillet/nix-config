@@ -1,0 +1,84 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "augment/claude-sonnet-4-5",
+  "autoshare": false,
+  "autoupdate": false,
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      ".git/**",
+      ".terragrunt-cache/**"
+    ]
+  },
+  "agent": {
+    "sre": {
+      "description": "Senior SRE/DevOps engineer for Kubernetes, Terraform, and infrastructure",
+      "mode": "subagent",
+      "model": "augment/claude-sonnet-4-5",
+      "temperature": 0.1,
+      "prompt": "{file:./agents/sre.md}",
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "allow",
+          "kubectl apply*": "deny",
+          "kubectl delete*": "deny",
+          "kubectl patch*": "deny",
+          "kubectl rollout*": "deny",
+          "kubectl scale*": "deny",
+          "kubectl edit*": "deny",
+          "kubectl replace*": "deny",
+          "kubectl drain*": "deny",
+          "kubectl cordon*": "deny",
+          "kubectl uncordon*": "deny",
+          "kubectl taint*": "deny",
+          "kubectl label*": "deny",
+          "kubectl annotate*": "deny",
+          "kubectl exec*": "deny",
+          "terraform apply*": "deny",
+          "terraform destroy*": "deny",
+          "terraform import*": "deny",
+          "terraform state rm*": "deny",
+          "terraform state mv*": "deny",
+          "terragrunt apply*": "deny",
+          "terragrunt destroy*": "deny",
+          "terragrunt run-all apply*": "deny",
+          "argocd app sync*": "deny",
+          "argocd app delete*": "deny",
+          "argocd app set*": "deny",
+          "helm install*": "deny",
+          "helm upgrade*": "deny",
+          "helm uninstall*": "deny",
+          "helm rollback*": "deny",
+          "nixos-rebuild switch*": "deny",
+          "nixos-rebuild boot*": "deny",
+          "nixos-rebuild test*": "deny",
+          "rm -rf*": "deny",
+          "curl -X POST*": "deny",
+          "curl -X PUT*": "deny",
+          "curl -X DELETE*": "deny",
+          "curl -X PATCH*": "deny"
+        }
+      }
+    },
+    "nix": {
+      "description": "Senior Nix/NixOS expert for configuration analysis, packages, options, and flakes. Can fetch up-to-date documentation from nixos.org, home-manager-options.extranix.com, and NixOS community resources.",
+      "mode": "subagent",
+      "model": "augment/claude-sonnet-4-5",
+      "temperature": 0.1,
+      "prompt": "{file:./agents/nix.md}",
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "*": "allow",
+          "nixos-rebuild switch*": "deny",
+          "nixos-rebuild boot*": "deny",
+          "nixos-rebuild test*": "deny",
+          "nix-channel --update*": "deny",
+          "rm -rf*": "deny"
+        }
+      }
+    }
+  }
+}

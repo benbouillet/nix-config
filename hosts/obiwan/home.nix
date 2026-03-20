@@ -24,7 +24,7 @@
 
   imports = [
     ../../modules/home/neovim
-    ../../modules/home/agentic.nix
+    ../../modules/home/agentic
     ../../modules/home/firefox.nix
     ../../modules/home/tmux.nix
     ../../modules/home/zsh.nix
