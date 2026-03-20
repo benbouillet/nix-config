@@ -54,19 +54,20 @@
             }
             { name = "neorg"; }
           ];
-
-          extraConfigLua = ''
-            local cmp = require("cmp")
-
-            -- Disable completion for markdown
-            cmp.setup.filetype("markdown", {
-              enabled = function()
-                return false
-              end,
-            })
-          '';
         };
+
       };
     };
+
+    extraConfigLua = ''
+      local cmp = require("cmp")
+
+      -- Disable completion for markdown
+      cmp.setup.filetype("markdown", {
+        enabled = function()
+          return false
+        end,
+      })
+    '';
   };
 }
