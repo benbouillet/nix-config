@@ -21,17 +21,15 @@
       tmuxPlugins.pain-control
       tmuxPlugins.resurrect
       tmuxPlugins.continuum
-      {
-        plugin = tmuxPlugins.catppuccin;
-        extraConfig = ''
-          set -g @catppuccin_flavor 'frappe'
-        '';
-      }
+      tmuxPlugins.battery
     ];
     extraConfig = ''
       # Opacity
       set -g default-terminal "xterm-256color"
       set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+      # Battery in status bar
+      set -g status-right '#{battery_icon} #{battery_percentage} | %a %d/%m %H:%M '
     '';
   };
 }
