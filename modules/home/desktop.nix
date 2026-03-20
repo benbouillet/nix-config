@@ -18,8 +18,7 @@
     swappy
     seafile-client
     bitwarden-cli
-    # bitwarden-desktop
-    inputs.nixpkgs-bitwarden.legacyPackages.${pkgs.system}.bitwarden-desktop
+    bitwarden-desktop
     qobuz-player
   ];
 
