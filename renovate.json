@@ -24,6 +24,7 @@
   "nix": {
     "enabled": true
   },
+  "ignoreDeps": ["sunday-augment"],
   "packageRules": [],
   "customManagers": [
     {
