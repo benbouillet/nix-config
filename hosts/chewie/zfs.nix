@@ -92,6 +92,9 @@ in
     };
 
     script = ''
+      # Syncoid source permissions (pulled by yoda)
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/db
+
       # SSD pool defaults
       zfs set compression=zstd                 ssd
       zfs set atime=off                        ssd
