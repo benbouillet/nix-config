@@ -21,15 +21,28 @@
       tmuxPlugins.pain-control
       tmuxPlugins.resurrect
       tmuxPlugins.continuum
-      tmuxPlugins.battery
     ];
     extraConfig = ''
       # Opacity
       set -g default-terminal "xterm-256color"
       set-option -ga terminal-overrides ",xterm-256color:Tc"
 
-      # Battery in status bar
-      set -g status-right '#{battery_icon} #{battery_percentage} | %a %d/%m %H:%M '
+      # Status bar layout (powerline-style, colors from Stylix)
+      set -g status-justify left
+      set -g status-position bottom
+      set -g status-interval 60
+
+      # Left: session name
+      set -g status-left-length 30
+      set -g status-left '#[bold] #S #[nobold]'
+
+      # Right: battery, date, time
+      set -g status-right-length 60
+      set -g status-right '#[fg=default] 🔋 #(cat /sys/class/power_supply/BAT1/capacity)%%  %a %d/%m  %H:%M '
+
+      # Window tabs
+      set -g window-status-format ' #I:#W '
+      set -g window-status-current-format '#[bold] #I:#W '
     '';
   };
 }
