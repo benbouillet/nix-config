@@ -7,7 +7,6 @@ let
       lldapLdap = 3890;
       postgres = 5432;
       redis = 6379;
-      steam = 8083;
       bazarr = 9010;
       prowlarr = 9011;
       radarr = 9012;
@@ -47,10 +46,6 @@ let
       };
     };
     users = {
-      steam = {
-        name = "steam";
-        UID = 950;
-      };
       arr = {
         name = "arr";
         UID = 920;
@@ -76,10 +71,6 @@ let
       oidc = {
         name = "oidc";
         GID = 931;
-      };
-      steam = {
-        name = "steam";
-        GID = 950;
       };
       containers = {
         name = "containers";
