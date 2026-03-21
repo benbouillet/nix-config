@@ -39,7 +39,7 @@
 
   virtualisation.oci-containers.containers = {
     "paperless" = {
-      image = "ghcr.io/paperless-ngx/paperless-ngx:2.20.11";
+      image = "ghcr.io/paperless-ngx/paperless-ngx:2.20.12";
       ports = [
         "127.0.0.1:${toString globals.ports.paperless}:8000"
       ];
