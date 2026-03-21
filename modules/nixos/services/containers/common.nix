@@ -31,6 +31,7 @@
   ];
 
   networking.firewall.interfaces."podman0".allowedTCPPorts = [
+    443
     globals.ports.postgres
     globals.ports.mysql
     globals.ports.redis
