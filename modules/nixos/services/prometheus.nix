@@ -189,7 +189,7 @@ in
         static_configs = [
           {
             targets = [
-              "chewie:${toString globals.ports.prometheus_exporters.node}"
+              "127.0.0.1:${toString globals.ports.prometheus_exporters.node}"
             ];
           }
         ];
@@ -221,7 +221,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -252,7 +252,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -283,7 +283,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "chewie:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -293,7 +293,7 @@ in
         static_configs = [
           {
             targets = [
-              "chewie:${toString globals.ports.prometheus_exporters.zfs}"
+              "127.0.0.1:${toString globals.ports.prometheus_exporters.zfs}"
             ];
           }
         ];
@@ -312,7 +312,7 @@ in
       blackbox = {
         enable = true;
         port = globals.ports.prometheus_exporters.blackbox;
-        listenAddress = "0.0.0.0";
+        listenAddress = "127.0.0.1";
         configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
       };
     };

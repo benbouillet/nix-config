@@ -28,7 +28,7 @@ in
   services.prometheus.exporters.zfs = {
     enable = true;
     telemetryPath = "/metrics";
-    listenAddress = "0.0.0.0";
+    listenAddress = "127.0.0.1";
     port = globals.ports.prometheus_exporters.zfs;
   };
 
