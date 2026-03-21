@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   globals,
   ...
 }:
@@ -10,6 +11,31 @@
   ];
 
   networking.firewall.interfaces."podman0".allowedTCPPorts = [ globals.ports.postgres ];
+
+  sops.secrets."postgresql/lldap" = {
+    owner = "postgres";
+    mode = "0400";
+  };
+  sops.secrets."postgresql/authelia" = {
+    owner = "postgres";
+    mode = "0400";
+  };
+  sops.secrets."postgresql/immich" = {
+    owner = "postgres";
+    mode = "0400";
+  };
+  sops.secrets."postgresql/vaultwarden" = {
+    owner = "postgres";
+    mode = "0400";
+  };
+  sops.secrets."postgresql/mealie" = {
+    owner = "postgres";
+    mode = "0400";
+  };
+  sops.secrets."postgresql/paperless" = {
+    owner = "postgres";
+    mode = "0400";
+  };
 
   services.postgresql = {
     enable = true;
@@ -34,6 +60,29 @@
 
       # Podman bridge
       host    all             all             ${globals.podmanBridgeCIDR}     md5
+    '';
+  };
+
+  systemd.services.postgresql-passwords = {
+    description = "Set PostgreSQL role passwords from sops secrets";
+    after = [ "postgresql-setup.service" ];
+    requires = [ "postgresql-setup.service" ];
+    wantedBy = [ "postgresql.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "postgres";
+      RemainAfterExit = true;
+    };
+    path = [ config.services.postgresql.finalPackage ];
+    environment.PGPORT = toString config.services.postgresql.settings.port;
+    script = ''
+      set -euo pipefail
+      psql -tAc "ALTER ROLE lldap PASSWORD '$(cat ${config.sops.secrets."postgresql/lldap".path})';"
+      psql -tAc "ALTER ROLE authelia PASSWORD '$(cat ${config.sops.secrets."postgresql/authelia".path})';"
+      psql -tAc "ALTER ROLE immich PASSWORD '$(cat ${config.sops.secrets."postgresql/immich".path})';"
+      psql -tAc "ALTER ROLE vaultwarden PASSWORD '$(cat ${config.sops.secrets."postgresql/vaultwarden".path})';"
+      psql -tAc "ALTER ROLE mealie PASSWORD '$(cat ${config.sops.secrets."postgresql/mealie".path})';"
+      psql -tAc "ALTER ROLE paperless PASSWORD '$(cat ${config.sops.secrets."postgresql/paperless".path})';"
     '';
   };
 }

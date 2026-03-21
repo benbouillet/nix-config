@@ -24,7 +24,6 @@
           createrole = true;
           createdb = true;
           connection_limit = 20;
-          password = "SCRAM-SHA-256$4096:9eDc5jPSOR/GGiqwDn9oVg==$h64D93+wBWXwF+tLiEz8cq9cXrvQvbZ8Kuf7ms9bSKY=:JfQacPMggQ1rBpbUZz+dRKZ+f+l1ww2uwDe9Uv6zXhM=";
         };
       }
     ];

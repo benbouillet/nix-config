@@ -89,7 +89,6 @@
             createrole = true;
             createdb = true;
             connection_limit = 5;
-            password = "SCRAM-SHA-256$4096:hDpTFtNaDMBJKeivoyfkhQ==$zEvVeTD6w9U+GQhxu6BSzu+VFQ0x+ucJn5zkj4KXMOk=:2FXSWeQh+LaC+tQ4A5waU2D3uYE3uoef9oV6I5q4Rt8=";
           };
         }
         {
@@ -99,7 +98,6 @@
             createrole = true;
             createdb = true;
             connection_limit = 5;
-            password = "SCRAM-SHA-256$4096:0VaMc/tMcHS/mb/CPtCW9Q==$UJ9Jjmnr5O+a4JRhqbG3a74ZEpXwMelWNwPXzc1FvUo=:u9pn9psBM1kCoEVhXI8/1Pfpwt8qkss3RQY4q0Awsn8=";
           };
         }
       ];
