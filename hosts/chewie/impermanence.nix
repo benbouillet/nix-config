@@ -65,7 +65,6 @@
     directories = [
       "/var/lib"
       "/var/log"
-      "/srv"
     ];
     files = [
       "/etc/machine-id"
