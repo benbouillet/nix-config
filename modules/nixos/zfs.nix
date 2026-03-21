@@ -66,6 +66,7 @@
       "backup" = {
         autosnap = false;
         autoprune = true;
+        hourly = 0;
         daily = 30;
         weekly = 8;
         monthly = 12;
