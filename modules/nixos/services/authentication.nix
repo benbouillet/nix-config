@@ -41,16 +41,6 @@
     mode = "0440";
   };
 
-  environment.etc."authelia/users.yml".text = ''
-    users:
-      ben:
-        displayname: "Ben"
-        password: "$argon2id$v=19$m=65536,t=3,p=4$StQK5euegRUBrlwP8LUL/A$zLSkrFKn7Or6rKHUonVzfagVh2wKLW7knes+jFuLjQI"
-        email: "benbouillet@pm.me"
-        groups:
-          - users
-  '';
-
   users.users = {
     "${globals.users.authelia.name}" = {
       isSystemUser = true;
