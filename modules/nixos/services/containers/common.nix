@@ -30,7 +30,11 @@
     "podman"
   ];
 
-  networking.firewall.trustedInterfaces = [ "podman0" ];
+  networking.firewall.interfaces."podman0".allowedTCPPorts = [
+    globals.ports.postgres
+    globals.ports.mysql
+    globals.ports.redis
+  ];
 
   systemd.services =
     # Creates containers mounts host folders before starting podman services
