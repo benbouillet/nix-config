@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   globals,
   ...
@@ -39,6 +40,18 @@
     owner = globals.users.lldap.name;
     group = globals.groups.authentication.name;
     mode = "0440";
+  };
+  sops.secrets."authelia/oidcClientSecretImmich" = {
+    owner = globals.users.authelia.name;
+    mode = "0400";
+  };
+  sops.secrets."authelia/oidcClientSecretMealie" = {
+    owner = globals.users.authelia.name;
+    mode = "0400";
+  };
+  sops.secrets."authelia/oidcClientSecretPaperless" = {
+    owner = globals.users.authelia.name;
+    mode = "0400";
   };
 
   users.users = {
@@ -186,6 +199,62 @@
         storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
         oidcIssuerPrivateKeyFile = config.sops.secrets."authelia/oidcIssuerKey".path;
       };
+
+      settingsFiles = [
+        (pkgs.writeText "oidc-clients.yml" ''
+          identity_providers:
+            oidc:
+              clients:
+                - client_id: 'immich'
+                  client_name: 'Immich'
+                  client_secret: {{ secret "${config.sops.secrets."authelia/oidcClientSecretImmich".path}" }}
+                  public: false
+                  authorization_policy: 'one_factor'
+                  require_pkce: false
+                  pkce_challenge_method: ""
+                  redirect_uris:
+                    - 'https://images.${globals.domain}/auth/login'
+                    - 'https://images.${globals.domain}/user-settings'
+                    - 'app.immich:///oauth-callback'
+                  scopes: ['openid', 'profile', 'email']
+                  response_types: ['code']
+                  grant_types: ['authorization_code']
+                  access_token_signed_response_alg: 'none'
+                  userinfo_signed_response_alg: 'none'
+                  token_endpoint_auth_method: 'client_secret_post'
+                - client_id: 'mealie'
+                  client_name: 'Mealie'
+                  client_secret: {{ secret "${config.sops.secrets."authelia/oidcClientSecretMealie".path}" }}
+                  public: false
+                  authorization_policy: 'one_factor'
+                  require_pkce: true
+                  pkce_challenge_method: 'S256'
+                  redirect_uris:
+                    - 'https://mealie.${globals.domain}/login'
+                  scopes: ['openid', 'email', 'profile', 'groups']
+                  response_types: ['code']
+                  grant_types: ['authorization_code']
+                  access_token_signed_response_alg: 'none'
+                  userinfo_signed_response_alg: 'none'
+                  token_endpoint_auth_method: 'client_secret_basic'
+                - client_id: 'paperless'
+                  client_name: 'Paperless'
+                  client_secret: {{ secret "${config.sops.secrets."authelia/oidcClientSecretPaperless".path}" }}
+                  public: false
+                  authorization_policy: 'one_factor'
+                  require_pkce: true
+                  pkce_challenge_method: 'S256'
+                  consent_mode: 'implicit'
+                  redirect_uris:
+                    - 'https://docs.${globals.domain}/accounts/oidc/authelia/login/callback/'
+                  scopes: ['openid', 'profile', 'email', 'groups']
+                  response_types: ['code']
+                  grant_types: ['authorization_code']
+                  access_token_signed_response_alg: 'none'
+                  userinfo_signed_response_alg: 'none'
+                  token_endpoint_auth_method: 'client_secret_basic'
+        '')
+      ];
     };
 
     lldap = {

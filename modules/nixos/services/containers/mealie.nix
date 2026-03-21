@@ -85,35 +85,6 @@
       "https://mealie.${globals.domain}"
     ];
 
-    identity_providers.oidc = {
-      clients = [
-        {
-          client_id = "mealie";
-          client_name = "Mealie";
-          client_secret = "$pbkdf2-sha512$310000$4wZALgtXRL1x8fMB759IGg$AMv9qkI43LdSUO9EdZKVkO/vgWLrXMJiRrpQW4Nzd7kVm7x8gIAB5xcS5Aw.UrhMKX4Z1ZIolxIBhPCafmvIXA";
-          public = false;
-          authorization_policy = "one_factor";
-          require_pkce = true;
-          pkce_challenge_method = "S256";
-          redirect_uris = [
-            "https://mealie.${globals.domain}/login"
-          ];
-          scopes = [
-            "openid"
-            "email"
-            "profile"
-            "groups"
-          ];
-          response_types = [ "code" ];
-          grant_types = [
-            "authorization_code"
-          ];
-          access_token_signed_response_alg = "none";
-          userinfo_signed_response_alg = "none";
-          token_endpoint_auth_method = "client_secret_basic";
-        }
-      ];
-    };
   };
 
   systemd.services."podman-mealie" = {
