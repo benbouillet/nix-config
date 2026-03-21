@@ -13,7 +13,7 @@
   "osvVulnerabilityAlerts": true,
   "prHourlyLimit": 0,
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
   },
   "vulnerabilityAlerts": {
     "enabled": true,
