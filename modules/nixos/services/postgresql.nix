@@ -19,7 +19,7 @@
     ]);
     dataDir = globals.zfs.databases.postgres.mountPoint;
     settings = {
-      listen_addresses = lib.mkForce "*";
+      listen_addresses = lib.mkForce "127.0.0.1,${globals.podmanBridgeGateway}";
       port = globals.ports.postgres;
       password_encryption = "scram-sha-256";
       shared_preload_libraries = "vchord.so";

@@ -14,7 +14,7 @@
     package = pkgs.mariadb;
     dataDir = globals.zfs.databases.mysql.mountPoint;
     settings = {
-      mysqld.bind-address = "0.0.0.0";
+      mysqld.bind-address = "127.0.0.1,${globals.podmanBridgeGateway}";
       mysqld.port = globals.ports.mysql;
       mysqld."skip-name-resolve" = true;
     };
