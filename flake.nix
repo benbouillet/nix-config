@@ -21,7 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -65,74 +68,55 @@
 
       auggie = import ./packages/auggie/package.nix { inherit pkgs; };
       opencode-augment-auth = import ./packages/opencode-augment-auth/package.nix { inherit pkgs; };
+
+      mkHost =
+        {
+          host,
+          extraModules ? [ ],
+          extraSpecialArgs ? { },
+        }:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs host username; } // extraSpecialArgs;
+          modules = [ ./hosts/${host}/configuration.nix ] ++ extraModules;
+        };
     in
     {
       nixosConfigurations = {
-        "obiwan" =
-          let
-            host = "obiwan";
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs;
-              inherit host;
-              inherit username;
-              inherit auggie;
-            };
-            modules = [
-              ./hosts/${host}/configuration.nix
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  extraSpecialArgs = {
-                    inherit username;
-                    inherit inputs;
-                    inherit host;
-                    inherit auggie;
-                    inherit opencode-augment-auth;
-                  };
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  backupFileExtension = "backup";
-                  users.${username} = import ./hosts/${host}/home.nix;
+        "obiwan" = mkHost {
+          host = "obiwan";
+          extraSpecialArgs = { inherit auggie; };
+          extraModules = [
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  inherit username inputs auggie opencode-augment-auth;
+                  host = "obiwan";
                 };
-              }
-            ];
-          };
-        "chewie" =
-          let
-            host = "chewie";
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs;
-              inherit host;
-              inherit username;
-            };
-            modules = [
-              inputs.disko.nixosModules.disko
-              inputs.sops-nix.nixosModules.sops
-              inputs.impermanence.nixosModules.impermanence
-              ./hosts/${host}/configuration.nix
-            ];
-          };
-        "yoda" =
-          let
-            host = "yoda";
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs;
-              inherit host;
-              inherit username;
-            };
-            modules = [
-              inputs.disko.nixosModules.disko
-              inputs.sops-nix.nixosModules.sops
-              inputs.impermanence.nixosModules.impermanence
-              ./hosts/${host}/configuration.nix
-            ];
-          };
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.${username} = import ./hosts/obiwan/home.nix;
+              };
+            }
+          ];
+        };
+        "chewie" = mkHost {
+          host = "chewie";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
+          ];
+        };
+        "yoda" = mkHost {
+          host = "yoda";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
+          ];
+        };
       };
       packages.${system}.usbboot = nixos-generators.nixosGenerate {
         system = system;
