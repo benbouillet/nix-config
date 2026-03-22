@@ -184,7 +184,6 @@
               nil
               deadnix
               statix
-              alejandra
               nixdeploy
               scram-sha-256
             ];
