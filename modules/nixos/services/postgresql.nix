@@ -76,9 +76,13 @@
       psql -tAc "ALTER ROLE lldap PASSWORD '$(cat ${config.sops.secrets."postgresql/lldap".path})';"
       psql -tAc "ALTER ROLE authelia PASSWORD '$(cat ${config.sops.secrets."postgresql/authelia".path})';"
       psql -tAc "ALTER ROLE immich PASSWORD '$(cat ${config.sops.secrets."postgresql/immich".path})';"
-      psql -tAc "ALTER ROLE vaultwarden PASSWORD '$(cat ${config.sops.secrets."postgresql/vaultwarden".path})';"
+      psql -tAc "ALTER ROLE vaultwarden PASSWORD '$(cat ${
+        config.sops.secrets."postgresql/vaultwarden".path
+      })';"
       psql -tAc "ALTER ROLE mealie PASSWORD '$(cat ${config.sops.secrets."postgresql/mealie".path})';"
-      psql -tAc "ALTER ROLE paperless PASSWORD '$(cat ${config.sops.secrets."postgresql/paperless".path})';"
+      psql -tAc "ALTER ROLE paperless PASSWORD '$(cat ${
+        config.sops.secrets."postgresql/paperless".path
+      })';"
     '';
   };
 }
