@@ -6,6 +6,11 @@
 {
   networking.firewall.interfaces."podman0".allowedTCPPorts = [ globals.ports.redis ];
 
+  systemd.services.redis-raclette = {
+    after = [ "podman.service" ];
+    requires = [ "podman.service" ];
+  };
+
   services.redis = {
     package = pkgs.valkey;
     servers."raclette" = {
