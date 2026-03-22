@@ -17,7 +17,7 @@
   ########################################
   # ARC cap (adjust for your RAM)
   ########################################
-  # Example: cap ARC at ~8 GiB
+  # Cap ARC at ~16 GiB
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ];
 
   services.prometheus.exporters.zfs = {
@@ -58,6 +58,42 @@
         recursive = true;
         extraArgs = [ "--no-sync-snap" ];
       };
+      "infra" = {
+        source = "syncoid@chewie:ssd/services/infra";
+        target = "ssd/backups/chewie/services/infra";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
+      "apps" = {
+        source = "syncoid@chewie:ssd/services/apps";
+        target = "ssd/backups/chewie/services/apps";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
+      "immich" = {
+        source = "syncoid@chewie:hdd/data/immich";
+        target = "ssd/backups/chewie/data/immich";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
+      "seafile" = {
+        source = "syncoid@chewie:hdd/data/seafile";
+        target = "ssd/backups/chewie/data/seafile";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
+      "paperless" = {
+        source = "syncoid@chewie:hdd/data/paperless";
+        target = "ssd/backups/chewie/data/paperless";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
+      "radicale" = {
+        source = "syncoid@chewie:hdd/data/radicale";
+        target = "ssd/backups/chewie/data/radicale";
+        recursive = false;
+        extraArgs = [ "--no-sync-snap" ];
+      };
     };
   };
 
@@ -79,19 +115,14 @@
     description = "Setup ZFS dataset options";
 
     wantedBy = [ "multi-user.target" ];
-    after = [
-      "zfs-import.target"
-      "zfs-mount.service"
-    ];
-    requires = [
-      "zfs-import.target"
-      "zfs-mount.service"
-    ];
+    after = [ "zfs-import.target" ];
+    requires = [ "zfs-import.target" ];
 
     path = [ pkgs.zfs ];
 
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
       User = "root";
       Group = "root";
     };
@@ -109,17 +140,27 @@
       zfs set recordsize=16K                   ssd
 
       # Backups defaults
-      zfs create -p                            ssd/backups 2>/dev/null || true
+      zfs list ssd/backups >/dev/null 2>&1 || zfs create -p ssd/backups
       zfs set mountpoint=none                  ssd/backups
       zfs set quota=2T                         ssd/backups
 
       # Chewie backups
-      zfs create -p                            ssd/backups/chewie 2>/dev/null || true
+      zfs list ssd/backups/chewie >/dev/null 2>&1 || zfs create -p ssd/backups/chewie
       zfs set mountpoint=none                  ssd/backups/chewie
       zfs set quota=1T                         ssd/backups/chewie
 
       # Chewie backup targets
-      zfs create -p                            ssd/backups/chewie/db 2>/dev/null || true
+      zfs list ssd/backups/chewie/db >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/db
+      zfs list ssd/backups/chewie/services/infra >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/services/infra
+      zfs list ssd/backups/chewie/services/apps >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/services/apps
+
+      # Data backups
+      zfs list ssd/backups/chewie/data >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data
+      zfs set mountpoint=none                  ssd/backups/chewie/data
+      zfs list ssd/backups/chewie/data/seafile >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/seafile
+      zfs list ssd/backups/chewie/data/paperless >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/paperless
+      zfs list ssd/backups/chewie/data/immich >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/immich
+      zfs list ssd/backups/chewie/data/radicale >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/radicale
     '';
   };
 }
