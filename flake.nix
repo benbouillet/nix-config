@@ -58,14 +58,14 @@
       ...
     }@inputs:
     let
-      system = "x86_64-linux";
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      pkgsFor = system: import nixpkgs { inherit system; config.allowUnfree = true; };
+
       username = "ben";
 
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
+      # obiwan-only packages (x86_64)
+      pkgs = pkgsFor "x86_64-linux";
       auggie = import ./packages/auggie/package.nix { inherit pkgs; };
       opencode-augment-auth = import ./packages/opencode-augment-auth/package.nix { inherit pkgs; };
 
@@ -118,10 +118,11 @@
           ];
         };
       };
-      packages.${system}.usbboot = nixos-generators.nixosGenerate {
-        system = system;
-        format = "install-iso";
-        modules = [
+      packages = forAllSystems (system: {
+        usbboot = nixos-generators.nixosGenerate {
+          inherit system;
+          format = "install-iso";
+          modules = [
           {
             nix = {
               settings.experimental-features = [
@@ -145,41 +146,43 @@
             networking.networkmanager.enable = true;
           }
         ];
-      };
+        };
+      });
 
-      devShells.${system} = {
-        default =
-          let
-            nixdeploy = pkgs.writeShellApplication {
-              name = "nixdeploy";
-              text = ''
-                nixos-rebuild switch --flake ".#$1" \
-                  --target-host "$1" \
-                  --build-host "$1" \
-                  --sudo \
-                  --use-substitutes
-              '';
+      devShells = forAllSystems (system:
+        let
+          spkgs = pkgsFor system;
+          nixdeploy = spkgs.writeShellApplication {
+            name = "nixdeploy";
+            text = ''
+              nixos-rebuild switch --flake ".#$1" \
+                --target-host "$1" \
+                --build-host "$1" \
+                --sudo \
+                --use-substitutes
+            '';
+          };
+          scram-sha-256-build = spkgs.buildGoModule {
+            name = "scram-sha-256";
+            src = spkgs.fetchFromGitHub {
+              owner = "supercaracal";
+              repo = "scram-sha-256";
+              rev = "v1.1.0";
+              hash = "sha256-gl0q3q/24CALYuK9v23c9PZZPdmdSzkR6fAfLeLrgBA=";
             };
-            scram-sha-256-build = pkgs.buildGoModule {
-              name = "scram-sha-256";
-              src = pkgs.fetchFromGitHub {
-                owner = "supercaracal";
-                repo = "scram-sha-256";
-                rev = "v1.1.0";
-                hash = "sha256-gl0q3q/24CALYuK9v23c9PZZPdmdSzkR6fAfLeLrgBA=";
-              };
-              vendorHash = "sha256-L7nK+w4CB2H3b6vL0ZoFfaRMgCmpqzQo8ThMM60C76I=";
-            };
-            scram-sha-256 = pkgs.writeShellApplication {
-              name = "scram-sha-256";
-              text = ''
-                ${scram-sha-256-build}/bin/term
-              '';
-            };
-          in
-          pkgs.mkShell {
+            vendorHash = "sha256-L7nK+w4CB2H3b6vL0ZoFfaRMgCmpqzQo8ThMM60C76I=";
+          };
+          scram-sha-256 = spkgs.writeShellApplication {
+            name = "scram-sha-256";
+            text = ''
+              ${scram-sha-256-build}/bin/term
+            '';
+          };
+        in
+        {
+          default = spkgs.mkShell {
             name = "flake-dev";
-            packages = with pkgs; [
+            packages = with spkgs; [
               nixfmt-rfc-style
               nil
               deadnix
@@ -193,9 +196,9 @@
               echo "  nil"
             '';
           };
-      };
+        }
+      );
 
-      # Optional: make `nix fmt` work
-      formatter.${system} = pkgs.nixfmt-rfc-style;
+      formatter = forAllSystems (system: (pkgsFor system).nixfmt-rfc-style);
     };
 }
