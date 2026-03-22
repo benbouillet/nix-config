@@ -224,10 +224,6 @@ in
     group = "root";
   };
 
-  systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.containersVolumes}/perplexica 2770 root ${globals.groups.containers.name} - -"
-  ];
-
   fileSystems."/var/cache/searxng" = {
     device = "tmpfs";
     fsType = "tmpfs";
@@ -268,7 +264,7 @@ in
     #     "127.0.0.1:${toString globals.ports.perplexica}:3000"
     #   ];
     #   volumes = [
-    #     "${globals.paths.containersVolumes}/perplexica:/home/perplexica/data:rw"
+    #     "${?????}/perplexica:/home/perplexica/data:rw"
     #   ];
     #   environment = {
     #     SEARXNG_API_URL = "http://searxng:8080";
@@ -280,11 +276,6 @@ in
     @searxng host search.${globals.domain}
     handle @searxng {
       reverse_proxy 127.0.0.1:${toString globals.ports.searxng}
-    }
-
-    @perplexica host perplexica.${globals.domain}
-    handle @perplexica {
-      reverse_proxy 127.0.0.1:${toString globals.ports.perplexica}
     }
   '';
 }
