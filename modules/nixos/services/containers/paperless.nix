@@ -12,8 +12,8 @@
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.containersVolumes}/paperless/data 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.paths.containersVolumes}/paperless/consume 2770 root ${globals.groups.containers.name} - -"
+    "d ${?????????????}/paperless/data 2770 root ${globals.groups.containers.name} - -"
+    "d ${?????????????}/paperless/consume 2770 root ${globals.groups.containers.name} - -"
   ];
 
   services = {
@@ -43,9 +43,9 @@
         "127.0.0.1:${toString globals.ports.paperless}:8000"
       ];
       volumes = [
-        "${globals.paths.containersVolumes}/paperless/data:/usr/src/paperless/data:rw"
+        "${?????????????}/paperless/data:/usr/src/paperless/data:rw"
         "${globals.zfs.data.paperless.mountPoint}:/usr/src/paperless/media:rw"
-        "${globals.paths.containersVolumes}/paperless/consume:/usr/src/paperless/consume:rw"
+        "${?????????????}/paperless/consume:/usr/src/paperless/consume:rw"
       ];
       environment = {
         PAPERLESS_REDIS = "redis://host.containers.internal:${toString globals.ports.redis}";

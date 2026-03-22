@@ -81,15 +81,6 @@ let
         GID = 950;
       };
     };
-    paths = {
-      paperlessMedia = "/srv/documents";
-      games = "/srv/games";
-      containersVolumes = "/srv/containers";
-      models = "/srv/models";
-      mediaVolume = "/srv/arrdata";
-      seafile = "/srv/seafile";
-      postgres = "/srv/postgres";
-    };
     zfs = {
       databases = {
         postgres = {

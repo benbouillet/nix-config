@@ -6,10 +6,6 @@
   ...
 }:
 {
-  systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.paths.postgres} 2750 postgres postgres - -"
-  ];
-
   networking.firewall.interfaces."podman0".allowedTCPPorts = [ globals.ports.postgres ];
 
   sops.secrets."postgresql/lldap" = {
