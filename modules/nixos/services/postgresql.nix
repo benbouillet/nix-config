@@ -59,6 +59,11 @@
     '';
   };
 
+  systemd.services.postgresql = {
+    after = [ "podman-bridge-ready.service" ];
+    requires = [ "podman-bridge-ready.service" ];
+  };
+
   systemd.services.postgresql-passwords = {
     description = "Set PostgreSQL role passwords from sops secrets";
     after = [ "postgresql-setup.service" ];

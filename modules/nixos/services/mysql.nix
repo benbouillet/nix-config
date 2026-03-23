@@ -20,6 +20,11 @@
     };
   };
 
+  systemd.services.mysql = {
+    after = [ "podman-bridge-ready.service" ];
+    requires = [ "podman-bridge-ready.service" ];
+  };
+
   systemd.services."mysql-bootstrap" = {
     description = "Define MySQL bootstrap";
     requires = [ "mysql.service" ];
