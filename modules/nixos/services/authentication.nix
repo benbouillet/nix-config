@@ -49,10 +49,7 @@
     owner = globals.users.authelia.name;
     mode = "0400";
   };
-  sops.secrets."authelia/oidcClientSecretPaperless" = {
-    owner = globals.users.authelia.name;
-    mode = "0400";
-  };
+
 
   users.users = {
     "${globals.users.authelia.name}" = {
@@ -237,22 +234,7 @@
                   access_token_signed_response_alg: 'none'
                   userinfo_signed_response_alg: 'none'
                   token_endpoint_auth_method: 'client_secret_basic'
-                - client_id: 'paperless'
-                  client_name: 'Paperless'
-                  client_secret: {{ secret "${config.sops.secrets."authelia/oidcClientSecretPaperless".path}" }}
-                  public: false
-                  authorization_policy: 'one_factor'
-                  require_pkce: true
-                  pkce_challenge_method: 'S256'
-                  consent_mode: 'implicit'
-                  redirect_uris:
-                    - 'https://docs.${globals.domain}/accounts/oidc/authelia/login/callback/'
-                  scopes: ['openid', 'profile', 'email', 'groups']
-                  response_types: ['code']
-                  grant_types: ['authorization_code']
-                  access_token_signed_response_alg: 'none'
-                  userinfo_signed_response_alg: 'none'
-                  token_endpoint_auth_method: 'client_secret_basic'
+
         '')
       ];
     };
