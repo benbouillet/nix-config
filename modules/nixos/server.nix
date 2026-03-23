@@ -62,14 +62,14 @@
 
   services.openssh = {
     enable = true;
-    openFirewall = true; # opens TCP/22
+    openFirewall = true;
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowAgentForwarding = false;
-      AllowTcpForwarding = "no"; # flip to "local" only if you need it
+      AllowTcpForwarding = "no";
       ClientAliveInterval = 30;
       ClientAliveCountMax = 2;
       LoginGraceTime = "30s";
