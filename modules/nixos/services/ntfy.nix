@@ -14,7 +14,8 @@
 
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkBefore ''
     @ntfy host ntfy.${globals.domain}
-    handle @ntfy
+    handle @ntfy {
       reverse_proxy 127.0.0.1:${toString globals.ports.ntfy}
+    }
   '';
 }
