@@ -6,7 +6,8 @@ let
   personal_repo = "benbouillet";
   git_email = "15980664+benbouillet@users.noreply.github.com";
   git_name = "Ben Bouillet";
-in {
+in
+{
   home.file."dev/${personal_repo}/.keep" = {
     text = "";
   };
@@ -14,7 +15,12 @@ in {
   programs = {
     git = {
       enable = true;
-      includes =  [
+      signing = {
+        format = "ssh";
+        key = "/home/${username}/.ssh/id_ed25519_sk_git_signing";
+        signByDefault = true;
+      };
+      includes = [
         {
           condition = "gitdir:/home/${username}/dev/${personal_repo}/";
           contents = {
@@ -23,10 +29,6 @@ in {
               name = git_name;
               signingKey = "/home/${username}/.ssh/id_ed25519_sk_git_signing";
             };
-            gpg = {
-              format = "ssh";
-            };
-            commit.gpgsign = true;
           };
         }
       ];
