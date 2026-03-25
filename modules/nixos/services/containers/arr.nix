@@ -28,7 +28,7 @@
     "d ${globals.zfs.services.apps.mountPoint}/prowlarr 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.zfs.services.apps.mountPoint}/radarr 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.zfs.services.apps.mountPoint}/jellyfin-config 2770 root ${globals.groups.containers.name} - -"
-    "d ${globals.zfs.services.apps.mountPoint}/jellyfin-cache 2770 root ${globals.groups.containers.name} - -"
+    "d /var/cache/jellyfin 2770 root ${globals.groups.containers.name} - -"
     "d ${globals.zfs.services.apps.mountPoint}/seerr 2770 1000 1000 - -"
   ];
 
@@ -206,7 +206,7 @@
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/jellyfin-config:/config/:rw"
-        "${globals.zfs.services.apps.mountPoint}/jellyfin-cache:/cache/:rw"
+        "/var/cache/jellyfin:/cache/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       devices = [

@@ -65,6 +65,7 @@
     directories = [
       "/var/lib"
       "/var/log"
+      "/var/cache/jellyfin"
     ];
     files = [
       "/etc/machine-id"
