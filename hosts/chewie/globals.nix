@@ -27,6 +27,7 @@ let
       lubelogger = 9062;
       radicale = 9063;
       vaultwarden = 9070;
+      llama-cpp = 9080;
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9092;

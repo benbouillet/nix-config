@@ -1,4 +1,7 @@
 {
+  ...
+}:
+{
   disko.devices = {
     nodev."/" = {
       fsType = "tmpfs";
