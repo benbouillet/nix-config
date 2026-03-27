@@ -76,12 +76,15 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Observability
 - [ ] Logs management
 - [ ] Containers logs management
-- [ ] Per container service CPU/memory limits
+- [x] Per container service CPU/memory limits
 - [ ] Per nix service CPU/memory limits
 - [ ] Dedicated node for blackbox monitoring
 - [ ] Dedicated node for PSU monitoring
 - [ ] Dedicated node for alertign
-- [ ] Dedicated node for backup
+- [x] Dedicated node for backup
+- [ ] VTT app
+- [ ] Discord alternative
+- [ ] ebooks management app
 
 # Configuring SOPS
 
