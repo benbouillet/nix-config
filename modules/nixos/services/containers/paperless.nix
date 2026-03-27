@@ -12,7 +12,7 @@
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-  "d ${globals.zfs.services.apps.mountPoint}/paperless 2770 root root - -"
+    "d ${globals.zfs.services.apps.mountPoint}/paperless 2770 root root - -"
   ];
 
   services = {
@@ -60,7 +60,7 @@
       };
       environmentFiles = [ config.sops.secrets."services/paperless/env".path ];
       extraOptions = [
-        "--memory=768m"
+        "--memory=2048m"
         "--pids-limit=64"
         "--add-host=database:host-gateway"
       ];
