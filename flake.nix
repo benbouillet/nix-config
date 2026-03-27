@@ -58,9 +58,17 @@
       ...
     }@inputs:
     let
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      pkgsFor = system: import nixpkgs { inherit system; config.allowUnfree = true; };
+      pkgsFor =
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
       username = "ben";
 
@@ -76,7 +84,10 @@
           extraSpecialArgs ? { },
         }:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs host username; } // extraSpecialArgs;
+          specialArgs = {
+            inherit inputs host username;
+          }
+          // extraSpecialArgs;
           modules = [ ./hosts/${host}/configuration.nix ] ++ extraModules;
         };
     in
@@ -90,7 +101,12 @@
             {
               home-manager = {
                 extraSpecialArgs = {
-                  inherit username inputs auggie opencode-augment-auth;
+                  inherit
+                    username
+                    inputs
+                    auggie
+                    opencode-augment-auth
+                    ;
                   host = "obiwan";
                 };
                 useGlobalPkgs = true;
@@ -117,39 +133,61 @@
             inputs.impermanence.nixosModules.impermanence
           ];
         };
+        rpiSdImage = nixpkgs.lib.nixosSystem {
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+            {
+              nixpkgs.config.allowUnsupportedSystem = true;
+              nixpkgs.hostPlatform.system = "aarch64-linux";
+              nixpkgs.buildPlatform.system = "x86_64-linux";
+              services.openssh = {
+                enable = true;
+                settings = {
+                  PasswordAuthentication = false;
+                  KbdInteractiveAuthentication = false;
+                  PermitRootLogin = "prohibit-password";
+                };
+              };
+              users.users.root.openssh.authorizedKeys.keys = [
+                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
+              ];
+            }
+          ];
+        };
       };
       packages = forAllSystems (system: {
         usbboot = nixos-generators.nixosGenerate {
           inherit system;
           format = "install-iso";
           modules = [
-          {
-            nix = {
-              settings.experimental-features = [
-                "nix-command"
-                "flakes"
-              ];
-            };
-            programs.git.enable = true;
-
-            services.openssh = {
-              enable = true;
-              settings = {
-                PasswordAuthentication = false;
-                KbdInteractiveAuthentication = false;
-                PermitRootLogin = "prohibit-password";
+            {
+              nix = {
+                settings.experimental-features = [
+                  "nix-command"
+                  "flakes"
+                ];
               };
-            };
-            users.users.root.openssh.authorizedKeys.keys = [
-              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
-            ];
-            networking.networkmanager.enable = true;
-          }
-        ];
+              programs.git.enable = true;
+
+              services.openssh = {
+                enable = true;
+                settings = {
+                  PasswordAuthentication = false;
+                  KbdInteractiveAuthentication = false;
+                  PermitRootLogin = "prohibit-password";
+                };
+              };
+              users.users.root.openssh.authorizedKeys.keys = [
+                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
+              ];
+              networking.networkmanager.enable = true;
+            }
+          ];
         };
       });
 
-      devShells = forAllSystems (system:
+      devShells = forAllSystems (
+        system:
         let
           spkgs = pkgsFor system;
           nixdeploy = spkgs.writeShellApplication {
@@ -178,6 +216,12 @@
               ${scram-sha-256-build}/bin/term
             '';
           };
+          rpi-sdimage = spkgs.writeShellApplication {
+            name = "rpi-sdimage";
+            text = ''
+              nix build .#nixosConfigurations.rpiSdImage.config.system.build.sdImage
+            '';
+          };
         in
         {
           default = spkgs.mkShell {
@@ -189,6 +233,7 @@
               statix
               nixdeploy
               scram-sha-256
+              rpi-sdimage
             ];
             shellHook = ''
               echo "Dev shell ready. Useful commands:"
