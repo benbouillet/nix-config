@@ -16,7 +16,7 @@ let
       qbittorrent = 9016;
       nzbget = 9017;
       ollama = 9020;
-      open-webui = 9021;
+      foundryvtt = 9021;
       searxng = 9030;
       perplexica = 9031;
       paperless = 9040;

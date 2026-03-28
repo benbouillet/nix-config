@@ -27,6 +27,7 @@
     ../../modules/nixos/services/containers/common.nix
     ../../modules/nixos/services/containers/arr.nix
     ../../modules/nixos/services/containers/lubelogger.nix
+    ../../modules/nixos/services/containers/foundryvtt.nix
     ../../modules/nixos/services/ai.nix
     ../../modules/nixos/services/containers/paperless.nix
     ../../modules/nixos/services/containers/seafile.nix
