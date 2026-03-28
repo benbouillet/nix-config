@@ -22,7 +22,7 @@
         "127.0.0.1:${toString globals.ports.foundryvtt}:30000"
       ];
       volumes = [
-        "${globals.zfs.services.apps.mountPoint}/lubelogger:/data"
+        "${globals.zfs.services.apps.mountPoint}/foundryvtt:/data"
       ];
       environment = {
         CONTAINER_PRESERVE_CONFIG = "true";
