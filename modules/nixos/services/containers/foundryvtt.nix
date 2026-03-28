@@ -17,7 +17,7 @@
 
   virtualisation.oci-containers.containers = {
     "foundryvtt" = {
-      image = "felddy/foundryvtt:13.346.0";
+      image = "felddy/foundryvtt:13.351.0";
       ports = [
         "127.0.0.1:${toString globals.ports.foundryvtt}:30000"
       ];
