@@ -17,6 +17,7 @@ let
       nzbget = 9017;
       ollama = 9020;
       foundryvtt = 9021;
+      linkding = 9022;
       searxng = 9030;
       perplexica = 9031;
       paperless = 9040;

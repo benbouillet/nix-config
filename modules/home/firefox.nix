@@ -152,6 +152,7 @@
         privacy-badger
         adaptive-tab-bar-colour
         bitwarden
+        linkding-extension
       ];
     };
   };
