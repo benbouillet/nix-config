@@ -82,7 +82,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Dedicated node for PSU monitoring
 - [ ] Dedicated node for alertign
 - [x] Dedicated node for backup
-- [ ] VTT app
+- [x] VTT app
 - [ ] Discord alternative
 - [ ] ebooks management app
 
