@@ -5,7 +5,6 @@ let
     ports = {
       prometheus_exporters = {
         node = 9000;
-        blackbox = 9115;
         zfs = 9116;
       };
     };
