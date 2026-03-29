@@ -34,6 +34,7 @@
     ../../modules/nixos/services/containers/search.nix
     ../../modules/nixos/services/containers/mealie.nix
     ../../modules/nixos/services/containers/debug.nix
+    ../../modules/nixos/services/containers/linkding.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY
