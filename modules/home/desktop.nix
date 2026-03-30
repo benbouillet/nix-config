@@ -19,6 +19,7 @@
     bitwarden-cli
     bitwarden-desktop
     qobuz-player
+    evince
   ];
 
   programs = {
