@@ -78,11 +78,6 @@
     fastfetch = {
       enable = true;
     };
-    taskwarrior = {
-      enable = true;
-      package = pkgs.taskwarrior3;
-      dataLocation = "/home/${username}/sync/toolbox/taskwarrior";
-    };
   };
 
   qt = {
@@ -101,6 +96,12 @@
     };
     Install = {
       WantedBy = [ "default.target" ];
+    };
+  };
+
+  services = {
+    caffeine = {
+      enable = true;
     };
   };
 }
