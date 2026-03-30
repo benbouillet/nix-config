@@ -12,7 +12,7 @@
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.zfs.services.apps.mountPoint}/paperless 2770 root root - -"
+    "d ${globals.zfs.services.apps.mountPoint}/paperless 2770 1000 1000 - -"
   ];
 
   services = {
