@@ -9,6 +9,9 @@
     ./zfs.nix
     ./impermanence.nix
     ./globals.nix
+    ### TEMP
+    ./reverse-proxy.nix
+    ### END OF TEMP
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
