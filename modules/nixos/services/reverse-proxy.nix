@@ -12,7 +12,7 @@ let
   };
 in
 {
-  sops.secrets."caddy/chewie" = {
+  sops.secrets."caddy/env" = {
     owner = "caddy";
     group = "caddy";
     mode = "0400";
@@ -21,7 +21,7 @@ in
   services.caddy = {
     enable = true;
     package = caddyWithCloudflare;
-    environmentFile = config.sops.secrets."caddy/chewie".path;
+    environmentFile = config.sops.secrets."caddy/env".path;
     virtualHosts."*.${globals.domain}".extraConfig = lib.mkOrder 9999 ''
       tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
