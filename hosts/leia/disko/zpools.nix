@@ -12,9 +12,8 @@
             type = "topology";
             vdev = [
               {
-                mode = "mirror";
                 members = [
-                  "/dev/disk/by-id/ata-SSDSC2BB960G7R_PHDV6515016X960FGN"
+                  "/dev/disk/by-partlabel/disk-ssd1-ssd"
                 ];
               }
             ];
@@ -32,9 +31,6 @@
           acltype = "posixacl";
           atime = "off";
           compression = "zstd";
-          encryption = "on";
-          keyformat = "passphrase";
-          keylocation = "prompt";
           logbias = "throughput";
           xattr = "sa";
         };

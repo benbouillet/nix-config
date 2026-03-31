@@ -133,6 +133,14 @@
             inputs.impermanence.nixosModules.impermanence
           ];
         };
+        "leia" = mkHost {
+          host = "leia";
+          extraModules = [
+            inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
+          ];
+        };
         rpiSdImage = nixpkgs.lib.nixosSystem {
           modules = [
             "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"

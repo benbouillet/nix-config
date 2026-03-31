@@ -4,6 +4,7 @@
 {
   imports = [
     ./disko/zpools.nix
+    ./disko/zfs-disks.nix
     ./hardware-configuration.nix
     ./zfs.nix
     ./impermanence.nix
