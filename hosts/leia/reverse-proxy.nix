@@ -22,12 +22,12 @@ in
     enable = true;
     package = caddyWithCloudflare;
     environmentFile = config.sops.secrets."caddy/env".path;
-    virtualHosts."*.leia.${globals.domain}".extraConfig = lib.mkOrder 9999 ''
+    virtualHosts."*.${globals.domain}".extraConfig = lib.mkOrder 9999 ''
       tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
       }
 
-      @hello host test.leia.${globals.domain}
+      @hello host test.${globals.domain}
       handle @hello {
         respond "Hello, World from leia!"
       }
