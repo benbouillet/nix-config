@@ -50,7 +50,6 @@
     mode = "0400";
   };
 
-
   users.users = {
     "${globals.users.authelia.name}" = {
       isSystemUser = true;
@@ -164,6 +163,12 @@
 
         access_control = {
           default_policy = "deny";
+          rules = [
+            {
+              domain = "leia.r4clette.com";
+              policy = "one_factor";
+            }
+          ];
         };
 
         identity_providers.oidc = {

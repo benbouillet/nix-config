@@ -1,8 +1,7 @@
 { ... }:
 let
   globals = {
-    # domain = "r4clette.com";
-    domain = "leia.r4clette.com";
+    domain = "r4clette.com";
     ports = {
       prometheus_exporters = {
         node = 9000;

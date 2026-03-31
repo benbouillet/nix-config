@@ -11,6 +11,7 @@
     ./globals.nix
     ### TEMP
     ./reverse-proxy.nix
+    ./debug.nix
     ### END OF TEMP
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
