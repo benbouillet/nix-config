@@ -10,7 +10,7 @@
 
   virtualisation.oci-containers.containers = {
     "lubelogger" = {
-      image = "ghcr.io/hargata/lubelogger:v1.6.2";
+      image = "ghcr.io/hargata/lubelogger:v1.6.3";
       ports = [
         "127.0.0.1:${toString globals.ports.lubelogger}:8080"
       ];
