@@ -1,11 +1,14 @@
 { pkgs }:
-pkgs.stdenv.mkDerivation {
+let
+  version = "0.21.0";
+in
+  pkgs.stdenv.mkDerivation {
   pname = "auggie";
-  version = "0.20.1";
+  version = version;
 
   src = pkgs.fetchurl {
-    url = "https://registry.npmjs.org/@augmentcode/auggie/-/auggie-0.20.1.tgz";
-    hash = "sha512-n+Bt9yloiRlEIELuy9oIyZILndqS4HKtwzc5ECG+EKdsslTv7aYV3L1X3PTF93/YPtxNplMilSzalzJrQwzpyg==";
+    url = "https://registry.npmjs.org/@augmentcode/auggie/-/auggie-${version}.tgz";
+    hash = "sha512-+ksBIlcq5AiqOdGf6rAr+UZ35t44MZ+OBHNCuO22aU5wLOQ+l9C4J4H8h7Z9X3Dp8Vn30Aw42KZ39vs77TqJcA==";
   };
 
   sourceRoot = "package";
