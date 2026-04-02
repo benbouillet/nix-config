@@ -10,7 +10,7 @@
     mouse = true;
     keyMode = "vi";
     baseIndex = 1;
-    historyLimit = 10000;
+    historyLimit = 100000;
     plugins = with pkgs; [
       tmuxPlugins.yank
       tmuxPlugins.jump
