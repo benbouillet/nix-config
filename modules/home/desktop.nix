@@ -100,8 +100,6 @@
   };
 
   services = {
-    caffeine = {
-      enable = true;
-    };
+    caffeine.enable = true;
   };
 }
