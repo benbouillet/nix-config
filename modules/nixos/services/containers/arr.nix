@@ -122,7 +122,7 @@
     };
 
     "prowlarr" = {
-      image = "lscr.io/linuxserver/prowlarr:2.3.0";
+      image = "lscr.io/linuxserver/prowlarr:2.3.5";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
