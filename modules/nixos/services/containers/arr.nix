@@ -194,7 +194,7 @@
     };
 
     "jellyfin" = {
-      image = "lscr.io/linuxserver/jellyfin:10.11.7";
+      image = "lscr.io/linuxserver/jellyfin:10.11.8";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
