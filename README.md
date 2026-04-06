@@ -89,6 +89,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] File-based Authelia authentication workflow
 - [ ] Switch from linkding to linkwarden
 - [ ] endurain
+- [x] technicium with split-horizon DNS
 
 # Configuring SOPS
 
