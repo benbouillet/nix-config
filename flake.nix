@@ -230,6 +230,13 @@
               nix build .#nixosConfigurations.rpiSdImage.config.system.build.sdImage
             '';
           };
+          authelia-hash = spkgs.writeShellApplication {
+            name = "authelia-hash";
+            runtimeInputs = [ spkgs.authelia ];
+            text = ''
+              authelia crypto hash generate argon2 "$@"
+            '';
+          };
         in
         {
           default = spkgs.mkShell {
@@ -242,6 +249,7 @@
               nixdeploy
               scram-sha-256
               rpi-sdimage
+              authelia-hash
             ];
             shellHook = ''
               echo "Dev shell ready. Useful commands:"
