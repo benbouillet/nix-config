@@ -15,6 +15,13 @@
             "context": 128000,
             "output": 65536
           }
+        },
+        "qwen3.5-27b": {
+          "name": "Qwen 3.5 27B (local)",
+          "limit": {
+            "context": 4096,
+            "output": 4096
+          }
         }
       }
     }
