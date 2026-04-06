@@ -87,6 +87,8 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Discord alternative
 - [ ] ebooks management app
 - [x] File-based Authelia authentication workflow
+- [ ] Switch from linkding to linkwarden
+- [ ] endurain
 
 # Configuring SOPS
 
