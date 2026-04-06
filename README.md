@@ -86,6 +86,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] VTT app
 - [ ] Discord alternative
 - [ ] ebooks management app
+- [x] File-based Authelia authentication workflow
 
 # Configuring SOPS
 
