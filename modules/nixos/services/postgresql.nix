@@ -8,10 +8,6 @@
 {
   networking.firewall.interfaces."podman0".allowedTCPPorts = [ globals.ports.postgres ];
 
-  sops.secrets."postgresql/lldap" = {
-    owner = "postgres";
-    mode = "0400";
-  };
   sops.secrets."postgresql/authelia" = {
     owner = "postgres";
     mode = "0400";
@@ -78,7 +74,6 @@
     environment.PGPORT = toString config.services.postgresql.settings.port;
     script = ''
       set -euo pipefail
-      psql -tAc "ALTER ROLE lldap PASSWORD '$(cat ${config.sops.secrets."postgresql/lldap".path})';"
       psql -tAc "ALTER ROLE authelia PASSWORD '$(cat ${config.sops.secrets."postgresql/authelia".path})';"
       psql -tAc "ALTER ROLE immich PASSWORD '$(cat ${config.sops.secrets."postgresql/immich".path})';"
       psql -tAc "ALTER ROLE vaultwarden PASSWORD '$(cat ${

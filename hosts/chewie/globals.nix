@@ -4,7 +4,7 @@ let
     domain = "r4clette.com";
     ports = {
       mysql = 3306;
-      lldapLdap = 3890;
+
       postgres = 5432;
       redis = 6379;
       bazarr = 9010;
@@ -40,7 +40,7 @@ let
       promtail-http = 9098;
       promtail-grpc = 9099;
       debug = 9999;
-      lldapWebUi = 17170;
+
       prometheus_exporters = {
         node = 9000;
         blackbox = 9115;
@@ -56,10 +56,7 @@ let
         name = "authelia";
         UID = 930;
       };
-      lldap = {
-        name = "lldap";
-        UID = 931;
-      };
+
       seafile = {
         name = "seafile";
         UID = 950;

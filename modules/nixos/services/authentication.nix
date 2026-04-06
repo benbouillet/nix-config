@@ -31,16 +31,6 @@
     group = globals.groups.oidc.name;
     mode = "0440";
   };
-  sops.secrets."lldap/env" = {
-    owner = globals.users.lldap.name;
-    group = globals.groups.authentication.name;
-    mode = "0400";
-  };
-  sops.secrets."lldap/adminPassword" = {
-    owner = globals.users.lldap.name;
-    group = globals.groups.authentication.name;
-    mode = "0440";
-  };
   sops.secrets."authelia/oidcClientSecretImmich" = {
     owner = globals.users.authelia.name;
     mode = "0400";
@@ -49,18 +39,17 @@
     owner = globals.users.authelia.name;
     mode = "0400";
   };
+  sops.secrets."authelia/usersDatabase" = {
+    owner = globals.users.authelia.name;
+    group = globals.groups.authentication.name;
+    mode = "0400";
+  };
 
   users.users = {
     "${globals.users.authelia.name}" = {
       isSystemUser = true;
       createHome = false;
       uid = globals.users.authelia.UID;
-      group = globals.groups.authentication.name;
-    };
-    "${globals.users.lldap.name}" = {
-      isSystemUser = true;
-      createHome = false;
-      uid = globals.users.lldap.UID;
       group = globals.groups.authentication.name;
     };
   };
@@ -78,18 +67,8 @@
       enable = lib.mkForce true;
       ensureDatabases = lib.mkAfter [
         "authelia"
-        "lldap"
       ];
       ensureUsers = lib.mkAfter [
-        {
-          name = globals.users.lldap.name;
-          ensureDBOwnership = true;
-          ensureClauses = {
-            createrole = true;
-            createdb = true;
-            connection_limit = 5;
-          };
-        }
         {
           name = globals.users.authelia.name;
           ensureDBOwnership = true;
@@ -154,11 +133,16 @@
           };
         };
 
-        authentication_backend.ldap = {
-          address = "ldap://127.0.0.1:${toString globals.ports.lldapLdap}";
-          implementation = "lldap";
-          user = "uid=admin,ou=people,dc=r4clette,dc=com";
-          base_dn = "dc=r4clette,dc=com";
+        authentication_backend.file = {
+          path = config.sops.secrets."authelia/usersDatabase".path;
+          password = {
+            algorithm = "argon2id";
+            iterations = 3;
+            memory = 65536;
+            parallelism = 4;
+            key_length = 32;
+            salt_length = 16;
+          };
         };
 
         access_control = {
@@ -192,7 +176,6 @@
 
       environmentVariables = {
         AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE = config.sops.secrets."authelia/smtpPassword".path;
-        AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = config.sops.secrets."lldap/adminPassword".path;
       };
 
       secrets = {
@@ -244,38 +227,11 @@
       ];
     };
 
-    lldap = {
-      enable = true;
-      environmentFile = config.sops.secrets."lldap/env".path;
-      silenceForceUserPassResetWarning = true;
-
-      settings = {
-        ldap_base_dn = "dc=r4clette,dc=com";
-        ldap_user_dn = "admin";
-        ldap_user_email = "admin@${globals.domain}";
-
-        ldap_user_pass_file = config.sops.secrets."lldap/adminPassword".path;
-
-        force_ldap_user_pass_reset = "always";
-
-        ldap_host = "127.0.0.1";
-        ldap_port = 3890;
-
-        http_host = "127.0.0.1";
-        http_port = 17170;
-
-        http_url = "https://id.${globals.domain}";
-      };
-    };
   };
 
   services.caddy.virtualHosts = {
     "auth.${globals.domain}".extraConfig = ''
       reverse_proxy 127.0.0.1:${toString globals.ports.authelia}
-    '';
-
-    "id.${globals.domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString globals.ports.lldapWebUi}
     '';
   };
 }
