@@ -79,9 +79,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Containers logs management
 - [x] Per container service CPU/memory limits
 - [ ] Per nix service CPU/memory limits
-- [ ] Dedicated node for blackbox monitoring
 - [ ] Dedicated node for PSU monitoring
-- [ ] Dedicated node for alertign
 - [x] Dedicated node for backup
 - [x] VTT app
 - [ ] Discord alternative
@@ -89,7 +87,9 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] File-based Authelia authentication workflow
 - [ ] Switch from linkding to linkwarden
 - [ ] endurain
-- [x] technicium with split-horizon DNS
+- [ ] technicium with split-horizon DNS
+- [ ] Split secrets per host
+- [ ] move observability to leia
 
 # Configuring SOPS
 
