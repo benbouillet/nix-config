@@ -46,7 +46,7 @@
 
   services.immich = {
     enable = true;
-    host = "127.0.0.1";
+    host = "${globals.hosts.chewie.ipv4}";
     port = globals.ports.immich;
     mediaLocation = globals.zfs.data.immich.mountPoint;
     accelerationDevices = [ "/dev/dri/by-path/pci-0000:01:00.0-render" ];
@@ -101,26 +101,5 @@
 
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @images host images.${globals.domain}
-
-    # API + machine endpoints: NO forward_auth (mobile needs these)
-    @immich_api {
-      host images.${globals.domain}
-      path /api/* /.well-known/immich
-    }
-
-    handle @immich_api {
-      reverse_proxy 127.0.0.1:${toString globals.ports.immich}
-    }
-
-    # Everything else (web UI): protect with Authelia
-    handle @images {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.immich}
-    }
-  '';
+  
 }

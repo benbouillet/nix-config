@@ -21,7 +21,7 @@
     enable = true;
     settings = {
       server = {
-        hosts = [ "127.0.0.1:${toString globals.ports.radicale}" ];
+        hosts = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.radicale}" ];
       };
       auth = {
         type = "htpasswd";
@@ -37,10 +37,5 @@
     };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @contacts host contacts.${globals.domain}
-    handle @contacts {
-      reverse_proxy 127.0.0.1:${toString globals.ports.radicale}
-    }
-  '';
+  
 }

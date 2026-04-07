@@ -19,7 +19,7 @@ in
 {
   services.llama-cpp = {
     enable = true;
-    host = "0.0.0.0";
+    host = globals.hosts.chewie.ipv4;
     port = globals.ports.llama-cpp;
     modelsPreset = {
       "qwen3.5-35b-a3b" = {
@@ -64,10 +64,5 @@ in
     };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkBefore ''
-    @llama-cpp host llama-cpp.${globals.domain}
-    handle @llama-cpp {
-      reverse_proxy 127.0.0.1:${toString globals.ports.llama-cpp}
-    }
-  '';
+  
 }

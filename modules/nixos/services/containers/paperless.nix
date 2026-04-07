@@ -39,7 +39,7 @@
     "paperless" = {
       image = "ghcr.io/paperless-ngx/paperless-ngx:2.20.13";
       ports = [
-        "127.0.0.1:${toString globals.ports.paperless}:8000"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.paperless}:8000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/paperless:/usr/src/paperless/data:rw"
@@ -78,10 +78,5 @@
     ];
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @docs host paperless.${globals.domain}
-    handle @docs {
-      reverse_proxy 127.0.0.1:${toString globals.ports.paperless}
-    }
-  '';
+  
 }

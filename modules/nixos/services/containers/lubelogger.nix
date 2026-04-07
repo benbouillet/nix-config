@@ -12,7 +12,7 @@
     "lubelogger" = {
       image = "ghcr.io/hargata/lubelogger:v1.6.3";
       ports = [
-        "127.0.0.1:${toString globals.ports.lubelogger}:8080"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.lubelogger}:8080"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/lubelogger:/App/data"
@@ -34,10 +34,5 @@
     ];
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @lubelogger host lubelogger.${globals.domain}
-    handle @lubelogger {
-      reverse_proxy 127.0.0.1:${toString globals.ports.lubelogger}
-    }
-  '';
+  
 }

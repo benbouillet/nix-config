@@ -39,7 +39,7 @@
     "mealie" = {
       image = "ghcr.io/mealie-recipes/mealie:v3.14.0";
       ports = [
-        "127.0.0.1:${toString globals.ports.mealie}:9000"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.mealie}:9000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/mealie:/app/data/"
@@ -96,10 +96,5 @@
     ];
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @mealie host mealie.${globals.domain}
-    handle @mealie {
-      reverse_proxy 127.0.0.1:${toString globals.ports.mealie}
-    }
-  '';
+  
 }

@@ -40,7 +40,7 @@
     dbBackend = "postgresql";
     config = {
       SIGNUPS_ALLOWED = true;
-      ROCKET_ADDRESS = "127.0.0.1";
+      ROCKET_ADDRESS = "${globals.hosts.chewie.ipv4}";
       ROCKET_PORT = globals.ports.vaultwarden;
       ROCKET_LOG = "error";
       SMTP_HOST = "smtp.protonmail.ch";
@@ -53,11 +53,4 @@
     };
     environmentFile = config.sops.secrets."vaultwarden/env".path;
   };
-
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @vault host vault.${globals.domain}
-    handle @vault {
-      reverse_proxy 127.0.0.1:${toString globals.ports.vaultwarden}
-    }
-  '';
 }

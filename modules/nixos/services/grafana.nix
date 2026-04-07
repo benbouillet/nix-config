@@ -22,7 +22,7 @@
     enable = true;
     settings = {
       server = {
-        http_addr = "127.0.0.1";
+        http_addr = "${globals.hosts.chewie.ipv4}";
         http_port = globals.ports.grafana;
         enforce_domain = true;
         enable_gzip = true;
@@ -163,14 +163,5 @@
     ];
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @grafana host grafana.${globals.domain}
-    handle @grafana {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString config.services.grafana.settings.server.http_port}
-    }
-  '';
+  
 }

@@ -87,7 +87,7 @@
       group = globals.groups.authentication.name;
       settings = {
         server = {
-          address = "tcp://127.0.0.1:${toString globals.ports.authelia}";
+          address = "tcp://${globals.hosts.chewie.ipv4}:${toString globals.ports.authelia}";
           disable_healthcheck = false;
         };
 
@@ -229,9 +229,5 @@
 
   };
 
-  services.caddy.virtualHosts = {
-    "auth.${globals.domain}".extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString globals.ports.authelia}
-    '';
-  };
+
 }

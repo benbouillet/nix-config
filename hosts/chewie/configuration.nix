@@ -12,7 +12,7 @@
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
     ../../modules/nixos/zfs.nix
-    ../../modules/nixos/services/reverse-proxy.nix
+
     ../../modules/nixos/services/postgresql.nix
     ../../modules/nixos/services/mysql.nix
     ../../modules/nixos/services/redis.nix

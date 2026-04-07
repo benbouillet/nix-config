@@ -189,7 +189,7 @@ in
         static_configs = [
           {
             targets = [
-              "127.0.0.1:${toString globals.ports.prometheus_exporters.node}"
+              "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}"
             ];
           }
         ];
@@ -221,7 +221,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -252,7 +252,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -283,7 +283,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "127.0.0.1:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -293,7 +293,7 @@ in
         static_configs = [
           {
             targets = [
-              "127.0.0.1:${toString globals.ports.prometheus_exporters.zfs}"
+              "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
             ];
           }
         ];
@@ -302,7 +302,7 @@ in
     alertmanagers = [
       {
         static_configs = [
-          { targets = [ "127.0.0.1:${toString config.services.prometheus.alertmanager.port}" ]; }
+          { targets = [ "${globals.hosts.chewie.ipv4}:${toString config.services.prometheus.alertmanager.port}" ]; }
         ];
       }
     ];
@@ -312,7 +312,7 @@ in
       blackbox = {
         enable = true;
         port = globals.ports.prometheus_exporters.blackbox;
-        listenAddress = "127.0.0.1";
+        listenAddress = "${globals.hosts.chewie.ipv4}";
         configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
       };
     };
@@ -322,7 +322,7 @@ in
       enable = true;
       webExternalUrl = "https://alerts.${globals.domain}";
       port = globals.ports.prometheus-alertmanager;
-      listenAddress = "127.0.0.1";
+      listenAddress = "${globals.hosts.chewie.ipv4}";
       extraFlags = [ "--cluster.listen-address=" ];
 
       configuration = {
@@ -358,7 +358,7 @@ in
     alertmanager-ntfy = {
       enable = true;
       settings = {
-        http.addr = "127.0.0.1:${toString globals.ports.prometheus-alertmanager-ntfy}";
+        http.addr = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus-alertmanager-ntfy}";
         ntfy = {
           baseurl = "https://ntfy.${globals.domain}";
           notification = {
@@ -422,23 +422,5 @@ in
     };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @prometheus host prometheus.${globals.domain}
-    handle @prometheus {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString config.services.prometheus.port}
-    }
-
-    @alertmanager host alerts.${globals.domain}
-    handle @alertmanager {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString config.services.prometheus.alertmanager.port}
-    }
-  '';
+  
 }

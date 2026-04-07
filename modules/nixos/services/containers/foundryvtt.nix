@@ -19,7 +19,7 @@
     "foundryvtt" = {
       image = "ghcr.io/felddy/foundryvtt:14.359.0";
       ports = [
-        "127.0.0.1:${toString globals.ports.foundryvtt}:30000"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.foundryvtt}:30000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/foundryvtt:/data"
@@ -47,10 +47,5 @@
     ];
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @foundryvtt host dnd.${globals.domain}
-    handle @foundryvtt {
-      reverse_proxy 127.0.0.1:${toString globals.ports.foundryvtt}
-    }
-  '';
+  
 }

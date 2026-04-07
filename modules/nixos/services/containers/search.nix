@@ -237,7 +237,7 @@ in
     "searxng" = {
       image = "docker.io/searxng/searxng:2026.1.11-cf74e1d9e";
       ports = [
-        "127.0.0.1:${toString globals.ports.searxng}:8080"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.searxng}:8080"
       ];
       volumes = [
         "${searxngSettings}:/etc/searxng/settings.yml:ro"
@@ -261,7 +261,7 @@ in
     # "perplexica" = {
     #   image = "itzcrazykns1337/perplexica:slim-v1.11.2";
     #   ports = [
-    #     "127.0.0.1:${toString globals.ports.perplexica}:3000"
+    #     "${globals.hosts.chewie.ipv4}:${toString globals.ports.perplexica}:3000"
     #   ];
     #   volumes = [
     #     "${?????}/perplexica:/home/perplexica/data:rw"
@@ -272,10 +272,5 @@ in
     # };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @searxng host search.${globals.domain}
-    handle @searxng {
-      reverse_proxy 127.0.0.1:${toString globals.ports.searxng}
-    }
-  '';
+  
 }

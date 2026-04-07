@@ -80,7 +80,7 @@
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
       ];
-      ports = [ "127.0.0.1:${toString globals.ports.seafile}:80" ];
+      ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile}:80" ];
       extraOptions = [
         "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
         "--health-interval=30s"
@@ -140,7 +140,7 @@
         "--memory-swap=256m"
         "--pids-limit=64"
       ];
-      ports = [ "127.0.0.1:${toString globals.ports.seafile-notification-server}:8083" ];
+      ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile-notification-server}:8083" ];
       environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
       environment = {
         SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
@@ -166,27 +166,5 @@
     };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    @seafile host seafile.${globals.domain}
-    handle @seafile {
-      @notif path /notification*
-      handle @notif {
-        reverse_proxy 127.0.0.1:${toString globals.ports.seafile-notification-server}
-      }
-
-      @api path /api2/* /api/v2.1/* /seafhttp* /seafdav*
-      handle @api {
-        reverse_proxy 127.0.0.1:${toString globals.ports.seafile}
-      }
-
-      handle {
-        forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-          uri /api/verify?rd=https://auth.${globals.domain}
-          copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-        }
-
-        reverse_proxy 127.0.0.1:${toString globals.ports.seafile}
-      }
-    }
-  '';
+  
 }

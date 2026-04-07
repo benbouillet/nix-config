@@ -43,8 +43,8 @@
     "gluetun" = {
       image = "qmcgaw/gluetun:v3.41.1";
       ports = [
-        "127.0.0.1:${toString globals.ports.qbittorrent}:8090" # qbittorrent
-        "127.0.0.1:${toString globals.ports.nzbget}:6789" # nzbget
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.qbittorrent}:8090" # qbittorrent
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.nzbget}:6789" # nzbget
       ];
       devices = [
         "/dev/net/tun:/dev/net/tun"
@@ -110,7 +110,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.bazarr}:6767"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.bazarr}:6767"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/bazarr:/config/:rw"
@@ -129,7 +129,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.prowlarr}:9696"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.prowlarr}:9696"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/prowlarr:/config/:rw"
@@ -147,7 +147,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.radarr}:7878"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.radarr}:7878"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/radarr:/config/:rw"
@@ -166,7 +166,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.sonarr}:8989"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.sonarr}:8989"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/sonarr:/config/:rw"
@@ -183,7 +183,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.seerr}:5055"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.seerr}:5055"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/seerr:/app/config/:rw"
@@ -202,7 +202,7 @@
         JELLYFIN_PublishedServerUrl = "jellyfin.${globals.domain}";
       };
       ports = [
-        "127.0.0.1:${toString globals.ports.jellyfin}:8096"
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.jellyfin}:8096"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/jellyfin-config:/config/:rw"
@@ -268,96 +268,5 @@
     };
   };
 
-  services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    # Health routes
-    @sonarr_ping {
-      host sonarr.${globals.domain}
-      path /ping
-    }
-    handle @sonarr_ping {
-      reverse_proxy 127.0.0.1:${toString globals.ports.sonarr}
-    }
-
-    @radarr_ping {
-      host radarr.${globals.domain}
-      path /ping
-    }
-    handle @radarr_ping {
-      reverse_proxy 127.0.0.1:${toString globals.ports.radarr}
-    }
-
-    @qbittorrent_ping {
-      host qbittorrent.${globals.domain}
-      path /api/v2/app/version
-    }
-    handle @qbittorrent_ping {
-      reverse_proxy 127.0.0.1:${toString globals.ports.qbittorrent}
-    }
-
-    # App behind OIDC
-    @qbittorrent host qbittorrent.${globals.domain}
-    handle @qbittorrent {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.qbittorrent}
-    }
-
-    @nzbget host nzbget.${globals.domain}
-    handle @nzbget {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.nzbget}
-    }
-
-    @bazarr host bazarr.${globals.domain}
-    handle @bazarr {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.bazarr}
-    }
-
-    @prowlarr host prowlarr.${globals.domain}
-    handle @prowlarr {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.prowlarr}
-    }
-
-    @radarr host radarr.${globals.domain}
-    handle @radarr {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.radarr}
-    }
-
-    @sonarr host sonarr.${globals.domain}
-    handle @sonarr {
-      forward_auth http://127.0.0.1:${toString globals.ports.authelia} {
-        uri /api/verify?rd=https://auth.${globals.domain}
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy 127.0.0.1:${toString globals.ports.sonarr}
-    }
-
-    # Available on tailnet
-    @seerr host seerr.${globals.domain}
-    handle @seerr {
-      reverse_proxy 127.0.0.1:${toString globals.ports.seerr}
-    }
-
-    @jellyfin host jellyfin.${globals.domain}
-    handle @jellyfin {
-      reverse_proxy 127.0.0.1:${toString globals.ports.jellyfin}
-    }
-  '';
+  
 }

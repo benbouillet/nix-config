@@ -1,13 +1,7 @@
-{ ... }:
+{ lib, ... }:
 let
-  globals = {
-    domain = "r4clette.com";
-    ports = {
-      prometheus_exporters = {
-        node = 9000;
-        zfs = 9116;
-      };
-    };
+  sharedGlobals = (import ../../modules/nixos/globals-shared.nix { })._module.args.globals;
+  globals = lib.recursiveUpdate sharedGlobals {
   };
 in
 {
