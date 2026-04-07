@@ -11,7 +11,7 @@
 
   virtualisation.oci-containers.containers = {
     "linkding" = {
-      image = "ghcr.io/sissbruecker/linkding:1.45.0";
+      image = "ghcr.io/sissbruecker/linkding:1.45.0@sha256:61b2eb9eed8e5772a473fb7f1f8923e046cb8cbbeb50e88150afd5ff287d4060";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.linkding}:9090"
       ];

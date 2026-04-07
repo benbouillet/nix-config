@@ -235,7 +235,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "searxng" = {
-      image = "docker.io/searxng/searxng:2026.1.11-cf74e1d9e";
+      image = "docker.io/searxng/searxng:2026.1.11-cf74e1d9e@sha256:35e3520e53621e22566330d876d2a36e4a556628b6567bf2706ceb211c6d9c07";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.searxng}:8080"
       ];
@@ -259,7 +259,7 @@ in
       ];
     };
     # "perplexica" = {
-    #   image = "itzcrazykns1337/perplexica:slim-v1.11.2";
+    #   image = "itzcrazykns1337/perplexica:slim-v1.11.2@sha256:eb8893a33e4afc686ba0dbc46e2292d030313e01a4621ea5a0779a522ce9c7e0";
     #   ports = [
     #     "${globals.hosts.chewie.ipv4}:${toString globals.ports.perplexica}:3000"
     #   ];
