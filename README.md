@@ -90,6 +90,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] technicium with split-horizon DNS
 - [ ] Split secrets per host
 - [ ] move observability to leia
+- [ ] implement backup to rsync
 
 # Configuring SOPS
 
