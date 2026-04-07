@@ -33,7 +33,6 @@
     ../../modules/nixos/services/containers/seafile.nix
     ../../modules/nixos/services/containers/search.nix
     ../../modules/nixos/services/containers/mealie.nix
-    ../../modules/nixos/services/containers/debug.nix
     ../../modules/nixos/services/containers/linkding.nix
   ];
 

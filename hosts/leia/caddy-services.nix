@@ -83,18 +83,6 @@
       reverse_proxy chewie:${toString globals.ports.ntfy}
     }
 
-    # From modules/nixos/services/containers/debug.nix
-
-    @debug host debug.${globals.domain}
-    handle @debug {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-
-      reverse_proxy chewie:${toString globals.ports.debug}
-    }
-
     # From modules/nixos/services/containers/paperless.nix
 
     @docs host paperless.${globals.domain}
