@@ -82,11 +82,7 @@
       ];
       ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile}:80" ];
       extraOptions = [
-        "--health-cmd=curl -sf -H 'Host: seafile.${globals.domain}' http://localhost/ || exit 1"
-        "--health-interval=30s"
-        "--health-timeout=10s"
-        "--health-retries=5"
-        "--health-start-period=120s"
+        "--no-healthcheck"
         "--memory=4g"
         "--memory-swap=8g"
         "--pids-limit=256"

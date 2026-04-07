@@ -33,6 +33,7 @@
       extraOptions = [
         "--memory=1g"
         "--pids-limit=24"
+        "--no-healthcheck"
       ];
     };
   };
@@ -47,5 +48,5 @@
     ];
   };
 
-  
+
 }
