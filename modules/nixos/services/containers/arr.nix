@@ -41,7 +41,7 @@
 
   virtualisation.oci-containers.containers = {
     "gluetun" = {
-      image = "qmcgaw/gluetun:v3.41.1";
+      image = "qmcgaw/gluetun:v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.qbittorrent}:8090" # qbittorrent
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.nzbget}:6789" # nzbget
@@ -68,7 +68,7 @@
     };
 
     "qbittorrent" = {
-      image = "lscr.io/linuxserver/qbittorrent:5.1.4-r1-ls436";
+      image = "lscr.io/linuxserver/qbittorrent:5.1.4-r1-ls436@sha256:95114034a7f74672b76f795f6938921b0ca795f85b59b48691035dc66714f34c";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
@@ -103,7 +103,7 @@
     };
 
     "bazarr" = {
-      image = "lscr.io/linuxserver/bazarr:1.5.6";
+      image = "lscr.io/linuxserver/bazarr:1.5.6@sha256:9a631194c0dee21c85b5bff59e23610e1ae2f54594e922973949d271102e585e";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
@@ -122,7 +122,7 @@
     };
 
     "prowlarr" = {
-      image = "lscr.io/linuxserver/prowlarr:2.3.5";
+      image = "lscr.io/linuxserver/prowlarr:2.3.5@sha256:35f48abb3e976fcf077fae756866c582e4a90f8b24810ae4067b3558f7cdbbdf";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
@@ -140,7 +140,7 @@
     };
 
     "radarr" = {
-      image = "lscr.io/linuxserver/radarr:6.1.1";
+      image = "lscr.io/linuxserver/radarr:6.1.1@sha256:cd70546fc97169788530386b42cf47ba1b16d091b4dc2264cd54099dd13c6f7f";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
@@ -159,7 +159,7 @@
     };
 
     "sonarr" = {
-      image = "lscr.io/linuxserver/sonarr:4.0.17";
+      image = "lscr.io/linuxserver/sonarr:4.0.17@sha256:b5670a3adb0f8a8b0f277feeaa69a5fbe3869ba4bb9fa7c0f0764c3b3f0e698f";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
@@ -178,7 +178,7 @@
     };
 
     "seerr" = {
-      image = "ghcr.io/seerr-team/seerr:v3.1.0";
+      image = "ghcr.io/seerr-team/seerr:v3.1.0@sha256:b35ba0461c4a1033d117ac1e5968fd4cbe777899e4cbfbdeaf3d10a42a0eb7e9";
       environment = {
         TZ = "Europe/Paris";
       };
@@ -194,7 +194,7 @@
     };
 
     "jellyfin" = {
-      image = "lscr.io/linuxserver/jellyfin:10.11.8";
+      image = "lscr.io/linuxserver/jellyfin:10.11.8@sha256:e93bc100c6da07bd058678e4b634e4e71031fe840227e2ed03a1104f032bebe8";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;

@@ -75,7 +75,7 @@
 
   virtualisation.oci-containers.containers = {
     seafile = {
-      image = "seafileltd/seafile-mc:13.0.20";
+      image = "seafileltd/seafile-mc:13.0.20@sha256:eaa7c22f08efbeb88c3829a284d9565559153bc0bb9099464e4eda444dabae70";
       autoStart = true;
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
@@ -130,7 +130,7 @@
       };
     };
     seafile-notification-server = {
-      image = "seafileltd/notification-server:13.0.10";
+      image = "seafileltd/notification-server:13.0.10@sha256:587b6f6fe86c5e976c08142313c05f8cba63e5eabad71006ef2ede95ed02b46d";
       autoStart = true;
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
