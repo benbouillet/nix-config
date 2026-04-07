@@ -242,7 +242,7 @@
           default = spkgs.mkShell {
             name = "flake-dev";
             packages = with spkgs; [
-              nixfmt-rfc-style
+              nixfmt
               nil
               deadnix
               statix
@@ -260,6 +260,6 @@
         }
       );
 
-      formatter = forAllSystems (system: (pkgsFor system).nixfmt-rfc-style);
+      formatter = forAllSystems (system: (pkgsFor system).nixfmt);
     };
 }
