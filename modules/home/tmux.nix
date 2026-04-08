@@ -11,16 +11,17 @@
     keyMode = "vi";
     baseIndex = 1;
     historyLimit = 100000;
-    plugins = with pkgs; [
-      tmuxPlugins.yank
-      tmuxPlugins.jump
-      tmuxPlugins.vim-tmux-navigator
-      tmuxPlugins.tmux-thumbs
-      tmuxPlugins.tmux-fzf
-      tmuxPlugins.sessionist
-      tmuxPlugins.pain-control
-      tmuxPlugins.resurrect
-      tmuxPlugins.continuum
+    plugins = with pkgs.tmuxPlugins; [
+      yank
+      jump
+      vim-tmux-navigator
+      tmux-thumbs
+      tmux-fzf
+      sessionist
+      pain-control
+      resurrect
+      continuum
+      jump
     ];
     extraConfig = ''
       # Opacity
@@ -43,6 +44,9 @@
       # Window tabs
       set -g window-status-format ' #I:#W '
       set -g window-status-current-format '#[bold] #I:#W '
+
+      # Hop-like jump shortcut
+      set -g @jump-key 's'
     '';
   };
 }
