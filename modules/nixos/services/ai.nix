@@ -70,7 +70,7 @@ in
         alias = "unsloth/gemma-4-E4B";
 
         # --- Memory & GPU ---
-        ctx-size = "16384";
+        ctx-size = "131072";
         n-gpu-layers = "9999";
         flash-attn = "on";
         cache-type-k = "q8_0";

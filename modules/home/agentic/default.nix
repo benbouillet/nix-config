@@ -1,6 +1,5 @@
 {
   opencode-augment-auth,
-  lib,
   ...
 }:
 {

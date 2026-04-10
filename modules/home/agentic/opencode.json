@@ -23,10 +23,10 @@
             "output": 4096
           }
         },
-        "unsloth/gemma-4-26b": {
-          "name": "Gemma 4 26B (local)",
+        "unsloth/gemma-4-E4B": {
+          "name": "Gemma 4 E4B (local)",
           "limit": {
-            "context": 16384,
+            "context": 131072,
             "output": 8192
           }
         }
