@@ -14,9 +14,9 @@ let
       url = "https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/resolve/main/Qwen3.5-27B-Q3_K_S.gguf";
       hash = "sha256-TaZBV9g+3obM4bfDVLplMhgcrhWKeRMkzfOFXsDfaR8=";
     };
-    "gemma-4-26b" = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF/resolve/main/gemma-4-26B-A4B-it-UD-Q3_K_M.gguf";
-      hash = "sha256-YI38q9D8l2fviFmpqHZcCYQKwAwG3sKqHerZ8GcoMk0=";
+    "gemma-4-E4B" = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-UD-Q8_K_XL.gguf";
+      hash = "sha256-2h0+z4HaedA+ICLcH3V4ZW7COK5ZZpW02rujSQsvv1g=";
     };
   };
 in
@@ -65,9 +65,9 @@ in
         # --- Misc ---
         fit = "on";
       };
-      "gemma-4-26b" = {
-        model = aiModels."gemma-4-26b";
-        alias = "unsloth/gemma-4-26b";
+      "gemma-4-E4B" = {
+        model = aiModels."gemma-4-E4B";
+        alias = "unsloth/gemma-4-E4B";
 
         # --- Memory & GPU ---
         ctx-size = "16384";
@@ -88,7 +88,7 @@ in
 
         # --- Template ---
         jinja = "on";
-        chat-template-kwargs = "'{\"enable_thinking\":true}'";
+        chat-template-kwargs = "{\"enable_thinking\":true}";
 
         # --- Misc ---
         fit = "on";
