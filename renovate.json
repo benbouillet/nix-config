@@ -12,9 +12,6 @@
   "reviewersFromCodeOwners": true,
   "osvVulnerabilityAlerts": true,
   "prHourlyLimit": 0,
-  "lockFileMaintenance": {
-    "enabled": true
-  },
   "vulnerabilityAlerts": {
     "enabled": true,
     "labels": [
@@ -24,7 +21,9 @@
   "nix": {
     "enabled": true
   },
-  "ignoreDeps": ["sunday-augment"],
+  "ignoreDeps": [
+    "sunday-augment"
+  ],
   "packageRules": [],
   "customManagers": [
     {
