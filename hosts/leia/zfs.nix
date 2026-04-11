@@ -1,7 +1,5 @@
 {
   globals,
-  config,
-  pkgs,
   ...
 }:
 {

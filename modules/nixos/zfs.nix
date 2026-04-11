@@ -1,5 +1,6 @@
 {
   host,
+  pkgs,
   ...
 }:
 {
@@ -22,6 +23,11 @@
     autoScrub.enable = true; # monthly scrub (default schedule)
     trim.enable = true; # autotrim for SSD/NVMe
   };
+
+  environment.systemPackages = with pkgs; [
+    lzop
+    mbuffer
+  ];
 
   ########################################
   # Sanoid
