@@ -19,6 +19,7 @@
     bitwarden-desktop
     qobuz-player
     evince
+    rustdesk
   ];
 
   programs = {
