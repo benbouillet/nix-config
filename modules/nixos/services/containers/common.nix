@@ -7,6 +7,14 @@
   ...
 }:
 {
+  boot.kernel.sysctl = {
+    # This to allow to bind to a non-existing IP during the boot process
+    # To avoid postgres to fail binding to Tailscale interface during boot process
+    "net.ipv4.ip_nonlocal_bind" = 1;
+    # tailscale0 to podman0 IP forwarding
+    "net.ipv4.ip_forward" = 1;
+  };
+
   virtualisation = {
     podman = {
       enable = true;
