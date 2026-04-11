@@ -92,7 +92,6 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] move observability to leia
 - [ ] implement backup to rsync
 - [ ] alerting on failed backups
-- [ ] consider routing heavy media traffic from leia to chewie over local LAN instead of tailscale for performance
 
 # Configuring SOPS
 
