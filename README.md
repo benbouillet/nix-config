@@ -92,6 +92,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] move observability to leia
 - [ ] implement backup to rsync
 - [ ] alerting on failed backups
+- [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
 
 # Configuring SOPS
 
