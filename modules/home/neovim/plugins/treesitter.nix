@@ -12,6 +12,6 @@
       folding.enable = true;
     };
 
-    hmts.enable = true;
+    # hmts.enable = true;
   };
 }
