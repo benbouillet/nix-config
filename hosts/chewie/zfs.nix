@@ -94,6 +94,12 @@ in
     script = ''
       # Syncoid source permissions (pulled by yoda)
       zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/db
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/services/infra
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/services/apps
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/immich
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/seafile
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/paperless
+      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/radicale
 
       # SSD pool defaults
       zfs set compression=zstd                 ssd
