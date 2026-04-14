@@ -29,7 +29,7 @@
     dive
     jless
     jq
-    yq
+    yq-go
     tldr
     wtype
     wl-clipboard
