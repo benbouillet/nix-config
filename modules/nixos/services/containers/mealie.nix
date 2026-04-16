@@ -37,7 +37,7 @@
 
   virtualisation.oci-containers.containers = {
     "mealie" = {
-      image = "ghcr.io/mealie-recipes/mealie:v3.15.0@sha256:a9553529ee1b738d12c2eafb324174140e2109afbf9b629f6dd3605ecd733539";
+      image = "ghcr.io/mealie-recipes/mealie:v3.15.2@sha256:3f1a1bf58774f9b211b91a1f4d30a4a34e1159e6c0dcb6849b3a1067bcb6858e";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.mealie}:9000"
       ];
