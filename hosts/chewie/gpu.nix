@@ -1,17 +1,22 @@
 {
   lib,
+  config,
   ...
 }:
 {
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = true;
+  hardware.nvidia = {
+    open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
   hardware.nvidia-container-toolkit.enable = true;
 
   nixpkgs = {
     config = {
       cudaSupport = true;
       cudaVersion = "12";
+      cudaCapabilities = [ "12.0" ];
     };
   };
 
