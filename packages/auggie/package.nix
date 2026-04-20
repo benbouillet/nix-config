@@ -8,7 +8,7 @@ in
 
   src = pkgs.fetchurl {
     url = "https://registry.npmjs.org/@augmentcode/auggie/-/auggie-${version}.tgz";
-    hash = "sha512-BpvKHGsU6E5HXblLi/H5rWrn1Vjahhm4bKlA5Ovl04kcVW5impt03TjHPur9MS5ta3SwCGb7RSOvHJbuAquZ8w==";
+    hash = "sha512-mX2Ov32bOQMclUSMUg8er610U5YfisHtB6RbBTRB5cuyUZRoqypM3RUWXjBskWWtqw62R0FgXTNd5Tsk9Y/55g==";
   };
 
   sourceRoot = "package";
