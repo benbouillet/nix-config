@@ -2,7 +2,7 @@
 let
   version = "0.24.0";
 in
-  pkgs.stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation {
   pname = "auggie";
   version = version;
 
