@@ -45,6 +45,9 @@ in
 
         # QR on bill
         balena-cli
+
+        # AI
+        claude-code
       ])
       ++ [
         auggie
