@@ -63,7 +63,7 @@
       {
         mode = "n";
         key = "<leader>h";
-        action = "<cmd>HopPattern<cr>";
+        action = "<cmd>HopWord<cr>";
       }
     ];
   };
