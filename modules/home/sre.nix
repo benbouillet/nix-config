@@ -55,6 +55,7 @@
       };
       shellAliases = {
         tg = "terragrunt run --tf-path terraform --parallelism=5 --";
+        ghpr = "gh pr review -a";
       };
     };
   };
