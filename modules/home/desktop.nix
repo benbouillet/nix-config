@@ -70,6 +70,7 @@
         "--sort"
         "--exact"
       ];
+      tmux.enableShellIntegration = true;
     };
     zoxide = {
       enable = true;
