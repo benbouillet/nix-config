@@ -1,7 +1,6 @@
 {
   imports = [
     ./alpha.nix
-    ./augment.nix
     ./barbar.nix
     ./blame.nix
     ./comment.nix
