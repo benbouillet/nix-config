@@ -22,6 +22,8 @@
         "<C-f>" = "live_grep";
       };
 
+      settings.pickers.find_files.hidden = true;
+
       settings.defaults = {
         file_ignore_patterns = [
           "^.git/"
