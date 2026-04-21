@@ -21,5 +21,15 @@
       ];
       command = "setlocal spell spelllang=en";
     }
+
+    # Format on save via LSP
+    {
+      event = "BufWritePre";
+      callback.__raw = ''
+        function()
+          vim.lsp.buf.format({ async = false })
+        end
+      '';
+    }
   ];
 }

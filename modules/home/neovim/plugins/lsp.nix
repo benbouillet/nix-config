@@ -3,11 +3,6 @@
     diagnostic.settings.virtual_text = true;
 
     plugins = {
-      lsp-format = {
-        enable = true;
-        lspServersToEnable = "all";
-      };
-
       lsp = {
         enable = true;
 
