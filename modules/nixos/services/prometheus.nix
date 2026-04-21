@@ -1,7 +1,6 @@
 {
   globals,
   pkgs,
-  lib,
   config,
   ...
 }:
@@ -422,5 +421,5 @@ in
     };
   };
 
-  
+
 }

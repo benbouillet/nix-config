@@ -13,6 +13,14 @@
       baseIndex = 1;
       historyLimit = 100000;
       plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = catppuccin;
+          extraConfig = ''
+            set -g @catppuccin_flavor 'frappe'
+            set -g @catppuccin_window_status_style 'rounded'
+            set -g @catppuccin_date_time_text '%a %d/%m %H:%M'
+          '';
+        }
         yank
         jump
         vim-tmux-navigator
