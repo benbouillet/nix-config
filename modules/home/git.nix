@@ -44,5 +44,6 @@ in
         "git-ssh-auth" = "ssh-add -t 8h ~/.ssh/id_ed25519_git";
       };
     };
+    gh-dash.enable = true;
   };
 }
