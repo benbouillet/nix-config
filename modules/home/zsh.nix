@@ -22,6 +22,7 @@
     shellAliases = {
       ls = "eza";
       cd = "z";
+      v = "nvim";
     };
 
     syntaxHighlighting.enable = true;
