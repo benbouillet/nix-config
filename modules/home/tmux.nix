@@ -22,7 +22,6 @@
         pain-control
         resurrect
         continuum
-        jump
       ];
       extraConfig = ''
         # Opacity
@@ -46,8 +45,8 @@
         set -g window-status-format ' #I:#W '
         set -g window-status-current-format '#[bold] #I:#W '
 
-        # Hop-like jump shortcut
-        set -g @jump-key 's'
+        # tmux-thumbs: yank to system clipboard via OSC52 (works over SSH, supported by Ghostty)
+        set -g @thumbs-osc52 1
       '';
     };
     sesh = {
@@ -55,7 +54,56 @@
       enableAlias = true;
       enableTmuxIntegration = true;
       tmuxKey = "s";
-      settings = { };
+      settings = {
+        # Default session configuration (table format)
+        default_session = {
+          windows = [
+            "term"
+          ];
+        };
+
+        # Window layouts that can be reused across sessions
+        window = [
+          {
+            name = "editor";
+            startup_command = "nvim -c :Telescope find_files";
+          }
+          {
+            name = "ai";
+            startup_command = ''
+              augment
+            '';
+          }
+          {
+            name = "term";
+            startup_command = "ls";
+          }
+        ];
+
+        # Wildcard config for projects
+        wildcard = [
+          {
+            pattern = "~/dev/**/*";
+            windows = [
+              "editor"
+              "ai"
+              "term"
+            ];
+          }
+        ];
+
+        # Session root directories to scan
+        root = [
+          "~/dev"
+        ];
+
+        # Exclude patterns
+        exclude = [
+          ".git"
+          "node_modules"
+          ".Trash"
+        ];
+      };
     };
   };
 }
