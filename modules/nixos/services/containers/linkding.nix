@@ -6,7 +6,8 @@
 {
 
   systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.zfs.services.apps.mountPoint}/linkding 2770 1000 1000 - -"
+    # linkding runs uwsgi as www-data = 33:33
+    "d ${globals.zfs.services.apps.mountPoint}/linkding 2770 33 33 - -"
   ];
 
   virtualisation.oci-containers.containers = {
@@ -34,6 +35,4 @@
       }
     ];
   };
-
-  
 }
