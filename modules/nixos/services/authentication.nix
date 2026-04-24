@@ -39,6 +39,10 @@
     owner = globals.users.authelia.name;
     mode = "0400";
   };
+  sops.secrets."authelia/oidcClientSecretGrafana" = {
+    owner = globals.users.authelia.name;
+    mode = "0400";
+  };
   sops.secrets."authelia/usersDatabase" = {
     owner = globals.users.authelia.name;
     group = globals.groups.authentication.name;
@@ -152,6 +156,11 @@
               domain = "leia.r4clette.com";
               policy = "one_factor";
             }
+            {
+              domain = "grafana.${globals.domain}";
+              policy = "one_factor";
+              subject = "group:monitoring";
+            }
           ];
         };
 
@@ -170,6 +179,9 @@
               "userinfo"
             ];
             allowed_origins_from_client_redirect_uris = true;
+            allowed_origins = [
+              "https://grafana.${globals.domain}"
+            ];
           };
         };
       };
@@ -222,12 +234,23 @@
                   access_token_signed_response_alg: 'none'
                   userinfo_signed_response_alg: 'none'
                   token_endpoint_auth_method: 'client_secret_basic'
-
+                - client_id: 'grafana'
+                  client_name: 'Grafana'
+                  client_secret: {{ secret "${config.sops.secrets."authelia/oidcClientSecretGrafana".path}" }}
+                  public: false
+                  authorization_policy: 'one_factor'
+                  require_pkce: true
+                  pkce_challenge_method: 'S256'
+                  redirect_uris:
+                    - 'https://grafana.${globals.domain}/login/generic_oauth'
+                  scopes: ['openid', 'profile', 'groups', 'email']
+                  response_types: ['code']
+                  grant_types: ['authorization_code']
+                  access_token_signed_response_alg: 'none'
+                  userinfo_signed_response_alg: 'none'
+                  token_endpoint_auth_method: 'client_secret_basic'
         '')
       ];
     };
-
   };
-
-
 }

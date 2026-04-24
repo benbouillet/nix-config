@@ -189,6 +189,7 @@ in
           {
             targets = [
               "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}"
+              "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.node}"
             ];
           }
         ];
@@ -220,7 +221,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -251,7 +252,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -282,7 +283,7 @@ in
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -293,6 +294,7 @@ in
           {
             targets = [
               "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
+              "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
             ];
           }
         ];
@@ -301,7 +303,7 @@ in
     alertmanagers = [
       {
         static_configs = [
-          { targets = [ "${globals.hosts.chewie.ipv4}:${toString config.services.prometheus.alertmanager.port}" ]; }
+          { targets = [ "127.0.0.1:${toString config.services.prometheus.alertmanager.port}" ]; }
         ];
       }
     ];
@@ -311,7 +313,7 @@ in
       blackbox = {
         enable = true;
         port = globals.ports.prometheus_exporters.blackbox;
-        listenAddress = "${globals.hosts.chewie.ipv4}";
+        listenAddress = "${globals.hosts.leia.ipv4}";
         configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
       };
     };
@@ -321,7 +323,7 @@ in
       enable = true;
       webExternalUrl = "https://alerts.${globals.domain}";
       port = globals.ports.prometheus-alertmanager;
-      listenAddress = "${globals.hosts.chewie.ipv4}";
+      listenAddress = "${globals.hosts.leia.ipv4}";
       extraFlags = [ "--cluster.listen-address=" ];
 
       configuration = {
@@ -357,11 +359,11 @@ in
     alertmanager-ntfy = {
       enable = true;
       settings = {
-        http.addr = "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus-alertmanager-ntfy}";
+        http.addr = "127.0.0.1:${toString globals.ports.prometheus-alertmanager-ntfy}";
         ntfy = {
           baseurl = "https://ntfy.${globals.domain}";
           notification = {
-            topic = "chewie";
+            topic = "homelab";
             priority = ''
               status == "resolved"
                 ? "default"
@@ -403,23 +405,5 @@ in
       };
     };
   };
-
-  services.authelia.instances."raclette".settings = {
-    access_control = {
-      rules = [
-        {
-          domain = "prometheus.${globals.domain}";
-          policy = "one_factor";
-          subject = "group:monitoring";
-        }
-        {
-          domain = "alerts.${globals.domain}";
-          policy = "one_factor";
-          subject = "group:monitoring";
-        }
-      ];
-    };
-  };
-
 
 }

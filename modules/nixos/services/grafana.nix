@@ -16,13 +16,18 @@
       owner = "grafana";
       group = "grafana";
     };
+    "grafana/admin_password" = {
+      mode = "0400";
+      owner = "grafana";
+      group = "grafana";
+    };
   };
 
   services.grafana = {
     enable = true;
     settings = {
       server = {
-        http_addr = "${globals.hosts.chewie.ipv4}";
+        http_addr = "127.0.0.1";
         http_port = globals.ports.grafana;
         enforce_domain = true;
         enable_gzip = true;
@@ -31,11 +36,12 @@
         serve_from_sub_path = false;
       };
       auth = {
-        disable_login_form = true;
+        disable_login_form = false;
         disable_signout_menu = true;
       };
       security = {
         secret_key = "\$__file{${config.sops.secrets."grafana/secret_key".path}}";
+        admin_password = "\$__file{${config.sops.secrets."grafana/admin_password".path}}";
       };
 
       "auth.generic_oauth" = {
@@ -118,50 +124,4 @@
   environment.etc = {
     "grafana-dashboards/node.json".source = ./assets/grafana/node.json;
   };
-
-  services.authelia.instances."raclette".settings = {
-    access_control = {
-      rules = [
-        {
-          domain = "grafana.${globals.domain}";
-          policy = "one_factor";
-          subject = "group:monitoring";
-        }
-      ];
-    };
-
-    identity_providers.oidc.cors.allowed_origins = [
-      "https://grafana.${globals.domain}"
-    ];
-
-    identity_providers.oidc.clients = [
-      {
-        client_id = "grafana";
-        client_name = "Grafana";
-        client_secret = "$pbkdf2-sha512$310000$cGFjKBm6mN9N0HMB2MzVwA$WDcbkc8LQI6lt8pZAMt9EYvnlH7uA0LpydmW0.YqlZR3LW9j8XcWuuXzCTv84pxDTNzqGFf5CvSn2muabC.1iA";
-        public = false;
-        authorization_policy = "one_factor";
-        require_pkce = true;
-        pkce_challenge_method = "S256";
-        redirect_uris = [ "https://grafana.${globals.domain}/login/generic_oauth" ];
-        scopes = [
-          "openid"
-          "profile"
-          "groups"
-          "email"
-        ];
-        response_types = [
-          "code"
-        ];
-        grant_types = [
-          "authorization_code"
-        ];
-        access_token_signed_response_alg = "none";
-        userinfo_signed_response_alg = "none";
-        token_endpoint_auth_method = "client_secret_basic";
-      }
-    ];
-  };
-
-  
 }

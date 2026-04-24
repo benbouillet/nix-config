@@ -47,8 +47,12 @@ in
           ",XF86AudioPlay,Play/Pause Media,exec,playerctl play-pause"
           ",XF86MonBrightnessUp,Increase Brightness,exec,brightnessctl set 5%+"
           ",XF86MonBrightnessDown,Decrease Brightness,exec,brightnessctl set 5%-"
+          ",Print,Push to talk/Mic On,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0"
         ];
-        bindd = [
+        binddr = [
+          ",Print,Push to talk/Mic On,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1"
+        ];
+        bindld = [
           "${modifier}SHIFT,XF86AudioRaiseVolume,Choose Audio Output,exec,${selectOutput}"
           "${modifier}SHIFT,XF86AudioLowerVolume,Choose Audio Input,exec,${selectInput}"
           "${modifier},XF86MonBrightnessUp,Increase Keyboard Brightness,exec,brightnessctl --device='framework_laptop::kbd_backlight' set 20%+"

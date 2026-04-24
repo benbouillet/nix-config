@@ -1,5 +1,6 @@
 {
   globals,
+  pkgs,
   ...
 }:
 {
@@ -23,5 +24,51 @@
     telemetryPath = "/metrics";
     listenAddress = "0.0.0.0";
     port = globals.ports.prometheus_exporters.zfs;
+  };
+
+  ########################################
+  # Options
+  ########################################
+  systemd.services."zfs-datasets-options-setup" = {
+    description = "Setup ZFS dataset options";
+
+    wantedBy = [ "multi-user.target" ];
+    after = [
+      "zfs-import.target"
+      "zfs-mount.service"
+    ];
+    requires = [
+      "zfs-import.target"
+      "zfs-mount.service"
+    ];
+
+    path = [ pkgs.zfs ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      Group = "root";
+    };
+
+    script = ''
+      # SSD pool defaults
+      zfs set compression=zstd                 ssd
+      zfs set atime=off                        ssd
+      zfs set xattr=sa                         ssd
+      zfs set acltype=posixacl                 ssd
+      zfs set aclinherit=restricted            ssd
+      zfs set aclmode=discard                  ssd
+      zfs set dnodesize=auto                   ssd
+      zfs set recordsize=16K                   ssd
+
+      # Data defaults
+      zfs create -p                            ssd/data 2>/dev/null || true
+      zfs set mountpoint=none                  ssd/data
+
+      # Loki overrides
+      zfs create -p                            ssd/data/loki 2>/dev/null || true
+      zfs set mountpoint=/srv/data/loki        ssd/data/loki
+      zfs set quota=30G                        ssd/data/loki
+    '';
   };
 }

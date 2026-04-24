@@ -5,20 +5,12 @@
 
     @prometheus host prometheus.${globals.domain}
     handle @prometheus {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy chewie:${toString globals.ports.prometheus}
+      reverse_proxy localhost:${toString globals.ports.prometheus}
     }
 
     @alertmanager host alerts.${globals.domain}
     handle @alertmanager {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy chewie:${toString globals.ports.prometheus-alertmanager}
+      reverse_proxy localhost:${toString globals.ports.prometheus-alertmanager}
     }
 
     # From modules/nixos/services/ai.nix
@@ -32,11 +24,7 @@
 
     @grafana host grafana.${globals.domain}
     handle @grafana {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-      reverse_proxy chewie:${toString globals.ports.grafana}
+      reverse_proxy localhost:${toString globals.ports.grafana}
     }
 
     # From modules/nixos/services/vaultwarden.nix
@@ -80,7 +68,7 @@
 
     @ntfy host ntfy.${globals.domain}
     handle @ntfy {
-      reverse_proxy chewie:${toString globals.ports.ntfy}
+      reverse_proxy localhost:${toString globals.ports.ntfy}
     }
 
     # From modules/nixos/services/containers/paperless.nix
