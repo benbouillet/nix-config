@@ -89,10 +89,12 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] endurain
 - [ ] technicium with split-horizon DNS
 - [ ] Split secrets per host
-- [ ] move observability to leia
+- [x] move observability to leia
 - [ ] implement backup to rsync
 - [ ] alerting on failed backups
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
+- [ ] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
+- [ ] simplify (back to yaml) observability stack and comment
 
 # Configuring SOPS
 
