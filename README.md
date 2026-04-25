@@ -95,6 +95,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
 - [ ] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
 - [ ] simplify (back to yaml) observability stack and comment
+- [ ] ZFS backups monitoring & logs
 
 # Configuring SOPS
 
