@@ -15,6 +15,7 @@
 
   programs.firefox = {
     enable = true;
+    configPath = ".mozilla/firefox";
     profiles.${username} = {
       name = username;
       id = 0;
