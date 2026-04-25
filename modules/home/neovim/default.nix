@@ -5,6 +5,7 @@
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
+    ./autocommands.nix
     ./options.nix
     ./keymappings.nix
     ./completion.nix

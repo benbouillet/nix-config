@@ -32,7 +32,17 @@
           jqls.enable = true;
           gopls.enable = true;
           pylsp.enable = true;
-          nixd.enable = true;
+          nixd = {
+            enable = true;
+            settings = {
+              nixpkgs.expr = "import <nixpkgs> { }";
+              formatting.command = [ "nixfmt" ];
+              options = {
+                nixos.expr = ''(builtins.getFlake "/home/ben/dev/benbouillet/nix-config").nixosConfigurations.obiwan.options'';
+                home_manager.expr = ''(builtins.getFlake "/home/ben/dev/benbouillet/nix-config").nixosConfigurations.obiwan.options.home-manager.users.type.getSubOptions [ ]'';
+              };
+            };
+          };
           terraformls.enable = true;
           dockerls.enable = true;
           helm_ls.enable = true;
