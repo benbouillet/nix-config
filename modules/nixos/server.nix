@@ -185,8 +185,10 @@
   security.auditd.enable = true;
   security.audit.enable = true;
 
-  ### SECRETS MANAGEMENT ###
-  imports = [ inputs.sops-nix.nixosModules.sops ];
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+    ./observability/alloy.nix
+  ];
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;

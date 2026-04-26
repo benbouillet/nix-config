@@ -5,10 +5,6 @@
   ...
 }:
 {
-  systemd.tmpfiles.rules = [
-    "d /var/lib/alloy 0750 alloy alloy - -"
-  ];
-
   services.alloy = {
     enable = true;
     configPath = pkgs.writeText "config.alloy" ''

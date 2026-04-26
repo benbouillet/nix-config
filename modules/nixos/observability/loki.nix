@@ -13,7 +13,7 @@
       auth_enabled = false;
 
       server = {
-        http_listen_address = "${globals.hosts.leia.ipv4}";
+        http_listen_address = "0.0.0.0";
         http_listen_port = globals.ports.loki-http;
 
         grpc_listen_address = "127.0.0.1";

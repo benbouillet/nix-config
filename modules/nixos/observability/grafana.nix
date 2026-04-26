@@ -95,7 +95,7 @@
           {
             name = "Loki";
             type = "loki";
-            url = "http://127.0.0.1:${toString globals.ports.loki-http}";
+            url = "http://${globals.hosts.leia.ipv4}:${toString globals.ports.loki-http}";
             editable = false;
             access = "proxy";
 
