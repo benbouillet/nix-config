@@ -5,43 +5,6 @@
   ...
 }:
 let
-  blackboxConfig = {
-    modules = {
-      http_health_healthy = {
-        prober = "http";
-        timeout = "5s";
-        http = {
-          valid_status_codes = [ 200 ];
-          method = "GET";
-          fail_if_body_not_matches_regexp = [ "^Healthy$" ];
-        };
-      };
-      http_health_version = {
-        prober = "http";
-        timeout = "5s";
-        http = {
-          valid_status_codes = [ 200 ];
-          method = "GET";
-          fail_if_body_not_matches_regexp = [ "(?m)^v\\d+\\.\\d+.\\d+(-[0-9A-Za-z-]+)?$" ];
-        };
-      };
-      http_health_json = {
-        prober = "http";
-        timeout = "5s";
-        http = {
-          valid_status_codes = [ 200 ];
-          method = "GET";
-          fail_if_header_not_matches = [
-            {
-              header = "content-type";
-              regexp = "application/json";
-            }
-          ];
-          fail_if_body_not_matches_regexp = [ "\"status\": \"OK\"" ];
-        };
-      };
-    };
-  };
 
   rulesYml = pkgs.writeText "services-alerts.yml" ''
     groups:
@@ -314,7 +277,7 @@ in
         enable = true;
         port = globals.ports.prometheus_exporters.blackbox;
         listenAddress = "${globals.hosts.leia.ipv4}";
-        configFile = pkgs.writeText "blackbox.yml" (builtins.toJSON blackboxConfig);
+        configFile = ./configuration/blackbox.yml;
       };
     };
 

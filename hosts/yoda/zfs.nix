@@ -114,9 +114,10 @@
   systemd.services."zfs-datasets-options-setup" = {
     description = "Setup ZFS dataset options";
 
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "zfs-mount.service" ];
     after = [ "zfs-import.target" ];
     requires = [ "zfs-import.target" ];
+    before = [ "zfs-mount.service" ];
 
     path = [ pkgs.zfs ];
 

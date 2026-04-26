@@ -73,20 +73,16 @@ in
   systemd.services."zfs-datasets-options-setup" = {
     description = "Setup ZFS dataset options";
 
-    wantedBy = [ "multi-user.target" ];
-    after = [
-      "zfs-import.target"
-      "zfs-mount.service"
-    ];
-    requires = [
-      "zfs-import.target"
-      "zfs-mount.service"
-    ];
+    wantedBy = [ "zfs-mount.service" ];
+    after = [ "zfs-import.target" ];
+    requires = [ "zfs-import.target" ];
+    before = [ "zfs-mount.service" ];
 
     path = [ pkgs.zfs ];
 
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
       User = "root";
       Group = "root";
     };
@@ -181,8 +177,9 @@ in
 
       # Radicale overrides
       zfs create -p                            hdd/data/radicale 2>/dev/null || true
-      zfs set mountpoint=/srv/data/radicale    hdd/data/radicale
       zfs set quota=100M                       hdd/data/radicale
+      [ "$(zfs get -H -o value mountpoint hdd/data/radicale)" = "/srv/data/radicale" ] \
+        || zfs set mountpoint=/srv/data/radicale hdd/data/radicale
     '';
   };
 }
