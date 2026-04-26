@@ -15,11 +15,11 @@
     ../../modules/nixos/server.nix
     ../../modules/nixos/ssd.nix
     ../../modules/nixos/zfs.nix
-    ../../modules/nixos/services/observability/prometheus.nix
-    ../../modules/nixos/services/observability/grafana.nix
-    ../../modules/nixos/services/observability/loki.nix
+    ../../modules/nixos/observability/prometheus.nix
+    ../../modules/nixos/observability/grafana.nix
+    ../../modules/nixos/observability/loki.nix
     ../../modules/nixos/services/ntfy.nix
-    ../../modules/nixos/services/observability/alloy.nix
+    ../../modules/nixos/observability/alloy.nix
   ];
 
   system.stateVersion = "25.05"; # DO NOT MODIFY

@@ -17,7 +17,7 @@
     ../../modules/nixos/services/mysql.nix
     ../../modules/nixos/services/redis.nix
     ../../modules/nixos/services/authentication.nix
-    ../../modules/nixos/services/observability/alloy.nix
+    ../../modules/nixos/observability/alloy.nix
     ../../modules/nixos/services/immich.nix
     ../../modules/nixos/services/radicale.nix
     ../../modules/nixos/services/vaultwarden.nix
