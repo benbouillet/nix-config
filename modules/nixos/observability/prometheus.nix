@@ -171,6 +171,32 @@
           resolve_timeout = "5m";
         };
 
+        time_intervals = [
+          {
+            name = "night";
+            time_intervals = [
+              {
+                times = [
+                  {
+                    start_time = "23:00";
+                    end_time = "24:00";
+                  }
+                ];
+                location = "Europe/Paris";
+              }
+              {
+                times = [
+                  {
+                    start_time = "00:00";
+                    end_time = "08:00";
+                  }
+                ];
+                location = "Europe/Paris";
+              }
+            ];
+          }
+        ];
+
         route = {
           receiver = "ntfy";
           group_by = [
@@ -180,6 +206,16 @@
           group_wait = "10s";
           group_interval = "30s";
           repeat_interval = "1h";
+
+          # Mute non-critical alerts overnight; critical alerts fall through
+          # to the root route and notify immediately.
+          routes = [
+            {
+              receiver = "ntfy";
+              matchers = [ "severity!=critical" ];
+              mute_time_intervals = [ "night" ];
+            }
+          ];
         };
 
         receivers = [
