@@ -5,12 +5,16 @@
 }:
 {
   services.prometheus = {
+    # Prometheus server
     enable = true;
     port = globals.ports.prometheus;
     globalConfig.scrape_interval = "10s";
     webExternalUrl = "https://prometheus.${globals.domain}";
     ruleFiles = [ ./configuration/alerts.yml ];
+
+    # Scrape targets
     scrapeConfigs = [
+      # Host metrics via node_exporter
       {
         job_name = "node";
         metrics_path = "/metrics";
@@ -19,10 +23,12 @@
             targets = [
               "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}"
               "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.node}"
+              "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.node}"
             ];
           }
         ];
       }
+      # Web service liveness probe (expects HTTP 200)
       {
         job_name = "blackbox-healthy";
         metrics_path = "/probe";
@@ -54,6 +60,7 @@
           }
         ];
       }
+      # Web service probe validating a JSON health payload
       {
         job_name = "blackbox-json";
         metrics_path = "/probe";
@@ -85,6 +92,7 @@
           }
         ];
       }
+      # Web service probe hitting an API version endpoint
       {
         job_name = "blackbox-version";
         metrics_path = "/probe";
@@ -116,6 +124,7 @@
           }
         ];
       }
+      # ZFS pool and dataset metrics
       {
         job_name = "zfs";
         metrics_path = "/metrics";
@@ -129,6 +138,7 @@
         ];
       }
     ];
+    # Alertmanager discovery — Prometheus forwards firing alerts here
     alertmanagers = [
       {
         static_configs = [
@@ -137,7 +147,7 @@
       }
     ];
 
-    # Blackbox exporter - should be moved to another host
+    # Blackbox exporter — synthetic HTTP probes (should be moved to another host)
     exporters = {
       blackbox = {
         enable = true;
@@ -147,7 +157,7 @@
       };
     };
 
-    # Alert manager
+    # Alertmanager — routes and groups alerts, fans them out to receivers
     alertmanager = {
       enable = true;
       webExternalUrl = "https://alerts.${globals.domain}";
@@ -185,6 +195,7 @@
       };
     };
 
+    # Alertmanager → ntfy bridge — turns webhook alerts into push notifications
     alertmanager-ntfy = {
       enable = true;
       settings = {
