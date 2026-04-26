@@ -133,6 +133,7 @@
             targets = [
               "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
               "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
+              "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
             ];
           }
         ];

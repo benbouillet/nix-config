@@ -28,6 +28,58 @@
   };
 
   ########################################
+  # Backup freshness signals (node_exporter)
+  ########################################
+  services.prometheus.exporters.node = {
+    enabledCollectors = [
+      "systemd"
+      "textfile"
+    ];
+    extraFlags = [
+      "--collector.systemd.unit-include=^syncoid-.*\\.service$"
+      "--collector.textfile.directory=/var/lib/prometheus-node-exporter-text-files"
+    ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/prometheus-node-exporter-text-files 0755 root root - -"
+  ];
+
+  # Emit newest-snapshot-timestamp gauge per backup dataset so Prometheus can
+  # detect silent syncoid failures (exit 0, but no fresh snapshot landed).
+  systemd.services.zfs-backup-freshness-exporter = {
+    description = "Export newest ZFS snapshot timestamp per backup dataset";
+    path = [
+      pkgs.zfs
+      pkgs.coreutils
+    ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      out=/var/lib/prometheus-node-exporter-text-files/zfs_backup_freshness.prom
+      tmp=$(mktemp --tmpdir="$(dirname "$out")")
+      {
+        echo "# HELP zfs_latest_snapshot_timestamp_seconds Unix time of newest snapshot per dataset."
+        echo "# TYPE zfs_latest_snapshot_timestamp_seconds gauge"
+        for ds in $(zfs list -H -o name -r ssd/backups/chewie); do
+          ts=$(zfs list -H -p -t snapshot -o creation -S creation "$ds" 2>/dev/null | head -n1)
+          [ -n "$ts" ] && echo "zfs_latest_snapshot_timestamp_seconds{dataset=\"$ds\"} $ts"
+        done
+      } > "$tmp"
+      chmod 0644 "$tmp"
+      mv "$tmp" "$out"
+    '';
+  };
+
+  systemd.timers.zfs-backup-freshness-exporter = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5min";
+      OnUnitActiveSec = "15min";
+      Unit = "zfs-backup-freshness-exporter.service";
+    };
+  };
+
+  ########################################
   # Syncoid (pulling from chewie)
   ########################################
   sops.secrets = {

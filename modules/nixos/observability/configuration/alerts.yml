@@ -71,6 +71,27 @@ groups:
           description: "Btrfs root disk `{{ $labels.mountpoint }}` on host `{{ $labels.instance }}` is above 85% capacity."
 
 
+  - name: backups
+    rules:
+      - alert: syncoidUnitFailed
+        expr: node_systemd_unit_state{name=~"syncoid-.*\\.service",state="failed"} == 1
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Syncoid unit failed on `{{ $labels.instance }}`"
+          description: "`{{ $labels.name }}` is in failed state on `{{ $labels.instance }}`."
+      - alert: zfsBackupStale
+        expr: time() - zfs_latest_snapshot_timestamp_seconds > 30 * 3600
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "ZFS backup stale: `{{ $labels.dataset }}`"
+          description: "No new snapshot on `{{ $labels.dataset }}` for over 30h — syncoid may be silently failing."
+
   - name: infra-basics
     rules:
       - alert: oomKill
