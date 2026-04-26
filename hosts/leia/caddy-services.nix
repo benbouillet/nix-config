@@ -1,7 +1,7 @@
 { globals, lib, ... }:
 {
   services.caddy.virtualHosts."*.${globals.domain}".extraConfig = lib.mkAfter ''
-    # From modules/nixos/services/prometheus.nix
+    # From modules/nixos/services/observability/prometheus.nix
 
     @prometheus host prometheus.${globals.domain}
     handle @prometheus {
@@ -20,7 +20,7 @@
       reverse_proxy chewie:${toString globals.ports.llama-cpp}
     }
 
-    # From modules/nixos/services/grafana.nix
+    # From modules/nixos/services/observability/grafana.nix
 
     @grafana host grafana.${globals.domain}
     handle @grafana {
