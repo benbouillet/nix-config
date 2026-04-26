@@ -123,5 +123,6 @@
 
   environment.etc = {
     "grafana-dashboards/node.json".source = ./assets/grafana/node.json;
+    "grafana-dashboards/zfs.json".source = ./assets/grafana/zfs.json;
   };
 }
