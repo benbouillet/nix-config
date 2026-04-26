@@ -1,0 +1,128 @@
+groups:
+  - name: services-basics
+    rules:
+      - alert: serviceDown
+        expr: probe_success == 0
+        for: 1m
+        labels:
+          severity: info
+          type: web-services
+          team: platform
+        annotations:
+          summary: "Service down: `{{ $labels.instance }}`"
+          description: "Service `{{ $labels.instance }}` has been unreachable for the last 5 minutes."
+
+  - name: storage
+    rules:
+      - alert: zfsUnhealthy
+        expr: |
+          zfs_pool_health{state="degraded"} > 0
+          or zfs_pool_health{state="faulted"} > 0
+          or zfs_pool_health{state="offline"} > 0
+          or zfs_pool_health{state="removed"} > 0
+          or zfs_pool_health{state="suspended"} > 0
+          or zfs_pool_health{state="unavail"} > 0
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "Zpool unhealthy on `{{ $labels.instance }}`"
+          description: "ZFS pool `{{ $labels.zpool }}` on `{{ $labels.instance }}` is in state `{{ $labels.state }}`."
+      - alert: zfsPoolLowCapacity
+        expr: |
+          (zfs_pool_allocated_bytes / zfs_pool_size_bytes) > 0.80
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "Zpool low capacity on `{{ $labels.instance }}`"
+          description: "ZFS pool `{{ $labels.pool }}` on `{{ $labels.instance }}` is above 80% capacity."
+      - alert: zfsDatasetLowCapacity
+        expr: |
+          zfs_dataset_used_bytes
+          /
+          (zfs_dataset_used_bytes + zfs_dataset_available_bytes) > 0.85
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "ZFS Dataset low capacity on `{{ $labels.instance }}`"
+          description: "ZFS dataset `{{ $labels.name }}` on pool `{{ $labels.pool }}` on host `{{ $labels.instance }}` is above 85% capacity."
+      - alert: zfsDatasetVeryLowCapacity
+        expr: |
+          zfs_dataset_used_bytes
+          /
+          (zfs_dataset_used_bytes + zfs_dataset_available_bytes) > 0.95
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "ZFS Dataset very low capacity on `{{ $labels.instance }}`"
+          description: "ZFS dataset `{{ $labels.name }}` on pool `{{ $labels.pool }}` on host `{{ $labels.instance }}` is above 95% capacity1"
+      - alert: btrfsDatasetLowCapacity
+        expr: |
+          1 - (node_filesystem_avail_bytes{fstype="btrfs",mountpoint="/persist"}/
+          node_filesystem_size_bytes{fstype="btrfs",mountpoint="/persist"}) > 0.85
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "Root disk low capacity on `{{ $labels.instance }}`"
+          description: "Btrfs root disk `{{ $labels.mountpoint }}` on host `{{ $labels.instance }}` is above 85% capacity."
+
+
+  - name: infra-basics
+    rules:
+      - alert: oomKill
+        expr: |
+          increase(node_vmstat_oom_kill[5m]) > 0
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "OOM on: {{ $labels.instance }}"
+          description: "Out-of-memory process kill detected on `{{ $labels.instance }}`."
+      - alert: HostMemoryPressure
+        expr: |
+          (
+            node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.10
+          )
+          and
+          (
+            rate(node_vmstat_pswpout[5m]) > 0
+          )
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+        annotations:
+          summary: "High memory pressure on {{ $labels.instance }}"
+          description: "MemAvailable < 10% for 10 minutes with kernel actively pushing pages to swap on host `{{ $labels.instance }}`."
+
+  - name: prometheus-self
+    rules:
+      - alert: PrometheusScrapeFailures
+        expr: |
+          increase(prometheus_target_scrapes_exceeded_sample_limit_total[10m]) > 0
+          or increase(prometheus_target_scrapes_sample_duplicate_timestamp_total[10m]) > 0
+          or increase(prometheus_target_scrapes_sample_out_of_order_total[10m]) > 0
+          or increase(prometheus_target_scrapes_sample_out_of_bounds_total[10m]) > 0
+        for: 5m
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "Prometheus scrape quality issues"
+          description: "Samples are being rejected (limit/duplicate/out-of-order/out-of-bounds)."
+          runbook_url: "https://runbooks.example.com/prom-scrape-issues"
+
+      - alert: PrometheusRuleEvaluationFailures
+        expr: increase(prometheus_rule_evaluation_failures_total[10m]) > 0
+        for: 5m
+        labels:
+          severity: info
+          team: platform
+        annotations:
+          summary: "Prometheus rule evaluation failures"
+          description: "Some rules failed to evaluate in the last 10 minutes."
+          runbook_url: "https://runbooks.example.com/prom-rule-fail"
