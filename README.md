@@ -74,11 +74,9 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] OIDC + SSO
 - [x] Alerting
 - [x] Monitoring
-- [ ] Observability
-- [ ] Logs management
-- [ ] Containers logs management
+- [x] Logs management
+- [x] Containers logs management
 - [x] Per container service CPU/memory limits
-- [ ] Per nix service CPU/memory limits
 - [ ] Dedicated node for PSU monitoring
 - [x] Dedicated node for backup
 - [x] VTT app
@@ -92,7 +90,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] move observability to leia
 - [ ] implement backup to rsync
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
-- [ ] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
+- [x] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
 - [x] simplify (back to yaml) observability stack and comment
 - [x] ZFS backups monitoring & logs
 
