@@ -20,11 +20,16 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = [
-              "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}"
-              "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.node}"
-              "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.node}"
-            ];
+            targets = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            labels.hostname = "chewie";
+          }
+          {
+            targets = [ "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            labels.hostname = "leia";
+          }
+          {
+            targets = [ "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            labels.hostname = "yoda";
           }
         ];
       }
@@ -130,11 +135,16 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = [
-              "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
-              "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
-              "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.zfs}"
-            ];
+            targets = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            labels.hostname = "chewie";
+          }
+          {
+            targets = [ "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            labels.hostname = "leia";
+          }
+          {
+            targets = [ "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            labels.hostname = "yoda";
           }
         ];
       }
