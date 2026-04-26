@@ -9,7 +9,7 @@
     enable = true;
     configPath = pkgs.writeText "config.alloy" ''
       loki.source.journal "read" {
-        forward_to = [loki.relabel.journal.receiver]
+        forward_to    = [loki.write.local.receiver]
         relabel_rules = loki.relabel.journal.rules
         labels = {
           job  = "systemd-journal",
@@ -17,8 +17,10 @@
         }
       }
 
+      // Rules-only export: this component is never sent entries,
+      // it just exposes `.rules` for loki.source.journal to apply once.
       loki.relabel "journal" {
-        forward_to = [loki.write.local.receiver]
+        forward_to = []
 
         rule {
           source_labels = ["__journal__systemd_unit"]
@@ -27,6 +29,14 @@
         rule {
           source_labels = ["__journal__hostname"]
           target_label  = "hostname"
+        }
+        rule {
+          source_labels = ["__journal_priority_keyword"]
+          target_label  = "level"
+        }
+        rule {
+          source_labels = ["__journal_syslog_identifier"]
+          target_label  = "syslog_identifier"
         }
       }
 
