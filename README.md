@@ -91,11 +91,10 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Split secrets per host
 - [x] move observability to leia
 - [ ] implement backup to rsync
-- [ ] alerting on failed backups
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
 - [ ] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
-- [ ] simplify (back to yaml) observability stack and comment
-- [ ] ZFS backups monitoring & logs
+- [x] simplify (back to yaml) observability stack and comment
+- [x] ZFS backups monitoring & logs
 
 # Configuring SOPS
 
