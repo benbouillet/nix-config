@@ -177,7 +177,7 @@
     ignoreIP = [
       "127.0.0.1/8"
       "::1"
-      "100.64.0.0/10"  # Tailscale CGNAT range
+      "100.64.0.0/10" # Tailscale CGNAT range
     ];
   };
 
@@ -191,9 +191,6 @@
   ];
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-
     age.keyFile = "/var/lib/sops-nix/key.txt";
   };
 

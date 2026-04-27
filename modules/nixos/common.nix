@@ -3,9 +3,15 @@
   lib,
   pkgs,
   username,
+  host,
   ...
 }:
 {
+  sops = {
+    defaultSopsFile = ../../secrets/${host}.yaml;
+    defaultSopsFormat = "yaml";
+  };
+
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [

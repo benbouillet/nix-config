@@ -4,10 +4,12 @@ keys:
   - &yoda age180hurage7swmnf3he3pj0e3333f9yeygl2hy7pelv2pf06f53vvqng2xj2
   - &leia age16vtgz95epje73z7pvgy8tkwmv0jdkx679j4djt3958pehk4yw4xsqh2h9n
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/leia\.yaml
     key_groups:
-    - age:
-      - *chewie
-      - *obiwan
-      - *yoda
-      - *leia
+      - age: [*leia, *obiwan]
+  - path_regex: secrets/chewie\.yaml
+    key_groups:
+      - age: [*chewie, *obiwan]
+  - path_regex: secrets/yoda\.yaml
+    key_groups:
+      - age: [*yoda, *obiwan]
