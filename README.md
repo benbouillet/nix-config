@@ -86,7 +86,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Switch from linkding to linkwarden
 - [ ] endurain
 - [ ] technicium with split-horizon DNS
-- [ ] Split secrets per host
+- [x] Split secrets per host
 - [x] move observability to leia
 - [ ] implement backup to rsync
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
