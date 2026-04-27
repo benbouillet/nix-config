@@ -158,5 +158,3 @@ chewie
 # Temporary Workarounds
 
 This section lists temporary fixes applied to the configuration due to bugs introduced by `nixpkgs` or `flake` updates. These should be reviewed periodically and removed once the upstream issues are resolved.
-
-- **`hmts.nvim` disabled**: The `hmts.nvim` plugin is currently disabled in Neovim due to an incompatibility with the latest Neovim/Tree-sitter versions (`attempt to call method 'parent' (a nil value)`). See `modules/home/neovim/plugins/treesitter.nix`.
