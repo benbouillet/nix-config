@@ -158,3 +158,7 @@ chewie
 # Temporary Workarounds
 
 This section lists temporary fixes applied to the configuration due to bugs introduced by `nixpkgs` or `flake` updates. These should be reviewed periodically and removed once the upstream issues are resolved.
+
+## hmts.nvim disabled (`modules/home/neovim/plugins/treesitter.nix`)
+
+`hmts.nvim` v1.3.0 (current nixpkgs version) crashes with `attempt to call method 'parent' (a nil value)` on any `.nix` file due to a nil capture not being guarded before calling `:parent()`. A fix is pending in [calops/hmts.nvim#38](https://github.com/calops/hmts.nvim/pull/38). Re-enable once the PR is merged and nixpkgs is updated.
