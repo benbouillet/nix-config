@@ -141,27 +141,6 @@
             inputs.impermanence.nixosModules.impermanence
           ];
         };
-        rpiSdImage = nixpkgs.lib.nixosSystem {
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-            {
-              nixpkgs.config.allowUnsupportedSystem = true;
-              nixpkgs.hostPlatform.system = "aarch64-linux";
-              nixpkgs.buildPlatform.system = "x86_64-linux";
-              services.openssh = {
-                enable = true;
-                settings = {
-                  PasswordAuthentication = false;
-                  KbdInteractiveAuthentication = false;
-                  PermitRootLogin = "prohibit-password";
-                };
-              };
-              users.users.root.openssh.authorizedKeys.keys = [
-                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
-              ];
-            }
-          ];
-        };
       };
       packages = forAllSystems (system: {
         usbboot = nixos-generators.nixosGenerate {
