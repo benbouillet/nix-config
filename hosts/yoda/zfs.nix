@@ -171,6 +171,8 @@
     requires = [ "zfs-import.target" ];
     before = [ "zfs-mount.service" ];
 
+    unitConfig.DefaultDependencies = false;
+
     path = [ pkgs.zfs ];
 
     serviceConfig = {
