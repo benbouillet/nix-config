@@ -55,7 +55,7 @@
         "eth*"
       ];
       networkConfig = {
-        DHCP = "ipv4";
+        DHCP = "yes";
       };
     };
   };
@@ -148,6 +148,9 @@
     "net.ipv4.conf.default.accept_redirects" = 0;
     "net.ipv6.conf.all.accept_redirects" = 0;
     "net.ipv6.conf.default.accept_redirects" = 0;
+    "net.ipv6.conf.all.accept_source_route" = 0;
+    "net.ipv6.conf.default.accept_source_route" = 0;
+    "net.ipv6.conf.all.forwarding" = 0;
     "net.ipv4.conf.all.accept_source_route" = 0;
     "net.ipv4.conf.default.accept_source_route" = 0;
   };
@@ -178,6 +181,7 @@
       "127.0.0.1/8"
       "::1"
       "100.64.0.0/10" # Tailscale CGNAT range
+      "fd7a:115c:a1e0::/48" # Tailscale IPv6 CGNAT range
     ];
   };
 
