@@ -40,6 +40,8 @@ in
   # Enable Firmware update
   # services.fwupd.enable = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   # Enable networking
   networking.hostName = host;
 

@@ -25,6 +25,8 @@ Register the machine into tailscale.
 Update DNS is necessary.
 
 ### Deploy a new configuration
+
+#### Remote host
 Don't forget to update `~/.ssh/config` (way easier, esp. when
 using SSH jump and/or custom SSH port).
 
@@ -34,6 +36,14 @@ nixos-rebuild switch --flake ".#<HOST>" \
   --build-host <TARGET> \
   --sudo \
   --use-substitutes
+```
+
+#### Local host
+```bash
+sudo nixos-rebuild build --flake .#<hostname>
+# nvd diff <current> <next>
+nvd diff /nix/var/nix/profiles/system-511-link /nix/store/j10jc3ny8jmlzaq979yr0im2801y1781-nixos-system-obiwan-26.05.20260422.0726a0e
+sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
 ### Make a change in the disk configuration
