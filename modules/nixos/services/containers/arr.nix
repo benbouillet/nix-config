@@ -98,7 +98,7 @@
       ];
       extraOptions = [
         "--network=container:gluetun"
-        "--memory=128m"
+        "--memory=256m"
       ];
     };
 
@@ -268,5 +268,4 @@
     };
   };
 
-  
 }
