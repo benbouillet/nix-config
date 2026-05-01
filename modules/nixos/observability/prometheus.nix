@@ -173,7 +173,7 @@
       enable = true;
       webExternalUrl = "https://alerts.${globals.domain}";
       port = globals.ports.prometheus-alertmanager;
-      listenAddress = "${globals.hosts.leia.ipv4}";
+      listenAddress = "127.0.0.1";
       extraFlags = [ "--cluster.listen-address=" ];
 
       configuration = {

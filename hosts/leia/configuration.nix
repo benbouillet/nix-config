@@ -18,7 +18,7 @@
     ../../modules/nixos/observability/prometheus.nix
     ../../modules/nixos/observability/grafana.nix
     ../../modules/nixos/observability/loki.nix
-    ../../modules/nixos/services/ntfy.nix
+    ../../modules/nixos/observability/ntfy.nix
   ];
 
   system.stateVersion = "25.05"; # DO NOT MODIFY
