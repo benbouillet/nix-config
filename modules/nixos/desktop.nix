@@ -39,6 +39,7 @@
     usbutils
     sops
     age
+    nvd
   ];
 
   networking = {
