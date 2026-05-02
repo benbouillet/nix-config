@@ -199,11 +199,17 @@ let
   ];
 
   syncoidOffsitePush = builtins.listToAttrs (
-    map (e: { name = e.source; value = { inherit (e) source target extraArgs; }; }) offsiteBackups
+    map (e: {
+      name = e.source;
+      value = { inherit (e) source target extraArgs; };
+    }) offsiteBackups
   );
 
   offsiteSanoidSnapshots = builtins.listToAttrs (
-    map (e: { name = e.target; value = e.sanoid; }) offsiteBackups
+    map (e: {
+      name = e.target;
+      value = e.sanoid;
+    }) offsiteBackups
   );
 
   # Derived from zfsDatasets entries that have a localSnapshots field

@@ -2,8 +2,109 @@
   globals,
   config,
   pkgs,
+  lib,
   ...
 }:
+let
+  # ZFS structural dataset layout — applied by zfs-datasets-options-setup
+  # Order matters: parents must come before children
+  zfsDatasets = [
+    {
+      ds = "ssd";
+      props = {
+        mountpoint = "none";
+        compression = "zstd";
+        atime = "off";
+        xattr = "sa";
+        acltype = "posixacl";
+        aclinherit = "restricted";
+        aclmode = "discard";
+        dnodesize = "auto";
+        recordsize = "16K";
+      };
+    }
+    {
+      ds = "ssd/backups";
+      props = {
+        mountpoint = "none";
+        quota = "2T";
+      };
+      create = true;
+    }
+    {
+      ds = "ssd/backups/chewie";
+      props = {
+        mountpoint = "none";
+        quota = "1T";
+      };
+      create = true;
+    }
+    {
+      ds = "ssd/backups/chewie/data";
+      props = {
+        mountpoint = "none";
+      };
+      create = true;
+    }
+  ];
+
+  # Backups pulled from chewie via syncoid
+  chewieBackups = [
+    {
+      source = "syncoid@chewie:ssd/db";
+      target = "ssd/backups/chewie/db";
+      recursive = true;
+    }
+    {
+      source = "syncoid@chewie:ssd/services/infra";
+      target = "ssd/backups/chewie/services/infra";
+      recursive = false;
+    }
+    {
+      source = "syncoid@chewie:ssd/services/apps";
+      target = "ssd/backups/chewie/services/apps";
+      recursive = false;
+    }
+    {
+      source = "syncoid@chewie:hdd/data/immich";
+      target = "ssd/backups/chewie/data/immich";
+      recursive = false;
+    }
+    {
+      source = "syncoid@chewie:hdd/data/seafile";
+      target = "ssd/backups/chewie/data/seafile";
+      recursive = false;
+    }
+    {
+      source = "syncoid@chewie:hdd/data/paperless";
+      target = "ssd/backups/chewie/data/paperless";
+      recursive = false;
+    }
+    {
+      source = "syncoid@chewie:hdd/data/radicale";
+      target = "ssd/backups/chewie/data/radicale";
+      recursive = false;
+    }
+  ];
+
+  mkDatasetScript =
+    {
+      ds,
+      props,
+      create ? false,
+      ...
+    }:
+    let
+      createLine = lib.optionalString create "zfs create -p ${ds} 2>/dev/null || true";
+      propLines = lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "zfs set ${k}=${v} ${ds}") props);
+    in
+    lib.concatStringsSep "\n" (
+      lib.filter (s: s != "") [
+        createLine
+        propLines
+      ]
+    );
+in
 {
   ########################################
   # Kernel & ZFS basics
@@ -14,9 +115,6 @@
     };
   };
 
-  ########################################
-  # ARC cap (adjust for your RAM)
-  ########################################
   # Cap ARC at ~16 GiB
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ];
 
@@ -103,50 +201,15 @@
     enable = true;
     sshKey = config.sops.secrets."ssh/yodaToChewieSyncoidKeyPriv".path;
     interval = "*-*-* 04:00:00";
-    commands = {
-      "databases" = {
-        source = "syncoid@chewie:ssd/db";
-        target = "ssd/backups/chewie/db";
-        recursive = true;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "infra" = {
-        source = "syncoid@chewie:ssd/services/infra";
-        target = "ssd/backups/chewie/services/infra";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "apps" = {
-        source = "syncoid@chewie:ssd/services/apps";
-        target = "ssd/backups/chewie/services/apps";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "immich" = {
-        source = "syncoid@chewie:hdd/data/immich";
-        target = "ssd/backups/chewie/data/immich";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "seafile" = {
-        source = "syncoid@chewie:hdd/data/seafile";
-        target = "ssd/backups/chewie/data/seafile";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "paperless" = {
-        source = "syncoid@chewie:hdd/data/paperless";
-        target = "ssd/backups/chewie/data/paperless";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "radicale" = {
-        source = "syncoid@chewie:hdd/data/radicale";
-        target = "ssd/backups/chewie/data/radicale";
-        recursive = false;
-        extraArgs = [ "--no-sync-snap" ];
-      };
-    };
+    commands = builtins.listToAttrs (
+      map (e: {
+        name = e.source;
+        value = {
+          inherit (e) source target recursive;
+          extraArgs = [ "--no-sync-snap" ];
+        };
+      }) chewieBackups
+    );
   };
 
   ########################################
@@ -183,39 +246,11 @@
     };
 
     script = ''
-      # SSD pool defaults
-      zfs set mountpoint=none                  ssd
-      zfs set compression=zstd                 ssd
-      zfs set atime=off                        ssd
-      zfs set xattr=sa                         ssd
-      zfs set acltype=posixacl                 ssd
-      zfs set aclinherit=restricted            ssd
-      zfs set aclmode=discard                  ssd
-      zfs set dnodesize=auto                   ssd
-      zfs set recordsize=16K                   ssd
+      # Structural dataset properties & layout
+      ${lib.concatMapStringsSep "\n\n" mkDatasetScript zfsDatasets}
 
-      # Backups defaults
-      zfs list ssd/backups >/dev/null 2>&1 || zfs create -p ssd/backups
-      zfs set mountpoint=none                  ssd/backups
-      zfs set quota=2T                         ssd/backups
-
-      # Chewie backups
-      zfs list ssd/backups/chewie >/dev/null 2>&1 || zfs create -p ssd/backups/chewie
-      zfs set mountpoint=none                  ssd/backups/chewie
-      zfs set quota=1T                         ssd/backups/chewie
-
-      # Chewie backup targets
-      zfs list ssd/backups/chewie/db >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/db
-      zfs list ssd/backups/chewie/services/infra >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/services/infra
-      zfs list ssd/backups/chewie/services/apps >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/services/apps
-
-      # Data backups
-      zfs list ssd/backups/chewie/data >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data
-      zfs set mountpoint=none                  ssd/backups/chewie/data
-      zfs list ssd/backups/chewie/data/seafile >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/seafile
-      zfs list ssd/backups/chewie/data/paperless >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/paperless
-      zfs list ssd/backups/chewie/data/immich >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/immich
-      zfs list ssd/backups/chewie/data/radicale >/dev/null 2>&1 || zfs create -p ssd/backups/chewie/data/radicale
+      # Syncoid target datasets
+      ${lib.concatMapStringsSep "\n" (e: "zfs create -p ${e.target} 2>/dev/null || true") chewieBackups}
     '';
   };
 }

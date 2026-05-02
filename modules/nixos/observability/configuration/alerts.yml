@@ -70,7 +70,6 @@ groups:
           summary: "Root disk low capacity on `{{ $labels.instance }}`"
           description: "Btrfs root disk `{{ $labels.mountpoint }}` on host `{{ $labels.instance }}` is above 85% capacity."
 
-
   - name: backups
     rules:
       - alert: syncoidUnitFailed
