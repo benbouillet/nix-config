@@ -9,23 +9,19 @@ let
 in
 {
   ########################################
-  # Kernel & ZFS basics
+  # ZFS pools & kernel
   ########################################
-  boot = {
-    zfs = {
-      extraPools = [
-        "hdd"
-        "ssd"
-      ];
-    };
-  };
+  boot.zfs.extraPools = [
+    "hdd"
+    "ssd"
+  ];
 
-  ########################################
-  # ARC cap (adjust for your RAM)
-  ########################################
-  # Example: cap ARC at ~8 GiB
+  # Cap ARC at 16 GiB
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ];
 
+  ########################################
+  # Prometheus exporter
+  ########################################
   services.prometheus.exporters.zfs = {
     enable = true;
     telemetryPath = "/metrics";
@@ -34,7 +30,7 @@ in
   };
 
   ########################################
-  # Snapshots
+  # Sanoid snapshots (local)
   ########################################
   services.sanoid.datasets = {
     "hdd/data" = {
@@ -55,32 +51,39 @@ in
   };
 
   ########################################
-  # Syncoid pulled from yoda
+  # Syncoid — pulled by yoda
+  # yoda SSHes in as syncoid to replicate
+  # local datasets to itself
   ########################################
   users.users.syncoid = {
     shell = pkgs.bashInteractive;
-    openssh.authorizedKeys.keys = [
-      yodaToChewiePublicKey
-    ];
+    openssh.authorizedKeys.keys = [ yodaToChewiePublicKey ];
   };
 
+  ########################################
+  # Syncoid — offsite push to rsync.net
+  # SSH alias "rsync-net" is defined in the
+  # ssh-config secret (hostname kept private)
+  ########################################
+
+  # SSH credentials & config for rsync.net (hostname kept out of the public repo)
   sops.secrets."rsync-net/ssh-key" = {
     owner = "syncoid";
     mode = "0400";
   };
-
   sops.secrets."rsync-net/ssh-config" = {
     owner = "syncoid";
     mode = "0400";
   };
-
   sops.secrets."rsync-net/known-hosts" = {
     owner = "syncoid";
     mode = "0444";
   };
 
+  # Make the "rsync-net" SSH alias available system-wide via Include
   programs.ssh.extraConfig = "Include /run/secrets/rsync-net/ssh-config";
 
+  # Ensure the remote namespace dataset exists before syncoid runs
   systemd.services."rsync-net-datasets-setup" = {
     description = "Ensure rsync.net ZFS datasets exist";
     after = [ "network-online.target" ];
@@ -101,19 +104,17 @@ in
 
   services.syncoid = {
     enable = true;
-    localTargetAllow = [ ];
+    localTargetAllow = [ ]; # target is remote — suppress local zfs-allow attempts
     commonArgs = [
       "--no-sync-snap"
       "--compress=zstd-fast"
       "--no-resume"
       "--quiet"
     ];
-    commands = {
-      "offsite-db" = {
-        source = "ssd/db";
-        target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
-        extraArgs = [ "--recursive" ];
-      };
+    commands."offsite-db" = {
+      source = "ssd/db";
+      target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
+      extraArgs = [ "--recursive" ]; # replicates ssd/db/postgres and ssd/db/mysql
     };
   };
 
@@ -123,7 +124,8 @@ in
   };
 
   ########################################
-  # Sanoid remote pruning (rsync.net)
+  # Sanoid — remote snapshot pruning
+  # Prunes old snapshots on rsync.net
   ########################################
   services.sanoid.datasets = {
     "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db/postgres" = {
@@ -137,7 +139,9 @@ in
   };
 
   ########################################
-  # Options
+  # ZFS dataset options & layout
+  # Runs before zfs-mount so datasets are
+  # configured before services start
   ########################################
   systemd.services."zfs-datasets-options-setup" = {
     description = "Setup ZFS dataset options";
