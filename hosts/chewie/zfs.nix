@@ -32,6 +32,10 @@ let
         quota = "100G";
       };
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+        recursive = true;
+      };
     }
     {
       ds = "ssd/services/infra";
@@ -48,6 +52,9 @@ let
       };
       mountpoint = "/srv/services/apps";
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+      };
     }
     {
       ds = "ssd/db";
@@ -57,6 +64,10 @@ let
         logbias = "latency";
       };
       create = true;
+      localSnapshots = {
+        use_template = [ "highchurn" ];
+        recursive = true;
+      };
     }
     {
       ds = "ssd/db/postgres";
@@ -73,22 +84,6 @@ let
         quota = "1G";
       };
       mountpoint = "/srv/db/mysql";
-      create = true;
-    }
-    {
-      ds = "ssd/data";
-      props = {
-        mountpoint = "none";
-        quota = "50G";
-      };
-      create = true;
-    }
-    {
-      ds = "ssd/data/loki";
-      props = {
-        quota = "30G";
-      };
-      mountpoint = "/srv/data/loki";
       create = true;
     }
     # HDD pool defaults
@@ -112,6 +107,10 @@ let
         quota = "928G";
       };
       create = true;
+      localSnapshots = {
+        use_template = [ "cold" ];
+        recursive = true;
+      };
     }
     {
       ds = "hdd/data/media";
@@ -120,6 +119,9 @@ let
       };
       mountpoint = "/srv/data/media";
       create = true;
+      localSnapshots = {
+        use_template = [ "nosnapshot" ];
+      };
     }
     {
       ds = "hdd/data/seafile";
@@ -128,6 +130,9 @@ let
       };
       mountpoint = "/srv/data/seafile";
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+      };
     }
     {
       ds = "hdd/data/paperless";
@@ -136,6 +141,9 @@ let
       };
       mountpoint = "/srv/data/paperless";
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+      };
     }
     {
       ds = "hdd/data/immich";
@@ -144,6 +152,9 @@ let
       };
       mountpoint = "/srv/data/immich";
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+      };
     }
     {
       ds = "hdd/data/radicale";
@@ -152,28 +163,29 @@ let
       };
       mountpoint = "/srv/data/radicale";
       create = true;
+      localSnapshots = {
+        use_template = [ "standard" ];
+      };
     }
   ];
 
-  # Defines how Sanoid snapshots & autoprunes local datasets
-  localSanoidSnapshots = {
-    "hdd/data" = {
-      use_template = [ "cold" ];
-      recursive = true;
-    };
-    "hdd/data/media" = {
-      use_template = [ "nosnapshot" ];
-    };
-    "ssd/db" = {
-      use_template = [ "highchurn" ];
-      recursive = true;
-    };
-    "ssd/services" = {
-      use_template = [ "standard" ];
-      recursive = true;
-    };
-  };
+  ########################################
+  # Backups pulled from yoda
+  ########################################
+  # Datasets yoda is allowed to pull via syncoid
+  syncoidAllow = [
+    "ssd/db"
+    "ssd/services/infra"
+    "ssd/services/apps"
+    "hdd/data/immich"
+    "hdd/data/seafile"
+    "hdd/data/paperless"
+    "hdd/data/radicale"
+  ];
 
+  ########################################
+  # Backups pushed to rsync.net
+  ########################################
   # As offsite backups to RSync.net are "pushed" from chewie
   # Sanoid autoprunes offsite datasets from chewie
   offsiteSanoidSnapshots = {
@@ -183,6 +195,26 @@ let
     };
   };
 
+  # Syncoid snapshots push to rsync.net
+  syncoidOffsitePush = {
+    "offsite-db" = {
+      source = "ssd/db";
+      target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
+      extraArgs = [ "--recursive" ];
+    };
+  };
+
+  # Derived from zfsDatasets entries that have a localSnapshots field
+  localSanoidSnapshots = builtins.listToAttrs (
+    lib.concatMap (
+      entry:
+      lib.optional (entry ? localSnapshots) {
+        name = entry.ds;
+        value = entry.localSnapshots;
+      }
+    ) zfsDatasets
+  );
+
   # Generates the shell snippet for one dataset entry
   mkDatasetScript =
     {
@@ -190,6 +222,7 @@ let
       props,
       mountpoint ? null,
       create ? false,
+      ...
     }:
     let
       createLine = lib.optionalString create "zfs create -p ${ds} 2>/dev/null || true";
@@ -205,15 +238,6 @@ let
         mountLine
       ]
     );
-
-  # Syncoid snapshots push to rsync.net
-  syncoidOffsitePush = {
-    "offsite-db" = {
-      source = "ssd/db";
-      target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
-      extraArgs = [ "--recursive" ];
-    };
-  };
 in
 {
   ########################################
@@ -338,26 +362,14 @@ in
       Group = "root";
     };
 
-    script =
-      let
-        syncoidAllow = [
-          "ssd/db"
-          "ssd/services/infra"
-          "ssd/services/apps"
-          "hdd/data/immich"
-          "hdd/data/seafile"
-          "hdd/data/paperless"
-          "hdd/data/radicale"
-        ];
-      in
-      ''
-        # Syncoid source permissions (pulled by yoda)
-        ${lib.concatMapStringsSep "\n" (
-          ds: "zfs allow -u syncoid send,hold,snapshot,bookmark,mount ${ds}"
-        ) syncoidAllow}
+    script = ''
+      # Syncoid source permissions (pulled by yoda)
+      ${lib.concatMapStringsSep "\n" (
+        ds: "zfs allow -u syncoid send,hold,snapshot,bookmark,mount ${ds}"
+      ) syncoidAllow}
 
-        # Dataset properties & layout
-        ${lib.concatMapStringsSep "\n\n" mkDatasetScript zfsDatasets}
-      '';
+      # Dataset properties & layout
+      ${lib.concatMapStringsSep "\n\n" mkDatasetScript zfsDatasets}
+    '';
   };
 }
