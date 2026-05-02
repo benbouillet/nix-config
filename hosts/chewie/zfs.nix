@@ -1,7 +1,6 @@
 {
   globals,
   pkgs,
-  config,
   ...
 }:
 let
@@ -93,11 +92,10 @@ in
     };
     script =
       let
-        sshConfig = config.sops.secrets."rsync-net/ssh-config".path;
         datasets = [ "${rsyncNet.pool}/${rsyncNet.namespace}" ];
       in
       builtins.concatStringsSep "\n" (
-        map (ds: "ssh -F ${sshConfig} rsync-net \"zfs list ${ds} 2>/dev/null || zfs create -p ${ds}\"") datasets
+        map (ds: "ssh rsync-net \"zfs list ${ds} 2>/dev/null || zfs create -p ${ds}\"") datasets
       );
   };
 
@@ -105,7 +103,6 @@ in
     enable = true;
     localTargetAllow = [ ];
     commonArgs = [
-      "--sshoption=UserKnownHostsFile=/run/secrets/rsync-net/known-hosts"
       "--no-sync-snap"
       "--compress=zstd-fast"
       "--no-resume"
@@ -115,7 +112,6 @@ in
       "offsite-db" = {
         source = "ssd/db";
         target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
-        sshKey = config.sops.secrets."rsync-net/ssh-key".path;
         extraArgs = [ "--recursive" ];
       };
     };
