@@ -77,6 +77,14 @@
         weekly = 8;
         monthly = 12;
       };
+      "offsite" = {
+        autosnap = false;
+        autoprune = true;
+        hourly = 0;
+        daily = 7;
+        weekly = 8;
+        monthly = 12;
+      };
     };
   };
 }

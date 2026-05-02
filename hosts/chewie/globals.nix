@@ -56,6 +56,10 @@ let
     };
     podmanBridgeCIDR = "10.88.0.0/16";
     podmanBridgeGateway = "10.88.0.1";
+    rsyncNet = {
+      pool = "data1";
+      namespace = "chewie";
+    };
   };
 in
 {

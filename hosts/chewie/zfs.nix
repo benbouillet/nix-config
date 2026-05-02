@@ -1,10 +1,12 @@
 {
   globals,
   pkgs,
+  config,
   ...
 }:
 let
   yodaToChewiePublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBULf9dIT77X0zgCIIvFN/CORkEckj47Fn1mTc3AfFtY root@yoda";
+  rsyncNet = globals.rsyncNet;
 in
 {
   ########################################
@@ -63,8 +65,79 @@ in
     ];
   };
 
+  sops.secrets."rsync-net/ssh-key" = {
+    owner = "syncoid";
+    mode = "0400";
+  };
+
+  sops.secrets."rsync-net/ssh-config" = {
+    owner = "syncoid";
+    mode = "0400";
+  };
+
+  sops.secrets."rsync-net/known-hosts" = {
+    owner = "syncoid";
+    mode = "0444";
+  };
+
+  programs.ssh.extraConfig = "Include /run/secrets/rsync-net/ssh-config";
+
+  systemd.services."rsync-net-datasets-setup" = {
+    description = "Ensure rsync.net ZFS datasets exist";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    path = [ pkgs.openssh ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "syncoid";
+    };
+    script =
+      let
+        sshConfig = config.sops.secrets."rsync-net/ssh-config".path;
+        datasets = [ "${rsyncNet.pool}/${rsyncNet.namespace}" ];
+      in
+      builtins.concatStringsSep "\n" (
+        map (ds: "ssh -F ${sshConfig} rsync-net \"zfs list ${ds} 2>/dev/null || zfs create -p ${ds}\"") datasets
+      );
+  };
+
   services.syncoid = {
     enable = true;
+    localTargetAllow = [ ];
+    commonArgs = [
+      "--sshoption=UserKnownHostsFile=/run/secrets/rsync-net/known-hosts"
+      "--no-sync-snap"
+      "--compress=zstd-fast"
+      "--no-resume"
+      "--quiet"
+    ];
+    commands = {
+      "offsite-db" = {
+        source = "ssd/db";
+        target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
+        sshKey = config.sops.secrets."rsync-net/ssh-key".path;
+        extraArgs = [ "--recursive" ];
+      };
+    };
+  };
+
+  systemd.services."syncoid-offsite-db" = {
+    after = [ "rsync-net-datasets-setup.service" ];
+    requires = [ "rsync-net-datasets-setup.service" ];
+  };
+
+  ########################################
+  # Sanoid remote pruning (rsync.net)
+  ########################################
+  services.sanoid.datasets = {
+    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db/postgres" = {
+      use_template = [ "offsite" ];
+      recursive = false;
+    };
+    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db/mysql" = {
+      use_template = [ "offsite" ];
+      recursive = false;
+    };
   };
 
   ########################################
