@@ -104,6 +104,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [x] simplify (back to yaml) observability stack and comment
 - [x] ZFS backups monitoring & logs
 - [ ] ZFS grafana dashboard
+- [ ] Switch to Actions based renovate
 
 # Configuring SOPS
 

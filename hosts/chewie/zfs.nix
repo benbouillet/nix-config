@@ -186,23 +186,25 @@ let
   ########################################
   # Backups pushed to rsync.net
   ########################################
-  # As offsite backups to RSync.net are "pushed" from chewie
-  # Sanoid autoprunes offsite datasets from chewie
-  offsiteSanoidSnapshots = {
-    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db" = {
-      use_template = [ "offsite" ];
-      recursive = true;
-    };
-  };
-
-  # Syncoid snapshots push to rsync.net
-  syncoidOffsitePush = {
-    "offsite-db" = {
+  offsiteBackups = [
+    {
       source = "ssd/db";
       target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
       extraArgs = [ "--recursive" ];
-    };
-  };
+      sanoid = {
+        use_template = [ "offsite" ];
+        recursive = true;
+      };
+    }
+  ];
+
+  syncoidOffsitePush = builtins.listToAttrs (
+    map (e: { name = e.source; value = { inherit (e) source target extraArgs; }; }) offsiteBackups
+  );
+
+  offsiteSanoidSnapshots = builtins.listToAttrs (
+    map (e: { name = e.target; value = e.sanoid; }) offsiteBackups
+  );
 
   # Derived from zfsDatasets entries that have a localSnapshots field
   localSanoidSnapshots = builtins.listToAttrs (
