@@ -98,13 +98,16 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] technicium with split-horizon DNS
 - [x] Split secrets per host
 - [x] move observability to leia
-- [ ] implement backup to rsync
+- [x] implement backup to rsync
 - [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
 - [x] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
 - [x] simplify (back to yaml) observability stack and comment
 - [x] ZFS backups monitoring & logs
 - [ ] ZFS grafana dashboard
 - [ ] Switch to Actions based renovate
+- [ ] Logs on OOM from Loki
+- [ ] Logs on rsync.net backups from Loki
+- [ ] Logs on backups to yoda from Loki
 
 # Configuring SOPS
 
