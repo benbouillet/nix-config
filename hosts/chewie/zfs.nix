@@ -1,11 +1,219 @@
 {
   globals,
   pkgs,
+  lib,
   ...
 }:
 let
   yodaToChewiePublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBULf9dIT77X0zgCIIvFN/CORkEckj47Fn1mTc3AfFtY root@yoda";
   rsyncNet = globals.rsyncNet;
+
+  # ZFS dataset layout — properties applied by zfs-datasets-options-setup
+  # Order matters: parents must come before children
+  zfsDatasets = [
+    # SSD pool defaults
+    {
+      ds = "ssd";
+      props = {
+        compression = "zstd";
+        atime = "off";
+        xattr = "sa";
+        acltype = "posixacl";
+        aclinherit = "restricted";
+        aclmode = "discard";
+        dnodesize = "auto";
+        recordsize = "16K";
+      };
+    }
+    {
+      ds = "ssd/services";
+      props = {
+        mountpoint = "none";
+        quota = "100G";
+      };
+      create = true;
+    }
+    {
+      ds = "ssd/services/infra";
+      props = {
+        quota = "10G";
+      };
+      mountpoint = "/srv/services/infra";
+      create = true;
+    }
+    {
+      ds = "ssd/services/apps";
+      props = {
+        quota = "50G";
+      };
+      mountpoint = "/srv/services/apps";
+      create = true;
+    }
+    {
+      ds = "ssd/db";
+      props = {
+        mountpoint = "none";
+        quota = "20G";
+        logbias = "latency";
+      };
+      create = true;
+    }
+    {
+      ds = "ssd/db/postgres";
+      props = {
+        quota = "5G";
+        recordsize = "8K";
+      };
+      mountpoint = "/srv/db/postgres";
+      create = true;
+    }
+    {
+      ds = "ssd/db/mysql";
+      props = {
+        quota = "1G";
+      };
+      mountpoint = "/srv/db/mysql";
+      create = true;
+    }
+    {
+      ds = "ssd/data";
+      props = {
+        mountpoint = "none";
+        quota = "50G";
+      };
+      create = true;
+    }
+    {
+      ds = "ssd/data/loki";
+      props = {
+        quota = "30G";
+      };
+      mountpoint = "/srv/data/loki";
+      create = true;
+    }
+    # HDD pool defaults
+    {
+      ds = "hdd";
+      props = {
+        compression = "zstd";
+        atime = "off";
+        xattr = "sa";
+        acltype = "posixacl";
+        aclinherit = "restricted";
+        aclmode = "discard";
+        dnodesize = "auto";
+        recordsize = "1M";
+      };
+    }
+    {
+      ds = "hdd/data";
+      props = {
+        mountpoint = "none";
+        quota = "928G";
+      };
+      create = true;
+    }
+    {
+      ds = "hdd/data/media";
+      props = {
+        quota = "800G";
+      };
+      mountpoint = "/srv/data/media";
+      create = true;
+    }
+    {
+      ds = "hdd/data/seafile";
+      props = {
+        quota = "100G";
+      };
+      mountpoint = "/srv/data/seafile";
+      create = true;
+    }
+    {
+      ds = "hdd/data/paperless";
+      props = {
+        quota = "50G";
+      };
+      mountpoint = "/srv/data/paperless";
+      create = true;
+    }
+    {
+      ds = "hdd/data/immich";
+      props = {
+        quota = "200G";
+      };
+      mountpoint = "/srv/data/immich";
+      create = true;
+    }
+    {
+      ds = "hdd/data/radicale";
+      props = {
+        quota = "100M";
+      };
+      mountpoint = "/srv/data/radicale";
+      create = true;
+    }
+  ];
+
+  # Defines how Sanoid snapshots & autoprunes local datasets
+  localSanoidSnapshots = {
+    "hdd/data" = {
+      use_template = [ "cold" ];
+      recursive = true;
+    };
+    "hdd/data/media" = {
+      use_template = [ "nosnapshot" ];
+    };
+    "ssd/db" = {
+      use_template = [ "highchurn" ];
+      recursive = true;
+    };
+    "ssd/services" = {
+      use_template = [ "standard" ];
+      recursive = true;
+    };
+  };
+
+  # As offsite backups to RSync.net are "pushed" from chewie
+  # Sanoid autoprunes offsite datasets from chewie
+  offsiteSanoidSnapshots = {
+    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db" = {
+      use_template = [ "offsite" ];
+      recursive = true;
+    };
+  };
+
+  # Generates the shell snippet for one dataset entry
+  mkDatasetScript =
+    {
+      ds,
+      props,
+      mountpoint ? null,
+      create ? false,
+    }:
+    let
+      createLine = lib.optionalString create "zfs create -p ${ds} 2>/dev/null || true";
+      propLines = lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "zfs set ${k}=${v} ${ds}") props);
+      mountLine = lib.optionalString (mountpoint != null) ''
+        [ "$(zfs get -H -o value mountpoint ${ds})" = "${mountpoint}" ] \
+          || zfs set mountpoint=${mountpoint} ${ds}'';
+    in
+    lib.concatStringsSep "\n" (
+      lib.filter (s: s != "") [
+        createLine
+        propLines
+        mountLine
+      ]
+    );
+
+  # Syncoid snapshots push to rsync.net
+  syncoidOffsitePush = {
+    "offsite-db" = {
+      source = "ssd/db";
+      target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
+      extraArgs = [ "--recursive" ];
+    };
+  };
 in
 {
   ########################################
@@ -30,25 +238,12 @@ in
   };
 
   ########################################
-  # Sanoid snapshots (local)
+  # Sanoid snapshots (local && offsite)
+  # * Creates local snapshots
+  # * Prunes old local snapshots
+  # * Prunes old snapshots on rsync.net
   ########################################
-  services.sanoid.datasets = {
-    "hdd/data" = {
-      use_template = [ "cold" ];
-      recursive = true;
-    };
-    "hdd/data/media" = {
-      use_template = [ "nosnapshot" ];
-    };
-    "ssd/db" = {
-      use_template = [ "highchurn" ];
-      recursive = true;
-    };
-    "ssd/services" = {
-      use_template = [ "standard" ];
-      recursive = true;
-    };
-  };
+  services.sanoid.datasets = localSanoidSnapshots // offsiteSanoidSnapshots;
 
   ########################################
   # Syncoid — pulled by yoda
@@ -111,31 +306,12 @@ in
       "--no-resume"
       "--quiet"
     ];
-    commands."offsite-db" = {
-      source = "ssd/db";
-      target = "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db";
-      extraArgs = [ "--recursive" ]; # replicates ssd/db/postgres and ssd/db/mysql
-    };
+    commands = syncoidOffsitePush;
   };
 
   systemd.services."syncoid-offsite-db" = {
     after = [ "rsync-net-datasets-setup.service" ];
     requires = [ "rsync-net-datasets-setup.service" ];
-  };
-
-  ########################################
-  # Sanoid — remote snapshot pruning
-  # Prunes old snapshots on rsync.net
-  ########################################
-  services.sanoid.datasets = {
-    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db/postgres" = {
-      use_template = [ "offsite" ];
-      recursive = false;
-    };
-    "rsync-net:${rsyncNet.pool}/${rsyncNet.namespace}/db/mysql" = {
-      use_template = [ "offsite" ];
-      recursive = false;
-    };
   };
 
   ########################################
@@ -162,99 +338,26 @@ in
       Group = "root";
     };
 
-    script = ''
-      # Syncoid source permissions (pulled by yoda)
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/db
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/services/infra
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount ssd/services/apps
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/immich
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/seafile
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/paperless
-      zfs allow -u syncoid send,hold,snapshot,bookmark,mount hdd/data/radicale
+    script =
+      let
+        syncoidAllow = [
+          "ssd/db"
+          "ssd/services/infra"
+          "ssd/services/apps"
+          "hdd/data/immich"
+          "hdd/data/seafile"
+          "hdd/data/paperless"
+          "hdd/data/radicale"
+        ];
+      in
+      ''
+        # Syncoid source permissions (pulled by yoda)
+        ${lib.concatMapStringsSep "\n" (
+          ds: "zfs allow -u syncoid send,hold,snapshot,bookmark,mount ${ds}"
+        ) syncoidAllow}
 
-      # SSD pool defaults
-      zfs set compression=zstd                 ssd
-      zfs set atime=off                        ssd
-      zfs set xattr=sa                         ssd
-      zfs set acltype=posixacl                 ssd
-      zfs set aclinherit=restricted            ssd
-      zfs set aclmode=discard                  ssd
-      zfs set dnodesize=auto                   ssd
-      zfs set recordsize=16K                   ssd
-
-      # Services defaults
-      zfs create -p                            ssd/services 2>/dev/null || true
-      zfs set mountpoint=none                  ssd/services
-      zfs set quota=100G                       ssd/services
-
-      # Infra overrides
-      zfs create -p                            ssd/services/infra 2>/dev/null || true
-      zfs set quota=10G                        ssd/services/infra
-
-      # Apps overrides
-      zfs create -p                            ssd/services/apps 2>/dev/null || true
-      zfs set quota=50G                        ssd/services/apps
-
-      # Databases defaults
-      zfs create -p                            ssd/db 2>/dev/null || true
-      zfs set mountpoint=none                  ssd/db
-      zfs set quota=20G                        ssd/db
-      zfs set logbias=latency                  ssd/db
-
-      # Postgres overrides
-      zfs create -p                            ssd/db/postgres 2>/dev/null || true
-      zfs set quota=5G                         ssd/db/postgres
-      zfs set recordsize=8K                    ssd/db/postgres
-
-      # MySQL overrides
-      zfs create -p                            ssd/db/mysql 2>/dev/null || true
-      zfs set quota=1G                         ssd/db/mysql
-
-      # Data defaults
-      zfs create -p                            ssd/data 2>/dev/null || true
-      zfs set mountpoint=none                  ssd/data
-      zfs set quota=50G                        ssd/data
-
-      # Loki overrides
-      zfs create -p                            ssd/data/loki 2>/dev/null || true
-      zfs set quota=30G                        ssd/data/loki
-
-      # HDD pool defaults
-      zfs set compression=zstd                 hdd
-      zfs set atime=off                        hdd
-      zfs set xattr=sa                         hdd
-      zfs set acltype=posixacl                 hdd
-      zfs set aclinherit=restricted            hdd
-      zfs set aclmode=discard                  hdd
-      zfs set dnodesize=auto                   hdd
-      zfs set recordsize=1M                    hdd
-
-      # Data defaults
-      zfs create -p                            hdd/data 2>/dev/null || true
-      zfs set mountpoint=none                  hdd/data
-      zfs set quota=928G                       hdd/data
-
-      # Media overrides
-      zfs create -p                            hdd/data/media 2>/dev/null || true
-      zfs set quota=800G                       hdd/data/media
-
-      # Seafile overrides
-      zfs create -p                            hdd/data/seafile 2>/dev/null || true
-      zfs set quota=100G                       hdd/data/seafile
-
-      # Paperless overrides
-      zfs create -p                            hdd/data/paperless 2>/dev/null || true
-      zfs set quota=50G                        hdd/data/paperless
-
-      # Immich overrides
-      zfs create -p                            hdd/data/immich 2>/dev/null || true
-      zfs set quota=200G                       hdd/data/immich
-
-      # Radicale overrides
-      zfs create -p                            hdd/data/radicale 2>/dev/null || true
-      zfs set quota=100M                       hdd/data/radicale
-      [ "$(zfs get -H -o value mountpoint hdd/data/radicale)" = "/srv/data/radicale" ] \
-        || zfs set mountpoint=/srv/data/radicale hdd/data/radicale
-    '';
+        # Dataset properties & layout
+        ${lib.concatMapStringsSep "\n\n" mkDatasetScript zfsDatasets}
+      '';
   };
 }
