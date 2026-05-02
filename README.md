@@ -173,6 +173,10 @@ chewie
 
 This section lists temporary fixes applied to the configuration due to bugs introduced by `nixpkgs` or `flake` updates. These should be reviewed periodically and removed once the upstream issues are resolved.
 
+## bambu-studio pinned to v02.06.01.55 (`modules/nixos/overlays.nix`)
+
+nixpkgs is stuck on v02.05.00.67. The overlay replaces the source-built package with the official Ubuntu 24.04 AppImage to avoid compilation issues with new 2.6 dependencies. Remove once nixpkgs catches up.
+
 ## hmts.nvim disabled (`modules/home/neovim/plugins/treesitter.nix`)
 
 `hmts.nvim` v1.3.0 (current nixpkgs version) crashes with `attempt to call method 'parent' (a nil value)` on any `.nix` file due to a nil capture not being guarded before calling `:parent()`. A fix is pending in [calops/hmts.nvim#38](https://github.com/calops/hmts.nvim/pull/38). Re-enable once the PR is merged and nixpkgs is updated.

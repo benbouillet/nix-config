@@ -26,6 +26,7 @@ in
     ../../modules/nixos/printing.nix
     ../../modules/nixos/gaming.nix
     ../../modules/nixos/sre.nix
+    ../../modules/nixos/overlays.nix
     (import ../../modules/nixos/stylix.nix {
       inherit
         inputs
