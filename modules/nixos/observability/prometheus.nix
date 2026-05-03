@@ -221,6 +221,10 @@
           # to the root route and notify immediately.
           routes = [
             {
+              receiver = "ntfy-no-resolve";
+              matchers = [ "alertname=\"oomKill\"" ];
+            }
+            {
               receiver = "ntfy";
               matchers = [ "severity!=critical" ];
               mute_time_intervals = [ "night" ];
@@ -235,6 +239,15 @@
               {
                 url = "http://${toString config.services.prometheus.alertmanager-ntfy.settings.http.addr}/hook";
                 send_resolved = true;
+              }
+            ];
+          }
+          {
+            name = "ntfy-no-resolve";
+            webhook_configs = [
+              {
+                url = "http://${toString config.services.prometheus.alertmanager-ntfy.settings.http.addr}/hook";
+                send_resolved = false;
               }
             ];
           }

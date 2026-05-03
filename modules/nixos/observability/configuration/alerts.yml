@@ -101,7 +101,9 @@ groups:
           team: platform
         annotations:
           summary: "OOM on: {{ $labels.instance }}"
-          description: "Out-of-memory process kill detected on `{{ $labels.instance }}`."
+          description: |
+            Out-of-memory process kill detected on `{{ $labels.instance }}`.
+            Run `journalctl -k --since "1 hour ago" | grep -i "oom\|out of memory\|killed process"` on the host
       - alert: HostMemoryPressure
         expr: |
           (
