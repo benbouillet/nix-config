@@ -332,6 +332,7 @@ in
   services.syncoid = {
     enable = true;
     localTargetAllow = [ ]; # target is remote — suppress local zfs-allow attempts
+    localSourceAllow = [ ]; # permissions managed by zfs-datasets-options-setup instead
     commonArgs = [
       "--no-sync-snap"
       "--compress=zstd-fast"
