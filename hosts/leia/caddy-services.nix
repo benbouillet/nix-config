@@ -15,9 +15,9 @@
 
     # From modules/nixos/services/ai.nix
 
-    @llama-cpp host llama-cpp.${globals.domain}
-    handle @llama-cpp {
-      reverse_proxy chewie:${toString globals.ports.llama-cpp}
+    @ai host ai.${globals.domain}
+    handle @ai {
+      reverse_proxy chewie:${toString globals.ports.llama-swap}
     }
 
     # From modules/nixos/observability/grafana.nix

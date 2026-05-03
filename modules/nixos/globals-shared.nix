@@ -25,7 +25,6 @@ let
       jellyfin = 9015;
       qbittorrent = 9016;
       nzbget = 9017;
-      ollama = 9020;
       foundryvtt = 9021;
       linkding = 9022;
       searxng = 9030;
@@ -38,7 +37,7 @@ let
       lubelogger = 9062;
       radicale = 9063;
       vaultwarden = 9070;
-      llama-cpp = 9080;
+      llama-swap = 9080;
       prometheus = 9090;
       authelia = 9091;
       prometheus-alertmanager = 9092;
@@ -57,15 +56,36 @@ let
       };
     };
     users = {
-      arr = { name = "arr"; UID = 920; };
-      authelia = { name = "authelia"; UID = 930; };
-      seafile = { name = "seafile"; UID = 950; };
+      arr = {
+        name = "arr";
+        UID = 920;
+      };
+      authelia = {
+        name = "authelia";
+        UID = 930;
+      };
+      seafile = {
+        name = "seafile";
+        UID = 950;
+      };
     };
     groups = {
-      authentication = { name = "authent"; GID = 930; };
-      oidc = { name = "oidc"; GID = 931; };
-      containers = { name = "containers"; GID = 993; };
-      seafile = { name = "seafile"; GID = 950; };
+      authentication = {
+        name = "authent";
+        GID = 930;
+      };
+      oidc = {
+        name = "oidc";
+        GID = 931;
+      };
+      containers = {
+        name = "containers";
+        GID = 993;
+      };
+      seafile = {
+        name = "seafile";
+        GID = 950;
+      };
     };
   };
 in
