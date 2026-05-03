@@ -1,4 +1,5 @@
 {
+  pkgs,
   opencode-augment-auth,
   ...
 }:
@@ -12,6 +13,10 @@
       };
     };
   };
+
+  home.packages = with pkgs; [
+    pi-coding-agent
+  ];
 
   xdg.configFile = {
     "opencode/config.json".source = ./opencode.json;
