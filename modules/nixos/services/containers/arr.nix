@@ -213,7 +213,7 @@
         "/dev/dri/render-intel:/dev/dri/renderD128:rwm"
       ];
       extraOptions = [
-        "--memory=1g"
+        "--memory=3g"
       ];
     };
   };
