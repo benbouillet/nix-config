@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "augment/claude-opus-4-6",
   "provider": {
     "llama-cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -9,25 +8,11 @@
         "baseURL": "https://llama-cpp.r4clette.com/v1"
       },
       "models": {
-        "unsloth/qwen3.5-35b-a3b": {
-          "name": "Qwen 3.5 35B-A3B (local)",
-          "limit": {
-            "context": 128000,
-            "output": 65536
-          }
-        },
-        "unsloth/qwen3.5-27b": {
-          "name": "Qwen 3.5 27B (local)",
-          "limit": {
-            "context": 4096,
-            "output": 4096
-          }
-        },
-        "unsloth/gemma-4-E4B": {
-          "name": "Gemma 4 E4B (local)",
+        "qwen3.6-27b-coding": {
+          "name": "Qwen 3.6 27B Coding (local)",
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 32768
           }
         }
       }
@@ -115,7 +100,7 @@
     "reviewer": {
       "description": "Code reviewer for quick reviews, explanations, and drafting. Uses local LLM.",
       "mode": "subagent",
-      "model": "llama-cpp/unsloth/qwen3.5-35b-a3b",
+      "model": "llama-cpp/qwen3.6-27b",
       "temperature": 0.3,
       "prompt": "You are a code reviewer. Review code, explain logic, suggest improvements. Do not use tools. Answer directly from the context provided.",
       "permission": {
