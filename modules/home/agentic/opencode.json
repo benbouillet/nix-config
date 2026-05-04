@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "openrouter/deepseek/deepseek-v4-pro",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -81,7 +82,7 @@
     "argus": {
       "description": "Senior SRE/DevOps engineer for Kubernetes, Terraform, and infrastructure",
       "mode": "subagent",
-      "model": "qwen3.6-27b-instruct",
+      "model": "llama-cpp/qwen3.6-27b-instruct",
       "temperature": 0.1,
       "prompt": "{file:./agents/argus.md}",
       "permission": {
@@ -113,7 +114,7 @@
     "nyx": {
       "description": "Senior Nix/NixOS expert for configuration analysis, packages, options, and flakes. Can fetch up-to-date documentation from nixos.org, home-manager-options.extranix.com, and NixOS community resources.",
       "mode": "subagent",
-      "model": "qwen3.6-27b-instruct",
+      "model": "llama-cpp/qwen3.6-27b-instruct",
       "temperature": 0.1,
       "prompt": "{file:./agents/nyx.md}",
       "permission": {
@@ -182,7 +183,7 @@
     "zeus": {
       "description": "Orchestrator: breaks down problems, delegates to subagents, challenges results, synthesizes answers.",
       "mode": "primary",
-      "model": "openrouter/deepseek-v4-pro",
+      "model": "openrouter/deepseek/deepseek-v4-pro",
       "temperature": 0.1,
       "prompt": "{file:./agents/zeus.md}",
       "permission": {
