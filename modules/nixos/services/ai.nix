@@ -35,7 +35,7 @@ let
     };
     "qwen3.6-27b-thinking" = {
       file = modelFiles."qwen36-27b";
-      ctx = 262144;
+      ctx = 131072;
       ngl = 9999;
       flash-attn = "on";
       temp = "1.0";
@@ -48,7 +48,7 @@ let
     };
     "qwen3.6-27b-coding" = {
       file = modelFiles."qwen36-27b";
-      ctx = 262144;
+      ctx = 131072;
       ngl = 9999;
       flash-attn = "on";
       temp = "0.6";
@@ -135,7 +135,9 @@ let
         "--presence-penalty ${m.presence-penalty}"
         "--repeat-penalty ${m.repeat-penalty}"
       ]
-      ++ pkgs.lib.optional (m.chat-template-kwargs != "") "--chat-template-kwargs '${m.chat-template-kwargs}'"
+      ++ pkgs.lib.optional (
+        m.chat-template-kwargs != ""
+      ) "--chat-template-kwargs '${m.chat-template-kwargs}'"
     );
 in
 {
