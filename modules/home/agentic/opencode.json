@@ -163,6 +163,22 @@
         "bash": "deny"
       }
     },
+    "heracles": {
+      "description": "Polyglot programmer: writes small Go, Python, and Bash programs and scripts.",
+      "mode": "subagent",
+      "model": "llama-cpp/qwen3.6-27b-coding",
+      "temperature": 0.1,
+      "prompt": "{file:./agents/heracles.md}",
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "*": "allow",
+          "rm -rf*": "deny",
+          "shutdown*": "deny",
+          "reboot*": "deny"
+        }
+      }
+    },
     "zeus": {
       "description": "Orchestrator: breaks down problems, delegates to subagents, challenges results, synthesizes answers.",
       "mode": "primary",
