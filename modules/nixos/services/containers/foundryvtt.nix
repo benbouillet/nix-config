@@ -17,7 +17,7 @@
 
   virtualisation.oci-containers.containers = {
     "foundryvtt" = {
-      image = "ghcr.io/felddy/foundryvtt:14.360.0@sha256:383417dbf3c442a03dcca9a4813b47c7408addaf6d582b7d3b1ee4b65c24a245";
+      image = "ghcr.io/felddy/foundryvtt:14.361.0@sha256:88399d7707a5ee548283a66947e54f69eaad68f27433c0f57c8940b44794fdfc";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.foundryvtt}:30000"
       ];
