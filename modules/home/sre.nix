@@ -40,6 +40,9 @@
     # security
     yubikey-manager
 
+    # documentation
+    mdwatch
+
     (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
   ];
 
