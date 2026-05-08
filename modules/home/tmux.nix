@@ -32,6 +32,9 @@
         continuum
       ];
       extraConfig = ''
+        # Key handling: modern escape sequences for Neovim, fzf, zsh plugins, etc.
+        set-option -g extended-keys always
+
         # Terminal
         set -g default-terminal "xterm-256color"
         set-option -ga terminal-overrides ",xterm-256color:Tc"
