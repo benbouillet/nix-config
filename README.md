@@ -108,6 +108,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Logs on OOM from Loki
 - [ ] Logs on rsync.net backups from Loki
 - [ ] Logs on backups to yoda from Loki
+- [ ] dendritic pattern
 
 # Configuring SOPS
 
