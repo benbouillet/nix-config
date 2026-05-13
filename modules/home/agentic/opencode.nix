@@ -1,10 +1,12 @@
 {
+  opencode-vim,
   ...
 }:
 {
   programs = {
     opencode = {
       enable = true;
+      package = opencode-vim;
       enableMcpIntegration = true;
       settings = { };
     };

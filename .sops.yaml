@@ -13,3 +13,6 @@ creation_rules:
   - path_regex: secrets/yoda\.yaml
     key_groups:
       - age: [*yoda, *obiwan]
+  - path_regex: secrets/obiwan\.yaml
+    key_groups:
+      - age: [*obiwan]

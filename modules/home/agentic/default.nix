@@ -4,6 +4,6 @@
 {
   imports = [
     ./opencode.nix
-    ./pi.nix
+    ./pi
   ];
 }

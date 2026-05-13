@@ -19,6 +19,7 @@ in
     ./networking.nix
     ./ssh.nix
     ../../modules/nixos/common.nix
+    ../../modules/nixos/agentic.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/hyprland.nix
     ../../modules/nixos/ssd.nix
