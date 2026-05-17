@@ -30,9 +30,6 @@ let
           - podcastindex
           - radio browser
           - reddit
-          - duckduckgo
-          - duckduckgo images
-          - duckduckgo videos
           - stackoverflow
           - steam
           - senscritique
