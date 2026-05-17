@@ -6,12 +6,12 @@
 let
   modelFiles = {
     "qwen36-27b" = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-UD-Q4_K_XL.gguf";
-      hash = "sha256-/2lB3tUls06xWUlnYsKd0Oxucdwxt01X512HGgPuwlk=";
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q5_K_XL.gguf";
+      hash = "sha256-WjxhAzWBdU1Qf/3L8GKSFMv71You2+yA2T9uwq9E0ic=";
     };
     "qwen36-35b-a3b" = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-IQ4_NL_XL.gguf";
-      hash = "sha256-Bx7ioAjsUTcvmQ2O++qS7J3QE3l0EQ72j7/eQpyMbdQ=";
+      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-IQ4_NL.gguf";
+      hash = "sha256-DRfiVdwlehHzmO1LyNYkEtjOnKJLP84pR9li5L/tV1g=";
     };
     "gemma4-e4b" = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-UD-Q6_K_XL.gguf";
