@@ -43,8 +43,22 @@
   ];
 
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      # Use systemd-resolved as the DNS backend so NM and Tailscale cooperate
+      # via D-Bus instead of racing to overwrite /etc/resolv.conf
+      dns = "systemd-resolved";
+    };
     useDHCP = false;
+  };
+
+  services.resolved = {
+    enable = true;
+    settings.Resolve = {
+      DNSSEC = "false"; # Tailscale MagicDNS doesn't support DNSSEC
+      Domains = [ "~." ];
+      FallbackDNS = "8.8.8.8 8.8.4.4";
+    };
   };
 
   systemd.network = {
