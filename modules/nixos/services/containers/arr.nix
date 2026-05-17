@@ -206,7 +206,9 @@
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/jellyfin-config:/config/:rw"
-        "/var/cache/jellyfin:/cache/:rw"
+        # linuxserver's s6 init hardcodes JELLYFIN_CACHE_DIR=/config/cache, so
+        # JELLYFIN_CACHE_DIR env var is always overridden — mount directly instead
+        "/var/cache/jellyfin:/config/cache/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
       ];
       devices = [
