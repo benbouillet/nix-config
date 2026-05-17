@@ -7,32 +7,7 @@
 }:
 let
   searxngSettings = pkgs.writeText "settings.yml" ''
-    use_default_settings:
-      engines:
-        keep_only:
-          - arch linux wiki
-          - nixos wiki
-          - bandcamp
-          - wikipedia
-          - openverse
-          - docker hub
-          - ebay
-          - findthatmeme
-          - free software directory
-          - gitlab
-          - github
-          - github code
-          - codeberg
-          - goodreads
-          - hackernews
-          - ollama
-          - openstreetmap
-          - podcastindex
-          - radio browser
-          - reddit
-          - stackoverflow
-          - steam
-          - senscritique
+    use_default_settings: true
 
     general:
       debug: false
@@ -58,151 +33,90 @@ let
       hotkeys: vim
 
     engines:
+      # Disable unreliable engines
+      - name: duckduckgo
+        engine: duckduckgo
+        disabled: true
+      - name: duckduckgo images
+        engine: duckduckgo_extra
+        disabled: true
+      - name: duckduckgo videos
+        engine: duckduckgo_extra
+        disabled: true
+      - name: duckduckgo news
+        engine: duckduckgo_extra
+        disabled: true
+
+      # Brave search (not in defaults, shared network for efficiency)
       - name: brave
         engine: brave
+        shortcut: br
         brave_category: search
         time_range_support: true
         paging: true
         categories: [general, web]
-      - name: brave.images
+      - name: brave images
         engine: brave
         network: brave
         shortcut: brimg
         categories: [images, web]
         brave_category: images
-      - name: arch linux wiki
-        engine: archlinux
-        shortcut: al
+      - name: brave videos
+        engine: brave
+        network: brave
+        shortcut: brvid
+        categories: [videos, web]
+        brave_category: videos
+      - name: brave news
+        engine: brave
+        network: brave
+        shortcut: brnws
+        categories: [news, web]
+        brave_category: news
+
+      # Custom engine instances not in defaults
       - name: nixos wiki
         engine: mediawiki
         shortcut: nixw
         base_url: https://wiki.nixos.org/
         search_type: text
         categories: [it, software wikis]
-      - name: bandcamp
-        engine: bandcamp
-        shortcut: bc
-        categories: music
-      - name: wikipedia
-        engine: wikipedia
-        shortcut: wp
-        # add "list" to the array to get results in the results list
-        display_type: ["infobox"]
-        categories: [general]
-      - name: openverse
-        engine: openverse
-        categories: images
-        shortcut: opv
-      - name: docker hub
-        engine: docker_hub
-        shortcut: dh
-        categories: [it, packages]
+      - name: codeberg
+        engine: gitea
+        base_url: https://codeberg.org
+        shortcut: cb
+      - name: senscritique
+        engine: senscritique
+        shortcut: scr
+        timeout: 6.0
+      - name: ollama
+        engine: ollama
+        shortcut: ollama
       - name: ebay
         engine: ebay
         shortcut: eb
         base_url: 'https://www.ebay.fr'
         inactive: true
-        timeout: 5
-      - name: findthatmeme
-        engine: findthatmeme
-        shortcut: ftm
-      - name: free software directory
-        engine: mediawiki
-        shortcut: fsd
-        categories: [it, software wikis]
-        base_url: https://directory.fsf.org/
-        search_type: title
-        timeout: 5.0
-        about:
-          website: https://directory.fsf.org/
-          wikidata_id: Q2470288
-      - name: gitlab
-        engine: gitlab
-        base_url: https://gitlab.com
-        shortcut: gl
-        about:
-          website: https://gitlab.com/
-          wikidata_id: Q16639197
-      - name: github
-        engine: github
-        shortcut: gh
-      - name: github code
-        engine: github_code
-        shortcut: ghc
-        ghc_auth:
-          # type is one of:
-          # * none
-          # * personal_access_token
-          # * bearer
-          # When none is passed, the token is not requried.
-          type: none
-          token: token
-        # specify whether to highlight the matching lines to the query
-        ghc_highlight_matching_lines: true
-        ghc_strip_new_lines: true
-        ghc_strip_whitespace: false
-        timeout: 10.0
-      - name: codeberg
-        # https://docs.searxng.org/dev/engines/online/gitea.html
-        engine: gitea
-        base_url: https://codeberg.org
-        shortcut: cb
-      - name: goodreads
-        engine: goodreads
-        shortcut: good
-        timeout: 4.0
-      - name: hackernews
-        engine: hackernews
-        shortcut: hn
-      - name: ollama
-        engine: ollama
-        shortcut: ollama
-      - name: openstreetmap
-        engine: openstreetmap
-        shortcut: osm
-      - name: podcastindex
-        engine: podcastindex
-        shortcut: podcast
-      - name: radio browser
-        engine: radio_browser
-        shortcut: rb
+
+      # Overrides for default engines
       - name: reddit
         engine: reddit
         shortcut: re
         page_size: 25
-      - name: stackoverflow
-        engine: stackexchange
-        shortcut: st
-        api_site: 'stackoverflow'
-        categories: [it, q&a]
-      - name: duckduckgo
-        engine: duckduckgo
-        shortcut: ddg
-        categories: [general, web]
-        suspended_time: 600
-      - name: duckduckgo images
-        engine: duckduckgo_extra
-        categories: [images, web]
-        ddg_category: images
-        shortcut: ddi
-      - name: duckduckgo videos
-        engine: duckduckgo_extra
-        categories: [videos, web]
-        ddg_category: videos
-        shortcut: ddv
-      - name: duckduckgo news
-        engine: duckduckgo_extra
-        categories: [news, web]
-        ddg_category: news
-        shortcut: ddn
-        disabled: true
-      - name: steam
-        engine: steam
-        shortcut: stm
-      - name: senscritique
-        engine: senscritique
-        shortcut: scr
-        timeout: 4.0
+      - name: wikipedia
+        engine: wikipedia
+        shortcut: wp
+        display_type: ["infobox"]
+        categories: [general]
+      - name: github code
+        engine: github_code
+        shortcut: ghc
+        ghc_auth:
+          type: none
+          token: token
+        ghc_highlight_matching_lines: true
+        ghc_strip_new_lines: true
+        timeout: 10.0
 
     doi_resolvers:
       oadoi.org: 'https://oadoi.org/'
