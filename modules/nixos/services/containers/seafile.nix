@@ -126,7 +126,7 @@
       };
     };
     seafile-notification-server = {
-      image = "seafileltd/notification-server:13.0.10@sha256:587b6f6fe86c5e976c08142313c05f8cba63e5eabad71006ef2ede95ed02b46d";
+      image = "seafileltd/notification-server:13.0.21@sha256:1cac4101d0f4527ad08c00b5452ceb05d790db95d6c8ab6bbace82429c1e5217";
       autoStart = true;
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
