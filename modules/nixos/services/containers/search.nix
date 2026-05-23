@@ -47,33 +47,6 @@ let
         engine: duckduckgo_extra
         disabled: true
 
-      # Brave search (not in defaults, shared network for efficiency)
-      - name: brave
-        engine: brave
-        shortcut: br
-        brave_category: search
-        time_range_support: true
-        paging: true
-        categories: [general, web]
-      - name: brave images
-        engine: brave
-        network: brave
-        shortcut: brimg
-        categories: [images, web]
-        brave_category: images
-      - name: brave videos
-        engine: brave
-        network: brave
-        shortcut: brvid
-        categories: [videos, web]
-        brave_category: videos
-      - name: brave news
-        engine: brave
-        network: brave
-        shortcut: brnws
-        categories: [news, web]
-        brave_category: news
-
       # Custom engine instances not in defaults
       - name: nixos wiki
         engine: mediawiki

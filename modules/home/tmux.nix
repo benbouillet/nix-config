@@ -34,6 +34,7 @@
       extraConfig = ''
         # Key handling: modern escape sequences for Neovim, fzf, zsh plugins, etc.
         set-option -g extended-keys always
+        set -g extended-keys-format csi-u
 
         # Terminal
         set -g default-terminal "xterm-256color"

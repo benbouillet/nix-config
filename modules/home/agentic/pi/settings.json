@@ -1,7 +1,6 @@
 {
   "packages": [
-    "npm:pi-web-access@0.10.7",
-    "npm:pi-vim@0.3.2"
+    "npm:pi-web-access@0.10.7"
   ],
   "extensions": []
 }

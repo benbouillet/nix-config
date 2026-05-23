@@ -45,9 +45,10 @@
       url = "github:nix-community/impermanence";
     };
 
-    sunday-augment = {
-      url = "git+ssh://git@github.com/sundayapp/augment-tools";
-    };
+    sunday-augment.url = "git+ssh://git@github.com/sundayapp/augment-tools";
+    sunday-bastion.url = "git+ssh://git@github.com/sundayapp/support-tools";
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -75,7 +76,7 @@
       # obiwan-only packages (x86_64)
       pkgs = pkgsFor "x86_64-linux";
       auggie = import ./packages/auggie/package.nix { inherit pkgs; };
-      opencode-augment-auth = import ./packages/opencode-augment-auth/package.nix { inherit pkgs; };
+      runs-on-cli = import ./packages/runs-on-cli/package.nix { inherit pkgs; };
 
       mkHost =
         {
@@ -95,7 +96,7 @@
       nixosConfigurations = {
         "obiwan" = mkHost {
           host = "obiwan";
-          extraSpecialArgs = { inherit auggie; };
+          extraSpecialArgs = { inherit auggie runs-on-cli; };
           extraModules = [
             home-manager.nixosModules.home-manager
             {
@@ -105,7 +106,7 @@
                     username
                     inputs
                     auggie
-                    opencode-augment-auth
+                    runs-on-cli
                     ;
                   host = "obiwan";
                 };

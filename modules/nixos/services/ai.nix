@@ -5,13 +5,22 @@
 }:
 let
   modelFiles = {
+    # MTP versions when llama-cpp will be updated in nixpkgs
+    # "qwen36-27b" = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q5_K_XL.gguf";
+    #   hash = "sha256-WjxhAzWBdU1Qf/3L8GKSFMv71You2+yA2T9uwq9E0ic=";
+    # };
+    # "qwen36-35b-a3b" = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-IQ4_NL.gguf";
+    #   hash = "sha256-DRfiVdwlehHzmO1LyNYkEtjOnKJLP84pR9li5L/tV1g=";
+    # };
     "qwen36-27b" = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q5_K_XL.gguf";
-      hash = "sha256-WjxhAzWBdU1Qf/3L8GKSFMv71You2+yA2T9uwq9E0ic=";
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q5_K_M.gguf";
+      hash = "sha256-z+yrFoFWJp8l1f/p4TzypAHKL0OpaT+gC80WJTFsy94=";
     };
     "qwen36-35b-a3b" = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-IQ4_NL.gguf";
-      hash = "sha256-DRfiVdwlehHzmO1LyNYkEtjOnKJLP84pR9li5L/tV1g=";
+      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_S.gguf";
+      hash = "sha256-qBOPGD45k/Es3COv0rq7jNsITmQIjOSiVtSRAdR7lJw=";
     };
     "gemma4-e4b" = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-UD-Q6_K_XL.gguf";
@@ -147,6 +156,7 @@ in
     port = globals.ports.llama-swap;
     settings = {
       healthCheckTimeout = 120;
+      logToStdout = "both";
       models = pkgs.lib.mapAttrs (name: m: { cmd = mkCmd name m; }) models;
     };
   };
