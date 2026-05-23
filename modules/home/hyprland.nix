@@ -55,6 +55,7 @@ with lib;
     enable = true;
     xwayland.enable = true;
     systemd.enable = true;
+    configType = "hyprlang";
     settings = {
       exec-once = [
         "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -66,7 +67,7 @@ with lib;
       input = {
         kb_layout = keyboardLayout;
         kb_variant = keyboardVariant;
-        kb_options = "caps:escape";
+        kb_options = "caps:escape, compose:ralt";
         follow_mouse = 2;
         mouse_refocus = false;
         touchpad = {
@@ -91,7 +92,6 @@ with lib;
         resize_on_border = true;
       };
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
         force_split = 2;
       };

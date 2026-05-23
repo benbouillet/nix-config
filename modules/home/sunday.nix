@@ -34,6 +34,7 @@ in
         # Cloud
         (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
         awscli2
+        ssm-session-manager-plugin
 
         # Messaging
         slack

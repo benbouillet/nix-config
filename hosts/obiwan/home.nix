@@ -2,6 +2,7 @@
   pkgs,
   username,
   inputs,
+  runs-on-cli,
   ...
 }:
 {
@@ -11,6 +12,7 @@
 
   home.packages = with pkgs; [
     nixos-icons
+    runs-on-cli
     (import ../../scripts/list-hyprland-bindings.nix { inherit pkgs; })
     (import ../../scripts/emoji-picker.nix { inherit pkgs; })
     (import ../../scripts/waybar-tailscale-updown.nix { inherit pkgs; })

@@ -70,7 +70,7 @@ in
           "${modifier},Q,Kill Active Window,killactive"
           "${modifier},P,Play/Pause Player,exec,playerctl play-pause"
           "${modifier},C,Color Picker,exec,hyprpicker -a"
-          "${modifier}SHIFT,I,Toggle Window Split,togglesplit"
+          "${modifier}SHIFT,I,Toggle Window Split,layoutmsg,togglesplit"
           "${modifier},F,Fullscreen,fullscreen"
           "${modifier},E,Emoji Picker,exec,emoji-picker"
           "${modifier},U,Shutdown/Restart/Suspend/Hibernate/Lock,exec,wlogout"
