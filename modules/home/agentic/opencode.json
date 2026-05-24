@@ -67,129 +67,119 @@
         }
       }
     }
-  },
-  "autoshare": false,
-  "autoupdate": false,
-  "watcher": {
-    "ignore": [
-      "node_modules/**",
-      "dist/**",
-      ".git/**",
-      ".terragrunt-cache/**"
-    ]
-  },
-  "agent": {
-    "argus": {
-      "description": "Senior SRE/DevOps engineer for Kubernetes, Terraform, and infrastructure",
-      "mode": "subagent",
-      "model": "llama-cpp/qwen3.6-27b-instruct",
-      "temperature": 0.1,
-      "prompt": "{file:./agents/argus.md}",
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "deny",
-          "kubectl get*": "allow",
-          "kubectl describe*": "allow",
-          "kubectl logs*": "allow",
-          "kubectl diff*": "allow",
-          "kubectx*": "allow",
-          "kubens*": "allow",
-          "terragrunt plan*": "allow",
-          "terragrunt validate*": "allow",
-          "terragrunt fmt*": "allow",
-          "terraform plan*": "allow",
-          "terraform validate*": "allow",
-          "terraform fmt*": "allow",
-          "argocd app get*": "allow",
-          "argocd app list*": "allow",
-          "argocd app diff*": "allow",
-          "helm template*": "allow",
-          "helm show*": "allow",
-          "helm list*": "allow",
-          "curl -X GET*": "allow"
-        }
-      }
-    },
-    "nyx": {
-      "description": "Senior Nix/NixOS expert for configuration analysis, packages, options, and flakes. Can fetch up-to-date documentation from nixos.org, home-manager-options.extranix.com, and NixOS community resources.",
-      "mode": "subagent",
-      "model": "llama-cpp/qwen3.6-27b-instruct",
-      "temperature": 0.1,
-      "prompt": "{file:./agents/nyx.md}",
-      "permission": {
-        "edit": "allow",
-        "bash": {
-          "*": "deny",
-          "nix build*": "allow",
-          "nix eval*": "allow",
-          "nix flake*": "allow",
-          "nix search*": "allow",
-          "nix develop*": "allow",
-          "nix store*": "allow",
-          "nix-instantiate*": "allow",
-          "nix-env*": "allow",
-          "nix profile*": "allow",
-          "nixos-rebuild build*": "allow",
-          "nixos-rebuild dry*": "allow",
-          "nixos-rebuild build-vm*": "allow",
-          "home-manager build*": "allow",
-          "home-manager news*": "allow",
-          "nix fmt*": "allow",
-          "nix-generate-config*": "allow",
-          "nvd*": "allow",
-          "curl -X GET*": "allow"
-        }
-      }
-    },
-    "hermes": {
-      "description": "Generates concise titles, git commit messages, and one-line summaries.",
-      "mode": "subagent",
-      "model": "llama-cpp/gemma4-e4b-instruct",
-      "temperature": 0.3,
-      "prompt": "{file:./agents/hermes.md}",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny"
-      }
-    },
-    "cerberus": {
-      "description": "Code reviewer: analyzes code, finds bugs, suggests improvements.",
-      "mode": "subagent",
-      "model": "llama-cpp/qwen3.6-35b-a3b-instruct",
-      "temperature": 0.2,
-      "prompt": "{file:./agents/cerberus.md}",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny"
-      }
-    },
-    "heracles": {
-      "description": "Polyglot programmer: writes small Go, Python, and Bash programs and scripts.",
-      "mode": "subagent",
-      "model": "llama-cpp/qwen3.6-27b-coding",
-      "temperature": 0.1,
-      "prompt": "{file:./agents/heracles.md}",
-      "permission": {
-        "edit": "allow",
-        "bash": {
-          "*": "allow",
-          "rm -rf*": "deny",
-          "shutdown*": "deny",
-          "reboot*": "deny"
-        }
-      }
-    },
-    "zeus": {
-      "description": "Orchestrator: breaks down problems, delegates to subagents, challenges results, synthesizes answers.",
-      "mode": "primary",
-      "model": "openrouter/deepseek/deepseek-v4-pro",
-      "temperature": 0.1,
-      "prompt": "{file:./agents/zeus.md}",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny"
-      }
-    }
   }
+  // "agent": {
+  //   "argus": {
+  //     "description": "Senior SRE/DevOps engineer for Kubernetes, Terraform, and infrastructure",
+  //     "mode": "subagent",
+  //     "model": "llama-cpp/qwen3.6-27b-instruct",
+  //     "temperature": 0.1,
+  //     "prompt": "{file:./agents/argus.md}",
+  //     "permission": {
+  //       "edit": "deny",
+  //       "bash": {
+  //         "*": "deny",
+  //         "kubectl get*": "allow",
+  //         "kubectl describe*": "allow",
+  //         "kubectl logs*": "allow",
+  //         "kubectl diff*": "allow",
+  //         "kubectx*": "allow",
+  //         "kubens*": "allow",
+  //         "terragrunt plan*": "allow",
+  //         "terragrunt validate*": "allow",
+  //         "terragrunt fmt*": "allow",
+  //         "terraform plan*": "allow",
+  //         "terraform validate*": "allow",
+  //         "terraform fmt*": "allow",
+  //         "argocd app get*": "allow",
+  //         "argocd app list*": "allow",
+  //         "argocd app diff*": "allow",
+  //         "helm template*": "allow",
+  //         "helm show*": "allow",
+  //         "helm list*": "allow",
+  //         "curl -X GET*": "allow"
+  //       }
+  //     }
+  //   },
+  //   "nyx": {
+  //     "description": "Senior Nix/NixOS expert for configuration analysis, packages, options, and flakes. Can fetch up-to-date documentation from nixos.org, home-manager-options.extranix.com, and NixOS community resources.",
+  //     "mode": "subagent",
+  //     "model": "llama-cpp/qwen3.6-27b-instruct",
+  //     "temperature": 0.1,
+  //     "prompt": "{file:./agents/nyx.md}",
+  //     "permission": {
+  //       "edit": "allow",
+  //       "bash": {
+  //         "*": "deny",
+  //         "nix build*": "allow",
+  //         "nix eval*": "allow",
+  //         "nix flake*": "allow",
+  //         "nix search*": "allow",
+  //         "nix develop*": "allow",
+  //         "nix store*": "allow",
+  //         "nix-instantiate*": "allow",
+  //         "nix-env*": "allow",
+  //         "nix profile*": "allow",
+  //         "nixos-rebuild build*": "allow",
+  //         "nixos-rebuild dry*": "allow",
+  //         "nixos-rebuild build-vm*": "allow",
+  //         "home-manager build*": "allow",
+  //         "home-manager news*": "allow",
+  //         "nix fmt*": "allow",
+  //         "nix-generate-config*": "allow",
+  //         "nvd*": "allow",
+  //         "curl -X GET*": "allow"
+  //       }
+  //     }
+  //   },
+  //   "hermes": {
+  //     "description": "Generates concise titles, git commit messages, and one-line summaries.",
+  //     "mode": "subagent",
+  //     "model": "llama-cpp/gemma4-e4b-instruct",
+  //     "temperature": 0.3,
+  //     "prompt": "{file:./agents/hermes.md}",
+  //     "permission": {
+  //       "edit": "deny",
+  //       "bash": "deny"
+  //     }
+  //   },
+  //   "cerberus": {
+  //     "description": "Code reviewer: analyzes code, finds bugs, suggests improvements.",
+  //     "mode": "subagent",
+  //     "model": "llama-cpp/qwen3.6-35b-a3b-instruct",
+  //     "temperature": 0.2,
+  //     "prompt": "{file:./agents/cerberus.md}",
+  //     "permission": {
+  //       "edit": "deny",
+  //       "bash": "deny"
+  //     }
+  //   },
+  //   "heracles": {
+  //     "description": "Polyglot programmer: writes small Go, Python, and Bash programs and scripts.",
+  //     "mode": "subagent",
+  //     "model": "llama-cpp/qwen3.6-27b-coding",
+  //     "temperature": 0.1,
+  //     "prompt": "{file:./agents/heracles.md}",
+  //     "permission": {
+  //       "edit": "allow",
+  //       "bash": {
+  //         "*": "allow",
+  //         "rm -rf*": "deny",
+  //         "shutdown*": "deny",
+  //         "reboot*": "deny"
+  //       }
+  //     }
+  //   },
+  //   "zeus": {
+  //     "description": "Orchestrator: breaks down problems, delegates to subagents, challenges results, synthesizes answers.",
+  //     "mode": "primary",
+  //     "model": "openrouter/deepseek/deepseek-v4-pro",
+  //     "temperature": 0.1,
+  //     "prompt": "{file:./agents/zeus.md}",
+  //     "permission": {
+  //       "edit": "deny",
+  //       "bash": "deny"
+  //     }
+  //   }
+  // }
 }

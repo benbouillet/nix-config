@@ -113,6 +113,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
+                sharedModules = [ inputs.sops-nix.homeManagerModules.default ];
                 users.${username} = import ./hosts/obiwan/home.nix;
               };
             }

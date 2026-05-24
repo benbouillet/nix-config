@@ -10,6 +10,12 @@
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "24.11";
 
+  sops = {
+    defaultSopsFile = ../../secrets/obiwan.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/ben/.config/sops/age/keys.txt";
+  };
+
   home.packages = with pkgs; [
     nixos-icons
     runs-on-cli

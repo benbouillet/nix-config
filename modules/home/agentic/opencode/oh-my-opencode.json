@@ -2,48 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openrouter/openrouter/moonshotai/kimi-k2.6",
-      "variant": "max",
-      "fallback_models": [
-        {
-          "model": "openrouter/openrouter/moonshotai/kimi-k2.5"
-        }
-      ]
+      "model": "openrouter/moonshotai/kimi-k2.6",
+      "variant": "max"
     },
     "hephaestus": {
-      "model": "opencode/gpt-5-nano",
-      "variant": "medium"
+      "model": "llama-cpp/qwen3.6-27b-instruct",
+      "variant": "medium",
+      "fallback_models": [
+        {
+          "model": "openrouter/moonshotai/kimi-k2.6"
+        }
+      ]
     },
     "oracle": {
-      "model": "opencode/gpt-5-nano",
-      "variant": "high",
-      "fallback_models": [
-        {
-          "model": "opencode/gemini-3.1-pro",
-          "variant": "high"
-        },
-        {
-          "model": "opencode/claude-opus-4-7",
-          "variant": "max"
-        },
-        {
-          "model": "opencode-go/glm-5.1"
-        }
-      ]
+      "model": "openrouter/z-ai/glm-5.1",
+      "variant": "high"
     },
     "librarian": {
-      "model": "opencode/gpt-5-nano",
-      "fallback_models": [
-        {
-          "model": "opencode-go/minimax-m2.7"
-        },
-        {
-          "model": "opencode/claude-haiku-4-5"
-        },
-        {
-          "model": "opencode/gpt-5.4-nano"
-        }
-      ]
+      "model": "opencode-go/minimax-m2.7"
     },
     "explore": {
       "model": "opencode/gpt-5-nano",
@@ -60,16 +36,8 @@
       ]
     },
     "multimodal-looker": {
-      "model": "opencode/gpt-5-nano",
-      "variant": "medium",
-      "fallback_models": [
-        {
-          "model": "opencode-go/kimi-k2.6"
-        },
-        {
-          "model": "opencode/gpt-5-nano"
-        }
-      ]
+      "model": "openrouter/moonshotai/kimi-k2.6",
+      "variant": "medium"
     },
     "prometheus": {
       "model": "opencode/gpt-5-nano",
