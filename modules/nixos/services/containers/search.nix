@@ -60,17 +60,6 @@ let
         disabled: true
 
       # Privacy-friendly general engines disabled by default upstream
-      - name: mojeek
-        engine: mojeek
-        shortcut: mjk
-        categories: [general, web]
-        disabled: false
-      - name: qwant
-        engine: qwant
-        qwant_categ: web
-        shortcut: qw
-        categories: [general, web]
-        disabled: false
       - name: wiby
         engine: json_engine
         paging: true
