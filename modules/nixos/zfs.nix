@@ -12,6 +12,7 @@
     # Set this to false to disable ZFS decrypting at boot
     zfs = {
       requestEncryptionCredentials = true;
+      forceImportRoot = false;
     };
   };
 
