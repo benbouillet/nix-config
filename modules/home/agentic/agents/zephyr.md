@@ -1,7 +1,7 @@
 ---
 description: Web search worker. Fetches pages, extracts what was asked for, returns a tight summary with source URLs. Spawned by iris (multi-angle research) or directly (one-off lookup).
 mode: subagent
-model: llama-cpp/qwen3.6-35b-a3b-instruct
+model: openrouter/mistralai/mistral-small-3.2-24b-instruct
 tools:
   write: false
   edit: false

@@ -13,6 +13,9 @@
       autoshare = false;
       autoupdate = false;
 
+      default_agent = "iris";
+      model = "openrouter/deepseek/deepseek-v4-pro";
+      small_model = "openrouter/deepseek/deepseek-v4-flash";
       ###############
       ## PROVIDERS
       ###############
