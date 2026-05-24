@@ -1,7 +1,7 @@
 ---
 description: Codebase auditor for this Nix flake. Reviews architecture, Nix patterns, and security. Produces a prioritized findings report. Invoke on demand, not after every change.
 mode: subagent
-model: openrouter/moonshotai/kimi-k2.6
+model: openrouter/deepseek/deepseek-v4-pro
 tools:
   write: false
   edit: false
