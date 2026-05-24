@@ -54,10 +54,10 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
-      serverAliveInterval = 30;
-      serverAliveCountMax = 3;
-      compression = true;
+    settings."*" = {
+      ServerAliveInterval = 30;
+      ServerAliveCountMax = 3;
+      Compression = true;
     };
     extraConfig = ''
       Include ~/.ssh/chewie.conf
