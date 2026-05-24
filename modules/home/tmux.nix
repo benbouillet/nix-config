@@ -53,6 +53,9 @@
 
         # tmux-thumbs: yank to system clipboard via OSC52 (works over SSH, supported by Ghostty)
         set -g @thumbs-osc52 1
+
+        # Mouse drag copy in vi mode (yank plugin handles clipboard sync)
+        bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel
       '';
     };
   };
