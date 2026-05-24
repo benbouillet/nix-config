@@ -17,6 +17,9 @@
     kubectl-ktop
     kubectl-tree
 
+    # Automation
+    python314
+
     # IaC
     tenv
     terraform-docs

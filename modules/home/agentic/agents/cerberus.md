@@ -1,7 +1,7 @@
 ---
 description: Diff reviewer. Flags only blocking correctness, security, or behavior-change issues. Approval-biased.
 mode: subagent
-model: openrouter/openai/gpt-5.5
+model: openrouter/deepseek/deepseek-v4-flash
 tools:
   write: false
   edit: false

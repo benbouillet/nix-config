@@ -1,7 +1,8 @@
 ---
 description: Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.
 mode: primary
-model: openrouter/anthropic/claude-opus-4-7
+model: openrouter/moonshotai/kimi-k2.6
+
 tools:
   write: false
   edit: false
