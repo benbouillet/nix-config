@@ -28,7 +28,7 @@ let
       foundryvtt = 9021;
       linkding = 9022;
       searxng = 9030;
-      perplexica = 9031;
+      vane = 9031;
       paperless = 9040;
       seafile = 9054;
       seafile-notification-server = 9055;

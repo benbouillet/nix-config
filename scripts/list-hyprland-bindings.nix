@@ -1,4 +1,4 @@
-{pkgs}:
+{ pkgs }:
 pkgs.writeShellScriptBin "list-hyprland-bindings" ''
   gen_bindings_list() {
     cat ~/.config/hypr/hyprland.conf  |

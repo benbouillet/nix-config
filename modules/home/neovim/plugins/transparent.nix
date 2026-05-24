@@ -17,7 +17,10 @@
           "DiagnosticSignInfo"
           "DiagnosticSignHint"
         ];
-        exclude_groups = [ "StatusLine" "CursorLine" ];
+        exclude_groups = [
+          "StatusLine"
+          "CursorLine"
+        ];
       };
     };
   };

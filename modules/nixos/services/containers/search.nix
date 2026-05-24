@@ -164,22 +164,10 @@ in
         UWSGI_WORKERS = "4";
         UWSGI_THREADS = "4";
       };
-      environmentFiles = [
+     environmentFiles = [
         config.sops.secrets."services/searxng/env".path
       ];
     };
-    # "perplexica" = {
-    #   image = "itzcrazykns1337/perplexica:slim-v1.11.2@sha256:eb8893a33e4afc686ba0dbc46e2292d030313e01a4621ea5a0779a522ce9c7e0";
-    #   ports = [
-    #     "${globals.hosts.chewie.ipv4}:${toString globals.ports.perplexica}:3000"
-    #   ];
-    #   volumes = [
-    #     "${?????}/perplexica:/home/perplexica/data:rw"
-    #   ];
-    #   environment = {
-    #     SEARXNG_API_URL = "http://searxng:8080";
-    #   };
-    # };
   };
 
 }

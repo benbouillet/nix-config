@@ -28,11 +28,11 @@
     syntaxHighlighting.enable = true;
 
     sessionVariables = {
-      LC_ALL="en_US.UTF-8";
-      LANG="en_US.UTF-8";
-      EDITOR="nvim";
-      COMPLETION_WAITING_DOTS="true";
-      ZSH_SYSTEM_CLIPBOARD_USE_WL_CLIPBOARD="";
+      LC_ALL = "en_US.UTF-8";
+      LANG = "en_US.UTF-8";
+      EDITOR = "nvim";
+      COMPLETION_WAITING_DOTS = "true";
+      ZSH_SYSTEM_CLIPBOARD_USE_WL_CLIPBOARD = "";
     };
 
     oh-my-zsh = {

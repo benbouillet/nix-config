@@ -6,7 +6,7 @@
   programs.hyprlock = {
     enable = true;
     settings = {
-      general  = {
+      general = {
         disable_loading_bar = true;
         hide_cursor = true;
       };

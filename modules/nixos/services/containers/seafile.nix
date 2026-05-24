@@ -136,7 +136,9 @@
         "--memory-swap=256m"
         "--pids-limit=64"
       ];
-      ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile-notification-server}:8083" ];
+      ports = [
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile-notification-server}:8083"
+      ];
       environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
       environment = {
         SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
@@ -162,5 +164,4 @@
     };
   };
 
-  
 }
