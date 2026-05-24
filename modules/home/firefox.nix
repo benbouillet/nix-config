@@ -102,12 +102,20 @@
           };
 
           "searxng-fr" = {
-            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}&language=fr&safesearch=0&categories=general"; } ];
+            urls = [
+              {
+                template = "https://search.r4clette.com/search?q={searchTerms}&language=fr&safesearch=0&categories=general";
+              }
+            ];
             definedAliases = [ "@fr" ];
           };
 
           "searxng-en" = {
-            urls = [ { template = "https://search.r4clette.com/search?q={searchTerms}&language=en&safesearch=0&categories=general"; } ];
+            urls = [
+              {
+                template = "https://search.r4clette.com/search?q={searchTerms}&language=en&safesearch=0&categories=general";
+              }
+            ];
             definedAliases = [ "@en" ];
           };
 
@@ -154,6 +162,7 @@
         adaptive-tab-bar-colour
         bitwarden
         linkding-extension
+        vimium-c
       ];
     };
   };
