@@ -18,10 +18,12 @@ let
 
   pi-vim-src = pkgs.runCommand "pi-vim-0.3.2" { } ''
     mkdir -p $out
-    tar -xzf ${pkgs.fetchurl {
-      url = "https://registry.npmjs.org/pi-vim/-/pi-vim-0.3.2.tgz";
-      hash = "sha256-QOZ4a7VD5MgihJZHJU4QGx3oW4lsul+9bVmYyUlknxg=";
-    }} --strip-components=1 -C $out
+    tar -xzf ${
+      pkgs.fetchurl {
+        url = "https://registry.npmjs.org/pi-vim/-/pi-vim-0.3.2.tgz";
+        hash = "sha256-QOZ4a7VD5MgihJZHJU4QGx3oW4lsul+9bVmYyUlknxg=";
+      }
+    } --strip-components=1 -C $out
   '';
 
   little-coder-with-extensions = pkgs.symlinkJoin {

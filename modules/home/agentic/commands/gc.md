@@ -1,2 +1,1 @@
-Propose a comment for the current staged changes about to be committed.
-Usage: /comment
+Propose a commit message for the current staged changes. Output only the message — no preamble, no explanation.
