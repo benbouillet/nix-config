@@ -29,6 +29,18 @@ let
         - html
         - json
 
+    server:
+      image_proxy: true
+
+    outgoing:
+      request_timeout: 6.0
+      max_request_timeout: 15.0
+      pool_connections: 200
+      pool_maxsize: 50
+      keepalive_expiry: 30.0
+      enable_http2: true
+      retries: 1
+
     ui:
       hotkeys: vim
 
@@ -46,6 +58,29 @@ let
       - name: duckduckgo news
         engine: duckduckgo_extra
         disabled: true
+
+      # Privacy-friendly general engines disabled by default upstream
+      - name: mojeek
+        engine: mojeek
+        shortcut: mjk
+        categories: [general, web]
+        disabled: false
+      - name: qwant
+        engine: qwant
+        qwant_categ: web
+        shortcut: qw
+        categories: [general, web]
+        disabled: false
+      - name: wiby
+        engine: json_engine
+        paging: true
+        search_url: https://wiby.me/json/?q={query}&p={pageno}
+        url_query: URL
+        title_query: Title
+        content_query: Snippet
+        categories: [general, web]
+        shortcut: wib
+        disabled: false
 
       # Custom engine instances not in defaults
       - name: nixos wiki
@@ -127,9 +162,9 @@ in
         "${searxngSettings}:/etc/searxng/settings.yml:ro"
       ];
       extraOptions = [
-        "--memory=512m"
-        "--memory-swap=1g"
-        "--pids-limit=64"
+        "--memory=1g"
+        "--memory-swap=2g"
+        "--pids-limit=256"
       ];
       environment = {
         SEARXNG_BASE_URL = "https://search.${globals.domain}/";
@@ -137,6 +172,8 @@ in
           toString config.services.redis.servers."raclette".port
         }";
         FORCE_OWNERSHIP = "false";
+        UWSGI_WORKERS = "4";
+        UWSGI_THREADS = "4";
       };
       environmentFiles = [
         config.sops.secrets."services/searxng/env".path
@@ -156,5 +193,4 @@ in
     # };
   };
 
-  
 }
