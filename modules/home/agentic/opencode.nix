@@ -91,6 +91,16 @@
           };
         };
       };
+      ###############
+      ## MCP SERVERS
+      ###############
+      mcp = {
+        searxng = {
+          type = "remote";
+          url = "https://search.r4clette.com/mcp";
+          enabled = true;
+        };
+      };
       disabled_providers = [
         "anthropic"
         "azure-openai"

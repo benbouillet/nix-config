@@ -342,6 +342,7 @@ in
         user-agent-string-switcher
         header-editor
         bitwarden
+        vimium-c
       ];
     };
   };

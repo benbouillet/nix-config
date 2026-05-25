@@ -164,7 +164,7 @@ in
         UWSGI_WORKERS = "4";
         UWSGI_THREADS = "4";
       };
-     environmentFiles = [
+      environmentFiles = [
         config.sops.secrets."services/searxng/env".path
       ];
     };

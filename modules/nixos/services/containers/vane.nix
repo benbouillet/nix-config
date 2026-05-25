@@ -18,8 +18,8 @@
         "${globals.zfs.services.apps.mountPoint}/vane:/home/vane/data"
       ];
       extraOptions = [
-        "--memory=1g"
-        "--memory-swap=2g"
+        "--memory=2g"
+        "--memory-swap=3g"
         "--pids-limit=256"
       ];
       environment = {

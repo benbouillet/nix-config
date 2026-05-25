@@ -29,6 +29,7 @@
     ../../modules/nixos/services/containers/paperless.nix
     ../../modules/nixos/services/containers/seafile.nix
     ../../modules/nixos/services/containers/search.nix
+    ../../modules/nixos/services/containers/search-mcp.nix
     ../../modules/nixos/services/containers/vane.nix
     ../../modules/nixos/services/containers/mealie.nix
     ../../modules/nixos/services/containers/linkding.nix
