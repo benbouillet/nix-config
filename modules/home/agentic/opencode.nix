@@ -3,22 +3,36 @@
   ...
 }:
 let
-  agentNames = [ "argus" "athena" "cerberus" "heracles" "iris" "zephyr" "zeus" ];
+  agentNames = [
+    "argus"
+    "athena"
+    "cerberus"
+    "heracles"
+    "iris"
+    "zephyr"
+    "zeus"
+  ];
 
-  suffixPrompt = suffix: text:
-    builtins.replaceStrings
-      (map (n: "`${n}`") agentNames)
-      (map (n: "`${n}-${suffix}`") agentNames)
-      text;
+  suffixPrompt =
+    suffix: text:
+    builtins.replaceStrings (map (n: "`${n}`") agentNames) (map (
+      n: "`${n}-${suffix}`"
+    ) agentNames) text;
 
-  mkAgentStr = suffix: name:
+  mkAgentStr =
+    suffix: name:
     let
       a = agents.${name};
       model = if suffix == "" then a.model.home else a.model.work;
       modelLine = if model == "" then "" else "model: ${model}\n";
       toolsSection = if a.tools == "" then "" else "\n${a.tools}";
-      prompt = if suffix == "" then builtins.readFile a.prompt else suffixPrompt suffix (builtins.readFile a.prompt);
-    in ''
+      prompt =
+        if suffix == "" then
+          builtins.readFile a.prompt
+        else
+          suffixPrompt suffix (builtins.readFile a.prompt);
+    in
+    ''
       ---
       description: ${a.description}
       mode: ${a.mode}
@@ -31,7 +45,7 @@ let
       description = "Codebase explorer. Read-only. Answers \"where is X?\" / \"how is Y used?\" with file:line citations. Fires searches in parallel.";
       mode = "subagent";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-lite-v1:0";
+        work = "amazon-bedrock/zai.glm-4.7-flash";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = ''
@@ -53,7 +67,6 @@ let
           bash: false
           webfetch: false
           websearch: false
-          searxng_*: false
       '';
       prompt = ./agents/athena.md;
     };
@@ -61,7 +74,7 @@ let
       description = "Diff reviewer. Flags only blocking correctness, security, or behavior-change issues. Approval-biased.";
       mode = "subagent";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-micro-v1:0";
+        work = "amazon-bedrock/zai.glm-4.7-flash";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = ''
@@ -75,7 +88,7 @@ let
       description = "Craftsman. Implements changes end-to-end: edits, builds, tests. Owns the diff.";
       mode = "subagent";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-lite-v1:0";
+        work = "amazon-bedrock/qwen.qwen3-coder-next";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = "";
@@ -85,7 +98,7 @@ let
       description = "Research partner. Fans out web searches to zephyr workers, synthesizes findings into a cited answer. Owns the question; never reads pages directly.";
       mode = "primary";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-lite-v1:0";
+        work = "amazon-bedrock/zai.glm-4.7-flash";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = ''
@@ -95,7 +108,6 @@ let
           edit: false
           webfetch: false
           websearch: false
-          searxng_*: false
       '';
       prompt = ./agents/iris.md;
     };
@@ -103,8 +115,9 @@ let
       description = "Web search worker. Fetches pages, extracts what was asked for, returns a tight summary with source URLs. Spawned by iris (multi-angle research) or directly (one-off lookup).";
       mode = "subagent";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-micro-v1:0";
-        home = "llama-cpp/qwen3.6-27b-instruct";
+        work = "amazon-bedrock/qwen/qwen3-coder-480b-a35b-instruct";
+        # home = "llama-cpp/qwen3.6-27b-instruct";
+        home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = ''
         tools:
@@ -118,7 +131,7 @@ let
       description = "Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.";
       mode = "primary";
       model = {
-        work = "amazon-bedrock/eu.amazon.nova-lite-v1:0";
+        work = "amazon-bedrock/moonshotai.kimi-k2.5";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = ''
@@ -152,7 +165,7 @@ in
       provider = {
         "amazon-bedrock" = {
           options = {
-            region = "eu-west-3";
+            region = "eu-west-2";
             profile = "ai-platform";
           };
         };
@@ -224,13 +237,6 @@ in
       ###############
       ## MCP SERVERS
       ###############
-      mcp = {
-        searxng = {
-          type = "remote";
-          url = "https://search.r4clette.com/mcp";
-          enabled = true;
-        };
-      };
       disabled_providers = [
         "anthropic"
         "azure-openai"
@@ -284,13 +290,18 @@ in
     };
 
     context = ./AGENTS.md;
-    agents =
-      builtins.listToAttrs (
-        builtins.concatMap (name: [
-          { name = name; value = mkAgentStr "" name; }
-          { name = "${name}-work"; value = mkAgentStr "work" name; }
-        ]) agentNames
-      );
+    agents = builtins.listToAttrs (
+      builtins.concatMap (name: [
+        {
+          name = name;
+          value = mkAgentStr "" name;
+        }
+        {
+          name = "${name}-work";
+          value = mkAgentStr "work" name;
+        }
+      ]) agentNames
+    );
     commands = ./commands;
   };
 
