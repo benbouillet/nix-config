@@ -92,7 +92,7 @@
             };
             wifi-security = {
               key-mgmt = "sae";
-              psk = "$HOME_PSK";
+              psk = "$HOMELAB_PSK";
             };
           };
           "lacapelle-wifi" = {
