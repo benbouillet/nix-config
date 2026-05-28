@@ -195,7 +195,7 @@ in
       # cerberus variants
       cerberus = MkAgent {
         template = ./agents/cerberus.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
+        model = "llama-cpp/qwen3.6-27b-instruct";
         suffix = "";
       };
       cerberus-work = MkAgent {
@@ -207,7 +207,7 @@ in
       # heracles variants
       heracles = MkAgent {
         template = ./agents/heracles.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
+        model = "llama-cpp/qwen3.6-35b-a3b-coding";
         suffix = "";
       };
       heracles-work = MkAgent {
@@ -219,7 +219,7 @@ in
       # iris variants
       iris = MkAgent {
         template = ./agents/iris.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
+        model = "llama-cpp/qwen3.6-35b-a3b-coding";
         suffix = "";
       };
       iris-work = MkAgent {
@@ -231,7 +231,7 @@ in
       # zephyr variants
       zephyr = MkAgent {
         template = ./agents/zephyr.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
+        model = "llama-cpp/qwen3.6-35b-a3b-instruct";
         suffix = "";
       };
       zephyr-work = MkAgent {
