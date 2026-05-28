@@ -10,7 +10,7 @@
 
   virtualisation.oci-containers.containers = {
     "lubelogger" = {
-      image = "ghcr.io/hargata/lubelogger:v1.6.5@sha256:293604d85b021b6489ef3d0b22c792cefcc802bf8eec0b5c4766a4a979b8a998";
+      image = "ghcr.io/hargata/lubelogger:v1.6.6@sha256:40c10ab59e4709294f91196a170214cc0df506d9b9f9e8f85d8d2962eda978c2";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.lubelogger}:8080"
       ];
