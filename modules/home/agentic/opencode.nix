@@ -3,146 +3,16 @@
   ...
 }:
 let
-  agentNames = [
-    "argus"
-    "athena"
-    "cerberus"
-    "heracles"
-    "iris"
-    "zephyr"
-    "zeus"
-  ];
-
-  mkAgentFunction = import ./mk-agent.nix;
-
-  suffixPrompt =
-    suffix: text:
-    builtins.replaceStrings (map (n: "`${n}`") agentNames) (map (
-      n: "`${n}-${suffix}`"
-    ) agentNames) text;
-
-  mkAgentStr =
-    suffix: name:
+  MkAgent =
+    {
+      template,
+      model,
+      suffix,
+    }:
     let
-      a = agents.${name};
-      model = if suffix == "" then a.model.home else a.model.work;
-      modelLine = if model == "" then "" else "model: ${model}\n";
-      toolsSection = if a.tools == "" then "" else "\n${a.tools}";
-      rawPrompt = if builtins.isString a.prompt then a.prompt else builtins.readFile a.prompt;
-      prompt = if suffix == "" then rawPrompt else suffixPrompt suffix rawPrompt;
+      raw = builtins.readFile template;
     in
-    ''
-      ---
-      description: ${a.description}
-      mode: ${a.mode}
-      ${modelLine}${toolsSection}---
-      ${prompt}
-    '';
-
-  agents = {
-    argus = {
-      description = "Codebase explorer. Read-only. Answers \"where is X?\" / \"how is Y used?\" with file:line citations. Fires searches in parallel.";
-      mode = "subagent";
-      model = {
-        work = "amazon-bedrock/zai.glm-4.7-flash";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = ''
-        tools:
-          write: false
-          edit: false
-      '';
-      prompt = ./agents/argus.md;
-    };
-    athena = {
-      description = "Planner. Asks clarifying questions, then writes an implementation plan. Read-only on code; writes only into .plans/.";
-      mode = "subagent";
-      model = {
-        work = "amazon-bedrock/zai.glm-5";
-        home = "openrouter/deepseek/deepseek-v4-pro";
-      };
-      tools = ''
-        tools:
-          bash: false
-          webfetch: false
-          websearch: false
-      '';
-      prompt = ./agents/athena.md;
-    };
-    cerberus = {
-      description = "Diff reviewer. Flags only blocking correctness, security, or behavior-change issues. Approval-biased.";
-      mode = "subagent";
-      model = {
-        work = "amazon-bedrock/zai.glm-4.7-flash";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = ''
-        tools:
-          write: false
-          edit: false
-      '';
-      prompt = ./agents/cerberus.md;
-    };
-    heracles = {
-      description = "Craftsman. Implements changes end-to-end: edits, builds, tests. Owns the diff.";
-      mode = "subagent";
-      model = {
-        work = "amazon-bedrock/qwen3-coder-480b-a35b";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = "";
-      prompt = ./agents/heracles.md;
-    };
-    iris = {
-      description = "Research partner. Fans out web searches to zephyr workers, synthesizes findings into a cited answer. Owns the question; never reads pages directly.";
-      mode = "primary";
-      model = {
-        work = "amazon-bedrock/zai.glm-4.7-flash";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = ''
-        tools:
-          bash: false
-          write: false
-          edit: false
-          webfetch: false
-          websearch: false
-      '';
-      prompt = ./agents/iris.md;
-    };
-    zephyr = {
-      description = "Web search worker. Fetches pages, extracts what was asked for, returns a tight summary with source URLs. Spawned by iris (multi-angle research) or directly (one-off lookup).";
-      mode = "subagent";
-      model = {
-        work = "amazon-bedrock/qwen/qwen3-coder-480b-a35b-instruct";
-        # home = "llama-cpp/qwen3.6-27b-instruct";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = ''
-        tools:
-          write: false
-          edit: false
-          task: false
-      '';
-      prompt = ./agents/zephyr.md;
-    };
-    zeus = {
-      description = "Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.";
-      mode = "primary";
-      model = {
-        work = "amazon-bedrock/moonshotai.kimi-k2.5";
-        home = "openrouter/deepseek/deepseek-v4-flash";
-      };
-      tools = ''
-        tools:
-          write: false
-          edit: false
-          bash: false
-          todowrite: true
-      '';
-      prompt = ./agents/zeus.md;
-    };
-  };
+    builtins.replaceStrings [ "@model@" "@subagents_suffix@" ] [ model suffix ] raw;
 in
 {
   sops.secrets."ai/openrouter_api_key" = { };
@@ -289,31 +159,91 @@ in
     };
 
     context = ./AGENTS.md;
-    agents =
-      (builtins.listToAttrs (
-        builtins.concatMap (name: [
-          {
-            name = name;
-            value = mkAgentStr "" name;
-          }
-          {
-            name = "${name}-work";
-            value = mkAgentStr "work" name;
-          }
-        ]) agentNames
-      ))
-      // {
-        zeus-work = mkAgentFunction {
-          template = ./agents/zeus.md.tmpl;
-          model = "amazon-bedrock/moonshotai.kimi-k2.5";
-          suffix = "-work";
-        };
-        zeus-perso = mkAgentFunction {
-          template = ./agents/zeus.md.tmpl;
-          model = "openrouter/deepseek/deepseek-v4-flash";
-          suffix = "-perso";
-        };
+    agents = {
+      # argus variants
+      argus = MkAgent {
+        template = ./agents/argus.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
       };
+      argus-work = MkAgent {
+        template = ./agents/argus.md.tmpl;
+        model = "amazon-bedrock/zai.glm-4.7-flash";
+        suffix = "-work";
+      };
+
+      # athena variants
+      athena = MkAgent {
+        template = ./agents/athena.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-pro";
+        suffix = "";
+      };
+      athena-work = MkAgent {
+        template = ./agents/athena.md.tmpl;
+        model = "amazon-bedrock/zai.glm-5";
+        suffix = "-work";
+      };
+
+      # cerberus variants
+      cerberus = MkAgent {
+        template = ./agents/cerberus.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
+      };
+      cerberus-work = MkAgent {
+        template = ./agents/cerberus.md.tmpl;
+        model = "amazon-bedrock/zai.glm-4.7-flash";
+        suffix = "-work";
+      };
+
+      # heracles variants
+      heracles = MkAgent {
+        template = ./agents/heracles.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
+      };
+      heracles-work = MkAgent {
+        template = ./agents/heracles.md.tmpl;
+        model = "amazon-bedrock/qwen3-coder-480b-a35b";
+        suffix = "-work";
+      };
+
+      # iris variants
+      iris = MkAgent {
+        template = ./agents/iris.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
+      };
+      iris-work = MkAgent {
+        template = ./agents/iris.md.tmpl;
+        model = "amazon-bedrock/zai.glm-4.7-flash";
+        suffix = "-work";
+      };
+
+      # zephyr variants
+      zephyr = MkAgent {
+        template = ./agents/zephyr.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
+      };
+      zephyr-work = MkAgent {
+        template = ./agents/zephyr.md.tmpl;
+        model = "amazon-bedrock/qwen/qwen3-coder-480b-a35b-instruct";
+        suffix = "-work";
+      };
+
+      # zeus variants
+      zeus = MkAgent {
+        template = ./agents/zeus.md.tmpl;
+        model = "openrouter/deepseek/deepseek-v4-flash";
+        suffix = "";
+      };
+      zeus-work = MkAgent {
+        template = ./agents/zeus.md.tmpl;
+        model = "amazon-bedrock/moonshotai.kimi-k2.5";
+        suffix = "-work";
+      };
+    };
     commands = ./commands;
   };
 
