@@ -1,5 +1,7 @@
 {
   config,
+  pkgs,
+  lib,
   ...
 }:
 let
@@ -17,6 +19,12 @@ in
 {
   sops.secrets."ai/openrouter_api_key" = { };
 
+  home.activation = {
+    installOpencodeRtk = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${pkgs.rtk}/bin/rtk init -g --opencode
+    '';
+  };
+
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
@@ -25,7 +33,7 @@ in
       autoshare = false;
       autoupdate = false;
 
-      default_agent = "iris";
+      default_agent = "zeus";
       model = "openrouter/deepseek/deepseek-v4-pro";
       small_model = "openrouter/deepseek/deepseek-v4-flash";
       ###############
@@ -54,21 +62,21 @@ in
             "qwen3.6-27b-instruct" = {
               name = "Qwen 3.6 27B Instruct (local)";
               limit = {
-                context = 131072;
+                context = 65536;
                 output = 32768;
               };
             };
             "qwen3.6-27b-thinking" = {
               name = "Qwen 3.6 27B Thinking (local)";
               limit = {
-                context = 131072;
+                context = 65536;
                 output = 32768;
               };
             };
             "qwen3.6-27b-coding" = {
               name = "Qwen 3.6 27B Coding (local)";
               limit = {
-                context = 131072;
+                context = 65536;
                 output = 32768;
               };
             };
@@ -82,14 +90,14 @@ in
             "qwen3.6-35b-a3b-thinking" = {
               name = "Qwen 3.6 35B A3B Thinking (local)";
               limit = {
-                context = 262144;
+                context = 131072;
                 output = 32768;
               };
             };
             "qwen3.6-35b-a3b-coding" = {
               name = "Qwen 3.6 35B A3B Coding (local)";
               limit = {
-                context = 262144;
+                context = 65536;
                 output = 32768;
               };
             };
