@@ -204,7 +204,7 @@ in
       };
       heracles-work = MkAgent {
         template = ./agents/heracles.md.tmpl;
-        model = "amazon-bedrock/qwen3-coder-480b-a35b";
+        model = "amazon-bedrock/qwen.qwen3-coder-480b-a35b-v1:0";
         suffix = "-work";
       };
 
