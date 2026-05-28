@@ -88,7 +88,7 @@ let
       description = "Craftsman. Implements changes end-to-end: edits, builds, tests. Owns the diff.";
       mode = "subagent";
       model = {
-        work = "amazon-bedrock/qwen.qwen3-coder-next";
+        work = "amazon-bedrock/qwen3-coder-480b-a35b";
         home = "openrouter/deepseek/deepseek-v4-flash";
       };
       tools = "";
