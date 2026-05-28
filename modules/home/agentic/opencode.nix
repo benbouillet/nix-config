@@ -13,6 +13,8 @@ let
     "zeus"
   ];
 
+  mkAgentFunction = import ./mk-agent.nix;
+
   suffixPrompt =
     suffix: text:
     builtins.replaceStrings (map (n: "`${n}`") agentNames) (map (
@@ -26,11 +28,8 @@ let
       model = if suffix == "" then a.model.home else a.model.work;
       modelLine = if model == "" then "" else "model: ${model}\n";
       toolsSection = if a.tools == "" then "" else "\n${a.tools}";
-      prompt =
-        if suffix == "" then
-          builtins.readFile a.prompt
-        else
-          suffixPrompt suffix (builtins.readFile a.prompt);
+      rawPrompt = if builtins.isString a.prompt then a.prompt else builtins.readFile a.prompt;
+      prompt = if suffix == "" then rawPrompt else suffixPrompt suffix rawPrompt;
     in
     ''
       ---
@@ -290,18 +289,31 @@ in
     };
 
     context = ./AGENTS.md;
-    agents = builtins.listToAttrs (
-      builtins.concatMap (name: [
-        {
-          name = name;
-          value = mkAgentStr "" name;
-        }
-        {
-          name = "${name}-work";
-          value = mkAgentStr "work" name;
-        }
-      ]) agentNames
-    );
+    agents =
+      (builtins.listToAttrs (
+        builtins.concatMap (name: [
+          {
+            name = name;
+            value = mkAgentStr "" name;
+          }
+          {
+            name = "${name}-work";
+            value = mkAgentStr "work" name;
+          }
+        ]) agentNames
+      ))
+      // {
+        zeus-work = mkAgentFunction {
+          template = ./agents/zeus.md.tmpl;
+          model = "amazon-bedrock/moonshotai.kimi-k2.5";
+          suffix = "-work";
+        };
+        zeus-perso = mkAgentFunction {
+          template = ./agents/zeus.md.tmpl;
+          model = "openrouter/deepseek/deepseek-v4-flash";
+          suffix = "-perso";
+        };
+      };
     commands = ./commands;
   };
 
