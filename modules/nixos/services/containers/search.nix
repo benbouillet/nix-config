@@ -15,9 +15,9 @@ let
 
     search:
       safe_search: 0
-      autocomplete: brave
+      autocomplete: ""
       autocomplete_min: 4
-      favicon_resolver: yandex
+      favicon_resolver: ""
       default_lang: auto
       languages:
         - all
@@ -31,13 +31,14 @@ let
 
     server:
       image_proxy: true
+      limiter: true
 
     outgoing:
-      request_timeout: 6.0
-      max_request_timeout: 15.0
-      pool_connections: 200
-      pool_maxsize: 50
-      keepalive_expiry: 30.0
+      request_timeout: 3.0
+      max_request_timeout: 10.0
+      pool_connections: 100
+      pool_maxsize: 10
+      keepalive_expiry: 5.0
       enable_http2: true
       retries: 1
 
@@ -57,6 +58,25 @@ let
         disabled: true
       - name: duckduckgo news
         engine: duckduckgo_extra
+        disabled: true
+      - name: brave search
+        disabled: true
+      - name: brave images
+        disabled: true
+      - name: brave videos
+        disabled: true
+      - name: brave news
+        disabled: true
+      - name: google
+        disabled: true
+      - name: google images
+        disabled: true
+      - name: google videos
+        disabled: true
+      - name: google news
+        disabled: true
+      - name: wikidata
+        engine: wikidata
         disabled: true
 
       # Privacy-friendly general engines disabled by default upstream
