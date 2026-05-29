@@ -5,36 +5,60 @@ description: Generate a summary of GitHub commits from the past week. Use when t
 
 # GitHub Commits Summary Skill
 
-This skill helps generate a comprehensive summary of GitHub commits from the past week across repositories in `~/dev/<org>/*` directories.
+Generates a markdown summary of the user's commits across a GitHub org in the last 7 days.
 
-## Usage
+## Command
 
-To generate a weekly commit summary:
+`github-commits` is available on `PATH`. It queries the GitHub API for commits by the user in a given org.
 
-1. Run the `github-commits` command to analyze commits from the past 7 days
-2. Optionally explore `~/dev/<org>/*` directories to get broader context on projects
-3. Output the summary to a markdown file suitable for team review
+### Required flags
 
-## Key Features
+| Flag | Description |
+|---|---|
+| `-o ORG` | GitHub organization (required) |
+| `-d DAYS` | Days to look back (default: 7) |
+| `-j` | JSON output for programmatic consumption |
+| `-s SPEC` | Sort order: e.g. `repo:asc` to group by repo |
 
-- Summarizes commits from the past week (last 7 days)
-- Groups commits by repository for easier navigation
-- Highlights significant changes, bug fixes, and new features
-- Optionally explores development directories for additional context
-- Generates clean markdown output for team reviews
+### Pitfalls (learned from real use)
 
-## How to Use
+- **Large orgs timeout.** The command checks every repo sequentially. For orgs with 400+ repos, the default 60s timeout is too short. Always use `-j` and set a generous timeout (at least 300s) when invoking via the bash tool.
+- **Output too large for stdout.** With many commits across many repos, JSON output can be thousands of lines. Pipe to a temp file, then read/process it from there:
+  ```
+  github-commits -o myorg -j > /tmp/github-commits.json
+  ```
+- **Non-commit entries in JSON.** The JSON array may contain entries that are not commits. Use `jq` to filter them: `jq '.[] | select(.sha)'`.
 
-1. Simply invoke the `github-commits` command to generate a summary of recent work
-2. For extended context, you can explore `~/dev/<org>/*` directories where org represents GitHub organizations or project groupings
-3. The output will be saved to a markdown file for sharing with your team
+## Workflow
 
-## Example Output Format
+1. Determine the org. If the user didn't specify one, ask. Common orgs for this user: `sundayapp`.
+2. Determine output path. Default: `<workspace-root>/weekly-commits-<org>-<YYYY-MM-DD>.md`. Ask the user if they want a specific path.
+3. Run `github-commits -o <org> -j` with a 300s timeout, redirecting to a temp file.
+4. Read the temp file. Filter with `jq '.[] | select(.sha)'` to remove any non-commit entries.
+5. Group commits by repository. For each repo, list commits chronologically with:
+   - Short SHA (first 7 chars)
+   - Date (YYYY-MM-DD)
+   - First line of commit message
+6. Write the summary markdown file with this structure:
 
-The generated markdown file will include:
-- Overall summary of changes
-- Repository-specific sections with commit details
-- Date ranges and statistics
-- Links to specific commits when available
+```markdown
+# Weekly Commit Summary: <org>
+**Period:** <start-date> — <end-date>
+**Total commits:** <N> across <M> repositories
 
-Use this skill whenever you need to prepare a weekly development summary for team review.
+## <repo-name-1> (<N> commits)
+- `<short-sha>` <date> — <first line of message>
+- ...
+
+## <repo-name-2> (<N> commits)
+...
+```
+
+7. Report back to the user with the file path and a one-line summary (total commits, total repos).
+
+## What NOT to do
+
+- Do NOT explore `~/dev/<org>/*` directories — the command output is authoritative.
+- Do NOT run without `-j` flag — plain text output is harder to parse programmatically.
+- Do NOT try to guess the org — ask if unclear.
+- Do NOT use a short timeout — use 300s minimum.

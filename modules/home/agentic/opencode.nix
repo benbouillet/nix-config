@@ -290,7 +290,7 @@ in
     tui = {
       theme = "stylix";
       plugin = [
-        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.8.0"
+        # "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.8.0"
       ];
     };
   };
