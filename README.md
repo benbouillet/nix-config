@@ -113,6 +113,7 @@ nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
 - [ ] Decommission Tresorit
 - [ ] Decommission Google Photos
 - [ ] scan library
+- [ ] Litellm
 
 # Configuring SOPS
 

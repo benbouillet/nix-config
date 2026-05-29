@@ -1,10 +1,22 @@
 {
   config,
+  inputs,
   pkgs,
   lib,
   ...
 }:
 let
+  # Wrap opencode with GCC libstdc++ for native file watcher bindings
+  opencode-wrapped = pkgs.symlinkJoin {
+    name = "opencode-wrapped";
+    paths = [ pkgs.opencode ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/opencode \
+        --prefix LD_LIBRARY_PATH : "${pkgs.stdenv.cc.cc.lib}/lib"
+    '';
+  };
+
   MkAgent =
     {
       template,
@@ -25,9 +37,12 @@ in
     '';
   };
 
+  home.packages = [ opencode-wrapped ];
+
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
+    package = opencode-wrapped;
 
     settings = {
       autoshare = false;
@@ -154,6 +169,12 @@ in
       ];
 
       ###############
+      ## PLUGINS
+      ###############
+      # NOTE: vimcode TUI plugin is configured in programs.opencode.tui.plugin
+      plugin = [ ];
+
+      ###############
       ## MISC
       ###############
       watcher = {
@@ -163,6 +184,17 @@ in
           ".git/**"
           ".terragrunt-cache/**"
         ];
+      };
+
+      ###############
+      ## SKILLS
+      ###############
+
+      ###############
+      ## PERMISSIONS
+      ###############
+      permission = {
+        skill = "deny";
       };
     };
 
@@ -212,7 +244,7 @@ in
       };
       heracles-work = MkAgent {
         template = ./agents/heracles.md.tmpl;
-        model = "amazon-bedrock/qwen.qwen3-coder-480b-a35b-v1:0";
+        model = "amazon-bedrock/minimax.minimax-m2.5";
         suffix = "-work";
       };
 
@@ -252,7 +284,15 @@ in
         suffix = "-work";
       };
     };
+    skills = ./skills;
     commands = ./commands;
+
+    tui = {
+      theme = "stylix";
+      plugin = [
+        "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.8.0"
+      ];
+    };
   };
 
   xdg.configFile."opencode/opencode.json".force = true;

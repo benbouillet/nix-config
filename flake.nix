@@ -47,8 +47,6 @@
 
     sunday-augment.url = "git+ssh://git@github.com/sundayapp/augment-tools";
     sunday-bastion.url = "git+ssh://git@github.com/sundayapp/support-tools";
-
-    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =

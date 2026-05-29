@@ -47,6 +47,7 @@
     mdwatch
 
     (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
+    (import ../../scripts/github-commits.nix { inherit pkgs; })
   ];
 
   programs = {
@@ -62,6 +63,11 @@
         tg = "terragrunt run --tf-path terraform --parallelism=5 --";
         ghpr = "gh pr review -a";
       };
+      initExtra = ''
+        gh-commits() {
+          github-commits "$@"
+        }
+      '';
     };
   };
 }
