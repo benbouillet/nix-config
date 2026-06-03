@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   pkgs,
   lib,
   ...
@@ -268,7 +267,7 @@ in
       };
       zephyr-work = MkAgent {
         template = ./agents/zephyr.md.tmpl;
-        model = "amazon-bedrock/qwen/qwen3-coder-480b-a35b-instruct";
+        model = "amazon-bedrock/minimax.minimax-m2.5";
         suffix = "-work";
       };
 
