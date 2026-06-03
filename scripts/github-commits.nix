@@ -228,6 +228,14 @@ pkgs.writeShellScriptBin "github-commits" ''
       # Get commits for this repository and append to temp file
       COMMITS_TEMP=$(mktemp)
       gh api "repos/''${ORG}/''${REPO}/commits?author=''${USER_LOGIN}&since=''${SINCE_DATE}" 2>/dev/null > "''${COMMITS_TEMP}" || true
+
+      # Validate response is a valid JSON array before processing
+      if ! jq -e 'type == "array"' "''${COMMITS_TEMP}" >/dev/null 2>&1; then
+        ERROR_MSG=$(jq -r '.message // .documentation_url // . // "unknown error"' "''${COMMITS_TEMP}" 2>/dev/null || echo "non-JSON response")
+        log "Skipping ''${ORG}/''${REPO}: API returned error or invalid response: ''${ERROR_MSG}"
+        rm -f "''${COMMITS_TEMP}"
+        continue
+      fi
       
       # Count commits for this repo
       COMMIT_COUNT=$(jq -r 'length' "''${COMMITS_TEMP}")
