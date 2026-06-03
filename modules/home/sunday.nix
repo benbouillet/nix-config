@@ -104,7 +104,10 @@ in
         sshuttle
 
         # Cloud
-        (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+        (google-cloud-sdk.withExtraComponents [
+          google-cloud-sdk.components.gke-gcloud-auth-plugin
+        ])
+        google-cloud-sql-proxy
         awscli2
         ssm-session-manager-plugin
 
@@ -115,6 +118,7 @@ in
 
         # DB
         jetbrains.datagrip
+        postgresql
 
         # QR on bill
         balena-cli
