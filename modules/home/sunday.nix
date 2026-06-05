@@ -104,9 +104,21 @@ in
         sshuttle
 
         # Cloud
-        (google-cloud-sdk.withExtraComponents [
-          google-cloud-sdk.components.gke-gcloud-auth-plugin
-        ])
+        (let
+          # Bypass withExtraComponents which pulls in alpha, beta, and their
+          # transitive deps (including bundled-python3 with a TCL 9.0 mismatch).
+          # Instead, merge base SDK with just the plugin component.
+          gcloud-plugin = pkgs.symlinkJoin {
+            name = "google-cloud-sdk-with-gke-auth-${pkgs.google-cloud-sdk.version}";
+            paths = [
+              pkgs.google-cloud-sdk
+              pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
+            ];
+            postBuild = ''
+              sed -i -e "s#${pkgs.google-cloud-sdk}#$out#" "$out/google-cloud-sdk/bin/gcloud"
+            '';
+          };
+        in gcloud-plugin)
         google-cloud-sql-proxy
         awscli2
         ssm-session-manager-plugin
