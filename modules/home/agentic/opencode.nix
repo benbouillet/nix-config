@@ -262,7 +262,7 @@ in
       # zephyr variants
       zephyr = MkAgent {
         template = ./agents/zephyr.md.tmpl;
-        model = "llama-cpp/qwen3.6-35b-a3b-instruct";
+        model = "openrouter/deepseek/deepseek-v4-flash";
         suffix = "";
       };
       zephyr-work = MkAgent {
@@ -274,7 +274,7 @@ in
       # zeus variants
       zeus = MkAgent {
         template = ./agents/zeus.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
+        model = "openrouter/deepseek/deepseek-v4-pro";
         suffix = "";
       };
       zeus-work = MkAgent {
