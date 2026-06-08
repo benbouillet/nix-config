@@ -19,6 +19,7 @@
 
     # Automation
     python314
+    gomplate
 
     # IaC
     tenv
