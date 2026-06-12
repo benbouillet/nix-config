@@ -279,8 +279,15 @@ in
       };
       zeus-work = MkAgent {
         template = ./agents/zeus.md.tmpl;
-        model = "amazon-bedrock/moonshotai.kimi-k2.5";
+        model = "amazon-bedrock/minimax.minimax-m2.5";
         suffix = "-work";
+      };
+
+      # DD5 helper
+      mimir = MkAgent {
+        template = ./agents/mimir.md.tmpl;
+        model = "llama-cpp/gemma4-e4b-instruct";
+        suffix = "";
       };
     };
     skills = ./skills;
