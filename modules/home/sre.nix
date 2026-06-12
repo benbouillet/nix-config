@@ -49,6 +49,7 @@
 
     (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
     (import ../../scripts/github-commits.nix { inherit pkgs; })
+    (import ../../packages/pup/package.nix { inherit pkgs; })
   ];
 
   programs = {
