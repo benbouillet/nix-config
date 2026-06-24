@@ -103,7 +103,7 @@
     };
 
     "bazarr" = {
-      image = "lscr.io/linuxserver/bazarr:1.5.6@sha256:7563f01bf27554df58e10544a4bb83479258883315a31cd1c929293e908144d0";
+      image = "lscr.io/linuxserver/bazarr:1.5.6@sha256:aaaa087af75a73b7ac765dcc5d748874cfafdb93c23ec9f64fbb481dea291b23";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
