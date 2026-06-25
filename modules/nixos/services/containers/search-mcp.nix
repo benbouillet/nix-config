@@ -2,7 +2,7 @@
 {
   virtualisation.oci-containers.containers = {
     "mcp-searxng" = {
-      image = "docker.io/isokoliuk/mcp-searxng:latest";
+      image = "docker.io/isokoliuk/mcp-searxng:latest@sha256:787626c360cc00559093416bc701bf029075615da0c67b7026e6bc11c7386f19";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.searxng-mcp}:3000"
       ];
