@@ -140,7 +140,7 @@
     };
 
     "radarr" = {
-      image = "lscr.io/linuxserver/radarr:6.2.1@sha256:4c490ccd44d31feb49dc4cc542f2148a420fc1ae0c1ba94e59b39ba4bf112716";
+      image = "lscr.io/linuxserver/radarr:6.2.1@sha256:549c4a075496cf7584593bdc041407ddb38ee8958df8cf99938f8821467ea6f8";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
