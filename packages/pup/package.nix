@@ -1,16 +1,16 @@
 { pkgs }:
 pkgs.rustPlatform.buildRustPackage {
   pname = "pup";
-  version = "1.0.0";
+  version = "1.4.1";
 
   src = pkgs.fetchFromGitHub {
     owner = "DataDog";
     repo = "pup";
-    rev = "v1.0.0";
-    hash = "sha256-dXVyUYHEREIQHdh6MQm8K0x3VNa8VQotuYLuqV8e+Kw=";
+    rev = "v1.4.1";
+    hash = "sha256-pyKKtd1LRvrZrdEXtlvPPFXgOFOiyB5HL74j35m1ms8=";
   };
 
-  cargoHash = "sha256-fCxhipOYTt5X9H4njScL5N+rjqceJMv8wzcJhbxW5Q4=";
+  cargoHash = "sha256-1MvuxBR1Y9eRbW+bAMHWxt9ea+HVcmW6Q5vN4U527y0=";
 
   nativeBuildInputs = with pkgs; [ pkg-config ];
   buildInputs = with pkgs; [ openssl ];
