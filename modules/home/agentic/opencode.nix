@@ -1,4 +1,5 @@
 {
+  username,
   config,
   pkgs,
   lib,
@@ -125,47 +126,19 @@ in
           };
         };
       };
+      instructions = [
+        "/home/${username}/.config/opencode/SUNDAYAPP.md"
+      ];
+
       ###############
       ## MCP SERVERS
       ###############
-      disabled_providers = [
-        "anthropic"
-        "azure-openai"
-        "azure-cognitive-services"
-        "baseten"
-        "cerebras"
-        "cloudflare-ai-gateway"
-        "cortecs"
-        "deepseek"
-        "deep-infra"
-        "fireworks-ai"
-        "github-copilot"
-        "google-vertex-ai"
-        "groq"
-        "hugging-face"
-        "helicone"
-        "llama.cpp"
-        "io-net"
-        "lmstudio"
-        "moonshot-ai"
-        "nebius-token-factory"
-        "ollama"
-        "ollama-cloud"
-        "openai"
-        "sap-ai-core"
-        "ovhcloud-ai-endpoints"
-        "together-ai"
-        "venice-ai"
-        "xai"
-        "zai"
-        "zenmux"
-        "google"
-      ];
-      enabled_providers = [
-        "openrouter"
-        "amazon-bedrock"
-        "llama-cpp"
-      ];
+      mcp = {
+        # datadog = {
+        #   type = "remote";
+        #   url = "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp";
+        # };
+      };
 
       ###############
       ## PLUGINS
