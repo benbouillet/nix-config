@@ -5,7 +5,7 @@
 }:
 let
   modelFiles = {
-    "qwen36-27b" = pkgs.fetchurl {
+    "qwen36-27b-ud-q5-K-XL-MTP" = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q5_K_XL.gguf";
       hash = "sha256-WjxhAzWBdU1Qf/3L8GKSFMv71You2+yA2T9uwq9E0ic=";
     };
@@ -26,7 +26,7 @@ let
 
   models = {
     "qwen3.6-27b-instruct" = {
-      file = modelFiles."qwen36-27b";
+      file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
       qwenChatTemplate = true;
       ctx = 65536;
       ngl = 9999;
@@ -50,7 +50,7 @@ let
       chat-template-kwargs = "";
     };
     "qwen3.6-27b-thinking" = {
-      file = modelFiles."qwen36-27b";
+      file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
       qwenChatTemplate = true;
       ctx = 65536;
       ngl = 9999;
@@ -74,7 +74,7 @@ let
       chat-template-kwargs = "";
     };
     "qwen3.6-27b-coding" = {
-      file = modelFiles."qwen36-27b";
+      file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
       qwenChatTemplate = true;
       ctx = 65536;
       ngl = 9999;
