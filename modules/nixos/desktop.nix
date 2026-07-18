@@ -55,6 +55,7 @@
       dns = "systemd-resolved";
     };
     useDHCP = false;
+    extraHosts = "172.16.32.45 litellm-admin.int.sundayapp.xyz";
   };
 
   services.resolved = {
