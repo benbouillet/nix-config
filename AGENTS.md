@@ -281,6 +281,9 @@ nix run github:nix-community/nixos-anywhere -- \
   --generate-hardware-config nixos-generate-config ./hosts/<name>/hardware-configuration.nix \
   --flake .#<name> --target-host <TARGET>
 
+# Investigate on remote host
+ssh <host_name> nix run nixpkgs#<cmd> -- <options>
+
 # Update SOPS keys after adding a new host key
 sops updatekeys secrets/<host>.yaml
 ```
