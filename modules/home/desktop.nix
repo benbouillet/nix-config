@@ -20,6 +20,7 @@
     qobuz-player
     evince
     rustdesk
+    zathura
   ];
 
   programs = {
