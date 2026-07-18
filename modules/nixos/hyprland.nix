@@ -57,6 +57,7 @@
       lidSwitch = "lock";
       lidSwitchExternalPower = "lock";
       lidSwitchDocked = "lock";
+      HandlePowerKey = "ignore";
     };
   };
 }
