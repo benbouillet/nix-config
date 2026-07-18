@@ -23,6 +23,8 @@
     zathura
   ];
 
+  home.pointerCursor.enable = true;
+
   programs = {
     ghostty = {
       enable = true;
@@ -67,7 +69,7 @@
     };
     fzf = {
       enable = true;
-      historyWidgetOptions = [
+      historyWidget.options = [
         "--sort"
         "--exact"
       ];
@@ -84,7 +86,7 @@
 
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme.name = "gtk3";
   };
 
   systemd.user.services.seafile = {
