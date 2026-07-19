@@ -17,6 +17,10 @@ let
       url = "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-UD-Q6_K_XL.gguf";
       hash = "sha256-+hby5/9sWsH/5ISBU0d6wiR2Mxy2YmfMyREy2l7r714=";
     };
+    "qwen36-27b-q6-K-MTP" = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-Q6_K.gguf";
+      hash = "sha256-dz8b8L4FidBWzgVHaooTW1BJSj8uzD+PDE8sNZS7oC4=";
+    };
   };
 
   chatTemplateFile = pkgs.fetchurl {
@@ -25,6 +29,31 @@ let
   };
 
   models = {
+    "test" = {
+      file = modelFiles."qwen36-27b-q6-K-MTP";
+      qwenChatTemplate = true;
+      ctx = 65536;
+      ngl = 9999;
+      flash-attn = "on";
+      temp = "0.7";
+      top-p = "0.8";
+      top-k = "20";
+      min-p = "0.0";
+      presence-penalty = "1.5";
+      repeat-penalty = "1.0";
+      spec-type = "draft-mtp";
+      spec-draft-n-max = 2;
+      spec-draft-p-min = 0.75;
+      cache-type-k = "q8_0";
+      cache-type-v = "q8_0";
+      cache-type-k-draft = "q8_0";
+      cache-type-v-draft = "q8_0";
+      n-predict = 32768;
+      reasoning-budget = 256;
+      reasoning = false;
+      chat-template-kwargs = "";
+      kv-offload = false;
+    };
     "qwen3.6-27b-instruct" = {
       file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
       qwenChatTemplate = true;
@@ -48,6 +77,7 @@ let
       reasoning-budget = 256;
       reasoning = false;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "qwen3.6-27b-thinking" = {
       file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
@@ -72,6 +102,7 @@ let
       reasoning-budget = 256;
       reasoning = true;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "qwen3.6-27b-coding" = {
       file = modelFiles."qwen36-27b-ud-q5-K-XL-MTP";
@@ -96,6 +127,7 @@ let
       reasoning-budget = 256;
       reasoning = true;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "qwen3.6-35b-a3b-instruct" = {
       file = modelFiles."qwen36-35b-a3b";
@@ -115,6 +147,7 @@ let
       reasoning-budget = 256;
       reasoning = false;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "qwen3.6-35b-a3b-thinking" = {
       file = modelFiles."qwen36-35b-a3b";
@@ -134,6 +167,7 @@ let
       reasoning-budget = 256;
       reasoning = true;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "qwen3.6-35b-a3b-coding" = {
       file = modelFiles."qwen36-35b-a3b";
@@ -153,6 +187,7 @@ let
       reasoning-budget = 256;
       reasoning = true;
       chat-template-kwargs = "";
+      kv-offload = true;
     };
     "gemma4-e4b-instruct" = {
       file = modelFiles."gemma4-e4b";
@@ -168,6 +203,7 @@ let
       cache-type-k = "q8_0";
       cache-type-v = "q8_0";
       chat-template-kwargs = "";
+      kv-offload = true;
     };
   };
 
@@ -190,7 +226,6 @@ let
         "--ubatch-size 1024"
         "-t 8"
         "--fit on"
-        "--kv-offload"
         "-ngl ${toString m.ngl}"
         "-c ${toString m.ctx}"
         "--temp ${m.temp}"
@@ -199,6 +234,7 @@ let
         "--min-p ${m.min-p}"
         "--presence-penalty ${m.presence-penalty}"
         "--repeat-penalty ${m.repeat-penalty}"
+        "--no-mmproj-offload"
       ]
       ++ pkgs.lib.optional (
         m.chat-template-kwargs != ""
@@ -213,6 +249,8 @@ let
       ++ pkgs.lib.optional (m ? reasoning && m.reasoning) "--reasoning on"
       ++ pkgs.lib.optional (m ? reasoning && !m.reasoning) "--reasoning off"
       ++ pkgs.lib.optional (m ? qwenChatTemplate) "--chat-template-file ${chatTemplateFile}"
+      ++ pkgs.lib.optional (m ? kv-offload && m.kv-offload) "--kv-offload"
+      ++ pkgs.lib.optional (m ? kv-offload && !m.kv-offload) "--no-kv-offload"
     );
 in
 {

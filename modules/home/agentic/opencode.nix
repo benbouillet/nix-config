@@ -74,6 +74,13 @@ in
             baseURL = "https://ai.r4clette.com/v1";
           };
           models = {
+            "test" = {
+              name = "test";
+              limit = {
+                context = 131072;
+                output = 32768;
+              };
+            };
             "qwen3.6-27b-instruct" = {
               name = "Qwen 3.6 27B Instruct (local)";
               limit = {
