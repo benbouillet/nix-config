@@ -17,9 +17,15 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = with pkgs; [ mesa ];
-      extraPackages32 = with pkgs.pkgsi686Linux; [ mesa ];
-
+      extraPackages = with pkgs; [
+        mesa
+        vulkan-loader
+        vulkan-tools
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        mesa
+        vulkan-loader
+      ];
     };
   };
   services.xserver.videoDrivers = [ "amdgpu" ];
@@ -37,6 +43,9 @@
     };
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
+    kernelParams = [
+      "amdgpu.ppfeaturemask=0xffffffff"
+    ];
   };
 
   fileSystems = {
