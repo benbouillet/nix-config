@@ -2,7 +2,6 @@
   username,
   config,
   pkgs,
-  lib,
   ...
 }:
 let
@@ -30,12 +29,6 @@ let
 in
 {
   sops.secrets."ai/openrouter_api_key" = { };
-
-  home.activation = {
-    installOpencodeRtk = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.rtk}/bin/rtk init -g --opencode
-    '';
-  };
 
   home.packages = [ opencode-wrapped ];
 
@@ -187,7 +180,7 @@ in
       };
       argus-work = MkAgent {
         template = ./agents/argus.md.tmpl;
-        model = "amazon-bedrock/zai.glm-4.7-flash";
+        model = "litellm/deepseek.deepseek-v4-flash";
         suffix = "-work";
       };
 
@@ -199,7 +192,7 @@ in
       };
       athena-work = MkAgent {
         template = ./agents/athena.md.tmpl;
-        model = "amazon-bedrock/zai.glm-5";
+        model = "litellm/deepseek.deepseek-v4-pro";
         suffix = "-work";
       };
 
@@ -211,7 +204,7 @@ in
       };
       cerberus-work = MkAgent {
         template = ./agents/cerberus.md.tmpl;
-        model = "amazon-bedrock/zai.glm-4.7-flash";
+        model = "litellm/deepseek.deepseek-v4-flash";
         suffix = "-work";
       };
 
@@ -223,7 +216,7 @@ in
       };
       heracles-work = MkAgent {
         template = ./agents/heracles.md.tmpl;
-        model = "amazon-bedrock/minimax.minimax-m2.5";
+        model = "litellm/deepseek.deepseek-v4-flash";
         suffix = "-work";
       };
 
@@ -235,7 +228,7 @@ in
       };
       iris-work = MkAgent {
         template = ./agents/iris.md.tmpl;
-        model = "amazon-bedrock/zai.glm-4.7-flash";
+        model = "litellm/deepseek.deepseek-v4-flash";
         suffix = "-work";
       };
 
@@ -247,7 +240,7 @@ in
       };
       zephyr-work = MkAgent {
         template = ./agents/zephyr.md.tmpl;
-        model = "amazon-bedrock/minimax.minimax-m2.5";
+        model = "litellm/deepseek.deepseek-v4-flash";
         suffix = "-work";
       };
 
@@ -259,7 +252,7 @@ in
       };
       zeus-work = MkAgent {
         template = ./agents/zeus.md.tmpl;
-        model = "amazon-bedrock/minimax.minimax-m2.5";
+        model = "litellm/deepseek.deepseek-v4-pro";
         suffix = "-work";
       };
 
@@ -280,8 +273,6 @@ in
       ];
     };
   };
-
-  xdg.configFile."opencode/opencode.json".force = true;
 
   programs.zsh.shellAliases = {
     oc = "opencode";

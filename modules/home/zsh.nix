@@ -61,5 +61,14 @@
         };
       }
     ];
+
+    initContent = ''
+      _insert_newline() {
+        LBUFFER+=$'\n'
+      }
+      zle -N _insert_newline
+      bindkey -M viins '^[[13;2u' _insert_newline
+      bindkey -M vicmd '^[[13;2u' _insert_newline
+    '';
   };
 }
