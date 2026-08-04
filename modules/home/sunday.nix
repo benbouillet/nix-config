@@ -99,6 +99,8 @@ let
   );
 in
 {
+  sops.secrets."ai/sunday_litellm_api_key" = { };
+
   home = {
     file."dev/sundayapp/.keep" = {
       text = "";

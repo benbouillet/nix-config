@@ -30,6 +30,8 @@ in
 {
   sops.secrets."ai/openrouter_api_key" = { };
 
+  home.sessionVariables.LITELLM_API_KEY = "$(cat ${config.sops.secrets."ai/sunday_litellm_api_key".path})";
+
   home.packages = [ opencode-wrapped ];
 
   programs.opencode = {
