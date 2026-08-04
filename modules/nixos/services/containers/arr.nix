@@ -41,7 +41,7 @@
 
   virtualisation.oci-containers.containers = {
     "gluetun" = {
-      image = "qmcgaw/gluetun:v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab";
+      image = "qmcgaw/gluetun:v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.qbittorrent}:8090" # qbittorrent
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.nzbget}:6789" # nzbget
