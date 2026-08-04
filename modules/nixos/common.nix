@@ -83,7 +83,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    curl
+    curlFull
     killall
     vim
     wget
