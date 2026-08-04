@@ -128,6 +128,9 @@ in
         claude-code
         vscode
         vscode-extensions.anthropic.claude-code
+
+        # CLI
+        gws
       ])
       ++ [
         gdk
