@@ -6,7 +6,7 @@
 {
   imports = [
     ./opencode.nix
-    # ./pi
+    ./pi
   ];
 
   home.packages = with pkgs; [

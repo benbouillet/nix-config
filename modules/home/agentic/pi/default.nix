@@ -1,60 +1,51 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
-  little-coder = pkgs.buildNpmPackage {
-    pname = "little-coder";
-    version = "1.4.1";
+  jail-nix = inputs.jail-nix;
+  jail = jail-nix.lib.init pkgs;
 
-    src = pkgs.fetchFromGitHub {
-      owner = "itayinbarr";
-      repo = "little-coder";
-      rev = "55a83528985ed590df82cca2c478b0f206209500";
-      hash = "sha256-T/wHDTMsh2H2dWP1pI1fdP8e/zrSl/QZ2du7ixhxM+Y=";
-    };
+  jailed-pi = jail "pi" pkgs.pi-coding-agent (with jail.combinators; [
+    network
+    mount-cwd
+    (persist-home "pi")
+    no-new-session
+    time-zone
 
-    npmDepsHash = "sha256-s1t5PVblis4T/Fv8WIiPKwSjmY9ZeE5bJbE2fdIL9jA=";
+    (add-pkg-deps (with pkgs; [
+      git
+      nodejs
+      ripgrep
+      fd
+      gnugrep
+      findutils
+      gnutar
+      gzip
+      which
+    ]))
 
-    dontNpmBuild = true;
-  };
-
-  pi-vim-src = pkgs.runCommand "pi-vim-0.3.2" { } ''
-    mkdir -p $out
-    tar -xzf ${
-      pkgs.fetchurl {
-        url = "https://registry.npmjs.org/pi-vim/-/pi-vim-0.3.2.tgz";
-        hash = "sha256-QOZ4a7VD5MgihJZHJU4QGx3oW4lsul+9bVmYyUlknxg=";
-      }
-    } --strip-components=1 -C $out
-  '';
-
-  little-coder-with-extensions = pkgs.symlinkJoin {
-    name = "little-coder-with-extensions";
-    paths = [ little-coder ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/little-coder \
-        --add-flags "--extension ${pi-vim-src}/index.ts"
-    '';
-  };
+    (try-fwd-env "ANTHROPIC_API_KEY")
+    (try-fwd-env "OPENAI_API_KEY")
+    (try-fwd-env "OPENROUTER_API_KEY")
+    (try-fwd-env "GOOGLE_API_KEY")
+    (try-fwd-env "DEEPSEEK_API_KEY")
+    (try-fwd-env "GROQ_API_KEY")
+    (try-fwd-env "MISTRAL_API_KEY")
+    (try-fwd-env "XAI_API_KEY")
+    (try-fwd-env "CEREBRAS_API_KEY")
+    (try-fwd-env "AZURE_OPENAI_API_KEY")
+    (try-fwd-env "BEDROCK_API_KEY")
+    (try-fwd-env "BEDROCK_API_KEY_ID")
+    (try-fwd-env "PI_OFFLINE")
+    (try-fwd-env "PI_SKIP_VERSION_CHECK")
+    (try-fwd-env "PI_TELEMETRY")
+    (try-fwd-env "PI_CODING_AGENT_DIR")
+    (try-fwd-env "PI_CODING_AGENT_SESSION_DIR")
+    (try-fwd-env "VISUAL")
+    (try-fwd-env "EDITOR")
+  ]);
 in
 {
-  home.sessionVariables = {
-    # Extra bash commands allowed by little-coder's permission-gate.
-    # Trailing space = word boundary ("make " allows `make test` but not `makefoo`).
-    LITTLE_CODER_BASH_ALLOW = "nix-prefetch-url ,nix hash to-sri ";
-  };
-
   home.packages = [
+    jailed-pi
     pkgs.nodejs
-    little-coder-with-extensions
   ];
-
-  home.file.".npmrc".text = ''
-    prefix=''${HOME}/.npm-global
-  '';
-  home.sessionPath = [ "$HOME/.npm-global/bin" ];
-
-  home.file.".pi/agent/settings.json" = {
-    source = ./settings.json;
-    force = true;
-  };
 }

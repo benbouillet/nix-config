@@ -45,6 +45,8 @@
       url = "github:nix-community/impermanence";
     };
 
+    jail-nix.url = "sourcehut:~alexdavid/jail.nix";
+
     sunday-augment.url = "git+ssh://git@github.com/sundayapp/augment-tools";
     sunday-bastion.url = "git+ssh://git@github.com/sundayapp/support-tools";
   };
