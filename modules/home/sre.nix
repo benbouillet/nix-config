@@ -50,6 +50,9 @@
     # documentation
     mdwatch
 
+    # Programming
+    go
+
     (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
     (import ../../scripts/github-commits.nix { inherit pkgs; })
   ];
