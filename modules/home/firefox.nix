@@ -21,7 +21,7 @@
       id = 0;
       isDefault = true;
       search = {
-        default = "searxng-en";
+        default = "degoog";
         engines = {
           "Nix Packages" = {
             urls = [
@@ -101,22 +101,13 @@
             definedAliases = [ "@nd" ];
           };
 
-          "searxng-fr" = {
+          "degoog" = {
             urls = [
               {
-                template = "https://search.r4clette.com/search?q={searchTerms}&language=fr&safesearch=0&categories=general";
+                template = "https://search.r4clette.com/search?q={searchTerms}";
               }
             ];
-            definedAliases = [ "@fr" ];
-          };
-
-          "searxng-en" = {
-            urls = [
-              {
-                template = "https://search.r4clette.com/search?q={searchTerms}&language=en&safesearch=0&categories=general";
-              }
-            ];
-            definedAliases = [ "@en" ];
+            definedAliases = [ "@s" ];
           };
 
           "github" = {

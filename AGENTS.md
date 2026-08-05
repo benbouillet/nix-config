@@ -58,7 +58,7 @@ modules/
         paperless.nix              # Paperless-ngx document management
         seafile.nix                # Seafile file sync
         mealie.nix                 # Recipe management
-        search.nix                 # SearXNG meta-search
+      search.nix                   # Degoog meta-search
         foundryvtt.nix             # Foundry VTT game platform
         linkding.nix               # Bookmark manager
     observability/

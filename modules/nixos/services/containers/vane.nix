@@ -23,7 +23,6 @@
         "--pids-limit=256"
       ];
       environment = {
-        SEARXNG_API_URL = "http://searxng:8080";
         OPENAI_BASE_URL = "http://host.containers.internal:${toString globals.ports.llama-swap}/v1";
         OPENAI_API_KEY = "dummy";
       };

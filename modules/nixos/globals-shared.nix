@@ -27,8 +27,7 @@ let
       nzbget = 9017;
       foundryvtt = 9021;
       linkding = 9022;
-      searxng = 9030;
-      searxng-mcp = 9032;
+      degoog = 9030;
       vane = 9031;
       paperless = 9040;
       seafile = 9054;

@@ -109,21 +109,11 @@
       reverse_proxy chewie:${toString globals.ports.mealie}
     }
 
-    # From modules/nixos/services/containers/search-mcp.nix
-
-    @mcp_search {
-      host search.${globals.domain}
-      path /mcp*
-    }
-    handle @mcp_search {
-      reverse_proxy chewie:${toString globals.ports.searxng-mcp}
-    }
-
     # From modules/nixos/services/containers/search.nix
 
-    @searxng host search.${globals.domain}
-    handle @searxng {
-      reverse_proxy chewie:${toString globals.ports.searxng}
+    @degoog host search.${globals.domain}
+    handle @degoog {
+      reverse_proxy chewie:${toString globals.ports.degoog}
     }
 
      # From modules/nixos/services/containers/vane.nix
