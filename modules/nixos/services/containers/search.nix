@@ -4,7 +4,7 @@
   ...
 }:
 {
-  sops.secrets."services/degoog/settings_password" = {
+  sops.secrets."services/degoog/env" = {
     mode = "0400";
     owner = "root";
     group = "root";
@@ -27,16 +27,25 @@
         "--memory=1g"
         "--memory-swap=2g"
         "--pids-limit=256"
+        "--add-host=host.containers.internal:host-gateway"
       ];
       environment = {
         DEGOOG_PUBLIC_INSTANCE = "true";
         DEGOOG_DISTRUST_PROXY = "0";
+        DEGOOG_VALKEY_URL = "redis://host.containers.internal:${toString globals.ports.redis}";
         PUID = "1000";
         PGID = "1000";
       };
       environmentFiles = [
-        config.sops.secrets."services/degoog/settings_password".path
+        config.sops.secrets."services/degoog/env".path
       ];
     };
+  };
+
+  systemd.services."podman-degoog" = {
+    after = [
+      "postgresql.service"
+      "redis-raclette.service"
+    ];
   };
 }
