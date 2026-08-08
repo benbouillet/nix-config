@@ -28,6 +28,7 @@ let
       foundryvtt = 9021;
       linkding = 9022;
       degoog = 9030;
+      degoog-mcp = 9032;
       vane = 9031;
       paperless = 9040;
       seafile = 9054;

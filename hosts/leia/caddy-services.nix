@@ -111,6 +111,14 @@
 
     # From modules/nixos/services/containers/search.nix
 
+    @degoog_mcp {
+      host search.${globals.domain}
+      path /mcp*
+    }
+    handle @degoog_mcp {
+      reverse_proxy chewie:${toString globals.ports.degoog-mcp}
+    }
+
     @degoog host search.${globals.domain}
     handle @degoog {
       reverse_proxy chewie:${toString globals.ports.degoog}
