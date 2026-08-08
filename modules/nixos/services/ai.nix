@@ -25,7 +25,7 @@ let
 
   chatTemplateFile = pkgs.fetchurl {
     url = "https://huggingface.co/froggeric/Qwen-Fixed-Chat-Templates/resolve/main/chat_template.jinja";
-    hash = "sha256-Rkmz+j2z/aTVEXPtT/AXX95+zou8651ZXQTYYgIMl0Y=";
+    hash = "sha256-0gPzNC2Kf4R03VVWPuzjom5xshxvZnyduck7dis7+Zc=";
   };
 
   models = {
