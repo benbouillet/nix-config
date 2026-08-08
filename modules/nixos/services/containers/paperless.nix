@@ -60,7 +60,7 @@
       };
       environmentFiles = [ config.sops.secrets."services/paperless/env".path ];
       extraOptions = [
-        "--memory=2048m"
+        "--memory=4096m"
         "--pids-limit=64"
         "--add-host=database:host-gateway"
       ];
