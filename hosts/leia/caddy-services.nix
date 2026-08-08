@@ -234,12 +234,24 @@
       reverse_proxy chewie:${toString globals.ports.jellyfin}
     }
 
-    # From modules/nixos/services/containers/lubelogger.nix
+     # From modules/nixos/services/containers/lubelogger.nix
 
     @lubelogger host lubelogger.${globals.domain}
     handle @lubelogger {
       reverse_proxy chewie:${toString globals.ports.lubelogger}
     }
+
+    # From modules/nixos/services/containers/bambuddy.nix
+
+    @bambuddy host bambuddy.${globals.domain}
+    handle @bambuddy {
+      forward_auth http://chewie:${toString globals.ports.authelia} {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      reverse_proxy chewie:${toString globals.ports.bambuddy}
+    }
+
       # From modules/nixos/services/authentication.nix
     @auth host auth.${globals.domain}
     handle @auth {

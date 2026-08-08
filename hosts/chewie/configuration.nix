@@ -32,6 +32,7 @@
     ../../modules/nixos/services/containers/vane.nix
     ../../modules/nixos/services/containers/mealie.nix
     ../../modules/nixos/services/containers/linkding.nix
+    ../../modules/nixos/services/containers/bambuddy.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY
