@@ -16,7 +16,7 @@
 
   virtualisation.oci-containers.containers = {
     "degoog" = {
-      image = "ghcr.io/degoog-org/degoog:0.23.0@sha256:675f858d1a0264d32f867352d6cf0ad387fd2573cca0cbf597cf672ff869ce9e";
+      image = "ghcr.io/degoog-org/degoog:0.24.0@sha256:79409f76137734baa0516a58def96e4d3842f6db26d813e75365dea8a00974e9";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.degoog}:4444"
       ];
