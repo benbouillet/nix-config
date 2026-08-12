@@ -30,9 +30,14 @@ in
 {
   sops.secrets."ai/openrouter_api_key" = { };
 
-  home.sessionVariables.LITELLM_API_KEY = "$(cat ${config.sops.secrets."ai/sunday_litellm_api_key".path})";
+  home.sessionVariables.LITELLM_API_KEY = "$(cat ${
+    config.sops.secrets."ai/sunday_litellm_api_key".path
+  })";
 
-  home.packages = [ opencode-wrapped ];
+  home.packages = [
+    opencode-wrapped
+    pkgs.graphify
+  ];
 
   programs.opencode = {
     enable = true;
@@ -213,7 +218,7 @@ in
       # heracles variants
       heracles = MkAgent {
         template = ./agents/heracles.md.tmpl;
-        model = "llama-cpp/qwen3.6-35b-a3b-coding";
+        model = "openrouter/deepseek/deepseek-v4-flash";
         suffix = "";
       };
       heracles-work = MkAgent {
