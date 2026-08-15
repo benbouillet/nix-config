@@ -11,7 +11,7 @@
 
   virtualisation.oci-containers.containers = {
     "bambuddy" = {
-      image = "ghcr.io/maziggy/bambuddy:1.2.5.2";
+      image = "ghcr.io/maziggy/bambuddy:1.2.5.3@sha256:c670164aaa3b0c5af715ca00e9745cdf3a4d7d337fc11d96fc85180371952698";
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/bambuddy/data:/app/data"
         "${globals.zfs.services.apps.mountPoint}/bambuddy/logs:/app/logs"
