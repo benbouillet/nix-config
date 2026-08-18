@@ -77,6 +77,7 @@
       pkgs = pkgsFor "x86_64-linux";
       auggie = import ./packages/auggie/package.nix { inherit pkgs; };
       runs-on-cli = import ./packages/runs-on-cli/package.nix { inherit pkgs; };
+      betaflight-configurator = import ./packages/betaflight-configurator.nix { inherit pkgs; };
 
       mkHost =
         {
@@ -96,7 +97,7 @@
       nixosConfigurations = {
         "obiwan" = mkHost {
           host = "obiwan";
-          extraSpecialArgs = { inherit auggie runs-on-cli; };
+          extraSpecialArgs = { inherit auggie runs-on-cli betaflight-configurator; };
           extraModules = [
             home-manager.nixosModules.home-manager
             {
@@ -107,6 +108,7 @@
                     inputs
                     auggie
                     runs-on-cli
+                    betaflight-configurator
                     ;
                   host = "obiwan";
                 };

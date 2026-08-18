@@ -53,6 +53,7 @@
     ../../modules/home/3d.nix
     ../../modules/home/productivity.nix
     ../../modules/home/music.nix
+    ../../modules/home/fpv.nix
     ./monitors.nix
     inputs.sunday-augment.homeManagerModules.default
   ];

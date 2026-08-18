@@ -26,6 +26,7 @@ in
     ../../modules/nixos/vpn.nix
     ../../modules/nixos/printing.nix
     ../../modules/nixos/gaming.nix
+    ../../modules/nixos/fpv.nix
     ../../modules/nixos/sre.nix
     ../../modules/nixos/overlays.nix
     (import ../../modules/nixos/stylix.nix {
