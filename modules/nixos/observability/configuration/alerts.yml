@@ -102,8 +102,9 @@ groups:
         annotations:
           summary: "OOM on: {{ $labels.instance }}"
           description: |
-            Out-of-memory process kill detected on `{{ $labels.instance }}`.
-            Run `journalctl -k --since "1 hour ago" | grep -i "oom\|out of memory\|killed process"` on the host
+            Out-of-memory process kill detected on `{{ $labels.instance }}` ({{ $value }} kill(s) in the last 5m).
+            Run `journalctl -k --since "1 hour ago" --grep "oom-kill:|Out of memory|Killed process"` on the host.
+            The `oom-kill:` line (with `constraint=CONSTRAINT_MEMCG` for cgroup/container OOM or `CONSTRAINT_NONE` for host-level OOM) shows the allocating task; `Killed process <pid> (<name>)` names the victim.
       - alert: HostMemoryPressure
         expr: |
           (
