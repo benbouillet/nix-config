@@ -159,7 +159,7 @@
     };
 
     "sonarr" = {
-      image = "lscr.io/linuxserver/sonarr:4.0.19@sha256:24acea2956a0ccb11f103877d9f4f8576600fb34bff34820ed749c2256dab89f";
+      image = "lscr.io/linuxserver/sonarr:4.0.19@sha256:c19aa4ecdf03d73e1d5c901da33744cb7eb4d921f89bafed1ca264601d7fa224";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
