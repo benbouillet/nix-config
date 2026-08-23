@@ -48,7 +48,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${lib.getExe pkgs.tuigreet}; '${pkgs.uwsm}/bin/uwsm start -- hyprland-uwsm.desktop'";
+          command = "${lib.getExe pkgs.tuigreet} --cmd '${pkgs.uwsm}/bin/uwsm start -e -D Hyprland hyprland.desktop'";
           user = "greeter";
         };
       };

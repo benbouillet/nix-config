@@ -53,111 +53,296 @@ with lib;
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    systemd.enable = true;
-    configType = "hyprlang";
+    systemd.enable = false;
+    configType = "lua";
     settings = {
-      exec-once = [
-        "uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        "systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS"
-        "systemctl --user enable --now hyprpolkitagent.service"
-        "uwsm app -- nm-applet --indicator"
-        "uwsm app -- blueman-applet"
-      ];
-      input = {
-        kb_layout = keyboardLayout;
-        kb_variant = keyboardVariant;
-        kb_options = "caps:escape, compose:ralt";
-        follow_mouse = 2;
-        mouse_refocus = false;
-        touchpad = {
-          natural_scroll = true;
-          disable_while_typing = true;
-          scroll_factor = 0.8;
+      config = {
+        input = {
+          kb_layout = keyboardLayout;
+          kb_variant = keyboardVariant;
+          kb_options = "caps:escape, compose:ralt";
+          follow_mouse = 2;
+          mouse_refocus = false;
+          touchpad = {
+            natural_scroll = true;
+            disable_while_typing = true;
+            scroll_factor = 0.8;
+          };
+          sensitivity = 0.4;
+          accel_profile = "adaptative";
+          repeat_rate = 20;
+          repeat_delay = 400;
         };
-        sensitivity = 0.4;
-        accel_profile = "adaptative";
-        repeat_rate = 20;
-        repeat_delay = 400;
+        general = {
+          gaps_in = 4;
+          gaps_out = 8;
+          border_size = 2;
+          resize_on_border = true;
+        };
+        dwindle = {
+          preserve_split = true;
+          force_split = 2;
+        };
+        decoration = {
+          rounding = 10;
+          shadow = {
+            enabled = true;
+            range = 4;
+          };
+          blur = {
+            enabled = true;
+            size = 5;
+            passes = 3;
+            new_optimizations = true;
+            ignore_opacity = false;
+          };
+        };
+        animations = {
+          enabled = true;
+        };
+        debug = {
+          disable_logs = true;
+        };
+        misc = {
+          initial_workspace_tracking = 0;
+          mouse_move_enables_dpms = true;
+          key_press_enables_dpms = true;
+        };
       };
       device = {
         name = "expert-wireless-tb-mouse";
         sensitivity = -0.3;
       };
-      debug.disable_logs = true;
-      general = {
-        gaps_in = 4;
-        gaps_out = 8;
-        border_size = 2;
-        resize_on_border = true;
-      };
-      dwindle = {
-        preserve_split = true;
-        force_split = 2;
-      };
-      decoration = {
-        rounding = 10;
-        shadow = {
+      curve = [
+        {
+          _args = [
+            "wind"
+            {
+              type = "bezier";
+              points = [
+                [
+                  0.05
+                  0.9
+                ]
+                [
+                  0.1
+                  1.05
+                ]
+              ];
+            }
+          ];
+        }
+        {
+          _args = [
+            "winIn"
+            {
+              type = "bezier";
+              points = [
+                [
+                  0.1
+                  1.1
+                ]
+                [
+                  0.1
+                  1.1
+                ]
+              ];
+            }
+          ];
+        }
+        {
+          _args = [
+            "winOut"
+            {
+              type = "bezier";
+              points = [
+                [
+                  0.3
+                  (-0.3)
+                ]
+                [
+                  0
+                  1
+                ]
+              ];
+            }
+          ];
+        }
+        {
+          _args = [
+            "liner"
+            {
+              type = "bezier";
+              points = [
+                [
+                  1
+                  1
+                ]
+                [
+                  1
+                  1
+                ]
+              ];
+            }
+          ];
+        }
+      ];
+      animation = [
+        {
+          leaf = "windows";
           enabled = true;
-          range = 4;
-        };
-        blur = {
+          speed = 6;
+          bezier = "wind";
+          style = "slide";
+        }
+        {
+          leaf = "windowsIn";
           enabled = true;
-          size = 5;
-          passes = 3;
-          new_optimizations = "on";
-          ignore_opacity = "off";
-        };
-      };
-      animations = {
-        enabled = "yes";
-        bezier = [
-          "wind, 0.05, 0.9, 0.1, 1.05"
-          "winIn, 0.1, 1.1, 0.1, 1.1"
-          "winOut, 0.3, -0.3, 0, 1"
-          "liner, 1, 1, 1, 1"
-        ];
-        animation = [
-          "windows, 1, 6, wind, slide"
-          "windowsIn, 1, 6, winIn, slide"
-          "windowsOut, 1, 5, winOut, slide"
-          "windowsMove, 1, 5, wind, slide"
-          "border, 1, 1, liner"
-          "fade, 1, 10, default"
-          "workspaces, 1, 5, wind"
-        ];
-      };
-      windowrule = [
-        "match:class gamescope, fullscreen on"
-        "match:class gamescope, workspace 10"
-        "match:class ^(tofi)$, center on"
-        "match:class ^(tofi)$, center on"
-        "match:class ^(chromium-browser)$, workspace 1"
-        "match:class ^(chromium-browser)$, fullscreen on"
-        "match:class ^(Slack)$, workspace 2"
-        "match:class ^(Slack)$, fullscreen on"
-        "match:class ^(Altus)$, workspace 3"
-        "match:class ^(Altus)$, fullscreen on"
+          speed = 6;
+          bezier = "winIn";
+          style = "slide";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 5;
+          bezier = "winOut";
+          style = "slide";
+        }
+        {
+          leaf = "windowsMove";
+          enabled = true;
+          speed = 5;
+          bezier = "wind";
+          style = "slide";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 1;
+          bezier = "liner";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 10;
+          bezier = "default";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 5;
+          bezier = "wind";
+        }
+      ];
+      window_rule = [
+        {
+          match.class = "gamescope";
+          fullscreen = true;
+        }
+        {
+          match.class = "gamescope";
+          workspace = "10";
+        }
+        {
+          match.class = "^(tofi)$";
+          center = true;
+        }
+        {
+          match.class = "^(tofi)$";
+          center = true;
+        }
+        {
+          match.class = "^(chromium-browser)$";
+          workspace = "1";
+        }
+        {
+          match.class = "^(chromium-browser)$";
+          fullscreen = true;
+        }
+        {
+          match.class = "^(Slack)$";
+          workspace = "2";
+        }
+        {
+          match.class = "^(Slack)$";
+          fullscreen = true;
+        }
+        {
+          match.class = "^(Altus)$";
+          workspace = "3";
+        }
+        {
+          match.class = "^(Altus)$";
+          fullscreen = true;
+        }
       ];
       gesture = [
-        "4,horizontal,workspace"
+        {
+          fingers = 4;
+          direction = "horizontal";
+          action = "workspace";
+        }
       ];
-      misc = {
-        initial_workspace_tracking = 0;
-        mouse_move_enables_dpms = true;
-        key_press_enables_dpms = true;
+      workspace_rule = [
+        {
+          workspace = "1";
+          monitor = "eDP-1";
+          default = true;
+        }
+        {
+          workspace = "2";
+          monitor = "eDP-1";
+        }
+        {
+          workspace = "3";
+          monitor = "eDP-1";
+        }
+        {
+          workspace = "4";
+          monitor = "eDP-1";
+        }
+        {
+          workspace = "5";
+          monitor = "desc:LG Electronics LG HDR WQHD 312NTWG9Z889";
+          default = true;
+        }
+        {
+          workspace = "6";
+          monitor = "desc:LG Electronics LG HDR WQHD 312NTWG9Z889";
+        }
+        {
+          workspace = "7";
+          monitor = "desc:LG Electronics LG HDR WQHD 312NTWG9Z889";
+        }
+        {
+          workspace = "8";
+          monitor = "desc:LG Electronics LG HDR WQHD 312NTWG9Z889";
+        }
+        {
+          workspace = "9";
+          monitor = "desc:Invalid Vendor Codename - RTK 0x1920 demoset-1";
+          default = true;
+        }
+        {
+          workspace = "10";
+          monitor = "desc:Invalid Vendor Codename - RTK 0x1920 demoset-1";
+        }
+      ];
+      on = {
+        _args = [
+          "hyprland.start"
+          (lib.generators.mkLuaInline ''
+            function()
+              hl.exec_cmd("uwsm app -- dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+              hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS")
+              hl.exec_cmd("systemctl --user enable --now hyprpolkitagent.service")
+              hl.exec_cmd("uwsm app -- nm-applet --indicator")
+              hl.exec_cmd("uwsm app -- blueman-applet")
+            end
+          '')
+        ];
       };
-      workspace = [
-        "1,monitor:eDP-1,default:true"
-        "2,monitor:eDP-1"
-        "3,monitor:eDP-1"
-        "4,monitor:eDP-1"
-        "5,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889,default:true"
-        "6,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889"
-        "7,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889"
-        "8,monitor:desc:LG Electronics LG HDR WQHD 312NTWG9Z889"
-        "9,monitor:desc:Invalid Vendor Codename - RTK 0x1920 demoset-1,default:true"
-        "10,monitor:desc:Invalid Vendor Codename - RTK 0x1920 demoset-1"
-      ];
     };
   };
 }

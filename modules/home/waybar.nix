@@ -10,7 +10,7 @@
     package = pkgs.waybar;
     systemd = {
       enable = true;
-      targets = [ "hyprland-session.target" ];
+      targets = [ "graphical-session.target" ];
     };
     settings = [
       {
