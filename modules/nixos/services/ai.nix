@@ -47,7 +47,6 @@ in
     settings = {
       healthCheckTimeout = 120;
       logToStdout = "both";
-      # models = pkgs.lib.mapAttrs (name: m: { cmd = mkCmd name m; }) models;
       models = {
         "qwen3.8:27b" = {
           name = "qwen3.8:27b";
@@ -118,7 +117,8 @@ in
           # --- chat template ---
           + ''
             --jinja \
-            --chat-template-file ${chatTemplateFile}
+            --chat-template-file ${chatTemplateFile} \
+            --chat-template-kwargs '{"reasoning_effort": "medium"}'
           '';
           # Option 1: primary-context-first fallback. Use when a 128k primary context
           # matters more than running a local subagent concurrently.
