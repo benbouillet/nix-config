@@ -1,5 +1,4 @@
 {
-  username,
   config,
   pkgs,
   ...
@@ -15,17 +14,6 @@ let
         --prefix LD_LIBRARY_PATH : "${pkgs.stdenv.cc.cc.lib}/lib"
     '';
   };
-
-  MkAgent =
-    {
-      template,
-      model,
-      suffix,
-    }:
-    let
-      raw = builtins.readFile template;
-    in
-    builtins.replaceStrings [ "@model@" "@subagents_suffix@" ] [ model suffix ] raw;
 in
 {
   sops.secrets."ai/openrouter_api_key" = { };
@@ -42,7 +30,6 @@ in
   })";
 
   home.packages = [
-    opencode-wrapped
     pkgs.graphify
   ];
 
@@ -56,24 +43,25 @@ in
       autoupdate = false;
 
       default_agent = "zeus";
-      model = "openrouter/deepseek/deepseek-v4-pro";
-      small_model = "openrouter/deepseek/deepseek-v4-flash";
-      ###############
-      ## PROVIDERS
-      ###############
+      model = "litellm/deepseek.deepseek-v4-pro";
+      small_model = "litellm/deepseek.deepseek-v4-flash";
+
+      skills = { };
+      permission = { };
+
       provider = {
-        "amazon-bedrock" = {
-          options = {
-            region = "eu-west-2";
-            profile = "ai-platform";
-          };
-        };
-        openrouter = {
-          options = {
-            # baseURL = "https://openrouter.ai/api/v1";
-            apiKey = "{file:${config.sops.secrets."ai/openrouter_api_key".path}}";
-          };
-        };
+        # "amazon-bedrock" = {
+        #   options = {
+        #     region = "eu-west-2";
+        #     profile = "ai-platform";
+        #   };
+        # };
+        # openrouter = {
+        #   options = {
+        #     # baseURL = "https://openrouter.ai/api/v1";
+        #     apiKey = "{file:${config.sops.secrets."ai/openrouter_api_key".path}}";
+        #   };
+        # };
         "llama-cpp" = {
           npm = "@ai-sdk/openai-compatible";
           name = "llama-cpp (chewie)";
@@ -81,50 +69,8 @@ in
             baseURL = "https://ai.r4clette.com/v1";
           };
           models = {
-            "test" = {
-              name = "test";
-              limit = {
-                context = 131072;
-                output = 32768;
-              };
-            };
-            "qwen3.6-27b-instruct" = {
-              name = "Qwen 3.6 27B Instruct (local)";
-              limit = {
-                context = 65536;
-                output = 32768;
-              };
-            };
-            "qwen3.6-27b-thinking" = {
-              name = "Qwen 3.6 27B Thinking (local)";
-              limit = {
-                context = 65536;
-                output = 32768;
-              };
-            };
-            "qwen3.6-27b-coding" = {
-              name = "Qwen 3.6 27B Coding (local)";
-              limit = {
-                context = 65536;
-                output = 32768;
-              };
-            };
-            "qwen3.6-35b-a3b-instruct" = {
-              name = "Qwen 3.6 35B A3B Instruct (local)";
-              limit = {
-                context = 131072;
-                output = 32768;
-              };
-            };
-            "qwen3.6-35b-a3b-thinking" = {
-              name = "Qwen 3.6 35B A3B Thinking (local)";
-              limit = {
-                context = 131072;
-                output = 32768;
-              };
-            };
-            "qwen3.6-35b-a3b-coding" = {
-              name = "Qwen 3.6 35B A3B Coding (local)";
+            "qwen3.8:27b" = {
+              name = "Qwen 3.8 27b (chewie)";
               limit = {
                 context = 65536;
                 output = 32768;
@@ -140,13 +86,6 @@ in
           };
         };
       };
-      instructions = [
-        "/home/${username}/.config/opencode/SUNDAYAPP.md"
-      ];
-
-      ###############
-      ## MCP SERVERS
-      ###############
       mcp = {
         linear = {
           type = "remote";
@@ -168,15 +107,9 @@ in
         # };
       };
 
-      ###############
-      ## PLUGINS
-      ###############
       # NOTE: vimcode TUI plugin is configured in programs.opencode.tui.plugin
-      plugin = [ ];
+      plugin = [ "@leohenon/opencode-vim-plugin" ];
 
-      ###############
-      ## MISC
-      ###############
       watcher = {
         ignore = [
           "node_modules/**"
@@ -185,112 +118,10 @@ in
           ".terragrunt-cache/**"
         ];
       };
-
-      ###############
-      ## SKILLS
-      ###############
-
-      ###############
-      ## PERMISSIONS
-      ###############
-      permission = {
-        skill = "deny";
-      };
     };
 
     context = ./AGENTS.md;
-    agents = {
-      # argus variants
-      argus = MkAgent {
-        template = ./agents/argus.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
-        suffix = "";
-      };
-      argus-work = MkAgent {
-        template = ./agents/argus.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-flash";
-        suffix = "-work";
-      };
-
-      # athena variants
-      athena = MkAgent {
-        template = ./agents/athena.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-pro";
-        suffix = "";
-      };
-      athena-work = MkAgent {
-        template = ./agents/athena.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-pro";
-        suffix = "-work";
-      };
-
-      # cerberus variants
-      cerberus = MkAgent {
-        template = ./agents/cerberus.md.tmpl;
-        model = "llama-cpp/qwen3.6-27b-instruct";
-        suffix = "";
-      };
-      cerberus-work = MkAgent {
-        template = ./agents/cerberus.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-flash";
-        suffix = "-work";
-      };
-
-      # heracles variants
-      heracles = MkAgent {
-        template = ./agents/heracles.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
-        suffix = "";
-      };
-      heracles-work = MkAgent {
-        template = ./agents/heracles.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-flash";
-        suffix = "-work";
-      };
-
-      # iris variants
-      iris = MkAgent {
-        template = ./agents/iris.md.tmpl;
-        model = "llama-cpp/qwen3.6-35b-a3b-coding";
-        suffix = "";
-      };
-      iris-work = MkAgent {
-        template = ./agents/iris.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-flash";
-        suffix = "-work";
-      };
-
-      # zephyr variants
-      zephyr = MkAgent {
-        template = ./agents/zephyr.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-flash";
-        suffix = "";
-      };
-      zephyr-work = MkAgent {
-        template = ./agents/zephyr.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-flash";
-        suffix = "-work";
-      };
-
-      # zeus variants
-      zeus = MkAgent {
-        template = ./agents/zeus.md.tmpl;
-        model = "openrouter/deepseek/deepseek-v4-pro";
-        suffix = "";
-      };
-      zeus-work = MkAgent {
-        template = ./agents/zeus.md.tmpl;
-        model = "litellm/deepseek.deepseek-v4-pro";
-        suffix = "-work";
-      };
-
-      # DD5 helper
-      mimir = MkAgent {
-        template = ./agents/mimir.md.tmpl;
-        model = "llama-cpp/gemma4-e4b-instruct";
-        suffix = "";
-      };
-    };
+    agents = ./agents;
     skills = ./skills;
     commands = ./commands;
 
