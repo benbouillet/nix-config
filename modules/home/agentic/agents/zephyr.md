@@ -1,7 +1,7 @@
 ---
 description: Web search worker. Fetches pages, extracts what was asked for, returns a tight summary with source URLs. Spawned by iris (multi-angle research) or directly (one-off lookup).
 mode: subagent
-model: @model@
+model: litellm/deepseek.deepseek-v4-flash
 
 tools:
   write: false

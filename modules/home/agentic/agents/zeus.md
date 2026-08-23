@@ -1,7 +1,7 @@
 ---
 description: Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.
 mode: primary
-model: @model@
+model: litellm/deepseek.deepseek-v4-pro
 
 tools:
   write: true

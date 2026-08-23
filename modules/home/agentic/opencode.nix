@@ -29,9 +29,16 @@ let
 in
 {
   sops.secrets."ai/openrouter_api_key" = { };
+  sops.secrets."ai/sunday_litellm_api_key" = { };
+  sops.secrets."ai/sunday_n8n_api_key" = { };
+  sops.secrets."ai/sunday_linear_api_key" = { };
 
   home.sessionVariables.LITELLM_API_KEY = "$(cat ${
     config.sops.secrets."ai/sunday_litellm_api_key".path
+  })";
+  home.sessionVariables.N8N_API_KEY = "$(cat ${config.sops.secrets."ai/sunday_n8n_api_key".path})";
+  home.sessionVariables.LINEAR_API_KEY = "$(cat ${
+    config.sops.secrets."ai/sunday_linear_api_key".path
   })";
 
   home.packages = [
@@ -141,6 +148,20 @@ in
       ## MCP SERVERS
       ###############
       mcp = {
+        linear = {
+          type = "remote";
+          url = "https://mcp.linear.app/mcp/readonly";
+          headers = {
+            Authorization = "Bearer {env:LINEAR_API_KEY}";
+          };
+        };
+        # n8n = {
+        #   type = "remote";
+        #   url = "https://n8n.int.sundayapp.xyz/mcp-server/http";
+        #   headers = {
+        #     Authorization = "Bearer {env: N8N_API_KEY}";
+        #   };
+        # };
         # datadog = {
         #   type = "remote";
         #   url = "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp";
@@ -275,9 +296,6 @@ in
 
     tui = {
       theme = "stylix";
-      plugin = [
-        # "vimcode@git+https://github.com/oribarilan/vimcode.git#v0.8.0"
-      ];
     };
   };
 

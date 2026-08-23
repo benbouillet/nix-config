@@ -1,7 +1,7 @@
 ---
 description: Planner. Asks clarifying questions, then writes an implementation plan. Read-only on code; writes only into .plans/.
 mode: subagent
-model: @model@
+model: litellm/moonshotai.kimi-k3
 
 tools:
   bash: false

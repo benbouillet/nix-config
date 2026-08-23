@@ -1,7 +1,7 @@
 ---
 description: D&D 5e oracle. Looks up rules online; never invents. Narrative-first, terse on crunch.
 mode: primary
-model: @model@
+model: llama-cpp/gemma4-e4b-instruct
 
 tools:
   write: false

@@ -1,7 +1,7 @@
 ---
 description: Diff reviewer. Flags only blocking correctness, security, or behavior-change issues. Approval-biased.
 mode: subagent
-model: @model@
+model: litellm/deepseek.deepseek-v4-flash
 
 tools:
   write: false
