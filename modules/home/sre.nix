@@ -52,6 +52,7 @@
 
     # Programming
     go
+    python3Packages.python-lsp-server
 
     (import ../../scripts/aws-creds-exporter.nix { inherit pkgs; })
     (import ../../scripts/github-commits.nix { inherit pkgs; })
