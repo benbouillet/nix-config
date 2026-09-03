@@ -31,6 +31,7 @@ in
 
   home.packages = [
     pkgs.graphify
+    pkgs.mcp-nixos
   ];
 
   programs.opencode = {
@@ -87,6 +88,17 @@ in
         };
       };
       mcp = {
+        brave-search = {
+          type = "remote";
+          url = "https://litellm.int.sundayapp.xyz/mcp/brave_search";
+          headers = {
+            "x-litellm-api-key" = "Bearer {env:LITELLM_API_KEY}";
+          };
+        };
+        nixos = {
+          type = "local";
+          command = [ "mcp-nixos" ];
+        };
         linear = {
           type = "remote";
           url = "https://mcp.linear.app/mcp/readonly";
