@@ -12,6 +12,9 @@ let
       yoda = {
         ipv4 = "100.77.229.105";
       };
+      turing-admin = {
+        ipv4 = "10.89.0.95";
+      };
     };
     ports = {
       mysql = 3306;

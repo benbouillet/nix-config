@@ -260,10 +260,19 @@
       reverse_proxy chewie:${toString globals.ports.bambuddy}
     }
 
-      # From modules/nixos/services/authentication.nix
+    # From modules/nixos/services/authentication.nix
     @auth host auth.${globals.domain}
     handle @auth {
       reverse_proxy chewie:${toString globals.ports.authelia}
+    }
+
+    @turing host turing.${globals.domain}
+    handle @turing {
+      reverse_proxy https://${globals.hosts.turing-admin.ipv4} {
+        transport http {
+          tls_insecure_skip_verify
+        }
+      }
     }
   '';
 }
