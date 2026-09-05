@@ -42,7 +42,7 @@
     };
 
     "degoog-mcp" = {
-      image = "ghcr.io/degoog-org/mcp:0.2.0@sha256:0dd8bbb8156a366bace65a7b960b4912bff99363f7f1cfe80ca8030178da5d86";
+      image = "ghcr.io/degoog-org/mcp:0.3.0@sha256:61c402b08e8a070f3017589552eca4128d1b321ff0cf29aed738bb0267cf60d2";
       ports = [
         "${globals.hosts.chewie.ipv4}:${toString globals.ports.degoog-mcp}:4443"
       ];
