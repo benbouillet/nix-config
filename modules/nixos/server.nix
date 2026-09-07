@@ -158,13 +158,13 @@
   # Persistent logs
   services.journald = {
     storage = "persistent";
-    extraConfig = ''
-      SystemMaxUse=2G        # hard cap for all persistent journals
-      SystemKeepFree=1G      # always leave at least this much free on /var
-      MaxFileSec=1month      # rotate older files
-      RateLimitInterval=30s
-      RateLimitBurst=1000
-    '';
+    settings.Journal = {
+      SystemMaxUse = "2G"; # hard cap for all persistent journals
+      SystemKeepFree = "1G"; # always leave at least this much free on /var
+      MaxFileSec = "1month"; # rotate older files
+      RateLimitInterval = "30s";
+      RateLimitBurst = "1000";
+    };
   };
 
   # Fail2ban (useful only if ssh is exposed beyond Tailscale)
