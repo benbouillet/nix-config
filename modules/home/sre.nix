@@ -12,6 +12,7 @@
     cmctl
     istioctl
     kubernetes-helm
+    kubernetes-helmPlugins.helm-diff
     stern
     kubectl-klock
     kubectl-ktop
