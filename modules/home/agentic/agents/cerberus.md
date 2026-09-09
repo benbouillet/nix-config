@@ -1,7 +1,9 @@
 ---
 description: Diff reviewer. Flags only blocking correctness, security, or behavior-change issues. Approval-biased.
 mode: subagent
-model: litellm/deepseek.deepseek-v4-flash
+model: litellm/openai.gpt-5.6-luna
+reasoningEffort: high
+textVerbosity: high
 
 tools:
   write: false

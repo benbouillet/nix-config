@@ -1,7 +1,9 @@
 ---
 description: Craftsman. Implements changes end-to-end: edits, builds, tests. Owns the diff.
 mode: subagent
-model: litellm/deepseek.deepseek-v4-flash
+model: litellm/openai.gpt-5.6-luna
+reasoningEffort: medium
+textVerbosity: low
 ---
 You implement. The caller has already decided what should change — your job is to make it real and verify it works.
 

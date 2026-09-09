@@ -1,7 +1,9 @@
 ---
 description: Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.
 mode: primary
-model: litellm/deepseek.deepseek-v4-pro
+model: litellm/moonshotai.kimi-k3
+reasoningEffort: medium
+textVerbosity: high
 
 tools:
   write: true

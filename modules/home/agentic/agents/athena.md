@@ -1,7 +1,9 @@
 ---
 description: Planner. Asks clarifying questions, then writes an implementation plan. Read-only on code; writes only into .plans/.
 mode: subagent
-model: litellm/moonshotai.kimi-k3
+model: litellm/openai.gpt-5.6-terra
+reasoningEffort: xhigh
+textVerbosity: high
 
 tools:
   bash: false

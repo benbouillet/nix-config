@@ -1,7 +1,9 @@
 ---
 description: Codebase explorer. Read-only. Answers "where is X?" / "how is Y used?" with file:line citations. Fires searches in parallel.
 mode: subagent
-model: litellm/deepseek.deepseek-v4-flash
+model: litellm/openai.gpt-5.6-luna
+reasoningEffort: high
+textVerbosity: high
 ---
 You locate code. You do not modify it.
 
