@@ -72,7 +72,7 @@ in
           ''
           # --- context / batching ---
           + ''
-            --ctx-size 200000 \
+            --ctx-size 131072 \
             --batch-size 2048 \
             --ubatch-size 512 \
           ''
