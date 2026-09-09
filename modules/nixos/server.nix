@@ -157,8 +157,8 @@
 
   # Persistent logs
   services.journald = {
-    storage = "persistent";
     settings.Journal = {
+      Storage = "persistent";
       SystemMaxUse = "2G"; # hard cap for all persistent journals
       SystemKeepFree = "1G"; # always leave at least this much free on /var
       MaxFileSec = "1month"; # rotate older files
