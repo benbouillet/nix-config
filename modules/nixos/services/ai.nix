@@ -59,8 +59,7 @@ in
           # --- runtime ---
           + ''
             --no-webui \
-            --parallel 2 \
-            --kv-unified \
+            --parallel 1 \
           ''
           # --- offload / compute ---
           + ''
@@ -73,7 +72,7 @@ in
           ''
           # --- context / batching ---
           + ''
-            --ctx-size 106496 \
+            --ctx-size 200000 \
             --batch-size 2048 \
             --ubatch-size 512 \
           ''
@@ -86,7 +85,7 @@ in
           + ''
             --cache-prompt \
             --cache-ram 16384 \
-            --no-cache-idle-slots \
+            --cache-idle-slots \
             --slot-prompt-similarity 0.10 \
           ''
           # --- observability ---
