@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -11,8 +12,15 @@
     argocd
     cmctl
     istioctl
+    helmfile
+    helm-ls
+    helmsman
     kubernetes-helm
+    kubernetes-helmPlugins.helm-cm-push
     kubernetes-helmPlugins.helm-diff
+    kubernetes-helmPlugins.helm-s3
+    kubernetes-helmPlugins.helm-git
+    kubernetes-helmPlugins.helm-secrets
     stern
     kubectl-klock
     kubectl-ktop
@@ -67,6 +75,7 @@
     zsh = {
       sessionVariables = {
         TENV_AUTO_INSTALL = "true";
+        HELM_PLUGINS = "${config.xdg.dataHome}/helm/plugins:${pkgs.kubernetes-helmPlugins.helm-diff}";
       };
       shellAliases = {
         tg = "terragrunt run --tf-path terraform --parallelism=5 --";
