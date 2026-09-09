@@ -79,7 +79,7 @@
               type = "wifi";
               interface-name = "wlp1s0";
               permissions = "user:ben:;";
-              autoconnect = false;
+              autoconnect = true;
               autoconnect-priority = 20;
             };
             ipv4 = {
