@@ -73,7 +73,7 @@ in
             "qwen3.8:27b" = {
               name = "Qwen 3.8 27b (chewie)";
               limit = {
-                context = 65536;
+                context = 131072;
                 output = 32768;
               };
             };
