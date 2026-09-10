@@ -21,8 +21,6 @@
     evince
     rustdesk
     zathura
-    talosctl
-    tpi
   ];
 
   home.pointerCursor.enable = true;
