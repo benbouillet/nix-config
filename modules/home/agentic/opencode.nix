@@ -77,10 +77,10 @@ in
                 output = 32768;
               };
             };
-            "gemma4-e4b-instruct" = {
-              name = "Gemma 4 E4B Instruct (local)";
+            "gemma4-26b-instruct" = {
+              name = "Gemma 4 26B-A4B Instruct (local)";
               limit = {
-                context = 65536;
+                context = 131072;
                 output = 32768;
               };
             };
@@ -98,6 +98,10 @@ in
         nixos = {
           type = "local";
           command = [ "mcp-nixos" ];
+        };
+        notion = {
+          type = "remote";
+          url = "https://mcp.notion.com/mcp";
         };
         linear = {
           type = "remote";
