@@ -89,6 +89,7 @@ in
       };
       mcp = {
         brave-search = {
+          enabled = false;
           type = "remote";
           url = "https://litellm.int.sundayapp.xyz/mcp/brave_search";
           headers = {
@@ -96,14 +97,17 @@ in
           };
         };
         nixos = {
+          enabled = false;
           type = "local";
           command = [ "mcp-nixos" ];
         };
         notion = {
+          enabled = false;
           type = "remote";
           url = "https://mcp.notion.com/mcp";
         };
         linear = {
+          enabled = false;
           type = "remote";
           url = "https://mcp.linear.app/mcp/readonly";
           headers = {
@@ -111,6 +115,7 @@ in
           };
         };
         # n8n = {
+        #   enabled = false;
         #   type = "remote";
         #   url = "https://n8n.int.sundayapp.xyz/mcp-server/http";
         #   headers = {
@@ -118,6 +123,7 @@ in
         #   };
         # };
         # datadog = {
+        #   enabled = false;
         #   type = "remote";
         #   url = "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp";
         # };
