@@ -33,6 +33,7 @@
     ../../modules/nixos/services/containers/mealie.nix
     ../../modules/nixos/services/containers/linkding.nix
     ../../modules/nixos/services/containers/bambuddy.nix
+    ../../modules/nixos/services/containers/bentopdf.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY

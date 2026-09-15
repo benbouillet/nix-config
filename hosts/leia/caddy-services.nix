@@ -260,6 +260,16 @@
       reverse_proxy chewie:${toString globals.ports.bambuddy}
     }
 
+    # From modules/nixos/services/containers/bentopdf.nix
+    @bentopdf host pdf.${globals.domain}
+    handle @bentopdf {
+      forward_auth http://chewie:${toString globals.ports.authelia} {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      reverse_proxy chewie:${toString globals.ports.bentopdf}
+    }
+
     # From modules/nixos/services/authentication.nix
     @auth host auth.${globals.domain}
     handle @auth {
