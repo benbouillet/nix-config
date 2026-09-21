@@ -43,6 +43,7 @@ let
       vaultwarden = 9070;
       bambuddy = 9071;
       bentopdf = 9072;
+      librechat = 9073;
       llama-swap = 9080;
       prometheus = 9090;
       authelia = 9091;

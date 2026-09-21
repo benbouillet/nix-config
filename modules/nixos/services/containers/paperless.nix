@@ -57,6 +57,12 @@
         PAPERLESS_ADMIN_USER = "ben";
         PAPERLESS_ACCOUNT_ALLOW_SIGNUPS = "false";
         PAPERLESS_OCR_LANGUAGE = "fra+eng";
+        PAPERLESS_AI_ENABLED = "true";
+        PAPERLESS_AI_LLM_BACKEND = "openai-like";
+        PAPERLESS_AI_LLM_MODEL = "qwen3.8:27b";
+        PAPERLESS_AI_LLM_ENDPOINT = "https://ai.r4clette.com/v1";
+        PAPERLESS_AI_LLM_API_KEY = "foo";
+        PAPERLESS_AI_LLM_OUTPUT_LANGUAGE = "fra+eng";
       };
       environmentFiles = [ config.sops.secrets."services/paperless/env".path ];
       extraOptions = [
