@@ -35,6 +35,7 @@
 
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
       User = "root";
       Group = "root";
       EnvironmentFile = config.sops.secrets."mysql/env".path;

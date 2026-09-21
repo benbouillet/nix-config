@@ -38,6 +38,7 @@
 
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
       User = "root";
       Group = "root";
       EnvironmentFile = config.sops.secrets."services/seafile/env".path;
