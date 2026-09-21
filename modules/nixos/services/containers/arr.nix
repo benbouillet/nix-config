@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   globals,
   ...
 }:
@@ -210,9 +211,45 @@
         # JELLYFIN_CACHE_DIR env var is always overridden — mount directly instead
         "/var/cache/jellyfin:/config/cache/:rw"
         "${globals.zfs.data.media.mountPoint}/:/data/:rw"
+        "${pkgs.writeShellScript "jellyfin-intel-vaapi" ''
+          set -euo pipefail
+
+          device=/dev/dri/render-intel
+          test -c "$device"
+
+          major=$(stat -c '%t' "$device")
+          minor_hex=$(stat -c '%T' "$device")
+          test "$major" = e2
+          minor=$((16#$minor_hex))
+          target=/dev/dri/renderD$minor
+
+          if [ -e "$target" ] || [ -L "$target" ]; then
+            if [ -L "$target" ]; then
+              if [ -e "$target" ]; then
+                target_major=$(stat -c '%t' "$target")
+                target_minor=$(stat -c '%T' "$target")
+                test "$target_major" = "$major" -a "$target_minor" = "$minor_hex"
+              else
+                rm "$target"
+              fi
+            else
+              target_major=$(stat -c '%t' "$target")
+              target_minor=$(stat -c '%T' "$target")
+              test "$target_major" = "$major" -a "$target_minor" = "$minor_hex"
+            fi
+          fi
+
+          if [ ! -e "$target" ] && [ ! -L "$target" ]; then
+            ln -s "$device" "$target"
+          fi
+
+          if [ -f /config/encoding.xml ]; then
+            sed -i 's#<VaapiDevice>[^<]*</VaapiDevice>#<VaapiDevice>/dev/dri/render-intel</VaapiDevice>#' /config/encoding.xml
+          fi
+        ''}:/custom-cont-init.d/10-intel-vaapi:ro"
       ];
       devices = [
-        "/dev/dri/render-intel:/dev/dri/renderD128:rwm"
+        "/dev/dri/render-intel:/dev/dri/render-intel:rwm"
       ];
       extraOptions = [
         "--memory=3g"
