@@ -63,6 +63,9 @@
         PAPERLESS_AI_LLM_ENDPOINT = "https://ai.r4clette.com/v1";
         PAPERLESS_AI_LLM_API_KEY = "foo";
         PAPERLESS_AI_LLM_OUTPUT_LANGUAGE = "fra+eng";
+        # PAPERLESS_AI_LLM_EMBEDDING_BACKEND = "openai-like";
+        # PAPERLESS_AI_LLM_EMBEDDING_MODEL = "qwen3-embedding-4b";
+        # PAPERLESS_AI_LLM_EMBEDDING_ENDPOINT = "https://ai.r4clette.com/v1";
       };
       environmentFiles = [ config.sops.secrets."services/paperless/env".path ];
       extraOptions = [
