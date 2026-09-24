@@ -75,7 +75,22 @@
               # sort
               "<leader>s" = ":sort<CR>";
             };
+        insert =
+          lib.mapAttrsToList
+            (key: action: {
+              mode = "i";
+              inherit action key;
+            })
+            {
+              "<C-k>" = {
+                __raw = ''
+                  function()
+                    vim.lsp.buf.signature_help()
+                  end
+                '';
+              };
+            };
       in
-      config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual);
+      config.lib.nixvim.keymaps.mkKeymaps { options.silent = true; } (normal ++ visual ++ insert);
   };
 }

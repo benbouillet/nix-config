@@ -36,11 +36,13 @@
             extraOptions = {
               before_init.__raw = ''
                 function(_, config)
-                  if not config.root_dir then
+                  local root_dir = config.root_dir
+
+                  if not root_dir then
                     return
                   end
 
-                  local python = config.root_dir .. "/.venv/bin/python"
+                  local python = root_dir .. "/.venv/bin/python"
 
                   if vim.fn.executable(python) == 1 then
                     config.settings = config.settings or {}

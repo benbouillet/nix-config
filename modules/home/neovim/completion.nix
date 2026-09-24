@@ -8,6 +8,7 @@
 
     plugins = {
       luasnip.enable = true;
+      cmp-nvim-lsp-signature-help.enable = true;
 
       lspkind = {
         enable = true;
@@ -17,6 +18,7 @@
             enable = true;
             menu = {
               nvim_lsp = "[LSP]";
+              nvim_lsp_signature_help = "[sig]";
               nvim_lua = "[api]";
               path = "[path]";
               luasnip = "[snip]";
@@ -46,6 +48,7 @@
           sources = [
             { name = "path"; }
             { name = "nvim_lsp"; }
+            { name = "nvim_lsp_signature_help"; }
             { name = "luasnip"; }
             {
               name = "buffer";
