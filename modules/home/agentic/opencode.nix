@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -16,6 +17,10 @@ let
   };
 in
 {
+  home.activation.removeOpencodeBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    rm -f /home/ben/.config/opencode/opencode.json.backup
+  '';
+
   sops.secrets."ai/openrouter_api_key" = { };
   sops.secrets."ai/sunday_litellm_api_key" = { };
   sops.secrets."ai/sunday_n8n_api_key" = { };
