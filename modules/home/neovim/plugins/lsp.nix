@@ -35,7 +35,7 @@
             enable = true;
             extraOptions = {
               before_init.__raw = ''
-                function(_, config)
+                function(params, config)
                   local root_dir = config.root_dir
 
                   if not root_dir then
@@ -45,11 +45,11 @@
                   local python = root_dir .. "/.venv/bin/python"
 
                   if vim.fn.executable(python) == 1 then
-                    config.settings = config.settings or {}
-                    config.settings.pylsp = config.settings.pylsp or {}
-                    config.settings.pylsp.plugins = config.settings.pylsp.plugins or {}
-                    config.settings.pylsp.plugins.jedi = config.settings.pylsp.plugins.jedi or {}
-                    config.settings.pylsp.plugins.jedi.environment = python
+                    params.initializationOptions = params.initializationOptions or {}
+                    params.initializationOptions.pylsp = params.initializationOptions.pylsp or {}
+                    params.initializationOptions.pylsp.plugins = params.initializationOptions.pylsp.plugins or {}
+                    params.initializationOptions.pylsp.plugins.jedi = params.initializationOptions.pylsp.plugins.jedi or {}
+                    params.initializationOptions.pylsp.plugins.jedi.environment = python
                   end
                 end
               '';
