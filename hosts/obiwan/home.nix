@@ -67,9 +67,9 @@
     };
     extraConfig = ''
       Include ~/.ssh/chewie.conf
-      Include ~/.ssh/chewieViaRouter.conf
+      Include ~/.ssh/chewie-alt.conf
       Include ~/.ssh/yoda.conf
-      Include ~/.ssh/yodaViaRouter.conf
+      Include ~/.ssh/yoda-alt.conf
       Include ~/.ssh/tarkin.conf
     '';
   };

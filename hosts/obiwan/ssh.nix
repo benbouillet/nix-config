@@ -16,17 +16,17 @@
       mode = "0400";
       path = "/home/ben/.ssh/yoda.conf";
     };
-    "ssh/chewieViaRouter" = {
+    "ssh/chewie-alt" = {
       owner = username;
       group = "users";
       mode = "0400";
-      path = "/home/ben/.ssh/chewieViaRouter.conf";
+      path = "/home/ben/.ssh/chewie-alt.conf";
     };
-    "ssh/yodaViaRouter" = {
+    "ssh/yoda-alt" = {
       owner = username;
       group = "users";
       mode = "0400";
-      path = "/home/ben/.ssh/yodaViaRouter.conf";
+      path = "/home/ben/.ssh/yoda-alt.conf";
     };
     "ssh/tarkin" = {
       owner = username;
