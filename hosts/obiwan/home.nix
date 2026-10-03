@@ -1,0 +1,85 @@
+{
+  pkgs,
+  username,
+  inputs,
+  runs-on-cli,
+  ...
+}:
+{
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
+  home.stateVersion = "24.11";
+
+  sops = {
+    defaultSopsFile = ../../secrets/obiwan.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/ben/.config/sops/age/keys.txt";
+  };
+
+  home.packages = with pkgs; [
+    nixos-icons
+    runs-on-cli
+    (import ../../scripts/list-hyprland-bindings.nix { inherit pkgs; })
+    (import ../../scripts/emoji-picker.nix { inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-updown.nix { inherit pkgs; })
+    (import ../../scripts/waybar-tailscale-status.nix { inherit pkgs; })
+    (import ../../scripts/waybar-ping.nix { inherit pkgs; })
+  ];
+
+  stylix.targets = {
+    qt.enable = false;
+  };
+
+  imports = [
+    ../../modules/home/neovim
+    ../../modules/home/agentic
+    ../../modules/home/firefox.nix
+    ../../modules/home/tmux.nix
+    ../../modules/home/zsh.nix
+    ../../modules/home/git.nix
+    ../../modules/home/hyprland.nix
+    ../../modules/home/hyprland-keybindings.nix
+    ../../modules/home/hyprlock.nix
+    ../../modules/home/hypridle.nix
+    ../../modules/home/hyprpaper.nix
+    ../../modules/home/tofi.nix
+    ../../modules/home/waybar.nix
+    ../../modules/home/swaync.nix
+    ../../modules/home/wlogout.nix
+    ../../modules/home/sre.nix
+    ../../modules/home/desktop.nix
+    ../../modules/home/sunday.nix
+    ../../modules/home/creation.nix
+    ../../modules/home/productivity.nix
+    ../../modules/home/music.nix
+    ../../modules/home/fpv.nix
+    ../../modules/home/talos.nix
+    ./monitors.nix
+  ];
+
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings."*" = {
+      ServerAliveInterval = 30;
+      ServerAliveCountMax = 3;
+      Compression = true;
+    };
+    extraConfig = ''
+      Include ~/.ssh/chewie.conf
+      Include ~/.ssh/chewieViaRouter.conf
+      Include ~/.ssh/yoda.conf
+      Include ~/.ssh/yodaViaRouter.conf
+      Include ~/.ssh/tarkin.conf
+    '';
+  };
+
+  home.file."Pictures/Wallpapers" = {
+    source = ../../assets;
+    recursive = true;
+  };
+
+  programs = {
+    home-manager.enable = true;
+  };
+}

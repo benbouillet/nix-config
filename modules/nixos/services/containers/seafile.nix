@@ -1,0 +1,173 @@
+{
+  globals,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  sops.secrets."services/seafile/env" = {
+    mode = "0400";
+    owner = globals.users.seafile.name;
+    group = globals.groups.seafile.name;
+  };
+
+  users.users = {
+    "${globals.users.seafile.name}" = {
+      isSystemUser = true;
+      createHome = lib.mkForce false;
+      uid = globals.users.seafile.UID;
+      group = globals.groups.seafile.name;
+    };
+  };
+
+  users.groups = {
+    ${globals.groups.seafile.name} = {
+      gid = globals.groups.seafile.GID;
+    };
+  };
+
+  systemd.services."seafile-mysql-bootstrap" = {
+    description = "Define MySQL resources for seafile";
+    requires = [ "mysql.service" ];
+    after = [ "mysql.service" ];
+    before = [ "podman-seafile.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    path = [ pkgs.mariadb ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "root";
+      Group = "root";
+      EnvironmentFile = config.sops.secrets."services/seafile/env".path;
+    };
+
+    script = ''
+      mariadb <<SQL
+        CREATE USER IF NOT EXISTS '${globals.users.seafile.name}'@'10.88.%' IDENTIFIED BY "$SEAFILE_MYSQL_DB_PASSWORD";
+        CREATE USER IF NOT EXISTS '${globals.users.seafile.name}'@'localhost' IDENTIFIED BY "$SEAFILE_MYSQL_DB_PASSWORD";
+
+        ALTER USER '${globals.users.seafile.name}'@'10.88.%' IDENTIFIED BY "$SEAFILE_MYSQL_DB_PASSWORD";
+        ALTER USER '${globals.users.seafile.name}'@'localhost' IDENTIFIED BY "$SEAFILE_MYSQL_DB_PASSWORD";
+
+        GRANT ALL PRIVILEGES ON ccnet_db.* TO 'seafile'@'10.88.%';
+        GRANT ALL PRIVILEGES ON seafile_db.* TO 'seafile'@'10.88.%';
+        GRANT ALL PRIVILEGES ON seahub_db.* TO 'seafile'@'10.88.%';
+        GRANT ALL PRIVILEGES ON ccnet_db.* TO 'seafile'@'localhost';
+        GRANT ALL PRIVILEGES ON seafile_db.* TO 'seafile'@'localhost';
+        GRANT ALL PRIVILEGES ON seahub_db.* TO 'seafile'@'localhost';
+        DROP USER IF EXISTS 'seafile'@'%';
+        FLUSH PRIVILEGES;
+      SQL
+    '';
+  };
+
+  systemd.services."podman-seafile" = {
+    after = [
+      "mysql.service"
+      "mysql-bootstrap.service"
+      "seafile-mysql-bootstrap.service"
+      "redis-raclette.service"
+    ];
+    requires = [
+      "mysql.service"
+      "mysql-bootstrap.service"
+      "seafile-mysql-bootstrap.service"
+      "redis-raclette.service"
+    ];
+  };
+
+  virtualisation.oci-containers.containers = {
+    seafile = {
+      image = "docker.io/seafileltd/seafile-mc:13.0.28@sha256:b0c90832126bf432db908449f1bb450211e6bbf75a2193bab3399e2a9636eccf";
+      autoStart = true;
+      volumes = [
+        "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
+      ];
+      ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile}:80" ];
+      extraOptions = [
+        "--no-healthcheck"
+        "--memory=4g"
+        "--memory-swap=8g"
+        "--pids-limit=256"
+      ];
+      environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
+      environment = {
+        SEAFILE_SERVER_HOSTNAME = "seafile.${globals.domain}";
+        SEAFILE_SERVER_PROTOCOL = "https";
+        FORCE_HTTPS_IN_CONF = "true";
+        TIME_ZONE = "Etc/UTC";
+        SITE_ROOT = "/";
+        NON_ROOT = "false";
+        SEAFILE_LOG_TO_STDOUT = "true";
+
+        # MySQL/MariaDB Configuration
+        SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
+        SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
+        SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
+        SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
+        SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
+        SEAFILE_MYSQL_DB_SEAHUB_DB_NAME = "seahub_db";
+
+        # Cache Configuration (Redis)
+        CACHE_PROVIDER = "redis";
+        REDIS_HOST = "host.containers.internal";
+        REDIS_PORT = toString globals.ports.redis;
+
+        # Notification Server #### TO CHANGE !!!! ###
+        ENABLE_NOTIFICATION_SERVER = "true";
+        INNER_NOTIFICATION_SERVER_URL = "http://seafile-notification-server:8083";
+        NOTIFICATION_SERVER_URL = "https://seafile.${globals.domain}/notification";
+
+        # SeaDoc Configuration (disabled - not running seadoc container)
+        ENABLE_SEADOC = "false";
+
+        # Seafile AI (disabled)
+        ENABLE_SEAFILE_AI = "false";
+
+        # Limits
+        MD_FILE_COUNT_LIMIT = "100000";
+      };
+    };
+    seafile-notification-server = {
+      image = "docker.io/seafileltd/notification-server:13.0.21@sha256:1cac4101d0f4527ad08c00b5452ceb05d790db95d6c8ab6bbace82429c1e5217";
+      autoStart = true;
+      volumes = [
+        "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
+      ];
+      extraOptions = [
+        "--memory=128m"
+        "--memory-swap=256m"
+        "--pids-limit=64"
+      ];
+      ports = [
+        "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile-notification-server}:8083"
+      ];
+      environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
+      environment = {
+        SEAFILE_MYSQL_DB_HOST = "host.containers.internal";
+        SEAFILE_MYSQL_DB_PORT = toString globals.ports.mysql;
+        SEAFILE_MYSQL_DB_USER = globals.users.seafile.name;
+        SEAFILE_MYSQL_DB_CCNET_DB_NAME = "ccnet_db";
+        SEAFILE_MYSQL_DB_SEAFILE_DB_NAME = "seafile_db";
+        SEAFILE_LOG_TO_STDOUT = "true";
+        NOTIFICATION_SERVER_LOG_LEVEL = "info";
+      };
+    };
+  };
+
+  services.authelia.instances."raclette".settings = {
+    access_control = {
+      rules = [
+        {
+          domain = "seafile.${globals.domain}";
+          policy = "one_factor";
+          subject = "group:debug";
+        }
+      ];
+    };
+  };
+
+}

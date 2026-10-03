@@ -1,0 +1,80 @@
+{
+  pkgs,
+  ...
+}:
+{
+  home.packages = with pkgs; [
+    obsidian
+    spotify
+    altus
+    discord
+    speedcrunch
+    vlc
+    digikam
+    moonlight-qt
+    carbon-now-cli
+    swappy
+    seafile-client
+    bitwarden-cli
+    bitwarden-desktop
+    qobuz-player
+    evince
+    rustdesk
+    zathura
+  ];
+
+  home.pointerCursor.enable = true;
+
+  programs = {
+    ghostty = {
+      enable = true;
+      enableZshIntegration = true;
+      installVimSyntax = true;
+      settings = {
+        font-size = 14;
+      };
+    };
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fzf = {
+      enable = true;
+      historyWidget.options = [
+        "--sort"
+        "--exact"
+      ];
+      tmux.enableShellIntegration = true;
+    };
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fastfetch = {
+      enable = true;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+  };
+
+  systemd.user.services.seafile = {
+    Unit = {
+      Description = "Seafile Desktop Client";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.seafile-client}/bin/seafile-applet";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
+  services = {
+    caffeine.enable = true;
+  };
+}

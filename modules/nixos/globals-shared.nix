@@ -1,0 +1,103 @@
+{ ... }:
+let
+  globals = {
+    domain = "r4clette.com";
+    tailnetCidr = "100.64.0.0/10";
+    nebulaCidr = "172.29.217.0/24";
+    lanCidr = "10.89.0.0/24";
+    hosts = {
+      chewie = {
+        ipv4 = "100.93.247.22";
+      };
+      leia = {
+        ipv4 = "100.115.146.98";
+      };
+      yoda = {
+        ipv4 = "100.77.229.105";
+      };
+      turing-admin = {
+        ipv4 = "10.89.0.95";
+      };
+    };
+    ports = {
+      mysql = 3306;
+      postgres = 5432;
+      redis = 6379;
+      bazarr = 9010;
+      prowlarr = 9011;
+      radarr = 9012;
+      sonarr = 9013;
+      seerr = 9014;
+      jellyfin = 9015;
+      qbittorrent = 9016;
+      nzbget = 9017;
+      foundryvtt = 9021;
+      linkding = 9022;
+      degoog = 9030;
+      degoog-mcp = 9032;
+      vane = 9031;
+      paperless = 9040;
+      seafile = 9054;
+      seafile-notification-server = 9055;
+      mealie = 9060;
+      immich = 9061;
+      lubelogger = 9062;
+      radicale = 9063;
+      vaultwarden = 9070;
+      bentopdf = 9072;
+      librechat = 9073;
+      llama-swap = 9080;
+      prometheus = 9090;
+      authelia = 9091;
+      prometheus-alertmanager = 9092;
+      prometheus-alertmanager-ntfy = 9093;
+      ntfy = 9094;
+      grafana = 9095;
+      loki-http = 9096;
+      loki-grpc = 9097;
+      promtail-http = 9098;
+      promtail-grpc = 9099;
+      debug = 9999;
+      prometheus_exporters = {
+        node = 9000;
+        blackbox = 9115;
+        zfs = 9116;
+      };
+    };
+    users = {
+      arr = {
+        name = "arr";
+        UID = 920;
+      };
+      authelia = {
+        name = "authelia";
+        UID = 930;
+      };
+      seafile = {
+        name = "seafile";
+        UID = 950;
+      };
+    };
+    groups = {
+      authentication = {
+        name = "authent";
+        GID = 930;
+      };
+      oidc = {
+        name = "oidc";
+        GID = 931;
+      };
+      containers = {
+        name = "containers";
+        GID = 993;
+      };
+      seafile = {
+        name = "seafile";
+        GID = 950;
+      };
+    };
+  };
+in
+{
+  _module.args.globals = globals;
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    ":semanticCommitTypeAll(chore)",
+    "mergeConfidence:all-badges",
+    ":automergeMinor",
+    ":automergeLinters"
+  ],
+  "timezone": "Europe/Paris",
+  "dependencyDashboard": true,
+  "reviewersFromCodeOwners": true,
+  "osvVulnerabilityAlerts": true,
+  "prHourlyLimit": 0,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ]
+  },
+  "nix": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "ignoreDeps": [
+    "sunday-bastion"
+  ],
+  "packageRules": [],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/\\.nix$/"
+      ],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>[^:@\"]+):(?<currentValue>[^@\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\""
+      ],
+      "autoReplaceStringTemplate": "image = \"{{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}\"",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^infra\\/tarkin\\/.*\\.tf$/"
+      ],
+      "matchStrings": [
+        "values\\s*=\\s*\\[\"nixos/(?<currentValue>\\d+\\.\\d+)\\*\"\\]"
+      ],
+      "depNameTemplate": "NixOS/nixpkgs",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "values = [\"nixos/{{{newValue}}}*\"]"
+    }
+  ]
+}

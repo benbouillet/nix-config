@@ -1,0 +1,188 @@
+# Homelab Configurations
+
+## How to
+
+### Prepare a USB bootable nix system
+
+```
+nix build .#usbboot
+sudo dd if=result/iso/<ISO_FILE> of=/dev/<USBKEY> bs=4M conv=fsync status=progress
+```
+
+### Provision a new machine
+Don't forget to update `~/.ssh/config` (way easier, esp. when
+using SSH jump and/or custom SSH port).
+
+```shell
+nix run github:nix-community/nixos-anywhere -- \
+  --generate-hardware-config nixos-generate-config ./<HOST>/chewie/hardware-configuration.nix \
+  --flake .#<HOST> \
+  --target-host <TARGET>
+```
+
+Update the age key (depending on server or desktop, the path might change).
+Register the machine into tailscale.
+Update DNS is necessary.
+
+### Deploy a new configuration
+
+#### Remote host
+Don't forget to update `~/.ssh/config` (way easier, esp. when
+using SSH jump and/or custom SSH port).
+
+```
+nixos-rebuild switch --flake ".#<HOST>" \
+  --target-host <TARGET> \
+  --build-host <TARGET> \
+  --sudo \
+  --use-substitutes
+```
+
+#### Local host
+```bash
+sudo nixos-rebuild build --flake .#<hostname>
+# nvd diff <current> <next>
+nvd diff /nix/var/nix/profiles/system-511-link /nix/store/j10jc3ny8jmlzaq979yr0im2801y1781-nixos-system-obiwan-26.05.20260422.0726a0e
+sudo nixos-rebuild switch --flake .#<hostname>
+```
+
+### Make a change in the disk configuration
+When adding/removing a ZFS datasets, make the changes imperatively,
+then document the change in [datasets.md](./hosts/chewie/disko/datasets.md).
+
+Potential locations where nix configuration must mirror imperative commands:
+* [zfs.nix](./hosts/chewie/zfs.nix) to add/remove the pools to mount at boot & update `sanoid` config
+* [zpools.nix](./hosts/chewie/disko/zpools.nix) to add/remove zpools
+
+### Create a new SOPS age key
+```bash
+age-keygen -o agekey.txt
+# Get the public key
+age-keygen -y agekey.txt
+# Update .sops.yaml with the new public key
+# Update secrets encryption
+sops updatekeys secrets/secrets.yaml
+```
+
+### Generate an Authelia client PBKDF2 hash
+```bash
+nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512
+```
+
+
+# TODO
+
+# Features
+- [x] Tailscale-backed network layout
+- [x] Server hardening
+- [x] OCI containers deployment
+- [x] nix modules deployment
+- [x] ZFS datasets with at rest encryption
+- [x] KVM compatible workflow for reboot
+- [x] Impermanence
+- [x] Reverse proxy
+- [x] OIDC + SSO
+- [x] Alerting
+- [x] Monitoring
+- [x] Logs management
+- [x] Containers logs management
+- [x] Per container service CPU/memory limits
+- [ ] Dedicated node for PSU monitoring
+- [x] Dedicated node for backup
+- [x] VTT app
+- [ ] Discord alternative
+- [ ] ebooks management app
+- [x] File-based Authelia authentication workflow
+- [ ] Switch from linkding to linkwarden
+- [ ] endurain
+- [ ] technicium with split-horizon DNS
+- [x] Split secrets per host
+- [x] move observability to leia
+- [x] implement backup to rsync
+- [ ] implement DMZ pattern and network isolation for public-facing services (see docs/public-services-isolation.md)
+- [x] re-check all basics monitoring on all hosts (zfs, cpu/memory, etc..)
+- [x] simplify (back to yaml) observability stack and comment
+- [x] ZFS backups monitoring & logs
+- [ ] ZFS grafana dashboard
+- [ ] Switch to Actions based renovate
+- [ ] Logs on OOM from Loki
+- [ ] Logs on rsync.net backups from Loki
+- [ ] Logs on backups to yoda from Loki
+- [ ] dendritic pattern
+- [ ] Better Renovate config to catch specific sha & exotic versioning
+- [ ] Decommission Tresorit
+- [ ] Decommission Google Photos
+- [ ] scan library
+- [ ] Litellm
+
+# Configuring SOPS
+
+## Setting up SSH Key
+
+```bash
+ssh-keygen -t ed25519
+```
+
+## Deriving Age key from SSH
+
+```bash
+mkdir -p ~/.config/sops/age
+nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+```
+
+## Get Age public key
+
+```bash
+nix-shell -p age --run "age-keygen -y ~/.config/sops/age/keys.txt"
+```
+
+Then add the key to `.sops.yaml`
+
+## Add keys to secret file
+
+```bash
+sops updatekeys secrets/secrets.yaml
+```
+
+
+## Updating SOPS secrets
+
+```bash
+sops secrets/secrets.yaml
+```
+
+# ZFS datasets
+
+See [datasets.md](./hosts/chewie/disko/datasets.md)
+
+## Hierarchy
+```
+chewie
+├── ssd
+│   ├── services
+│   │   ├── infra
+│   │   └── apps
+│   ├── databases
+│   │   ├── mysql
+│   │   └── postgres
+│   └── data
+│       └── vaultwarden
+└── hdd
+    └── data
+        ├── media
+        ├── paperless
+        ├── seafile
+        └── immich
+```
+
+# Temporary Workarounds
+
+This section lists temporary fixes applied to the configuration due to bugs introduced by `nixpkgs` or `flake` updates. These should be reviewed periodically and removed once the upstream issues are resolved.
+
+## bambu-studio pinned to v02.06.01.55 (`modules/nixos/overlays.nix`)
+
+nixpkgs is stuck on v02.05.00.67. The overlay replaces the source-built package with the official Ubuntu 24.04 AppImage to avoid compilation issues with new 2.6 dependencies. Remove once nixpkgs catches up.
+
+## hmts.nvim disabled (`modules/home/neovim/plugins/treesitter.nix`)
+
+`hmts.nvim` v1.3.0 (current nixpkgs version) crashes with `attempt to call method 'parent' (a nil value)` on any `.nix` file due to a nil capture not being guarded before calling `:parent()`. A fix is pending in [calops/hmts.nvim#38](https://github.com/calops/hmts.nvim/pull/38). Re-enable once the PR is merged and nixpkgs is updated.

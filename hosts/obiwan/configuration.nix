@@ -1,0 +1,61 @@
+{
+  inputs,
+  username,
+  host,
+  pkgs,
+  ...
+}:
+let
+  inherit (import ./variables.nix)
+    theme
+    wallpaper_file
+    ;
+in
+{
+  imports = [
+    inputs.hardware.nixosModules.framework-13-7040-amd
+    inputs.sops-nix.nixosModules.sops
+
+    ./hardware-configuration.nix
+    ./networking.nix
+    ./ssh.nix
+    ./infra.nix
+    ../../modules/nixos/globals-shared.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/agentic.nix
+    ../../modules/nixos/desktop.nix
+    ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/ssd.nix
+    ../../modules/nixos/vpn.nix
+    ../../modules/nixos/printing.nix
+    ../../modules/nixos/gaming.nix
+    ../../modules/nixos/fpv.nix
+    ../../modules/nixos/sre.nix
+    ../../modules/nixos/overlays.nix
+    (import ../../modules/nixos/stylix.nix {
+      inherit
+        inputs
+        pkgs
+        theme
+        username
+        wallpaper_file
+        ;
+    })
+  ];
+
+  # Enable Firmware update
+  # services.fwupd.enable = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  # Enable networking
+  networking.hostName = host;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
+}
