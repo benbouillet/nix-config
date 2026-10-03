@@ -36,4 +36,4 @@ jobs:
       - name: Evaluate Nix config
         run: |
           nix eval --raw '.#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath' \
-            --override-input sunday-bastion "git+https://x-access-token:${{ secrets.SUNDAY_AUGMENT_PAT }}@github.com/sundayapp/support-tools?ref=main"
+            --override-input sunday-bastion "git+https://x-access-token:${{ secrets.SUNDAY_PAT }}@github.com/sundayapp/support-tools?ref=main"
