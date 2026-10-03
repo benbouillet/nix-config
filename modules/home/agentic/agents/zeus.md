@@ -11,6 +11,8 @@ tools:
   bash: true
   todowrite: true
   skill: true
+
+permission:
   task:
     "*": deny
     argus: allow
