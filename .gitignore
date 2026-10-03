@@ -4,6 +4,7 @@ result
 .plans
 .terraform
 *.tfvars
+*.tfvars.json
 
 # Age and SOPS keys
 keys.txt
