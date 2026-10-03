@@ -1,11 +1,11 @@
 {
+  config,
   pkgs,
   lib,
   username,
   ...
 }:
 let
-  git_email = "ben.bouillet@sundayapp.com";
   git_name = "Ben Bouillet";
   bedrock-models = pkgs.writeShellApplication {
     name = "bedrock-models";
@@ -83,7 +83,7 @@ let
     set -e
 
     ${pkgs.chromium}/bin/chromium-browser \
-      "https://app.v2.gather.town/app/sunday-a6ea157f-0c3c-4a79-b8d0-2c04c8a97015" &
+      "$(cat ${config.sops.secrets."sunday/gather_start_url".path})" &
 
     ${pkgs.slack}/bin/slack &
 
@@ -99,6 +99,18 @@ let
 in
 {
   sops.secrets."ai/sunday_litellm_api_key" = { };
+  sops.secrets."sunday/email" = { };
+  sops.secrets."sunday/gather_start_url" = { };
+
+  sops.templates.sunday-git-config = {
+    content = ''
+      [user]
+      email = ${config.sops.placeholder."sunday/email"}
+      name = ${git_name}
+      commit.gpgsign = true
+    '';
+    mode = "0400";
+  };
 
   home = {
     file."dev/sundayapp/.keep" = {
@@ -178,13 +190,7 @@ in
       includes = [
         {
           condition = "gitdir:/home/${username}/dev/sundayapp/";
-          contents = {
-            user = {
-              email = git_email;
-              name = git_name;
-            };
-            commit.gpgsign = true;
-          };
+          path = config.sops.templates.sunday-git-config.path;
         }
       ];
     };
@@ -365,7 +371,7 @@ in
             url = "https://sunday-prod.datadoghq.eu/";
           }
           {
-            name = "Datadog Sunday Prod";
+            name = "Datadog Sunday Alpha";
             keyword = "datadog";
             url = "https://sunday-alpha.datadoghq.eu/";
           }
@@ -412,7 +418,6 @@ in
         ];
         force = true;
       };
-
       extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         sponsorblock
