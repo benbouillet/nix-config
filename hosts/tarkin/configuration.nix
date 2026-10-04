@@ -46,10 +46,7 @@
     ca = config.sops.secrets."nebula/ca-cert".path;
     cert = config.sops.secrets."nebula/host-cert".path;
     key = config.sops.secrets."nebula/host-key".path;
-    listen = {
-      host = "0.0.0.0";
-      port = 4242;
-    };
+    listen.port = 4242;
     settings = {
       lighthouse = {
         interval = 60;
@@ -59,7 +56,6 @@
         punch = true;
         respond = true;
       };
-      local_range = "10.202.0.0/16";
     };
   };
 }

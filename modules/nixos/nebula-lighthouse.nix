@@ -8,7 +8,6 @@
 
   networking.firewall = {
     enable = true;
-    allowedUDPPorts = [ 4242 ];
     allowedTCPPorts = [ ];
     trustedInterfaces = [ "lo" ];
     allowPing = false;
@@ -81,7 +80,6 @@
       "network-online.target"
       "tarkin-age-bootstrap.service"
     ];
-    before = lib.mkForce [ "nebula@tarkin.service" ];
     unitConfig.DefaultDependencies = lib.mkForce "yes";
   };
   systemd.services."nebula@tarkin" = {
@@ -90,9 +88,4 @@
   };
 
   services.journald.settings.Journal.Storage = "volatile";
-  environment.systemPackages = with pkgs; [
-    curlFull
-    awscli2
-    nebula
-  ];
 }

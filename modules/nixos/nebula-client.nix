@@ -43,15 +43,23 @@ in
     ca = config.sops.secrets."nebula/ca-cert".path;
     cert = config.sops.secrets."nebula/host-cert".path;
     key = config.sops.secrets."nebula/host-key".path;
-    listen = {
-      host = "0.0.0.0";
-      port = 4242;
+    listen.port = 4242;
+    settings = {
+      punchy = {
+        punch = true;
+        respond = true;
+      };
+      lighthouse.local_allow_list = {
+        "0.0.0.0/0" = true;
+        "10.89.0.0/16" = false;
+        "::/0" = false;
+      };
     };
     tun.device = "nebula1";
     firewall = {
       inbound = [
         {
-          host = globals.nebulaCidr;
+          cidr = globals.nebulaCidr;
           port = "any";
           proto = "any";
         }
@@ -66,8 +74,5 @@ in
     };
   };
 
-  networking.firewall = {
-    allowedUDPPorts = [ 4242 ];
-    trustedInterfaces = lib.mkIf (host == "chewie") [ "nebula1" ];
-  };
+  networking.firewall.trustedInterfaces = lib.mkIf (host == "chewie") [ "nebula1" ];
 }
