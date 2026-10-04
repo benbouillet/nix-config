@@ -19,9 +19,11 @@ let
       };
       leia = {
         tailscale = "100.115.146.98";
+        nebula = "172.29.217.12";
       };
       yoda = {
         tailscale = "100.77.229.105";
+        nebula = "172.29.217.13";
       };
       turing-admin = {
         lan = "10.89.0.95";

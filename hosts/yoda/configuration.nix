@@ -11,6 +11,7 @@
     ./globals.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
+    ../../modules/nixos/nebula-client.nix
     ../../modules/nixos/ssd.nix
     ../../modules/nixos/zfs.nix
   ];

@@ -14,6 +14,8 @@
     ${globals.hosts.leia.tailscale} leia.tailscale
 
     ${globals.hosts.chewie.nebula} chewie.nebula
+    ${globals.hosts.leia.nebula} leia.nebula
+    ${globals.hosts.yoda.nebula} yoda.nebula
   '';
 
   sops = {
