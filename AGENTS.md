@@ -2,6 +2,11 @@
 
 AI agent reference for this Nix Flake-based homelab configuration.
 
+## Hard Rules for AI Agents
+
+1. **NEVER interact with SOPS secrets**: do not run `sops`, `sops updatekeys`, read/decrypt/edit files under `secrets/`, or handle Age keys (`keys.txt`, `.age` files). If a task requires secret changes, stop and hand back to the user with exact instructions for them to run manually.
+2. **NEVER deploy Nix configurations**: do not run `nixos-rebuild switch`/`boot`/`test`, `nixdeploy`, or any command that activates a configuration on any host (local or remote). Building (`nix build`, `nixos-rebuild build`, `nix eval`) is allowed and encouraged for verification.
+
 ---
 
 ## Project Overview
