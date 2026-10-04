@@ -352,12 +352,20 @@ in
 
     # From modules/nixos/services/containers/litellm.nix
 
-    @litellm host litellm.${globals.domain}
-    handle @litellm {
+    @litellm_ui {
+      host litellm.${globals.domain}
+      path /ui /ui/*
+    }
+    handle @litellm_ui {
       forward_auth http://chewie:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
+      reverse_proxy chewie:${toString globals.ports.litellm}
+    }
+
+    @litellm host litellm.${globals.domain}
+    handle @litellm {
       reverse_proxy chewie:${toString globals.ports.litellm}
     }
   '';

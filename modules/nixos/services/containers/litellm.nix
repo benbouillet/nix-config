@@ -109,6 +109,7 @@ in
     access_control.rules = [
       {
         domain = "litellm.${globals.domain}";
+        resources = [ "^/ui(?:/.*)?(?:\\?.*)?$" ];
         policy = "one_factor";
         subject = "group:admins";
       }
