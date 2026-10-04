@@ -1,22 +1,12 @@
 {
   lib,
   config,
+  pkgs,
   globals,
   ...
 }:
-{
-  sops.secrets."services/kestra/env" = {
-    mode = "0400";
-    owner = "root";
-    group = "root";
-  };
-
-  systemd.tmpfiles.rules = lib.mkAfter [
-    "d ${globals.zfs.services.apps.mountPoint}/kestra 2770 1000 1000 - -"
-    "d /tmp/kestra-wd 2770 1000 1000 - -"
-  ];
-
-  environment.etc."kestra/application.yml".text = ''
+let
+  kestraConfig = pkgs.writeText "kestra-application.yml" ''
     datasources:
       postgres:
         url: jdbc:postgresql://host.containers.internal:${toString globals.ports.postgres}/kestra
@@ -34,6 +24,18 @@
           base-path: /app/storage
       url: https://kestra.${globals.domain}/
   '';
+in
+{
+  sops.secrets."services/kestra/env" = {
+    mode = "0400";
+    owner = "root";
+    group = "root";
+  };
+
+  systemd.tmpfiles.rules = lib.mkAfter [
+    "d ${globals.zfs.services.apps.mountPoint}/kestra 2770 1000 1000 - -"
+    "d /tmp/kestra-wd 2770 1000 1000 - -"
+  ];
 
   services = {
     postgresql = {
@@ -72,7 +74,7 @@
         "${globals.zfs.services.apps.mountPoint}/kestra:/app/storage:rw"
         "/var/run/docker.sock:/var/run/docker.sock"
         "/tmp/kestra-wd:/tmp/kestra-wd"
-        "/etc/kestra/application.yml:/app/confs/application.yml:ro"
+        "${kestraConfig}:/app/confs/application.yml:ro"
       ];
       environmentFiles = [ config.sops.secrets."services/kestra/env".path ];
       extraOptions = [
