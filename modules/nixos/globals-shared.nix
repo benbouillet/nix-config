@@ -55,6 +55,7 @@ let
       bentopdf = 9072;
       librechat = 9073;
       kestra = 9074;
+      litellm = 9075;
       llama-swap = 9080;
       prometheus = 9090;
       authelia = 9091;

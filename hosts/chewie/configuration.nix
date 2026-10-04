@@ -35,6 +35,7 @@
     ../../modules/nixos/services/containers/linkding.nix
     ../../modules/nixos/services/containers/bentopdf.nix
     ../../modules/nixos/services/containers/kestra.nix
+    ../../modules/nixos/services/containers/litellm.nix
   ];
 
   system.stateVersion = "24.05"; # DO NOT MODIFY
