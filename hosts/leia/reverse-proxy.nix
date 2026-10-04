@@ -39,16 +39,20 @@ in
     '';
   };
 
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    80
-    443
-    globals.ports.loki-http
-  ];
-  networking.firewall.interfaces.enp1s0.allowedTCPPorts = [
-    80
-    443
-  ];
+  networking.firewall = {
+    allowedTCPPorts = [ ];
+    interfaces = {
+      tailscale0.allowedTCPPorts = [
+        80
+        443
+        globals.ports.loki-http
+      ];
+      enp1s0.allowedTCPPorts = [
+        80
+        443
+      ];
+    };
+  };
 
   # Add nebula1 and globals.ports.loki-http here when Nebula (${globals.nebulaCidr}) is deployed on leia.
   # networking.firewall.interfaces.nebula1.allowedTCPPorts = [ globals.ports.loki-http ];

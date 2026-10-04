@@ -9,6 +9,10 @@
 }:
 {
   networking.extraHosts = ''
+    ${globals.hosts.chewie.lan} chewie.lan
+    ${globals.hosts.leia.lan} leia.lan
+    ${globals.hosts.yoda.lan} yoda.lan
+
     ${globals.hosts.chewie.tailscale} chewie.tailscale
     ${globals.hosts.yoda.tailscale} yoda.tailscale
     ${globals.hosts.leia.tailscale} leia.tailscale

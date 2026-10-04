@@ -51,37 +51,37 @@ let
   # Backups pulled from chewie via syncoid
   chewieBackups = [
     {
-      source = "syncoid@chewie:ssd/db";
+      source = "syncoid@chewie.lan:ssd/db";
       target = "ssd/backups/chewie/db";
       recursive = true;
     }
     {
-      source = "syncoid@chewie:ssd/services/infra";
+      source = "syncoid@chewie.lan:ssd/services/infra";
       target = "ssd/backups/chewie/services/infra";
       recursive = false;
     }
     {
-      source = "syncoid@chewie:ssd/services/apps";
+      source = "syncoid@chewie.lan:ssd/services/apps";
       target = "ssd/backups/chewie/services/apps";
       recursive = false;
     }
     {
-      source = "syncoid@chewie:hdd/data/immich";
+      source = "syncoid@chewie.lan:hdd/data/immich";
       target = "ssd/backups/chewie/data/immich";
       recursive = false;
     }
     {
-      source = "syncoid@chewie:hdd/data/seafile";
+      source = "syncoid@chewie.lan:hdd/data/seafile";
       target = "ssd/backups/chewie/data/seafile";
       recursive = false;
     }
     {
-      source = "syncoid@chewie:hdd/data/paperless";
+      source = "syncoid@chewie.lan:hdd/data/paperless";
       target = "ssd/backups/chewie/data/paperless";
       recursive = false;
     }
     {
-      source = "syncoid@chewie:hdd/data/radicale";
+      source = "syncoid@chewie.lan:hdd/data/radicale";
       target = "ssd/backups/chewie/data/radicale";
       recursive = false;
     }

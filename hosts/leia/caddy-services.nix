@@ -14,7 +14,7 @@ in
     @prometheus host prometheus.${globals.domain}
     handle @prometheus {
       handle {
-        forward_auth http://chewie:${toString globals.ports.authelia} {
+        forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
           uri /api/authz/forward-auth
           copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
         }
@@ -25,7 +25,7 @@ in
     @alertmanager host alerts.${globals.domain}
     handle @alertmanager {
       handle {
-        forward_auth http://chewie:${toString globals.ports.authelia} {
+        forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
           uri /api/authz/forward-auth
           copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
         }
@@ -42,7 +42,7 @@ in
         remote_ip ${globals.tailnetCidr} ${globals.nebulaCidr}
       }
       handle @ai_api_internal {
-        reverse_proxy chewie:${toString globals.ports.llama-swap}
+        reverse_proxy chewie.tailscale:${toString globals.ports.llama-swap}
       }
 
       @ai_api path /v1/*
@@ -51,11 +51,11 @@ in
       }
 
       handle {
-        forward_auth http://chewie:${toString globals.ports.authelia} {
+        forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
           uri /api/authz/forward-auth
           copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
         }
-        reverse_proxy chewie:${toString globals.ports.llama-swap}
+        reverse_proxy chewie.tailscale:${toString globals.ports.llama-swap}
       }
     }
 
@@ -70,14 +70,14 @@ in
 
     @vault host vault.${globals.domain}
     handle @vault {
-      reverse_proxy chewie:${toString globals.ports.vaultwarden}
+       reverse_proxy chewie.tailscale:${toString globals.ports.vaultwarden}
     }
 
     # From modules/nixos/services/radicale.nix
 
     @contacts host contacts.${globals.domain}
     handle @contacts {
-      reverse_proxy chewie:${toString globals.ports.radicale}
+      reverse_proxy chewie.tailscale:${toString globals.ports.radicale}
     }
 
     # From modules/nixos/services/immich.nix
@@ -91,16 +91,16 @@ in
     }
 
     handle @immich_api {
-      reverse_proxy chewie:${toString globals.ports.immich}
+      reverse_proxy chewie.tailscale:${toString globals.ports.immich}
     }
 
     # Everything else (web UI): protect with Authelia
     handle @images {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+      forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.immich}
+      reverse_proxy chewie.tailscale:${toString globals.ports.immich}
     }
 
     # From modules/nixos/services/ntfy.nix
@@ -123,7 +123,7 @@ in
 
       handle @ntfy_allowed {
         handle {
-          forward_auth http://chewie:${toString globals.ports.authelia} {
+          forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
             uri /api/authz/forward-auth
             copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
           }
@@ -140,7 +140,7 @@ in
 
     @docs host paperless.${globals.domain}
     handle @docs {
-      reverse_proxy chewie:${toString globals.ports.paperless}
+      reverse_proxy chewie.tailscale:${toString globals.ports.paperless}
     }
 
     # From modules/nixos/services/containers/seafile.nix
@@ -149,21 +149,21 @@ in
     handle @seafile {
       @notif path /notification*
       handle @notif {
-        reverse_proxy chewie:${toString globals.ports.seafile-notification-server}
+        reverse_proxy chewie.tailscale:${toString globals.ports.seafile-notification-server}
       }
 
       @api path /api2/* /api/v2.1/* /seafhttp* /seafdav*
       handle @api {
-        reverse_proxy chewie:${toString globals.ports.seafile}
+        reverse_proxy chewie.tailscale:${toString globals.ports.seafile}
       }
 
       handle {
-        forward_auth http://chewie:${toString globals.ports.authelia} {
+        forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
           uri /api/authz/forward-auth
           copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
         }
 
-        reverse_proxy chewie:${toString globals.ports.seafile}
+        reverse_proxy chewie.tailscale:${toString globals.ports.seafile}
       }
     }
 
@@ -171,7 +171,7 @@ in
 
     @mealie host mealie.${globals.domain}
     handle @mealie {
-      reverse_proxy chewie:${toString globals.ports.mealie}
+      reverse_proxy chewie.tailscale:${toString globals.ports.mealie}
     }
 
     # From modules/nixos/services/containers/search.nix
@@ -181,37 +181,37 @@ in
       path /mcp*
     }
     handle @degoog_mcp {
-      reverse_proxy chewie:${toString globals.ports.degoog-mcp}
+      reverse_proxy chewie.tailscale:${toString globals.ports.degoog-mcp}
     }
 
     @degoog host search.${globals.domain}
     handle @degoog {
-      reverse_proxy chewie:${toString globals.ports.degoog}
+      reverse_proxy chewie.tailscale:${toString globals.ports.degoog}
     }
 
      # From modules/nixos/services/containers/vane.nix
 
      @vane host vane.${globals.domain}
      handle @vane {
-       forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
          uri /api/authz/forward-auth
          copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
        }
-       reverse_proxy chewie:${toString globals.ports.vane}
+       reverse_proxy chewie.tailscale:${toString globals.ports.vane}
      }
 
      # From modules/nixos/services/containers/linkding.nix
 
      @linkding host links.${globals.domain}
      handle @linkding {
-       reverse_proxy chewie:${toString globals.ports.linkding}
+        reverse_proxy chewie.tailscale:${toString globals.ports.linkding}
      }
 
      # From modules/nixos/services/containers/foundryvtt.nix
 
     @foundryvtt host dnd.${globals.domain}
     handle @foundryvtt {
-      reverse_proxy chewie:${toString globals.ports.foundryvtt}
+       reverse_proxy chewie.tailscale:${toString globals.ports.foundryvtt}
     }
 
     # From modules/nixos/services/containers/arr.nix
@@ -222,7 +222,7 @@ in
       path /ping
     }
     handle @sonarr_ping {
-      reverse_proxy chewie:${toString globals.ports.sonarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.sonarr}
     }
 
     @radarr_ping {
@@ -230,7 +230,7 @@ in
       path /ping
     }
     handle @radarr_ping {
-      reverse_proxy chewie:${toString globals.ports.radarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.radarr}
     }
 
     @qbittorrent_ping {
@@ -238,96 +238,96 @@ in
       path /api/v2/app/version
     }
     handle @qbittorrent_ping {
-      reverse_proxy chewie:${toString globals.ports.qbittorrent}
+       reverse_proxy chewie.tailscale:${toString globals.ports.qbittorrent}
     }
 
     # App behind OIDC
     @qbittorrent host qbittorrent.${globals.domain}
     handle @qbittorrent {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+         forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.qbittorrent}
+       reverse_proxy chewie.tailscale:${toString globals.ports.qbittorrent}
     }
 
     @nzbget host nzbget.${globals.domain}
     handle @nzbget {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.nzbget}
+       reverse_proxy chewie.tailscale:${toString globals.ports.nzbget}
     }
 
     @bazarr host bazarr.${globals.domain}
     handle @bazarr {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.bazarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.bazarr}
     }
 
     @prowlarr host prowlarr.${globals.domain}
     handle @prowlarr {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+          forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.prowlarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.prowlarr}
     }
 
     @radarr host radarr.${globals.domain}
     handle @radarr {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+         forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.radarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.radarr}
     }
 
     @sonarr host sonarr.${globals.domain}
     handle @sonarr {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+        forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.sonarr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.sonarr}
     }
 
     # Available on tailnet
     @seerr host seerr.${globals.domain}
     handle @seerr {
-      reverse_proxy chewie:${toString globals.ports.seerr}
+       reverse_proxy chewie.tailscale:${toString globals.ports.seerr}
     }
 
     @jellyfin host jellyfin.${globals.domain}
     handle @jellyfin {
-      reverse_proxy chewie:${toString globals.ports.jellyfin}
+       reverse_proxy chewie.tailscale:${toString globals.ports.jellyfin}
     }
 
      # From modules/nixos/services/containers/lubelogger.nix
 
     @lubelogger host lubelogger.${globals.domain}
     handle @lubelogger {
-      reverse_proxy chewie:${toString globals.ports.lubelogger}
+       reverse_proxy chewie.tailscale:${toString globals.ports.lubelogger}
     }
 
     # From modules/nixos/services/containers/bentopdf.nix
     @bentopdf host pdf.${globals.domain}
     handle @bentopdf {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.bentopdf}
+       reverse_proxy chewie.tailscale:${toString globals.ports.bentopdf}
     }
 
     # From modules/nixos/services/authentication.nix
     @auth host auth.${globals.domain}
     handle @auth {
-      reverse_proxy chewie:${toString globals.ports.authelia}
+     reverse_proxy chewie.tailscale:${toString globals.ports.authelia}
     }
 
     @turing host turing.${globals.domain}
@@ -343,11 +343,11 @@ in
 
     @kestra host kestra.${globals.domain}
     handle @kestra {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.kestra}
+       reverse_proxy chewie.tailscale:${toString globals.ports.kestra}
     }
 
     # From modules/nixos/services/containers/litellm.nix
@@ -357,16 +357,16 @@ in
       path /ui /ui/*
     }
     handle @litellm_ui {
-      forward_auth http://chewie:${toString globals.ports.authelia} {
+       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
         uri /api/authz/forward-auth
         copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
       }
-      reverse_proxy chewie:${toString globals.ports.litellm}
+       reverse_proxy chewie.tailscale:${toString globals.ports.litellm}
     }
 
     @litellm host litellm.${globals.domain}
     handle @litellm {
-      reverse_proxy chewie:${toString globals.ports.litellm}
+       reverse_proxy chewie.tailscale:${toString globals.ports.litellm}
     }
   '';
 }

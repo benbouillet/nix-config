@@ -51,7 +51,7 @@ in
       };
       lighthouse.local_allow_list = {
         "0.0.0.0/0" = true;
-        "10.89.0.0/16" = false;
+        "10.88.0.0/16" = false;
         "::/0" = false;
       };
     };
