@@ -338,5 +338,27 @@ in
         }
       }
     }
+
+    # From modules/nixos/services/containers/kestra.nix
+
+    @kestra host kestra.${globals.domain}
+    handle @kestra {
+      forward_auth http://chewie:${toString globals.ports.authelia} {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      reverse_proxy chewie:${toString globals.ports.kestra}
+    }
+
+    # From modules/nixos/services/containers/litellm.nix
+
+    @litellm host litellm.${globals.domain}
+    handle @litellm {
+      forward_auth http://chewie:${toString globals.ports.authelia} {
+        uri /api/authz/forward-auth
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+      }
+      reverse_proxy chewie:${toString globals.ports.litellm}
+    }
   '';
 }

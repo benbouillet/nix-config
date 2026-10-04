@@ -18,6 +18,7 @@
   virtualisation = {
     podman = {
       enable = true;
+      dockerSocket.enable = true;
       autoPrune = {
         enable = true;
         flags = [ "--all" ];
@@ -29,6 +30,8 @@
     };
     oci-containers.backend = "podman";
   };
+
+  systemd.tmpfiles.rules = [ "L+ /var/run/docker.sock - - - - /run/podman/podman.sock" ];
 
   users.groups."containers" = {
     gid = globals.groups.containers.GID;
