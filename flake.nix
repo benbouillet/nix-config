@@ -185,9 +185,14 @@
           nixdeploy = spkgs.writeShellApplication {
             name = "nixdeploy";
             text = ''
+              target_host="$1.tailscale"
+              if [ "$1" = "tarkin" ]; then
+                target_host="tarkin"
+              fi
+
               nixos-rebuild switch --flake ".#$1" \
-                --target-host "$1.tailscale" \
-                --build-host "$1.tailscale" \
+                --target-host "$target_host" \
+                --build-host "$target_host" \
                 --sudo \
                 --use-substitutes
             '';
