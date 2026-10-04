@@ -19,9 +19,41 @@ resource "aws_key_pair" "root" {
   tags       = { Name = "tarkin-root" }
 }
 
+resource "aws_iam_policy" "host_boundary" {
+  name        = "tarkin-ec2-host-boundary"
+  description = "Limits the Tarkin EC2 role to its SSM channels and Age identity secret"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowSsmChannels"
+        Effect = "Allow"
+        Action = [
+          "ssm:UpdateInstanceInformation",
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "AllowAgeIdentity"
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = aws_secretsmanager_secret.age.arn
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role" "host" {
-  name = "tarkin-ec2-host"
-  tags = { Name = "tarkin-ec2-host" }
+  name                 = "tarkin-ec2-host"
+  permissions_boundary = aws_iam_policy.host_boundary.arn
+  tags                 = { Name = "tarkin-ec2-host" }
   assume_role_policy = jsonencode(
     {
       Version = "2012-10-17",
