@@ -332,7 +332,7 @@ in
 
     @turing host turing.${globals.domain}
     handle @turing {
-      reverse_proxy https://${globals.hosts.turing-admin.ipv4} {
+      reverse_proxy https://${globals.hosts.turing-admin.lan} {
         transport http {
           tls_insecure_skip_verify
         }

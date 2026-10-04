@@ -20,15 +20,17 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            targets = [
+              "${globals.hosts.chewie.tailscale}:${toString globals.ports.prometheus_exporters.node}"
+            ];
             labels.hostname = "chewie";
           }
           {
-            targets = [ "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            targets = [ "${globals.hosts.leia.tailscale}:${toString globals.ports.prometheus_exporters.node}" ];
             labels.hostname = "leia";
           }
           {
-            targets = [ "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.node}" ];
+            targets = [ "${globals.hosts.yoda.tailscale}:${toString globals.ports.prometheus_exporters.node}" ];
             labels.hostname = "yoda";
           }
         ];
@@ -61,7 +63,7 @@
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.tailscale}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -93,7 +95,7 @@
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.tailscale}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -125,7 +127,7 @@
           }
           {
             target_label = "__address__";
-            replacement = "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.blackbox}";
+            replacement = "${globals.hosts.leia.tailscale}:${toString globals.ports.prometheus_exporters.blackbox}";
           }
         ];
       }
@@ -135,15 +137,17 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            targets = [
+              "${globals.hosts.chewie.tailscale}:${toString globals.ports.prometheus_exporters.zfs}"
+            ];
             labels.hostname = "chewie";
           }
           {
-            targets = [ "${globals.hosts.leia.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            targets = [ "${globals.hosts.leia.tailscale}:${toString globals.ports.prometheus_exporters.zfs}" ];
             labels.hostname = "leia";
           }
           {
-            targets = [ "${globals.hosts.yoda.ipv4}:${toString globals.ports.prometheus_exporters.zfs}" ];
+            targets = [ "${globals.hosts.yoda.tailscale}:${toString globals.ports.prometheus_exporters.zfs}" ];
             labels.hostname = "yoda";
           }
         ];
@@ -163,7 +167,7 @@
       blackbox = {
         enable = true;
         port = globals.ports.prometheus_exporters.blackbox;
-        listenAddress = "${globals.hosts.leia.ipv4}";
+        listenAddress = "${globals.hosts.leia.tailscale}";
         configFile = ./configuration/blackbox.yml;
       };
     };

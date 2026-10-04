@@ -184,12 +184,81 @@ instance. No AWS mutation is part of local validation.
 
 ## Certificate maintenance
 
-The Nebula v2 CA lifetime is 5 years and the lighthouse certificate lifetime
-is 1 year. Record the exact expiry date of each issued certificate in the
-operator password manager and calendar. Renew the lighthouse certificate at
-least 30 days before expiry. Begin CA replacement and coordinated client
-migration at least 90 days before CA expiry; CA replacement requires reissuing
-the affected host certificates and distributing the replacement CA certificate.
+The Nebula v2 CA lifetime is 5 years and host certificate lifetime is 1 year.
+Record the exact expiry date of each issued certificate in the operator password
+manager and calendar. Renew host certificates at least 30 days before expiry.
+Begin CA replacement and coordinated client migration at least 90 days before
+CA expiry; CA replacement requires reissuing all host certificates and
+distributing the replacement CA certificate.
+
+### Host certificate renewal
+
+1. Confirm the host certificate expires within the renewal window. The overlay
+   hosts and addresses are defined in `modules/nixos/globals-shared.nix`:
+   Tarkin (lighthouse), `172.29.217.1`; Chewie, `172.29.217.10`; and Obiwan,
+   `172.29.217.11`.
+2. On the offline CA machine, sign the replacement certificate and key. Keep
+   `ca.key` offline:
+
+   ```sh
+   nebula-cert sign -name <host> -ip "<nebula-ip>/24" -duration 8760h -ca-crt ca.crt -ca-key ca.key -out-crt <host>.crt -out-key <host>.key
+   ```
+
+3. From Obiwan, edit the relevant encrypted secrets file with
+   `sops secrets/<host>.yaml`. Replace `nebula/host-key` and
+   `nebula/host-cert` with the new key and certificate. Leave
+   `nebula/ca-cert` unchanged. The files are `secrets/tarkin.yaml`,
+   `secrets/chewie.yaml`, and `secrets/obiwan.yaml`; Obiwan holds all Age keys.
+4. Deploy the host:
+
+   ```sh
+   AWS_PROFILE=homelab-deployment nixdeploy tarkin
+   nixdeploy chewie
+   sudo nixos-rebuild switch --flake .#obiwan
+   ```
+
+   Run only the command for the host whose certificate was renewed.
+5. Verify the Nebula service after deployment. On every host, run
+   `systemctl status nebula@tarkin.service`. From the overlay, ping
+   `172.29.217.1` and the other two peer addresses. Record the new expiry date
+   in the password manager and calendar.
+
+### CA rotation
+
+1. Begin at least 90 days before the CA expiry. On the offline CA machine,
+   generate a new five-year CA and keep its private key offline:
+
+   ```sh
+   nebula-cert ca -name <ca-name> -duration 43800h -out-crt ca.crt -out-key ca.key
+   ```
+
+2. Re-sign all three hosts with the new CA, using their addresses from
+   `modules/nixos/globals-shared.nix`:
+
+   ```sh
+   nebula-cert sign -name tarkin -ip "172.29.217.1/24" -duration 8760h -ca-crt ca.crt -ca-key ca.key -out-crt tarkin.crt -out-key tarkin.key
+   nebula-cert sign -name chewie -ip "172.29.217.10/24" -duration 8760h -ca-crt ca.crt -ca-key ca.key -out-crt chewie.crt -out-key chewie.key
+   nebula-cert sign -name obiwan -ip "172.29.217.11/24" -duration 8760h -ca-crt ca.crt -ca-key ca.key -out-crt obiwan.crt -out-key obiwan.key
+   ```
+
+3. In one SOPS session from Obiwan, update `nebula/ca-cert`,
+   `nebula/host-cert`, and `nebula/host-key` in all three files:
+   `secrets/tarkin.yaml`, `secrets/chewie.yaml`, and `secrets/obiwan.yaml`.
+   Do not put `ca.key` in Git, SOPS, AWS, or on a host.
+4. Deploy Chewie and Obiwan first, then deploy Tarkin last:
+
+   ```sh
+   nixdeploy chewie
+   sudo nixos-rebuild switch --flake .#obiwan
+   AWS_PROFILE=homelab-deployment nixdeploy tarkin
+   ```
+
+   This is a coordinated cutover. A brief overlay disruption is expected
+   because there is a single lighthouse.
+5. Verify `systemctl status nebula@tarkin.service` on every host. From the
+   overlay, ping `172.29.217.1`, `172.29.217.10`, and `172.29.217.11`. Record
+   the new CA and host certificate expiry dates in the password manager and
+   calendar.
 
 ## References
 

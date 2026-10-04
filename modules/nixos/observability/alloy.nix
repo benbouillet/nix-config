@@ -42,7 +42,7 @@
 
       loki.write "local" {
         endpoint {
-          url = "http://${globals.hosts.leia.ipv4}:${toString globals.ports.loki-http}/loki/api/v1/push"
+          url = "http://${globals.hosts.leia.tailscale}:${toString globals.ports.loki-http}/loki/api/v1/push"
         }
       }
     '';

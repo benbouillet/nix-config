@@ -46,7 +46,7 @@
 
   services.immich = {
     enable = true;
-    host = "${globals.hosts.chewie.ipv4}";
+    host = "${globals.hosts.chewie.tailscale}";
     port = globals.ports.immich;
     mediaLocation = globals.zfs.data.immich.mountPoint;
     accelerationDevices = [ "/dev/dri/by-path/pci-0000:01:00.0-render" ];

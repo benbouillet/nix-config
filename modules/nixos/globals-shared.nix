@@ -6,17 +6,25 @@ let
     nebulaCidr = "172.29.217.0/24";
     lanCidr = "10.89.0.0/24";
     hosts = {
+      tarkin = {
+        nebula = "172.29.217.1";
+        publicIpv4 = "13.39.35.145";
+      };
       chewie = {
-        ipv4 = "100.93.247.22";
+        tailscale = "100.93.247.22";
+        nebula = "172.29.217.10";
+      };
+      obiwan = {
+        nebula = "172.29.217.11";
       };
       leia = {
-        ipv4 = "100.115.146.98";
+        tailscale = "100.115.146.98";
       };
       yoda = {
-        ipv4 = "100.77.229.105";
+        tailscale = "100.77.229.105";
       };
       turing-admin = {
-        ipv4 = "10.89.0.95";
+        lan = "10.89.0.95";
       };
     };
     ports = {

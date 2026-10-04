@@ -1,7 +1,6 @@
 {
   globals,
   config,
-  lib,
   ...
 }:
 {
@@ -95,7 +94,7 @@
           {
             name = "Loki";
             type = "loki";
-            url = "http://${globals.hosts.leia.ipv4}:${toString globals.ports.loki-http}";
+            url = "http://${globals.hosts.leia.tailscale}:${toString globals.ports.loki-http}";
             editable = false;
             access = "proxy";
 

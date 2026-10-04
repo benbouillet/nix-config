@@ -86,7 +86,7 @@
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
       ];
-      ports = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile}:80" ];
+      ports = [ "${globals.hosts.chewie.tailscale}:${toString globals.ports.seafile}:80" ];
       extraOptions = [
         "--no-healthcheck"
         "--memory=4g"
@@ -143,7 +143,7 @@
         "--pids-limit=64"
       ];
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.seafile-notification-server}:8083"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.seafile-notification-server}:8083"
       ];
       environmentFiles = [ config.sops.secrets."services/seafile/env".path ];
       environment = {

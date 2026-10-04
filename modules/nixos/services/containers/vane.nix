@@ -12,7 +12,7 @@
     "vane" = {
       image = "docker.io/itzcrazykns1337/vane:slim-v1.12.2@sha256:0111e0ea460b2edb2bdc777699cdfe20e8bba62caf96f074f1193367b115bc71";
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.vane}:3000"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.vane}:3000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/vane:/home/vane/data"

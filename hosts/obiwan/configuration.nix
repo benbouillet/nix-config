@@ -22,6 +22,7 @@ in
     ./infra.nix
     ../../modules/nixos/globals-shared.nix
     ../../modules/nixos/common.nix
+    ../../modules/nixos/nebula-client.nix
     ../../modules/nixos/agentic.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/hyprland.nix

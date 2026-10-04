@@ -9,9 +9,9 @@
 }:
 {
   networking.extraHosts = ''
-    ${globals.hosts.chewie.ipv4} chewie.tailscale
-    ${globals.hosts.yoda.ipv4} yoda.tailscale
-    ${globals.hosts.leia.ipv4} leia.tailscale
+    ${globals.hosts.chewie.tailscale} chewie.tailscale
+    ${globals.hosts.yoda.tailscale} yoda.tailscale
+    ${globals.hosts.leia.tailscale} leia.tailscale
   '';
 
   sops = {

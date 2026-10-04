@@ -7,7 +7,7 @@
     "bentopdf" = {
       image = "ghcr.io/alam00000/bentopdf-simple:v2.8.8@sha256:3d62b8f8eece5fe947026ac3925ff08fda245b3d6ba2c3916b94da91e0010c74";
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.bentopdf}:8080"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.bentopdf}:8080"
       ];
       extraOptions = [
         "--memory=512m"

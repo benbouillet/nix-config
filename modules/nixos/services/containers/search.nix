@@ -19,7 +19,7 @@
       image = "ghcr.io/degoog-org/degoog:0.26.0@sha256:69e28fe2dc8008981b0ea8b9270f6b5b482d107b8a3dfa71d8acdac37f4b77c0";
       networks = [ "podman" ];
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.degoog}:4444"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.degoog}:4444"
       ];
       volumes = [
         "/var/lib/degoog:/app/data"
@@ -47,7 +47,7 @@
       dependsOn = [ "degoog" ];
       networks = [ "podman" ];
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.degoog-mcp}:4443"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.degoog-mcp}:4443"
       ];
       extraOptions = [
         "--memory=256m"

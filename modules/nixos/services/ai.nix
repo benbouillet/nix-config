@@ -24,7 +24,7 @@ in
 {
   services.llama-swap = {
     enable = true;
-    listenAddress = globals.hosts.chewie.ipv4;
+    listenAddress = globals.hosts.chewie.tailscale;
     port = globals.ports.llama-swap;
     settings = {
       healthCheckTimeout = 120;

@@ -40,7 +40,7 @@
     dbBackend = "postgresql";
     config = {
       SIGNUPS_ALLOWED = false;
-      ROCKET_ADDRESS = "${globals.hosts.chewie.ipv4}";
+      ROCKET_ADDRESS = "${globals.hosts.chewie.tailscale}";
       ROCKET_PORT = globals.ports.vaultwarden;
       ROCKET_LOG = "error";
       SMTP_HOST = "smtp.protonmail.ch";

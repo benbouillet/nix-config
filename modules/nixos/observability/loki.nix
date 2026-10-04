@@ -3,7 +3,7 @@
   ...
 }:
 let
-  listenAddresses = [ globals.hosts.leia.ipv4 ];
+  listenAddresses = [ globals.hosts.leia.tailscale ];
 in
 {
   systemd.tmpfiles.rules = [

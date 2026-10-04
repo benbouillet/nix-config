@@ -39,7 +39,7 @@
     "paperless" = {
       image = "ghcr.io/paperless-ngx/paperless-ngx:3.2.1@sha256:5fa76604a81df6945086e0837b14b56543d137e8ce4f311cc5d9ebe907e74e79";
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.paperless}:8000"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.paperless}:8000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/paperless:/usr/src/paperless/data:rw"

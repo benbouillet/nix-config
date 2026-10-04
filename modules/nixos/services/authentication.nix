@@ -95,7 +95,7 @@
       group = globals.groups.authentication.name;
       settings = {
         server = {
-          address = "tcp://${globals.hosts.chewie.ipv4}:${toString globals.ports.authelia}";
+          address = "tcp://${globals.hosts.chewie.tailscale}:${toString globals.ports.authelia}";
           disable_healthcheck = false;
         };
 

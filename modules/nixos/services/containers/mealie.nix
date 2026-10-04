@@ -39,7 +39,7 @@
     "mealie" = {
       image = "ghcr.io/mealie-recipes/mealie:v3.28.0@sha256:8b02290f4d1806f02acac6f25f6d48a3c965612fda1f8e914d5af533276f8688";
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.mealie}:9000"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.mealie}:9000"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/mealie:/app/data/"

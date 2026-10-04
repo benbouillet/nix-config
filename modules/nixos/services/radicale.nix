@@ -21,7 +21,7 @@
     enable = true;
     settings = {
       server = {
-        hosts = [ "${globals.hosts.chewie.ipv4}:${toString globals.ports.radicale}" ];
+        hosts = [ "${globals.hosts.chewie.tailscale}:${toString globals.ports.radicale}" ];
       };
       auth = {
         type = "htpasswd";

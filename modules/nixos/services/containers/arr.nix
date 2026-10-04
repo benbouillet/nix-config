@@ -44,8 +44,8 @@
     "gluetun" = {
       image = "docker.io/qmcgaw/gluetun:v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027";
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.qbittorrent}:8090" # qbittorrent
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.nzbget}:6789" # nzbget
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.qbittorrent}:8090" # qbittorrent
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.nzbget}:6789" # nzbget
       ];
       devices = [
         "/dev/net/tun:/dev/net/tun"
@@ -111,7 +111,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.bazarr}:6767"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.bazarr}:6767"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/bazarr:/config/:rw"
@@ -130,7 +130,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.prowlarr}:9696"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.prowlarr}:9696"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/prowlarr:/config/:rw"
@@ -148,7 +148,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.radarr}:7878"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.radarr}:7878"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/radarr:/config/:rw"
@@ -167,7 +167,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.sonarr}:8989"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.sonarr}:8989"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/sonarr:/config/:rw"
@@ -184,7 +184,7 @@
         TZ = "Europe/Paris";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.seerr}:5055"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.seerr}:5055"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/seerr:/app/config/:rw"
@@ -203,7 +203,7 @@
         JELLYFIN_PublishedServerUrl = "jellyfin.${globals.domain}";
       };
       ports = [
-        "${globals.hosts.chewie.ipv4}:${toString globals.ports.jellyfin}:8096"
+        "${globals.hosts.chewie.tailscale}:${toString globals.ports.jellyfin}:8096"
       ];
       volumes = [
         "${globals.zfs.services.apps.mountPoint}/jellyfin-config:/config/:rw"
