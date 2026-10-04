@@ -19,7 +19,7 @@
     bitwarden-desktop
     qobuz-player
     evince
-    rustdesk
+    # rustdesk
     zathura
   ];
 
