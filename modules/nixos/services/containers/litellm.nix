@@ -33,7 +33,7 @@ let
     model_list:
       - model_name: qwen3.8:27b
         litellm_params:
-          model: llama-cpp/qwen3.8:27b
+          model: openai/qwen3.8:27b
           api_base: https://ai.${globals.domain}/v1
           api_key: foo
         model_info:
@@ -41,7 +41,7 @@ let
 
       - model_name: gemma4-26b-instruct
         litellm_params:
-          model: llama-cpp/gemma4-26b-instruct
+          model: openai/gemma4-26b-instruct
           api_base: https://ai.${globals.domain}/v1
           api_key: foo
         model_info:

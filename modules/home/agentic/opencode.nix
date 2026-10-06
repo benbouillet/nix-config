@@ -15,6 +15,7 @@ let
         --prefix LD_LIBRARY_PATH : "${pkgs.stdenv.cc.cc.lib}/lib"
     '';
   };
+
 in
 {
   home.activation.removeOpencodeBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -25,6 +26,23 @@ in
   sops.secrets."ai/sunday_litellm_api_key" = { };
   sops.secrets."ai/sunday_n8n_api_key" = { };
   sops.secrets."ai/sunday_linear_api_key" = { };
+  sops.secrets."litellm/opencode-api-key" = { };
+
+  sops.templates."opencode/auth.json" = {
+    mode = "0400";
+    content = ''
+      {
+        "litellm-r4clette": {
+          "type": "api",
+          "key": "${config.sops.placeholder."litellm/opencode-api-key"}"
+        }
+      }
+    '';
+  };
+
+  home.file.".local/share/opencode/auth.json" = {
+    source = config.sops.templates."opencode/auth.json".path;
+  };
 
   home.sessionVariables.LITELLM_API_KEY = "$(cat ${
     config.sops.secrets."ai/sunday_litellm_api_key".path
@@ -56,23 +74,11 @@ in
       permission = { };
 
       provider = {
-        # "amazon-bedrock" = {
-        #   options = {
-        #     region = "eu-west-2";
-        #     profile = "ai-platform";
-        #   };
-        # };
-        # openrouter = {
-        #   options = {
-        #     # baseURL = "https://openrouter.ai/api/v1";
-        #     apiKey = "{file:${config.sops.secrets."ai/openrouter_api_key".path}}";
-        #   };
-        # };
-        "llama-cpp" = {
+        "litellm-r4clette" = {
           npm = "@ai-sdk/openai-compatible";
           name = "llama-cpp (chewie)";
           options = {
-            baseURL = "https://ai.r4clette.com/v1";
+            baseURL = "https://litellm.r4clette.com/v1";
           };
           models = {
             "qwen3.8:27b" = {
