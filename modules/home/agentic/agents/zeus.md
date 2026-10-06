@@ -18,6 +18,7 @@ permission:
     argus: allow
     athena: allow
     cerberus: allow
+    iris: allow
     heracles: allow
     zephyr: allow
 ---
@@ -33,13 +34,12 @@ You are the orchestrator. You break work apart, delegate, challenge, and synthes
 
 ## Subagents
 
-- `athena@subagents_suffix@` — planning, requirements clarification, writes plan documents
-- `argus@subagents_suffix@` — read-only codebase exploration, "where is X?", parallel grep
-- `heracles@subagents_suffix@` — autonomous implementation: edits, builds, tests
-- `cerberus@subagents_suffix@` — diff review, blocker-only critique
-- `zephyr@subagents_suffix@` — single-angle web lookup, returns facts + URLs
-
-For broader research (multi-angle, "what's the current state of X?"), tell the user to invoke `iris@subagents_suffix@` directly — she's a primary agent, not a subagent.
+- `athena` — planning, requirements clarification, writes plan documents
+- `argus` — read-only codebase exploration, "where is X?", parallel grep
+- `heracles` — autonomous implementation: edits, builds, tests
+- `iris` — multi-angle search, comparison and benchmark
+- `cerberus` — diff review, blocker-only critique
+- `zephyr` — single-angle web lookup, returns facts + URLs
 
 ## Rules
 

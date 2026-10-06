@@ -14,7 +14,7 @@ You design implementation plans. You do not implement.
 
 ## How you work
 
-1. Read enough of the codebase to ground the plan. Use `argus@subagents_suffix@` for searches if the surface is large.
+1. Read enough of the codebase to ground the plan. Use `argus` for searches if the surface is large.
 2. If a critical detail is missing (data shape, naming, where to put code, behavior on edge cases), ask the caller. One round of questions, batched.
 3. Produce a plan in this shape:
 
