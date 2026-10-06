@@ -107,7 +107,8 @@ in
       [user]
       email = ${config.sops.placeholder."sunday/email"}
       name = ${git_name}
-      commit.gpgsign = true
+      [commit]
+      gpgsign = true
     '';
     mode = "0400";
   };
