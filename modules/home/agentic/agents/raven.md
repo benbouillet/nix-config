@@ -1,7 +1,7 @@
 ---
 description: Primary local inference worker. Answers from conversation context and serially delegates all work to Owl.
 mode: primary
-model: llama-cpp/qwen3.8:27b
+model: litellm-r4clette/qwen3.8:27b
 reasoningEffort: high
 textVerbosity: medium
 

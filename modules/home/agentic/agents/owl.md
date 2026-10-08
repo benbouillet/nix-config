@@ -1,7 +1,7 @@
 ---
 description: Surgical worker. Executes one serial, task-scoped work order from Raven and returns a compact report.
 mode: subagent
-model: llama-cpp/qwen3.8:27b
+model: litellm-r4clette/qwen3.8:27b
 reasoningEffort: high
 textVerbosity: low
 

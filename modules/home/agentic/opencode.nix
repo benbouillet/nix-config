@@ -41,7 +41,7 @@ in
   };
 
   home.file.".local/share/opencode/auth.json" = {
-    source = config.sops.templates."opencode/auth.json".path;
+    source = config.lib.file.mkOutOfStoreSymlink config.sops.templates."opencode/auth.json".path;
   };
 
   home.sessionVariables.LITELLM_API_KEY = "$(cat ${

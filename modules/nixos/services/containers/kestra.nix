@@ -30,6 +30,7 @@ in
     mode = "0400";
     owner = "root";
     group = "root";
+    restartUnits = [ "podman-kestra.service" ];
   };
 
   systemd.tmpfiles.rules = lib.mkAfter [
