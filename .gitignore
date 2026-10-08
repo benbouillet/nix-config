@@ -24,3 +24,4 @@ id_ed25519_sk
 # Environment files
 .env
 .env.local
+.docs
