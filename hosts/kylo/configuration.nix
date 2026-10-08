@@ -27,11 +27,12 @@
   nix = {
     gc = {
       automatic = lib.mkForce true;
-      dates = lib.mkForce "daily";
-      options = lib.mkForce "--delete-older-than 3d";
+      dates = lib.mkForce "weekly";
+      options = lib.mkForce "--delete-older-than 14d";
     };
     settings = {
-      auto-optimise-store = lib.mkForce true;
+      auto-optimise-store = lib.mkForce false;
+      trusted-users = lib.mkAfter [ "ben" ];
       min-free = lib.mkForce (1 * 1024 * 1024 * 1024);
       max-free = lib.mkForce (5 * 1024 * 1024 * 1024);
     };
@@ -144,9 +145,13 @@
   };
 
   services.journald.settings.Journal = {
-    Storage = "persistent";
-    SystemMaxUse = "512M";
-    MaxFileSec = "1month";
+    Storage = "volatile";
+    RuntimeMaxUse = "128M";
+  };
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
   };
 
   sops.age.keyFile = "/var/lib/sops-nix/key.txt";

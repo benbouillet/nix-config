@@ -223,9 +223,14 @@
           nixdeploy = spkgs.writeShellApplication {
             name = "nixdeploy";
             text = ''
+              build_host_args=()
+              if [[ "$1" != "kylo" ]]; then
+                build_host_args=(--build-host "$1")
+              fi
+
               nixos-rebuild switch --flake ".#$1" \
                 --target-host "$1" \
-                --build-host "$1" \
+                "''${build_host_args[@]}" \
                 --sudo \
                 --use-substitutes
             '';

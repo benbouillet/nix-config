@@ -13,6 +13,7 @@
     device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
     fsType = "ext4";
     neededForBoot = true;
+    options = [ "noatime" ];
   };
 
   fileSystems."/boot/firmware" = {
@@ -28,8 +29,9 @@
       "/boot"
       "/etc/nixos"
       "/nix"
-      "/var/lib"
-      "/var/log"
+      "/var/lib/nixos"
+      "/var/lib/sops-nix"
+      "/var/lib/tailscale"
     ];
     files = [
       "/etc/machine-id"
@@ -37,6 +39,7 @@
       "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssh_host_rsa_key"
       "/etc/ssh/ssh_host_rsa_key.pub"
+      "/var/lib/systemd/random-seed"
     ];
   };
 }
