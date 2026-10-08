@@ -20,6 +20,8 @@
     ${globals.hosts.chewie.nebula} chewie.nebula
     ${globals.hosts.leia.nebula} leia.nebula
     ${globals.hosts.yoda.nebula} yoda.nebula
+    ${globals.hosts.kylo.nebula} kylo.nebula
+    ${globals.hosts.tarkin.nebula} tarkin.nebula
   '';
 
   sops = {

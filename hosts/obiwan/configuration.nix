@@ -48,6 +48,7 @@ in
   # services.fwupd.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Enable networking
   networking.hostName = host;

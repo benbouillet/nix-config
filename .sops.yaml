@@ -4,6 +4,7 @@ keys:
   - &yoda age180hurage7swmnf3he3pj0e3333f9yeygl2hy7pelv2pf06f53vvqng2xj2
   - &leia age16vtgz95epje73z7pvgy8tkwmv0jdkx679j4djt3958pehk4yw4xsqh2h9n
   - &tarkin age1u09fsr8sg3kzfmdf3c5n5nklpqzyga2dpes6vjcgxpr0pm4d6e2q7yz822
+  - &kylo age1qfrt780ym3nlryaqyqjqwrczf8a283aczggprgrz5zrysuxkmcpsgq94kq
 creation_rules:
   - path_regex: secrets/leia\.yaml
     key_groups:
@@ -20,3 +21,6 @@ creation_rules:
   - path_regex: secrets/tarkin\.yaml
     key_groups:
       - age: [*tarkin, *obiwan]
+  - path_regex: secrets/kylo\.yaml
+    key_groups:
+      - age: [*kylo, *obiwan]

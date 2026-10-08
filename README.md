@@ -46,6 +46,42 @@ nvd diff /nix/var/nix/profiles/system-511-link /nix/store/j10jc3ny8jmlzaq979yr0i
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
+### Deploy Raspberry Pi (kylo)
+1. Ensure aarch64 binfmt emulation is enabled on the build machine (`obiwan` has `boot.binfmt.emulatedSystems`).
+2. Build the installer image (it embeds the root SSH key from `flake.nix`):
+   ```bash
+   nix build .#packages.aarch64-linux.rpi-installer
+   ```
+3. Flash the image:
+   ```bash
+   zstdcat result/sd-image/*.img.zst | sudo dd of=/dev/sdX bs=4M conv=fsync status=progress
+   ```
+   Use plain `dd if=` if the output is an uncompressed `.img`.
+4. Boot the Pi, then re-derive the SOPS age anchor from the new host key:
+   ```bash
+   ssh root@<pi-ip> cat /etc/ssh/ssh_host_ed25519_key.pub | nix run nixpkgs#ssh-to-age
+   ```
+   Update the `&kylo` anchor in `.sops.yaml`, then run:
+   ```bash
+   sops updatekeys secrets/kylo.yaml
+   ```
+5. Install the age private key on the Pi:
+   ```bash
+   ssh root@<pi-ip> 'mkdir -p /var/lib/sops-nix && nix run nixpkgs#ssh-to-age -- -private-key -i /etc/ssh/ssh_host_ed25519_key > /var/lib/sops-nix/key.txt && chmod 600 /var/lib/sops-nix/key.txt'
+   ```
+6. First deploy as root with `boot`, then reboot:
+   ```bash
+   nixos-rebuild boot --flake .#kylo --target-host root@<pi-ip> --build-host root@<pi-ip> --use-substitutes
+   ```
+7. Subsequent deploys target `ben@` (root SSH is disabled by the config):
+   ```bash
+   nixdeploy kylo
+   ```
+
+Gotchas:
+* SD cards wear out fast under NixOS deploy churn; `EBADMSG`/CRC errors indicate a dying card.
+* kylo has a 30MB FAT boot partition at `/boot/firmware`, kernels on ext4 `/persist/boot`, and a generation limit of 5.
+
 ### Make a change in the disk configuration
 When adding/removing a ZFS datasets, make the changes imperatively,
 then document the change in [datasets.md](./hosts/chewie/disko/datasets.md).

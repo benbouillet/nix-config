@@ -80,10 +80,12 @@
       mkHost =
         {
           host,
+          system ? "x86_64-linux",
           extraModules ? [ ],
           extraSpecialArgs ? { },
         }:
         nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = {
             inherit inputs host username;
           }
@@ -146,11 +148,47 @@
           host = "tarkin";
           extraModules = [ inputs.sops-nix.nixosModules.sops ];
         };
+        "kylo" = mkHost {
+          host = "kylo";
+          system = "aarch64-linux";
+          extraModules = [
+            inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
+          ];
+        };
       };
       packages = forAllSystems (system: {
         usbboot = nixos-generators.nixosGenerate {
           inherit system;
           format = "install-iso";
+          modules = [
+            {
+              nix = {
+                settings.experimental-features = [
+                  "nix-command"
+                  "flakes"
+                ];
+              };
+              programs.git.enable = true;
+
+              services.openssh = {
+                enable = true;
+                settings = {
+                  PasswordAuthentication = false;
+                  KbdInteractiveAuthentication = false;
+                  PermitRootLogin = "prohibit-password";
+                };
+              };
+              users.users.root.openssh.authorizedKeys.keys = [
+                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
+              ];
+              networking.networkmanager.enable = true;
+            }
+          ];
+        };
+        rpi-installer = nixos-generators.nixosGenerate {
+          format = "sd-aarch64-installer";
+          system = "aarch64-linux";
           modules = [
             {
               nix = {
@@ -185,14 +223,9 @@
           nixdeploy = spkgs.writeShellApplication {
             name = "nixdeploy";
             text = ''
-              target_host="$1.tailscale"
-              if [ "$1" = "tarkin" ]; then
-                target_host="tarkin"
-              fi
-
               nixos-rebuild switch --flake ".#$1" \
-                --target-host "$target_host" \
-                --build-host "$target_host" \
+                --target-host "$1" \
+                --build-host "$1" \
                 --sudo \
                 --use-substitutes
             '';
@@ -211,12 +244,6 @@
             name = "scram-sha-256";
             text = ''
               ${scram-sha-256-build}/bin/term
-            '';
-          };
-          rpi-sdimage = spkgs.writeShellApplication {
-            name = "rpi-sdimage";
-            text = ''
-              nix build .#nixosConfigurations.rpiSdImage.config.system.build.sdImage
             '';
           };
           authelia-hash = spkgs.writeShellApplication {
@@ -238,7 +265,6 @@
               renovate
               nixdeploy
               scram-sha-256
-              rpi-sdimage
               authelia-hash
             ];
             shellHook = ''
