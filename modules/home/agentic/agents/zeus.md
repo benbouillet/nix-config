@@ -1,7 +1,7 @@
 ---
 description: Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.
 mode: primary
-model: litellm/moonshotai.kimi-k3
+model: litellm/openai.gpt-5.6-terra
 reasoningEffort: medium
 textVerbosity: high
 

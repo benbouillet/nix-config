@@ -1,7 +1,7 @@
 ---
 description: Craftsman. Implements changes end-to-end: edits, builds, tests. Owns the diff.
 mode: subagent
-model: litellm/openai.gpt-5.6-luna
+model: litellm/openai.gpt-6-luna
 reasoningEffort: medium
 textVerbosity: low
 ---
