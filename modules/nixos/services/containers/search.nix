@@ -16,7 +16,7 @@
 
   virtualisation.oci-containers.containers = {
     "degoog" = {
-      image = "ghcr.io/degoog-org/degoog:0.26.0@sha256:69e28fe2dc8008981b0ea8b9270f6b5b482d107b8a3dfa71d8acdac37f4b77c0";
+      image = "ghcr.io/degoog-org/degoog:1.1.0@sha256:4b5d1eda19da3591782142bd30c367a3973aaf2511a7d050b852a53f1045a5d1";
       networks = [ "podman" ];
       ports = [
         "${globals.hosts.chewie.tailscale}:${toString globals.ports.degoog}:4444"
