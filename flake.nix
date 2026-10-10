@@ -191,6 +191,12 @@
           system = "aarch64-linux";
           modules = [
             {
+              sdImage = {
+                firmwareSize = 512;
+                firmwarePartitionID = "0x2178694e";
+                rootPartitionUUID = "44444444-4444-4444-8888-888888888888";
+              };
+
               nix = {
                 settings.experimental-features = [
                   "nix-command"

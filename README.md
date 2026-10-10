@@ -48,31 +48,30 @@ sudo nixos-rebuild switch --flake .#<hostname>
 
 ### Deploy Raspberry Pi (kylo)
 1. Ensure aarch64 binfmt emulation is enabled on the build machine (`obiwan` has `boot.binfmt.emulatedSystems`).
-2. Build the installer image (it embeds the root SSH key from `flake.nix`):
+2. Build the generic bootstrap installer image. It is not a pre-rendered Kylo image and does not contain Kylo's IMX219 firmware configuration:
    ```bash
    nix build .#packages.aarch64-linux.rpi-installer
    ```
-3. Flash the image:
+3. Flash the image to the disposable SD card:
    ```bash
    zstdcat result/sd-image/*.img.zst | sudo dd of=/dev/sdX bs=4M conv=fsync status=progress
    ```
    Use plain `dd if=` if the output is an uncompressed `.img`.
-4. Boot the Pi, then re-derive the SOPS age anchor from the new host key:
+4. Boot the installer and determine its current LAN address and confirm bootstrap SSH access. A human operator must complete the Kylo identity and SOPS bootstrap procedure from Obiwan before deploying the target, following the repository's secret-handling rules. This guide omits those secret-handling commands.
+5. The image has two partitions: a 512 MiB FAT32 `/boot/firmware` partition (UUID `2178-694E`) followed by ext4 (UUID `44444444-4444-4444-8888-888888888888`), initially used as installer root and later mounted as Kylo `/persist`. The generic installer leaves `/boot/firmware` unmounted. Mount it and verify that it has at least 256 MiB free before the first Kylo deployment:
    ```bash
-   ssh root@<pi-ip> cat /etc/ssh/ssh_host_ed25519_key.pub | nix run nixpkgs#ssh-to-age
+   mount /dev/disk/by-uuid/2178-694E /boot/firmware
+   findmnt /boot/firmware
+   df -BM /boot/firmware
    ```
-   Update the `&kylo` anchor in `.sops.yaml`, then run:
+6. Perform the first Kylo deployment as root with `switch`, not `boot`. Firmware files and the rendered IMX219 `config.txt` are installed by the system activation script, which `boot` does not run:
    ```bash
-   sops updatekeys secrets/kylo.yaml
+   nixos-rebuild switch --flake .#kylo \
+     --target-host root@<pi-ip> \
+     --build-host root@<pi-ip> \
+     --use-substitutes
    ```
-5. Install the age private key on the Pi:
-   ```bash
-   ssh root@<pi-ip> 'mkdir -p /var/lib/sops-nix && nix run nixpkgs#ssh-to-age -- -private-key -i /etc/ssh/ssh_host_ed25519_key > /var/lib/sops-nix/key.txt && chmod 600 /var/lib/sops-nix/key.txt'
-   ```
-6. First deploy as root with `boot`, then reboot:
-   ```bash
-   nixos-rebuild boot --flake .#kylo --target-host root@<pi-ip> --build-host root@<pi-ip> --use-substitutes
-   ```
+   Before rebooting, confirm `/boot/firmware` remains mounted, has at least 256 MiB free, and contains the rendered IMX219 `config.txt`, `overlays/imx219.dtbo`, Pi 4 firmware files, and `u-boot.bin`. Verify `ben` SSH access and retain local-console access before the reboot.
 7. Subsequent deploys target `ben@` (root SSH is disabled by the config):
    ```bash
    nixdeploy kylo
@@ -80,7 +79,7 @@ sudo nixos-rebuild switch --flake .#<hostname>
 
 Gotchas:
 * SD cards wear out fast under NixOS deploy churn; `EBADMSG`/CRC errors indicate a dying card.
-* kylo has a 30MB FAT boot partition at `/boot/firmware`, kernels on ext4 `/persist/boot`, and a generation limit of 5.
+* Kylo uses a 512 MiB FAT boot partition at `/boot/firmware`, kernels on ext4 `/persist/boot`, and a generation limit of 5.
 
 ### Make a change in the disk configuration
 When adding/removing a ZFS datasets, make the changes imperatively,

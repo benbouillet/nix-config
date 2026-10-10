@@ -21,6 +21,17 @@
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
   boot.loader.generic-extlinux-compatible.configurationLimit = 5;
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  boot.loader.generic-extlinux-compatible.useGenerationDeviceTree = false;
+
+  hardware.raspberry-pi.firmware.enable = true;
+  hardware.raspberry-pi.firmware.uboot.enable = true;
+  hardware.raspberry-pi.configtxt.settings.all.camera_auto_detect = lib.mkForce false;
+  hardware.raspberry-pi.configtxt.deviceTreeOverlays.pi4 = [ { imx219 = { }; } ];
+
+  environment.systemPackages = with pkgs; [
+    libcamera
+    v4l-utils
+  ];
 
   services.smartd.enable = lib.mkForce false;
 
