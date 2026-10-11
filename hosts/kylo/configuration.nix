@@ -33,6 +33,12 @@
 
   services.smartd.enable = lib.mkForce false;
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="dma_heap", KERNEL=="default_cma_region", SYMLINK+="dma_heap/linux,cma"
+  '';
+
+  hardware.raspberry-pi.config.all.dt-overlays.vc4-kms-v3d.params.cma-256.enable = true;
+
   nix = {
     gc = {
       automatic = lib.mkForce true;

@@ -80,6 +80,7 @@ sudo nixos-rebuild switch --flake .#<hostname>
 Gotchas:
 * SD cards wear out fast under NixOS deploy churn; `EBADMSG`/CRC errors indicate a dying card.
 * Kylo uses a 512 MiB FAT boot partition at `/boot/firmware`, kernels on ext4 `/persist/boot`, and a generation limit of 5.
+* The camera config adds the `linux,cma` DMA-heap name expected by rpicam-apps as a symlink to the kernel's `default_cma_region`, and reserves 256 MiB for CMA through the existing `vc4-kms-v3d` overlay. The reservation reduces memory available to the rest of the system; verify camera capture and available memory after reboot.
 
 ### Make a change in the disk configuration
 When adding/removing a ZFS datasets, make the changes imperatively,
