@@ -3,8 +3,8 @@ name: OCI images
 on:
   pull_request:
     paths:
-      - gitops/images/kestra-python/**"
-      - .github/workflows/kestra-python-image.yml"
+      - "gitops/images/kestra-python/**"
+      - ".github/workflows/kestra-python-image.yml"
   push:
     branches:
       - main
@@ -43,7 +43,7 @@ jobs:
       - uses: docker/metadata-action@v5
         id: metadata
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository_owner }}/kestra-python
           tags: |
             type=sha
             type=raw,value=latest
