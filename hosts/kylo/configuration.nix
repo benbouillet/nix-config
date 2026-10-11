@@ -1,5 +1,4 @@
 {
-  inputs,
   username,
   host,
   pkgs,
@@ -9,7 +8,6 @@
 }:
 {
   imports = [
-    inputs.hardware.nixosModules.raspberry-pi-4
     ./hardware-configuration.nix
     ./impermanence.nix
     ../../modules/nixos/globals-shared.nix
@@ -19,17 +17,17 @@
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
-  boot.loader.generic-extlinux-compatible.configurationLimit = 5;
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
-  boot.loader.generic-extlinux-compatible.useGenerationDeviceTree = false;
-
-  hardware.raspberry-pi.firmware.enable = true;
-  hardware.raspberry-pi.firmware.uboot.enable = true;
-  hardware.raspberry-pi.configtxt.settings.all.camera_auto_detect = lib.mkForce false;
-  hardware.raspberry-pi.configtxt.deviceTreeOverlays.pi4 = [ { imx219 = { }; } ];
 
   environment.systemPackages = with pkgs; [
     libcamera
+    (rpi.rpicam-apps.override {
+      withLibavEncoder = false;
+      withDrmPreview = false;
+      withEglPreview = false;
+      withQtPreview = false;
+      withOpenCVPostProc = false;
+      withIMX500 = false;
+    })
     v4l-utils
   ];
 
@@ -43,6 +41,10 @@
     };
     settings = {
       auto-optimise-store = lib.mkForce false;
+      extra-substituters = [ "https://nixos-raspberrypi.cachix.org" ];
+      extra-trusted-public-keys = [
+        "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+      ];
       trusted-users = lib.mkAfter [ "ben" ];
       min-free = lib.mkForce (1 * 1024 * 1024 * 1024);
       max-free = lib.mkForce (5 * 1024 * 1024 * 1024);
@@ -118,7 +120,10 @@
       shell = lib.mkForce pkgs.bashInteractive;
       isNormalUser = true;
       hashedPassword = "!";
-      extraGroups = [ "wheel" ];
+      extraGroups = [
+        "wheel"
+        "video"
+      ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGgueapj7BN77sbhZ61B5VxL0sqrhr+H81OUDJibpeR2"
       ];
@@ -155,10 +160,17 @@
     "net.ipv4.conf.default.accept_source_route" = 0;
   };
 
-  services.journald.settings.Journal = {
-    Storage = "volatile";
-    RuntimeMaxUse = "128M";
+  services.journald = {
+    storage = "volatile";
+    extraConfig = "RuntimeMaxUse=128M";
   };
+
+  swapDevices = [
+    {
+      device = "/persist/nix-build.swap";
+      size = 4096;
+    }
+  ];
 
   zramSwap = {
     enable = true;
@@ -166,6 +178,12 @@
   };
 
   sops.age.keyFile = "/var/lib/sops-nix/key.txt";
+  sops.useSystemdActivation = true;
+
+  systemd.services."nebula@tarkin" = {
+    requires = [ "sops-install-secrets.service" ];
+    after = [ "sops-install-secrets.service" ];
+  };
 
   system.stateVersion = "25.05";
 }

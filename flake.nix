@@ -6,6 +6,8 @@
 
     hardware.url = "github:nixos/nixos-hardware?ref=master";
 
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,6 +57,7 @@
       nixpkgs,
       home-manager,
       nixos-generators,
+      nixos-raspberrypi,
       ...
     }@inputs:
     let
@@ -148,10 +151,15 @@
           host = "tarkin";
           extraModules = [ inputs.sops-nix.nixosModules.sops ];
         };
-        "kylo" = mkHost {
-          host = "kylo";
+        "kylo" = nixos-raspberrypi.lib.nixosSystem {
           system = "aarch64-linux";
-          extraModules = [
+          specialArgs = {
+            inherit inputs username;
+            host = "kylo";
+          };
+          modules = [
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            ./hosts/kylo/configuration.nix
             inputs.sops-nix.nixosModules.sops
             inputs.impermanence.nixosModules.impermanence
           ];
