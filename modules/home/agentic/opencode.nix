@@ -5,6 +5,22 @@
   ...
 }:
 let
+  kestraSkillNames = [
+    "kestra-flow-hardening"
+    "kestra-flow"
+    "kestra-ops"
+  ];
+  kestraSkills = pkgs.fetchFromGitHub {
+    owner = "kestra-io";
+    repo = "agent-skills";
+    rev = "7d1c3443f3bc8ddb26ce4abe8ea67822033421b9";
+    hash = "sha256-GdNCbu88a1RItet6D50UE7uSku5MlWng4HajM+HmIT0=";
+  };
+  localSkills = lib.mapAttrs (name: _: ./skills/${name}) (
+    lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./skills)
+  );
+  skills = localSkills // lib.genAttrs kestraSkillNames (name: "${kestraSkills}/skills/${name}");
+
   # Wrap opencode with GCC libstdc++ for native file watcher bindings
   opencode-wrapped = pkgs.symlinkJoin {
     name = "opencode-wrapped";
@@ -130,6 +146,11 @@ in
             Authorization = "Bearer {env:LINEAR_API_KEY}";
           };
         };
+        kestra = {
+          enabled = false;
+          type = "remote";
+          url = "https://kestra.r4clette.com/mcp";
+        };
         # n8n = {
         #   enabled = false;
         #   type = "remote";
@@ -160,7 +181,7 @@ in
 
     context = ./AGENTS.md;
     agents = ./agents;
-    skills = ./skills;
+    skills = skills;
     commands = ./commands;
 
     tui = {
