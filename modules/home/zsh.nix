@@ -47,6 +47,7 @@
         "terraform"
         "tmux"
         "fzf"
+        "golang"
       ];
     };
 
