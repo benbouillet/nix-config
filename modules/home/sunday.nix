@@ -139,9 +139,7 @@ in
         balena-cli
 
         # AI
-        claude-code
-        vscode
-        vscode-extensions.anthropic.claude-code
+        # claude-code
 
         # CLI
         gws
