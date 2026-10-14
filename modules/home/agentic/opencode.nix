@@ -166,9 +166,6 @@ in
         # };
       };
 
-      # NOTE: vimcode TUI plugin is configured in programs.opencode.tui.plugin
-      plugin = [ "@leohenon/opencode-vim-plugin" ];
-
       watcher = {
         ignore = [
           "node_modules/**"
@@ -186,6 +183,16 @@ in
 
     tui = {
       theme = "stylix";
+      plugin = [
+        [
+          "@leohenon/opencode-vim-plugin"
+          {
+            enabled = true;
+            toggle_key = "ctrl+shift+v";
+            indicator = true;
+          }
+        ]
+      ];
     };
   };
 
