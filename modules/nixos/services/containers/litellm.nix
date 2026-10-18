@@ -77,7 +77,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "litellm" = {
-      image = "docker.litellm.ai/berriai/litellm:v1.105.1@sha256:b7b9e2c306343721802253d0dd9436b9634a2eb4e14da7c7cf06c5c7b7530802";
+      image = "docker.litellm.ai/berriai/litellm:v1.106.0@sha256:2e4c0371f3a8c28e4da131d77abaa8341cd3b0c2fcc4d34d7c5900431af7b9d0";
       ports = [
         "${globals.hosts.chewie.tailscale}:${toString globals.ports.litellm}:4000"
       ];
