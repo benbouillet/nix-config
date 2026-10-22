@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    opencode-nixpkgs.url = "github:nixos/nixpkgs/436e34e0bb929ffed9857ad34d74254ad5101d17";
+    opencode-nixpkgs.url = "github:nixos/nixpkgs/9383f6adb67353305a158742eef66b9607df512a";
 
     hardware.url = "github:nixos/nixos-hardware?ref=master";
 
