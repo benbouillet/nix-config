@@ -192,6 +192,7 @@ in
             indicator = true;
           }
         ]
+        "./plugins/litellm-key-tui.tsx"
       ];
     };
   };
