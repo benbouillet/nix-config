@@ -204,7 +204,7 @@ in
         "extensions.autoDisableScopes" = "0";
       };
       search = {
-        default = "Raclette Search";
+        default = "DuckduckGo";
         engines = {
           "Nix Packages" = {
             urls = [
