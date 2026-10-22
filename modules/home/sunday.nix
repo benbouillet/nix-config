@@ -422,7 +422,6 @@ in
         sponsorblock
         return-youtube-dislikes
         multi-account-containers
-        terms-of-service-didnt-read
         duckduckgo-privacy-essentials
         privacy-badger
         adaptive-tab-bar-colour

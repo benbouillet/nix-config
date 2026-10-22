@@ -146,7 +146,6 @@
         facebook-container
         return-youtube-dislikes
         multi-account-containers
-        terms-of-service-didnt-read
         duckduckgo-privacy-essentials
         augmented-steam
         privacy-badger
