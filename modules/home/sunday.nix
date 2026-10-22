@@ -139,7 +139,7 @@ in
         balena-cli
 
         # AI
-        # claude-code
+        claude-code
 
         # CLI
         gws
