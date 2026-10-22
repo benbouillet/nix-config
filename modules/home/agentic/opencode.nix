@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -24,7 +25,9 @@ let
   # Wrap opencode with GCC libstdc++ for native file watcher bindings
   opencode-wrapped = pkgs.symlinkJoin {
     name = "opencode-wrapped";
-    paths = [ pkgs.opencode ];
+    paths = [
+      inputs.opencode-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode
+    ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/opencode \
