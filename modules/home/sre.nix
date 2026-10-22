@@ -1,5 +1,6 @@
 {
   config,
+  # docker-agent,
   pkgs,
   ...
 }:
@@ -43,6 +44,7 @@
     gh
     pre-commit
     podman-compose
+    # docker-agent
 
     # network
     nmap
