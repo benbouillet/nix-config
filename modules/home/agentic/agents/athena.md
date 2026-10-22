@@ -1,7 +1,7 @@
 ---
 description: Planner. Asks clarifying questions, then writes an implementation plan. Read-only on code; writes only into .plans/.
 mode: subagent
-model: litellm/openai.gpt-5.6-terra
+model: litellm/openai.gpt-6.1-sol
 reasoningEffort: xhigh
 textVerbosity: high
 
