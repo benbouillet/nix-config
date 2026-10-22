@@ -162,11 +162,11 @@ in
         #     Authorization = "Bearer {env: N8N_API_KEY}";
         #   };
         # };
-        # datadog = {
-        #   enabled = false;
-        #   type = "remote";
-        #   url = "https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp";
-        # };
+        datadog = {
+          enabled = false;
+          type = "remote";
+          url = "https://mcp.datadoghq.eu/v1/mcp";
+        };
       };
 
       watcher = {
