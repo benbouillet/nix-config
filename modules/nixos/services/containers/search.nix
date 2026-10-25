@@ -43,7 +43,7 @@
     };
 
     "degoog-mcp" = {
-      image = "ghcr.io/degoog-org/mcp:0.4.0@sha256:feb6e2dc59072232e71a92567d2b099b27af1546af0a2f039787ad635a6c19a1";
+      image = "ghcr.io/degoog-org/mcp:0.4.1@sha256:d8d82d5b8298b23bda4f59155d9850700fe83f6742f77dfb72a7ffee3195cdf2";
       dependsOn = [ "degoog" ];
       networks = [ "podman" ];
       ports = [
