@@ -46,6 +46,7 @@ in
   sops.secrets."ai/sunday_n8n_api_key" = { };
   sops.secrets."ai/sunday_linear_api_key" = { };
   sops.secrets."litellm/opencode-api-key" = { };
+  sops.secrets."sunday/kestra_tailnet_mcp_url" = { };
 
   sops.templates."opencode/auth.json" = {
     mode = "0400";
@@ -147,6 +148,15 @@ in
           url = "https://mcp.linear.app/mcp/readonly";
           headers = {
             Authorization = "Bearer {env:LINEAR_API_KEY}";
+          };
+        };
+        kestra-sunday = {
+          enabled = false;
+          type = "remote";
+          oauth = false;
+          url = "{file:${config.sops.secrets."sunday/kestra_tailnet_mcp_url".path}}";
+          headers = {
+            Authorization = "Basic {env:KESTRA_MCP_BASIC_TOKEN}";
           };
         };
         kestra = {
