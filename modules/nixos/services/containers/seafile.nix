@@ -132,7 +132,7 @@
       };
     };
     seafile-notification-server = {
-      image = "docker.io/seafileltd/notification-server:13.0.21@sha256:1cac4101d0f4527ad08c00b5452ceb05d790db95d6c8ab6bbace82429c1e5217";
+      image = "docker.io/seafileltd/notification-server:14.0.8@sha256:f442e9ae3a12f0f30371e054f30b8edf692a20e1331a6b81d4e5f51d49de8e94";
       autoStart = true;
       volumes = [
         "${globals.zfs.data.seafile.mountPoint}:/shared/seafile"
