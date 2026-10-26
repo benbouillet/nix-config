@@ -47,8 +47,6 @@
     impermanence = {
       url = "github:nix-community/impermanence";
     };
-
-    jail-nix.url = "sourcehut:~alexdavid/jail.nix";
   };
 
   outputs =

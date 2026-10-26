@@ -1,12 +1,10 @@
 {
-  username,
   pkgs,
   ...
 }:
 {
   imports = [
     ./opencode.nix
-    ./pi
   ];
 
   home.packages = with pkgs; [

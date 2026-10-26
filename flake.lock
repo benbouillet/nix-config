@@ -312,21 +312,6 @@
         "type": "github"
       }
     },
-    "jail-nix": {
-      "locked": {
-        "lastModified": 1788928033,
-        "narHash": "sha256-UQRytK4SsshV1CeX6aKF+P855Sbcqg9aA731eYTakNg=",
-        "owner": "~alexdavid",
-        "repo": "jail.nix",
-        "rev": "7cd53acef3ad51b9c775be759f5643f8d3bcf6eb",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~alexdavid",
-        "repo": "jail.nix",
-        "type": "sourcehut"
-      }
-    },
     "nixlib": {
       "locked": {
         "lastModified": 1736643958,
@@ -562,7 +547,6 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
-        "jail-nix": "jail-nix",
         "nixos-generators": "nixos-generators",
         "nixos-raspberrypi": "nixos-raspberrypi",
         "nixpkgs": "nixpkgs_4",
