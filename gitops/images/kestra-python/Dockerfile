@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.15.1-slim-bookworm@sha256:57f8539684eacb0932ead2cb9ed1f5fc9a5995a0ed6a8cd48d6819804c9133e6
+FROM docker.io/library/python:3.15.2-slim-bookworm@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends bash \
