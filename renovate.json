@@ -24,9 +24,6 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "ignoreDeps": [
-    "sunday-bastion"
-  ],
   "packageRules": [],
   "customManagers": [
     {

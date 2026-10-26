@@ -341,7 +341,6 @@ Managed via `renovate.json`. Handles:
 - Docker image tags (custom regex manager scanning `.nix` files for `image = "name:tag@digest"`)
 - Lock file maintenance
 - Vulnerability alerts (labelled `security`)
-- Ignores `sunday-bastion` input
 
 ---
 

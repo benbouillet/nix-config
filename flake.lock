@@ -472,22 +472,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
-      "locked": {
-        "lastModified": 1731603435,
-        "narHash": "sha256-CqCX4JG7UiHvkrBTpYC3wcEurvbtTADLbo3Ns2CEoL8=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "8b27c1239e5c421a2bbc2c65d52e4a6fbf2ff296",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "24.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -586,8 +570,7 @@
         "nur": "nur",
         "opencode-nixpkgs": "opencode-nixpkgs",
         "sops-nix": "sops-nix",
-        "stylix": "stylix",
-        "sunday-bastion": "sunday-bastion"
+        "stylix": "stylix"
       }
     },
     "sops-nix": {
@@ -641,24 +624,6 @@
         "owner": "danth",
         "repo": "stylix",
         "type": "github"
-      }
-    },
-    "sunday-bastion": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_5"
-      },
-      "locked": {
-        "lastModified": 1790754706,
-        "narHash": "sha256-5JJC815QntqMzr5TmXzE+dcHWfP478xDyXCSSp73gPM=",
-        "ref": "refs/heads/main",
-        "rev": "d7282012c6446f2ea54fa3ab92a2d88aa5509143",
-        "revCount": 194,
-        "type": "git",
-        "url": "ssh://git@github.com/sundayapp/support-tools"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/sundayapp/support-tools"
       }
     },
     "systems": {

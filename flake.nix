@@ -49,8 +49,6 @@
     };
 
     jail-nix.url = "sourcehut:~alexdavid/jail.nix";
-
-    sunday-bastion.url = "git+ssh://git@github.com/sundayapp/support-tools";
   };
 
   outputs =
