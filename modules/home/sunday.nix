@@ -96,11 +96,43 @@ let
       gke-gcloud-auth-plugin
     ]
   );
+  kestractl =
+    let
+      version = "3.6.1";
+    in
+    pkgs.stdenv.mkDerivation {
+      pname = "kestractl";
+      inherit version;
+
+      src = pkgs.fetchurl {
+        url = "https://github.com/kestra-io/kestractl/releases/download/v${version}/kestractl_${version}_linux_amd64";
+        hash = "sha256-vD53aF7GS7B6UygTHDSH+gfxa+5mQb16sOijujaCcJc=";
+      };
+
+      dontUnpack = true;
+
+      installPhase = ''
+        runHook preInstall
+        install -Dm755 $src $out/bin/kestractl
+        runHook postInstall
+      '';
+
+      meta = {
+        description = "CLI for managing Kestra instances";
+        mainProgram = "kestractl";
+        platforms = [ "x86_64-linux" ];
+      };
+    };
 in
 {
   sops.secrets."ai/sunday_litellm_api_key" = { };
   sops.secrets."sunday/email" = { };
   sops.secrets."sunday/gather_start_url" = { };
+  sops.secrets."sunday/kestra_mcp_token" = { };
+
+  home.sessionVariables.KESTRA_MCP_BASIC_TOKEN = "$(cat ${
+    config.sops.secrets."sunday/kestra_mcp_token".path
+  })";
 
   sops.templates.sunday-git-config = {
     content = ''
@@ -147,6 +179,7 @@ in
       ++ [
         gdk
         bedrock-models
+        kestractl
       ];
 
     activation = {
