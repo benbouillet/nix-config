@@ -77,7 +77,6 @@
       pkgs = pkgsFor "x86_64-linux";
       runs-on-cli = import ./packages/runs-on-cli/package.nix { inherit pkgs; };
       betaflight-configurator = import ./packages/betaflight-configurator.nix { inherit pkgs; };
-      # docker-agent = import ./packages/docker-agent.nix { inherit pkgs; };
 
       mkHost =
         {
@@ -100,7 +99,6 @@
         "obiwan" = mkHost {
           host = "obiwan";
           extraSpecialArgs = {
-            # inherit runs-on-cli betaflight-configurator docker-agent;
             inherit runs-on-cli betaflight-configurator;
           };
           extraModules = [
@@ -113,7 +111,6 @@
                     inputs
                     runs-on-cli
                     betaflight-configurator
-                    # docker-agent
                     ;
                   host = "obiwan";
                 };
