@@ -25,3 +25,7 @@ jobs:
           token: ${{ secrets.RENOVATE_TOKEN }}
         env:
           RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_SECRETS: >-
+            {"NIX_PRIVATE_PAT":"${{ secrets.NIX_PRIVATE_PAT }}"}
+          RENOVATE_CUSTOM_ENV_VARIABLES: >-
+            {"NIX_PRIVATE_PAT":"{{ secrets.NIX_PRIVATE_PAT }}","GIT_CONFIG_COUNT":"3","GIT_CONFIG_KEY_0":"url.https://github.com/benbouillet/nix-private.git.insteadOf","GIT_CONFIG_VALUE_0":"ssh://git@github.com/benbouillet/nix-private.git","GIT_CONFIG_KEY_1":"credential.https://github.com/benbouillet/nix-private.git.helper","GIT_CONFIG_VALUE_1":"!f() { case \"$1\" in get) printf \"%s\\n\" \"username=x-access-token\" \"password=$NIX_PRIVATE_PAT\" ;; esac; }; f","GIT_CONFIG_KEY_2":"credential.https://github.com/benbouillet/nix-private.git.useHttpPath","GIT_CONFIG_VALUE_2":"true"}
