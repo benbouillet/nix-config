@@ -1,0 +1,51 @@
+{
+  pkgs,
+  globals,
+  config,
+  ...
+}:
+{
+  sops.secrets."mysql/env" = {
+    mode = "0400";
+  };
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    dataDir = globals.zfs.databases.mysql.mountPoint;
+    settings = {
+      mysqld.bind-address = "127.0.0.1,${globals.podmanBridgeGateway}";
+      mysqld.port = globals.ports.mysql;
+      mysqld."skip-name-resolve" = true;
+    };
+  };
+
+  systemd.services.mysql = {
+    after = [ "podman-bridge-ready.service" ];
+    requires = [ "podman-bridge-ready.service" ];
+  };
+
+  systemd.services."mysql-bootstrap" = {
+    description = "Define MySQL bootstrap";
+    requires = [ "mysql.service" ];
+    after = [ "mysql.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    path = [ pkgs.mariadb ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "root";
+      Group = "root";
+      EnvironmentFile = config.sops.secrets."mysql/env".path;
+    };
+
+    script = ''
+      mariadb <<SQL
+        DROP USER IF EXISTS 'root'@'%';
+        FLUSH PRIVILEGES;
+      SQL
+    '';
+  };
+}

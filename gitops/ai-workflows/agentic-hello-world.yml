@@ -1,0 +1,19 @@
+id: agentic-hello-world
+namespace: r4clette
+
+tasks:
+  - id: hi
+    type: io.kestra.plugin.ai.agent.AIAgent
+    provider:
+      type: io.kestra.plugin.ai.provider.OpenAI
+      apiKey: "{{ secret('LITELLM_API_KEY')}}"
+      modelName: qwen3.8:27b
+      baseUrl: https://litellm.r4clette.com/
+    systemMessage: |
+      You are a helpful assistant, answer concisely, avoid overly casual language or unnecessary verbosity.
+    prompt: |
+      Say hi
+
+  - id: output
+    type: io.kestra.plugin.core.log.Log
+    message: "{{ outputs.hi.textOutput }}"

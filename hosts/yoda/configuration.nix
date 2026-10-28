@@ -1,0 +1,24 @@
+{ inputs, lib, ... }:
+let
+  sharedGlobals = inputs.nix-private.globals.shared;
+in
+{
+  _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.yoda;
+
+  imports = [
+    ./hardware-configuration.nix
+    ./disko/zfs-disks.nix
+    ./disko/zpools.nix
+    ./zfs.nix
+    ./impermanence.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/server.nix
+    ../../modules/nixos/nebula-client.nix
+    ../../modules/nixos/ssd.nix
+    ../../modules/nixos/zfs.nix
+  ];
+
+  system.stateVersion = "25.05"; # DO NOT MODIFY
+
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/yoda.yaml";
+}

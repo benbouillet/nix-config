@@ -1,0 +1,28 @@
+result
+.direnv
+.envrc
+.plans
+.terraform
+*.tfvars
+*.tfvars.json
+
+# Age and SOPS keys
+keys.txt
+*.keys.txt
+*.age
+age.key
+
+# Private keys
+*.pem
+*.key
+id_rsa
+id_ed25519
+id_ecdsa
+id_ed25519_sk
+*.ppk
+
+# Environment files
+.env
+.env.local
+.docs
+__pycache__/

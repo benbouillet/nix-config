@@ -1,0 +1,42 @@
+name: Nix build
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - obiwan
+          - chewie
+          - yoda
+          - leia
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Clean runner for Nix usage
+        uses: wimpysworld/nothing-but-nix@687c797a730352432950c707ab493fcc951818d7 # v10
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+
+      - name: Check Nix flake inputs
+        uses: DeterminateSystems/flake-checker-action@786422608c7bded2bbc9741ad9f91356842bf520 # v14
+
+      - name: Evaluate Nix config
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.NIX_PRIVATE_PAT }}"
+          HOST: ${{ matrix.host }}
+        run: |
+          set -euo pipefail
+          rev="$(jq -er '.nodes[.nodes.root.inputs["nix-private"]].locked.rev' flake.lock)"
+          nix eval --raw --override-input nix-private "github:benbouillet/nix-private/$rev" --no-write-lock-file \
+            ".#nixosConfigurations.${HOST}.config.system.build.toplevel.drvPath"

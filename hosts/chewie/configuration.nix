@@ -1,0 +1,46 @@
+{ inputs, lib, ... }:
+let
+  sharedGlobals = inputs.nix-private.globals.shared;
+in
+{
+  _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.chewie;
+
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/chewie.yaml";
+
+  imports = [
+    ./hardware-configuration.nix
+    ./zfs.nix
+    ./gpu.nix
+    ./impermanence.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/server.nix
+    ../../modules/nixos/nebula-client.nix
+    ../../modules/nixos/ssd.nix
+    ../../modules/nixos/zfs.nix
+
+    ../../modules/nixos/services/postgresql.nix
+    ../../modules/nixos/services/mysql.nix
+    ../../modules/nixos/services/redis.nix
+    ../../modules/nixos/services/authentication.nix
+    ../../modules/nixos/observability/alloy.nix
+    ../../modules/nixos/services/immich.nix
+    ../../modules/nixos/services/radicale.nix
+    ../../modules/nixos/services/vaultwarden.nix
+    ../../modules/nixos/services/containers/common.nix
+    ../../modules/nixos/services/containers/arr.nix
+    ../../modules/nixos/services/containers/lubelogger.nix
+    ../../modules/nixos/services/containers/foundryvtt.nix
+    ../../modules/nixos/services/ai.nix
+    ../../modules/nixos/services/containers/paperless.nix
+    ../../modules/nixos/services/containers/seafile.nix
+    ../../modules/nixos/services/containers/search.nix
+    ../../modules/nixos/services/containers/vane.nix
+    ../../modules/nixos/services/containers/mealie.nix
+    ../../modules/nixos/services/containers/linkding.nix
+    ../../modules/nixos/services/containers/bentopdf.nix
+    ../../modules/nixos/services/containers/kestra.nix
+    ../../modules/nixos/services/containers/litellm.nix
+  ];
+
+  system.stateVersion = "24.05"; # DO NOT MODIFY
+}
