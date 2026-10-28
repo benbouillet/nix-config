@@ -10,6 +10,8 @@
 {
   _module.args.globals = inputs.nix-private.globals.shared;
 
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/kylo.yaml";
+
   imports = [
     ./hardware-configuration.nix
     ./impermanence.nix

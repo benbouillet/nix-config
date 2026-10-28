@@ -14,6 +14,8 @@ in
 {
   _module.args.globals = inputs.nix-private.globals.shared;
 
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/obiwan.yaml";
+
   imports = [
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.sops-nix.nixosModules.sops

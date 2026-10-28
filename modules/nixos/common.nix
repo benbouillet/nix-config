@@ -3,7 +3,6 @@
   lib,
   pkgs,
   username,
-  host,
   globals,
   ...
 }:
@@ -25,7 +24,6 @@
   '';
 
   sops = {
-    defaultSopsFile = ../../secrets/${host}.yaml;
     defaultSopsFormat = "yaml";
   };
 

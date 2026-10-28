@@ -176,16 +176,15 @@ secrets/tarkin.yaml  → encrypt: tarkin, obiwan
 
 1. Define the key path in the relevant Nix module:
    ```nix
-   sops.secrets."my-service/api-key" = { };  # inherits defaultSopsFile from common.nix
+   sops.secrets."my-service/api-key" = { };  # inherits the host configuration defaultSopsFile
    ```
 2. Add the value to `secrets/<host>.yaml` (edit with `sops secrets/<host>.yaml`)
 3. If the secret is only for one host, the path_regex routing handles encryption automatically
 
-### Default SOPS config (`common.nix`)
+### Default SOPS config
 
-Every host inherits:
+Each NixOS host sets its own default in `hosts/<host>/configuration.nix`; Obiwan Home Manager sets its own in `hosts/obiwan/home.nix`. `common.nix` supplies the shared YAML format:
 ```nix
-sops.defaultSopsFile = ../../secrets/${host}.yaml;
 sops.defaultSopsFormat = "yaml";
 ```
 

@@ -19,4 +19,6 @@ in
   ];
 
   system.stateVersion = "25.05"; # DO NOT MODIFY
+
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/yoda.yaml";
 }

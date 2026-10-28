@@ -5,6 +5,8 @@ in
 {
   _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.leia;
 
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/leia.yaml";
+
   imports = [
     ./disko/zpools.nix
     ./disko/zfs-disks.nix

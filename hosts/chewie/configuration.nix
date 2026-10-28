@@ -5,6 +5,8 @@ in
 {
   _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.chewie;
 
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/chewie.yaml";
+
   imports = [
     ./hardware-configuration.nix
     ./zfs.nix

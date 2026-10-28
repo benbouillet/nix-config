@@ -11,7 +11,7 @@
   home.stateVersion = "24.11";
 
   sops = {
-    defaultSopsFile = ../../secrets/obiwan.yaml;
+    defaultSopsFile = "${inputs.nix-private}/secrets/obiwan.yaml";
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/ben/.config/sops/age/keys.txt";
   };

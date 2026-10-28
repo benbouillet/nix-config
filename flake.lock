@@ -336,11 +336,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1793215700,
-        "narHash": "sha256-Z3WQTnalGPmyJQH7In0GA3nY2ecG7d+N3igec6nxYfc=",
+        "lastModified": 1793220267,
+        "narHash": "sha256-a7wHybbMhHcWYrWBb0CIj+RN36EbE8YxgadLY2g4Yxw=",
         "ref": "refs/heads/main",
-        "rev": "8c97741c7fa08c1a48c4d3e86ccc6d9ac6b3e065",
-        "revCount": 11,
+        "rev": "7c648483aaafa3342af794d458bbcda2e8499f47",
+        "revCount": 13,
         "type": "git",
         "url": "ssh://git@github.com/benbouillet/nix-private.git"
       },

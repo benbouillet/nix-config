@@ -1,6 +1,7 @@
 {
   config,
   host,
+  inputs,
   modulesPath,
   ...
 }:
@@ -19,7 +20,7 @@
   };
   system.stateVersion = "26.05";
 
-  sops.defaultSopsFile = ../../secrets/tarkin.yaml;
+  sops.defaultSopsFile = "${inputs.nix-private}/secrets/tarkin.yaml";
   sops.defaultSopsFormat = "yaml";
   sops.age.keyFile = "/run/tarkin/age-key.txt";
   sops.secrets = {
