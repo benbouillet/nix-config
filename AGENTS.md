@@ -34,7 +34,6 @@ renovate.json                      # Automated updates (nix deps + Docker images
 hosts/<name>/
   configuration.nix                # Imports all modules for this host
   hardware-configuration.nix       # Auto-generated — do not edit manually
-  globals.nix                      # Per-host ZFS dataset paths, podman CIDR, etc. (extends globals-shared.nix)
   impermanence.nix                 # /persist bind-mount declarations (servers only)
   zfs.nix                          # ZFS mount + sanoid config
   disko/                           # Declarative disk layout (zpools.nix, zfs-disks.nix, datasets.md)
@@ -52,7 +51,6 @@ modules/
     stylix.nix                     # Base16 theming — called with { inputs, pkgs, theme, username, wallpaper_file }
     vpn.nix                        # WireGuard / Tailscale config (obiwan)
     sre.nix                        # CLI tools (curl, htop, jq…)
-    globals-shared.nix             # Shared constants: domain name, host IPv4 addresses, port map, users/groups UIDs/GIDs
     nebula-client.nix              # Nebula client config for Obiwan and Chewie
     nebula-lighthouse.nix          # Tarkin firewall, SSM/Age bootstrap, and Nebula service ordering
     services/                      # NixOS-level services
@@ -91,6 +89,7 @@ scripts/                           # Nix-packaged bash scripts (waybar widgets, 
 packages/                          # Custom derivations
 infra/tarkin/                       # Terraform VPC, EC2, IAM, and public Nebula lighthouse infrastructure
 docs/nebula.md                      # Nebula lighthouse architecture and operating procedures
+nix-private/globals/{shared,<host>}.nix # Shared constants and per-host overrides
 ```
 
 ---
@@ -131,7 +130,7 @@ Host-specific modules are imported inside each `hosts/<name>/configuration.nix`.
 
 ## `globals` Module Argument System
 
-Shared constants live in `modules/nixos/globals-shared.nix`, injected via `_module.args.globals`. Each server extends it with host-specific overrides in its `globals.nix`.
+Shared constants live in `nix-private/globals/shared.nix`, and host overrides in `nix-private/globals/<host>.nix`, exposed as `inputs.nix-private.globals.shared` and `inputs.nix-private.globals.<host>`. Chewie, Leia, and Yoda inject `lib.recursiveUpdate` of the shared globals and their matching private override via `_module.args.globals`.
 
 Key globals:
 - `globals.domain` — `r4clette.com`
@@ -216,7 +215,7 @@ Servers boot with a tmpfs root. Persistent directories are bind-mounted from `/p
 | **Loki** | leia only | Log aggregation on port 9096 (http) / 9097 (grpc) |
 | **ntfy** | leia only | Alert notification routing on port 9094 |
 
-The Alloy agent config is embedded directly in `alloy.nix`. It hardcodes `globals.hosts.leia.ipv4` as the Loki endpoint — changing leia's IP requires updating `globals-shared.nix`.
+The Alloy agent config is embedded directly in `alloy.nix`. It hardcodes `globals.hosts.leia.ipv4` as the Loki endpoint — changing leia's IP requires updating `nix-private/globals/shared.nix`.
 
 ---
 
@@ -316,7 +315,7 @@ sops updatekeys secrets/<host>.yaml
    - OCI container → `modules/nixos/services/containers/` (follow pattern of existing containers)
    - Desktop tool → `modules/home/`
 
-2. **Assign a port** in `globals-shared.nix` under `ports.`
+2. **Assign a port** in `nix-private/globals/shared.nix` under `ports.`
 
 3. **If it needs dedicated user/group**, add entries to `globals.users.` / `globals.groups.` with UID/GID
 

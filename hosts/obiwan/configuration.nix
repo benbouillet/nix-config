@@ -12,6 +12,8 @@ let
     ;
 in
 {
+  _module.args.globals = inputs.nix-private.globals.shared;
+
   imports = [
     inputs.hardware.nixosModules.framework-13-7040-amd
     inputs.sops-nix.nixosModules.sops
@@ -20,7 +22,6 @@ in
     ./networking.nix
     ./ssh.nix
     ./infra.nix
-    ../../modules/nixos/globals-shared.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/nebula-client.nix
     ../../modules/nixos/agentic.nix

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     opencode-nixpkgs.url = "github:nixos/nixpkgs/436e34e0bb929ffed9857ad34d74254ad5101d17";
+    nix-private.url = "git+ssh://git@github.com/benbouillet/nix-private.git";
 
     hardware.url = "github:nixos/nixos-hardware?ref=master";
 

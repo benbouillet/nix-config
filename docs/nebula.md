@@ -190,7 +190,8 @@ the client's firewall policy before issuing credentials. Do not make a normal
 client change to Tarkin: it is the lighthouse and transport/discovery endpoint,
 not an overlay application client.
 
-Check `modules/nixos/globals-shared.nix` and the certificate inventory before
+Check `nix-private/globals/shared.nix` (exposed to the public flake as
+`inputs.nix-private.globals.shared`) and the certificate inventory before
 choosing an unused address in `172.29.217.0/24`. The current allocations are
 Tarkin (`172.29.217.1`), Chewie (`172.29.217.10`), and Obiwan
 (`172.29.217.11`). For a repository NixOS host, record the allocation as
@@ -246,18 +247,19 @@ changes; issuing a client certificate does not require it.
 For an existing repository NixOS host:
 
 - Add or retain `../../modules/nixos/nebula-client.nix` in
-  `hosts/<host>/configuration.nix`, and ensure that the host imports the
-  module providing `globals` (the shared module or the host's `globals.nix`).
+  `hosts/<host>/configuration.nix`, and ensure that it injects `globals` from
+  `inputs.nix-private.globals.shared` merged with the matching private
+  `inputs.nix-private.globals.<host>` override.
   The current client module uses `services.nebula.networks.tarkin`, the
   `nebula1` device, and Tarkin's static host mapping.
-- Add the address to `modules/nixos/globals-shared.nix` (or the host override
-  where appropriate), then add the three SOPS values to
+- Add the address to `nix-private/globals/shared.nix` or
+  `nix-private/globals/<host>.nix` where appropriate, then add the three SOPS values to
   `secrets/<host>.yaml`. On an impermanent host, retain any Nebula-related
   paths required by its `hosts/<host>/impermanence.nix`.
 
 For a new NixOS host, add `hosts/<name>/configuration.nix` and its host entry
 to `flake.nix`, add its address under `globals.hosts.<name>.nebula` in
-`modules/nixos/globals-shared.nix`, and create `secrets/<name>.yaml` with an
+`nix-private/globals/shared.nix`, and create `secrets/<name>.yaml` with an
 appropriate Age recipient and matching creation rule in `.sops.yaml`. In
 `hosts/<name>/configuration.nix`, explicitly import
 `../../modules/nixos/nebula-client.nix` as well as the established
@@ -330,7 +332,7 @@ distributing the replacement CA certificate.
 ### Host certificate renewal
 
 1. Confirm the host certificate expires within the renewal window. The overlay
-   hosts and addresses are defined in `modules/nixos/globals-shared.nix`:
+   hosts and addresses are defined in `nix-private/globals/shared.nix`:
    Tarkin (lighthouse), `172.29.217.1`; Chewie, `172.29.217.10`; and Obiwan,
    `172.29.217.11`.
 2. On the offline CA machine, inspect the CA expiry and sign the replacement
@@ -374,7 +376,7 @@ distributing the replacement CA certificate.
    ```
 
 2. Re-sign all three hosts with the new CA, using their addresses from
-   `modules/nixos/globals-shared.nix`:
+   `nix-private/globals/shared.nix`:
 
    ```sh
     nix shell nixpkgs#nebula --command nebula-cert sign -name tarkin -ip "172.29.217.1/24" -duration 8760h -ca-crt ca.crt -ca-key ca.key -out-crt tarkin.crt -out-key tarkin.key

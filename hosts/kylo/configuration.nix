@@ -1,4 +1,5 @@
 {
+  inputs,
   username,
   host,
   pkgs,
@@ -7,10 +8,11 @@
   ...
 }:
 {
+  _module.args.globals = inputs.nix-private.globals.shared;
+
   imports = [
     ./hardware-configuration.nix
     ./impermanence.nix
-    ../../modules/nixos/globals-shared.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/nebula-client.nix
   ];

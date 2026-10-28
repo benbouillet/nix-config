@@ -1,7 +1,7 @@
 ---
 description: Master orchestrator. Plans, delegates to subagents, synthesizes results. Never implements directly.
 mode: primary
-model: litellm/openai.gpt-5.6-terra
+model: litellm/openai.gpt-6.1-sol
 reasoningEffort: medium
 textVerbosity: high
 

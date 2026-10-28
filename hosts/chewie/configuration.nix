@@ -1,13 +1,15 @@
+{ inputs, lib, ... }:
+let
+  sharedGlobals = inputs.nix-private.globals.shared;
+in
 {
-  ...
-}:
-{
+  _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.chewie;
+
   imports = [
     ./hardware-configuration.nix
     ./zfs.nix
     ./gpu.nix
     ./impermanence.nix
-    ./globals.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/nebula-client.nix

@@ -1,14 +1,16 @@
+{ inputs, lib, ... }:
+let
+  sharedGlobals = inputs.nix-private.globals.shared;
+in
 {
-  ...
-}:
-{
+  _module.args.globals = lib.recursiveUpdate sharedGlobals inputs.nix-private.globals.yoda;
+
   imports = [
     ./hardware-configuration.nix
     ./disko/zfs-disks.nix
     ./disko/zpools.nix
     ./zfs.nix
     ./impermanence.nix
-    ./globals.nix
     ../../modules/nixos/common.nix
     ../../modules/nixos/server.nix
     ../../modules/nixos/nebula-client.nix
