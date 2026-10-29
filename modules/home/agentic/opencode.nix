@@ -21,20 +21,6 @@ let
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./skills)
   );
   skills = localSkills // lib.genAttrs kestraSkillNames (name: "${kestraSkills}/skills/${name}");
-
-  # Wrap opencode with GCC libstdc++ for native file watcher bindings
-  opencode-wrapped = pkgs.symlinkJoin {
-    name = "opencode-wrapped";
-    paths = [
-      inputs.opencode-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode
-    ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/opencode \
-        --prefix LD_LIBRARY_PATH : "${pkgs.stdenv.cc.cc.lib}/lib"
-    '';
-  };
-
 in
 {
   home.activation.removeOpencodeBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -80,7 +66,6 @@ in
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
-    package = opencode-wrapped;
 
     settings = {
       autoshare = false;
