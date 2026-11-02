@@ -187,6 +187,18 @@ in
           };
         }
       ];
+      tabs = {
+        mode = "off";
+        scope = "global";
+        layout = "horizontal";
+        indicators = "status";
+      };
+      session = {
+        sidebar = "hide";
+        thinking = "hide";
+        scrollbar = true;
+        verbosity = "medium";
+      };
     };
   };
 
