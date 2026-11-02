@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -174,18 +173,19 @@ in
     skills = skills;
     commands = ./commands;
 
-    tui = {
-      theme = "stylix";
-      plugin = [
-        [
-          "@leohenon/opencode-vim-plugin"
-          {
+    validateFiles.cli = true;
+
+    cli = {
+      theme.name = "stylix";
+      plugins = [
+        {
+          package = "@leohenon/opencode-vim-plugin@0.2.0-beta.2";
+          options = {
             enabled = true;
             toggle_key = "ctrl+shift+v";
             indicator = true;
-          }
-        ]
-        "./plugins/litellm-key-tui.tsx"
+          };
+        }
       ];
     };
   };
