@@ -70,6 +70,10 @@
       zle -N _insert_newline
       bindkey -M viins '^[[13;2u' _insert_newline
       bindkey -M vicmd '^[[13;2u' _insert_newline
+      bindkey -M viins -s $'\e[32;2u' ' '
+      bindkey -M vicmd -s $'\e[32;2u' ' '
+      bindkey -M viins '^[[127;5u' backward-delete-char
+      bindkey -M vicmd '^[[127;5u' backward-delete-char
     '';
   };
 }
