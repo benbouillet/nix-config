@@ -130,10 +130,6 @@ in
   sops.secrets."sunday/gather_start_url" = { };
   sops.secrets."sunday/kestra_mcp_token" = { };
 
-  home.sessionVariables.KESTRA_MCP_BASIC_TOKEN = "$(cat ${
-    config.sops.secrets."sunday/kestra_mcp_token".path
-  })";
-
   sops.templates.sunday-git-config = {
     content = ''
       [user]
@@ -146,6 +142,13 @@ in
   };
 
   home = {
+    sessionVariables.KESTRA_MCP_BASIC_TOKEN = "$(cat ${
+      config.sops.secrets."sunday/kestra_mcp_token".path
+    })";
+
+    sessionPath = [
+      "$HOME/.npm-global/bin"
+    ];
     file."dev/sundayapp/.keep" = {
       text = "";
     };
@@ -172,6 +175,9 @@ in
 
         # AI
         claude-code
+
+        # dev
+        nodejs
 
         # CLI
         gws
