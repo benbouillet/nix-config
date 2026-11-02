@@ -28,6 +28,7 @@
 
   stylix.targets = {
     qt.enable = false;
+    rofi.enable = false;
   };
 
   imports = [
