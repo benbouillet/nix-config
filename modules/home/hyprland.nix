@@ -69,7 +69,7 @@ with lib;
             scroll_factor = 0.8;
           };
           sensitivity = 0.4;
-          accel_profile = "adaptative";
+          accel_profile = "adaptive";
           repeat_rate = 20;
           repeat_delay = 400;
         };
