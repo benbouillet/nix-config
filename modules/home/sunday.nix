@@ -481,4 +481,48 @@ in
       };
     };
   };
+
+  programs.opencode = {
+    enable = true;
+    enableMcpIntegration = true;
+
+    settings = {
+      mcp = {
+        brave-search = {
+          enabled = false;
+          type = "remote";
+          url = "https://litellm.int.sundayapp.xyz/mcp/brave_search";
+          headers = {
+            "x-litellm-api-key" = "Bearer {env:LITELLM_API_KEY}";
+          };
+        };
+        notion = {
+          enabled = false;
+          type = "remote";
+          url = "https://mcp.notion.com/mcp";
+        };
+        linear = {
+          enabled = false;
+          type = "remote";
+          url = "https://mcp.linear.app/mcp/readonly";
+          headers = {
+            Authorization = "Bearer {env:LINEAR_API_KEY}";
+          };
+        };
+        n8n = {
+          enabled = false;
+          type = "remote";
+          url = "https://n8n.int.sundayapp.xyz/mcp-server/http";
+          headers = {
+            Authorization = "Bearer {env: N8N_API_KEY}";
+          };
+        };
+        datadog = {
+          enabled = false;
+          type = "remote";
+          url = "https://mcp.datadoghq.eu/v1/mcp?subdomain=sunday-prod";
+        };
+      };
+    };
+  };
 }

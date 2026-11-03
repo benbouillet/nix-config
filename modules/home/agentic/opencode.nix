@@ -103,14 +103,6 @@ in
         };
       };
       mcp = {
-        brave-search = {
-          enabled = false;
-          type = "remote";
-          url = "https://litellm.int.sundayapp.xyz/mcp/brave_search";
-          headers = {
-            "x-litellm-api-key" = "Bearer {env:LITELLM_API_KEY}";
-          };
-        };
         nixos = {
           enabled = false;
           type = "local";
@@ -121,41 +113,11 @@ in
           type = "remote";
           url = "https://search.r4clette.com/mcp";
         };
-        notion = {
-          enabled = false;
-          type = "remote";
-          url = "https://mcp.notion.com/mcp";
-        };
-        linear = {
-          enabled = false;
-          type = "remote";
-          url = "https://mcp.linear.app/mcp/readonly";
-          headers = {
-            Authorization = "Bearer {env:LINEAR_API_KEY}";
-          };
-        };
-        kestra-sunday = {
-          enabled = false;
-          type = "remote";
-          oauth = false;
-          url = "{file:${config.sops.secrets."sunday/kestra_tailnet_mcp_url".path}}";
-          headers = {
-            Authorization = "Basic {env:KESTRA_MCP_BASIC_TOKEN}";
-          };
-        };
         kestra = {
           enabled = false;
           type = "remote";
           url = "https://kestra.r4clette.com/mcp";
         };
-        # n8n = {
-        #   enabled = false;
-        #   type = "remote";
-        #   url = "https://n8n.int.sundayapp.xyz/mcp-server/http";
-        #   headers = {
-        #     Authorization = "Bearer {env: N8N_API_KEY}";
-        #   };
-        # };
       };
 
       watcher = {
