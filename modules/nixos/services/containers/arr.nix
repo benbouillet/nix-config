@@ -87,7 +87,7 @@
     };
 
     "nzbget" = {
-      image = "lscr.io/linuxserver/nzbget:26.3.20261030@sha256:adea51082575ce3e09d3b636b320c039109df7e21afd1234ad7c97b9df7c79c8";
+      image = "lscr.io/linuxserver/nzbget:26.3.20261106@sha256:6f86d5cb17fa12c214e0c699addde8ee5b9622fbafd2f4dc2eb8f89e7251dc49";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
