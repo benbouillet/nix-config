@@ -3,6 +3,7 @@
   username,
   inputs,
   runs-on-cli,
+  lib,
   ...
 }:
 {

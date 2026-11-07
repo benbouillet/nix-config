@@ -16,10 +16,44 @@ let
     rev = "7d1c3443f3bc8ddb26ce4abe8ea67822033421b9";
     hash = "sha256-GdNCbu88a1RItet6D50UE7uSku5MlWng4HajM+HmIT0=";
   };
+  mattPocockSkillNames = [
+    "engineering/code-review"
+    "engineering/codebase-design"
+    "engineering/diagnosing-bugs"
+    "engineering/domain-modeling"
+    "engineering/grill-with-docs"
+    "engineering/implement-spec"
+    "engineering/implement"
+    "engineering/improve-codebase-architecture"
+    "engineering/pr"
+    "engineering/prototype"
+    "engineering/research"
+    "engineering/retro"
+    "engineering/to-spec"
+    "engineering/to-tickets"
+    "engineering/triage"
+    "engineering/wayfinder"
+    "productivity/grill-me"
+    "productivity/grilling"
+    "productivity/handoff"
+    "productivity/teach"
+    "productivity/to-questionnaire"
+    "productivity/wait-what"
+    "productivity/writing-for-agents"
+  ];
+  mattPocockSkills = pkgs.fetchFromGitHub {
+    owner = "mattpocock";
+    repo = "skills";
+    rev = "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d";
+    hash = "sha256-3vhd77xfZjKUYJsIwPFevIZPUAzUgZXr0RYj5NQrBwk=";
+  };
   localSkills = lib.mapAttrs (name: _: ./skills/${name}) (
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./skills)
   );
-  skills = localSkills // lib.genAttrs kestraSkillNames (name: "${kestraSkills}/skills/${name}");
+  skills =
+    localSkills
+    // lib.genAttrs kestraSkillNames (name: "${kestraSkills}/skills/${name}")
+    // lib.genAttrs mattPocockSkillNames (name: "${mattPocockSkills}/skills/${name}");
 in
 {
   home.activation.removeOpencodeBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -65,6 +99,7 @@ in
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
+    mutableSettings = true;
 
     settings = {
       autoshare = false;
