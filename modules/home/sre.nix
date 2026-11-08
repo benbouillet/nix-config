@@ -27,7 +27,12 @@
     kubectl-tree
 
     # Automation
-    python314
+    (python314.withPackages (
+      ps: with ps; [
+        ipython
+        pyperclip
+      ]
+    ))
     gomplate
 
     # observability
@@ -68,6 +73,18 @@
   ];
 
   home.file.".ipython/profile_default/ipython_config.py".text = ''
+    from IPython.terminal.interactiveshell import TerminalInteractiveShell
+    from prompt_toolkit.clipboard.pyperclip import PyperclipClipboard
+
+    init_prompt_toolkit_cli = TerminalInteractiveShell.init_prompt_toolkit_cli
+
+    def with_system_clipboard(self):
+      init_prompt_toolkit_cli(self)
+      if self.pt_app:
+        self.pt_app.clipboard = PyperclipClipboard()
+
+    TerminalInteractiveShell.init_prompt_toolkit_cli = with_system_clipboard
+
     c.TerminalInteractiveShell.editing_mode = 'vi'
   '';
 
