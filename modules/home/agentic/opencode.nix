@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -41,12 +42,7 @@ let
     "productivity/wait-what"
     "productivity/writing-for-agents"
   ];
-  mattPocockSkills = pkgs.fetchFromGitHub {
-    owner = "mattpocock";
-    repo = "skills";
-    rev = "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d";
-    hash = "sha256-3vhd77xfZjKUYJsIwPFevIZPUAzUgZXr0RYj5NQrBwk=";
-  };
+  mattPocockSkills = inputs.mattpocock-skills;
   localSkills = lib.mapAttrs (name: _: ./skills/${name}) (
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./skills)
   );

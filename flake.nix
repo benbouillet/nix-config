@@ -47,6 +47,11 @@
     impermanence = {
       url = "github:nix-community/impermanence";
     };
+
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
   };
 
   outputs =
