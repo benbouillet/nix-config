@@ -60,7 +60,7 @@ in
 
   virtualisation.oci-containers.containers = {
     "kestra" = {
-      image = "docker.io/kestra/kestra:v2.0.9@sha256:9ef0e7750a5b35cbfe84eb650fb45ed0f91e45f824e89515c9e39c2967785bd1";
+      image = "docker.io/kestra/kestra:v2.0.10@sha256:494d2e81aacd92c0353098822aa7214833f8b1ed7a8fe6b5a46b79b1caec3ec5";
       user = "root";
       cmd = [
         "server"
