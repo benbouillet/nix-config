@@ -35,9 +35,6 @@
     ))
     gomplate
 
-    # observability
-    datadog-pup
-
     # IaC
     tenv
     terraform-docs
@@ -60,9 +57,6 @@
 
     # security
     yubikey-manager
-
-    # documentation
-    mdwatch
 
     # Programming
     go

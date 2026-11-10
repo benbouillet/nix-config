@@ -17,7 +17,6 @@
     seafile-client
     bitwarden-cli
     bitwarden-desktop
-    qobuz-player
     evince
     # rustdesk
     zathura
