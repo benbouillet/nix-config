@@ -97,6 +97,7 @@ in
     enable = true;
     enableMcpIntegration = true;
     mutableSettings = true;
+    tui = lib.mkForce { };
 
     settings = {
       autoshare = false;
