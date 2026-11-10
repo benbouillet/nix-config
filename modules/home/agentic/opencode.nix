@@ -90,6 +90,7 @@ in
   home.packages = [
     pkgs.graphify
     pkgs.mcp-nixos
+    pkgs.playwright-mcp
   ];
 
   programs.opencode = {
@@ -148,6 +149,10 @@ in
           enabled = false;
           type = "remote";
           url = "https://kestra.r4clette.com/mcp";
+        };
+        servers.playwright = {
+          type = "local";
+          command = [ (lib.getExe pkgs.playwright-mcp) ];
         };
       };
 
