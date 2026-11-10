@@ -270,6 +270,29 @@
         "type": "github"
       }
     },
+    "hex": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794323772,
+        "narHash": "sha256-NzFuxPH5GNoESKdx601RbrPEBhU0eQifDz1JH+02aLM=",
+        "owner": "anomalyco",
+        "repo": "hex",
+        "rev": "23ae5a1f3a7bf1f28b838eed4b1682ea7572ddcf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anomalyco",
+        "repo": "hex",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -598,6 +621,7 @@
       "inputs": {
         "disko": "disko",
         "hardware": "hardware",
+        "hex": "hex",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "mattpocock-skills": "mattpocock-skills",

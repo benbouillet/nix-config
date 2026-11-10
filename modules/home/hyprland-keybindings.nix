@@ -1,5 +1,6 @@
 {
   host,
+  inputs,
   pkgs,
   lib,
   ...
@@ -77,6 +78,7 @@ let
   toggleSpecial = mkLuaInline "hl.dsp.workspace.toggle_special()";
   moveWindow = mkLuaInline "hl.dsp.window.drag()";
   resizeWindow = mkLuaInline "hl.dsp.window.resize()";
+  hex = "${inputs.hex.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/hex";
 
   modifier = "SUPER";
 in
@@ -164,6 +166,7 @@ in
           )
           (mkBind modifier "T" "Open file manager Thunar" (execCmd "thunar") locked)
           (mkBind modifier "N" "Toggle SwayNC" (execCmd "swaync-client -t") locked)
+          (mkBind modifier "D" "Hold to Dictate" (execCmd "${hex} dictation start") { })
           (mkBind modifier "SPACE" "Launch Tofi" (execCmd "tofi-drun --drun-launch=true") locked)
           (mkBind modifier "Q" "Kill Active Window" closeWin locked)
           (mkBind modifier "P" "Play/Pause Player" (execCmd "playerctl play-pause") locked)
@@ -235,6 +238,8 @@ in
           (mkBind "${modifier}+CONTROL" "H" "Switch to Previous Workspace" (focusWs "e-1") locked)
           (mkBind "ALT" "Tab" "Cycle On Windows" cycleNext locked)
           (mkBind "ALT" "Tab" "Cycle On Windows" bringToTop locked)
+
+          (mkBind modifier "D" "Hold to Dictate" (execCmd "${hex} dictation stop") release)
           (mkBind "" "XF86Keyboard" "Cycle Keyboard Backlight"
             (execCmd "brightnessctl --device='tpacpi::kbd_backlight' set $((($(brightnessctl --device='tpacpi::kbd_backlight' get) + 1) % 3))")
             locked

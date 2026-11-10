@@ -14,6 +14,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs.home-manager.follows = "home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -121,7 +127,10 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
-                sharedModules = [ inputs.sops-nix.homeManagerModules.default ];
+                sharedModules = [
+                  inputs.sops-nix.homeManagerModules.default
+                  inputs.hex.homeManagerModules.hex
+                ];
                 users.${username} = import ./hosts/obiwan/home.nix;
               };
             }

@@ -82,6 +82,10 @@
   };
 
   programs = {
+    hex = {
+      enable = true;
+      autostart = true;
+    };
     home-manager.enable = true;
   };
 }
