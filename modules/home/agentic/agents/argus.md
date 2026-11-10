@@ -1,7 +1,7 @@
 ---
 description: Codebase explorer. Read-only. Answers "where is X?" / "how is Y used?" with file:line citations. Fires searches in parallel.
 mode: subagent
-model: litellm/openai.gpt-5.6-terra
+model: litellm/openai.gpt-6.1-terra
 reasoningEffort: high
 textVerbosity: high
 ---

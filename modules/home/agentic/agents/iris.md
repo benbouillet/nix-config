@@ -1,7 +1,7 @@
 ---
 description: Primary research orchestrator. Delegates public-web lookup to Zephyr and synthesizes the findings.
 mode: subagent
-model: litellm/openai.gpt-5.6-terra
+model: litellm/openai.gpt-6.1-terra
 reasoningEffort: high
 textVerbosity: high
 
