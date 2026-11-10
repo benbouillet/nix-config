@@ -152,6 +152,7 @@ in
           url = "https://kestra.r4clette.com/mcp";
         };
         servers.playwright = {
+          enabled = false;
           type = "local";
           command = [ (lib.getExe pkgs.playwright-mcp) ];
         };
