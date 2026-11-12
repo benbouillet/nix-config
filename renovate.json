@@ -8,7 +8,9 @@
     ":automergeLinters"
   ],
   "timezone": "Europe/Paris",
-  "dependencyDashboard": true,
+  "dependencyDashboard": {
+    "enabled": true
+  },
   "reviewersFromCodeOwners": true,
   "osvVulnerabilityAlerts": true,
   "prHourlyLimit": 0,
