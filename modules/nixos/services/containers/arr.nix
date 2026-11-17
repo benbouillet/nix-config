@@ -123,7 +123,7 @@
     };
 
     "prowlarr" = {
-      image = "lscr.io/linuxserver/prowlarr:2.7.0@sha256:04be30163fbaf48d6aeee7b5893c9f6614ffbad6d853971df0d6dcdf01c7f104";
+      image = "lscr.io/linuxserver/prowlarr:3.0.2@sha256:45117ba8439e2337a92ffe38a451a4dafc0be771754d05d88cdf102419d09646";
       environment = {
         PUID = toString globals.users.arr.UID;
         PGID = toString globals.groups.containers.GID;
