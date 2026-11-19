@@ -107,6 +107,11 @@ in
       model = "litellm/deepseek.deepseek-v4-pro";
       small_model = "litellm/deepseek.deepseek-v4-flash";
 
+      agents = {
+        build.disabled = true;
+        plan.disabled = true;
+      };
+
       skills = { };
       permission = { };
 
