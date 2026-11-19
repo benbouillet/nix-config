@@ -140,24 +140,24 @@ in
           };
         };
       };
-      mcp = {
+      mcp.servers = {
         nixos = {
-          enabled = false;
+          disabled = true;
           type = "local";
           command = [ "mcp-nixos" ];
         };
         degoog = {
-          enabled = false;
+          disabled = true;
           type = "remote";
           url = "https://search.r4clette.com/mcp";
         };
         kestra = {
-          enabled = false;
+          disabled = true;
           type = "remote";
           url = "https://kestra.r4clette.com/mcp";
         };
-        servers.playwright = {
-          enabled = false;
+        playwright = {
+          disabled = true;
           type = "local";
           command = [ (lib.getExe pkgs.playwright-mcp) ];
         };
