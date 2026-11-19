@@ -11,7 +11,7 @@ AI agent reference for this Nix Flake-based homelab configuration.
 
 ## Project Overview
 
-Homelab managing **5 NixOS hosts** — 1 desktop, 3 homelab servers, and the AWS Nebula lighthouse — via a single flake. Most servers use impermanence (ephemeral root, persistent bind-mounts). Services include databases, OCI containers (ARR suite, Paperless, Immich), reverse proxy with SSO, and a full observability stack.
+Homelab managing **5 NixOS hosts** — 1 desktop, 3 homelab servers — via a single flake. Most servers use impermanence (ephemeral root, persistent bind-mounts). Services include databases, OCI containers (ARR suite, Paperless, Immich), reverse proxy with SSO, and a full observability stack.
 
 | Host | Role | State version | Key traits |
 |---|---|---|---|
@@ -19,7 +19,6 @@ Homelab managing **5 NixOS hosts** — 1 desktop, 3 homelab servers, and the AWS
 | `chewie` | Primary server | 24.05 | ZFS (ssd+hdd), OCI containers, PostgreSQL/MySQL/Redis, most services |
 | `yoda` | Secondary server | 25.05 | ZFS backup node, minimal services |
 | `leia` | Observability server | 25.05 | Prometheus, Grafana, Loki, Alloy, Caddy reverse proxy |
-| `tarkin` | AWS Nebula lighthouse | 26.05 | ARM64 EC2, Nebula transport/discovery, SSM bootstrap |
 
 ---
 
@@ -51,8 +50,6 @@ modules/
     stylix.nix                     # Base16 theming — called with { inputs, pkgs, theme, username, wallpaper_file }
     vpn.nix                        # WireGuard / Tailscale config (obiwan)
     sre.nix                        # CLI tools (curl, htop, jq…)
-    nebula-client.nix              # Nebula client config for Obiwan and Chewie
-    nebula-lighthouse.nix          # Tarkin firewall, SSM/Age bootstrap, and Nebula service ordering
     services/                      # NixOS-level services
       ai.nix                       # Llama swap / local AI inference
       authentication.nix           # Authelia + OIDC
@@ -87,8 +84,6 @@ modules/
 
 scripts/                           # Nix-packaged bash scripts (waybar widgets, emoji picker, etc.)
 packages/                          # Custom derivations
-infra/tarkin/                       # Terraform VPC, EC2, IAM, and public Nebula lighthouse infrastructure
-docs/nebula.md                      # Nebula lighthouse architecture and operating procedures
 nix-private/globals/{shared,<host>}.nix # Shared constants and per-host overrides
 ```
 
@@ -168,7 +163,6 @@ secrets/tarkin.yaml  → encrypt: tarkin, obiwan
 ### Age key storage
 
 - Chewie, Yoda, and Leia store their private key at `/var/lib/sops-nix/key.txt` (declared in `server.nix`)
-- Tarkin retrieves its Age identity using `modules/nixos/nebula-lighthouse.nix` into `/run/tarkin/age-key.txt`; it is not persistent
 - Obiwan stores keys in `~/.config/sops/age/keys.txt`
 - Keys are **not tracked in git** — never commit `.age` or `keys.txt` files
 
@@ -244,10 +238,7 @@ hdd/data/immich      → /srv/data/immich
 ## Networking & Firewall
 
 - Obiwan and the homelab servers currently use **Tailscale** for private networking; Tailscale is planned for deprecation but remains in use. Tarkin does not use Tailscale.
-- Obiwan and Chewie use **Nebula** clients. Tarkin is the Nebula lighthouse; direct client-to-client encrypted connections do not transit it.
-- Client firewalls match Nebula overlay traffic by `cidr` (the `172.29.217.0/24` subnet), not `host`. Tarkin is transport/discovery-only: it is not a transit router or overlay application endpoint and has no overlay application firewall allowance.
-- Tarkin's public transport listener is UDP/4242. Its firewall remains enabled with no TCP or ping allowance.
-- Homelab servers use **nftables** firewall: default deny, `tailscale0` trusted + SSH port allowed, with Nebula client overlay rules where configured
+- Homelab servers use **nftables** firewall: default deny, `tailscale0` trusted + SSH port allowed
 - Tailscale forces nftables mode via `TS_DEBUG_FIREWALL_MODE=nftables` env var (avoids iptables-compat)
 - Wired interfaces use systemd-networkd DHCP (`en*`, `eth*`)
 - Fail2ban protects SSH, ignores Tailscale CGNAT ranges
@@ -356,4 +347,4 @@ See [`README.md#temporary-workarounds`](./README.md#temporary-workarounds):
 2. **Secrets follow the host**: each `secrets/<host>.yaml` is self-contained; obiwan can decrypt all for admin access
 3. **Immutability by default**: servers reboot cleanly via impermanence; state is declared, not accidental
 4. **Observability everywhere**: every host ships logs/metrics to leia; no black boxes
-5. **Private networking**: Tailscale remains in use while planned for deprecation; Nebula provides direct encrypted client connections, with Tarkin limited to public transport and discovery. Public exposure goes through Caddy on leia.
+5. **Private networking**: Tailscale provides direct encrypted client connections. Public exposure goes through Caddy on leia.

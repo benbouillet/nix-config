@@ -16,7 +16,6 @@
     ./hardware-configuration.nix
     ./impermanence.nix
     ../../modules/nixos/common.nix
-    ../../modules/nixos/nebula-client.nix
   ];
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
@@ -189,11 +188,6 @@
 
   sops.age.keyFile = "/var/lib/sops-nix/key.txt";
   sops.useSystemdActivation = true;
-
-  systemd.services."nebula@tarkin" = {
-    requires = [ "sops-install-secrets.service" ];
-    after = [ "sops-install-secrets.service" ];
-  };
 
   system.stateVersion = "25.05";
 }

@@ -10,7 +10,6 @@ This repository is my configuration for a Nix flake-based homelab.
 | `chewie` | Primary applications and data node |
 | `yoda` | Backup node |
 | `leia` | Reverse proxy and observability node |
-| `tarkin` | ARM cloud Nebula lighthouse |
 | `kylo` | Raspberry Pi camera node |
 
 ## Repository map

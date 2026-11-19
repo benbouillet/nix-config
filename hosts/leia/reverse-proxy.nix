@@ -8,7 +8,7 @@
 let
   caddyWithCloudflare = pkgs.caddy.withPlugins {
     plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-    hash = "sha256-UPd4CWjm8Cq5EZ9OkBCglE23hD8+przFBSw8Ey6zMz8=";
+    hash = "sha256-nVNQBiT5CsTBz8cVf5OCXBEwc7oD693DX2CClZCegTc=";
   };
 in
 {
@@ -53,7 +53,4 @@ in
       ];
     };
   };
-
-  # Add nebula1 and globals.ports.loki-http here when Nebula (${globals.nebulaCidr}) is deployed on leia.
-  # networking.firewall.interfaces.nebula1.allowedTCPPorts = [ globals.ports.loki-http ];
 }

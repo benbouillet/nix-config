@@ -3,8 +3,6 @@ let
   ntfyAllowedCidrs = [
     globals.lanCidr
     globals.tailnetCidr
-    # Pre-authorized for when Nebula lands on leia.
-    globals.nebulaCidr
   ];
 in
 {
@@ -39,7 +37,7 @@ in
     handle @ai {
       @ai_api_internal {
         path /v1/*
-        remote_ip ${globals.tailnetCidr} ${globals.nebulaCidr}
+        remote_ip ${globals.tailnetCidr}
       }
       handle @ai_api_internal {
         reverse_proxy chewie.tailscale:${toString globals.ports.llama-swap}
@@ -110,7 +108,7 @@ in
     handle @ntfy {
       @ntfy_homelab_internal {
         path /homelab*
-        remote_ip ${globals.tailnetCidr} ${globals.nebulaCidr} 127.0.0.1
+        remote_ip ${globals.tailnetCidr} 127.0.0.1
       }
       handle @ntfy_homelab_internal {
         reverse_proxy localhost:${toString globals.ports.ntfy}
