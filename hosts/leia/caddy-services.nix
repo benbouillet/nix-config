@@ -337,17 +337,6 @@ in
       }
     }
 
-    # From modules/nixos/services/containers/kestra.nix
-
-    @kestra host kestra.${globals.domain}
-    handle @kestra {
-       forward_auth http://chewie.tailscale:${toString globals.ports.authelia} {
-        uri /api/authz/forward-auth
-        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-      }
-       reverse_proxy chewie.tailscale:${toString globals.ports.kestra}
-    }
-
     # From modules/nixos/services/containers/litellm.nix
 
     @litellm_ui {

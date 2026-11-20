@@ -6,17 +6,6 @@
   ...
 }:
 let
-  kestraSkillNames = [
-    "kestra-flow-hardening"
-    "kestra-flow"
-    "kestra-ops"
-  ];
-  kestraSkills = pkgs.fetchFromGitHub {
-    owner = "kestra-io";
-    repo = "agent-skills";
-    rev = "7d1c3443f3bc8ddb26ce4abe8ea67822033421b9";
-    hash = "sha256-GdNCbu88a1RItet6D50UE7uSku5MlWng4HajM+HmIT0=";
-  };
   mattPocockSkillNames = [
     "engineering/code-review"
     "engineering/codebase-design"
@@ -47,9 +36,7 @@ let
     lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./skills)
   );
   skills =
-    localSkills
-    // lib.genAttrs kestraSkillNames (name: "${kestraSkills}/skills/${name}")
-    // lib.genAttrs mattPocockSkillNames (name: "${mattPocockSkills}/skills/${name}");
+    localSkills // lib.genAttrs mattPocockSkillNames (name: "${mattPocockSkills}/skills/${name}");
 in
 {
   home.activation.removeOpencodeBackup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -61,7 +48,6 @@ in
   sops.secrets."ai/sunday_n8n_api_key" = { };
   sops.secrets."ai/sunday_linear_api_key" = { };
   sops.secrets."litellm/opencode-api-key" = { };
-  sops.secrets."sunday/kestra_tailnet_mcp_url" = { };
 
   sops.templates."opencode/auth.json" = {
     mode = "0400";
@@ -150,11 +136,6 @@ in
           disabled = true;
           type = "remote";
           url = "https://search.r4clette.com/mcp";
-        };
-        kestra = {
-          disabled = true;
-          type = "remote";
-          url = "https://kestra.r4clette.com/mcp";
         };
         playwright = {
           disabled = true;
