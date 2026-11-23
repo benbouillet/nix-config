@@ -492,11 +492,7 @@ in
         wiz = {
           disabled = true;
           type = "remote";
-          url = "https://mcp.app.wiz.io/partners";
-          headers = {
-            "X-Wiz-Partner-ID" = "71d56972-cf2f-4fe9-a241-0168d4b421d7";
-            "Wiz-DataCenter" = "us17";
-          };
+          url = "https://mcp.app.wiz.io";
         };
       };
     };
